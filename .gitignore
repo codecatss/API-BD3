@@ -34,3 +34,6 @@ build/
 
 ## macOS ##
 .DS_Store
+
+## target ##
+backend\API3SEM\src\main\resources
