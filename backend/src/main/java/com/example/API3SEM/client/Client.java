@@ -22,7 +22,7 @@ public class Client implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer cnpj;
+    private String cnpj;
 
     @Column(name = "razao_social")
     private String razao_social;
