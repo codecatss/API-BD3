@@ -31,3 +31,12 @@ CREATE TABLE cliente (
     status_cliente status_enum NOT NULL DEFAULT 'ativo',
     PRIMARY KEY (cnpj)
 );
+
+CREATE TABLE centro_resultado (
+    nome VARCHAR(30) NOT NULL,
+    codigo_cr VARCHAR(10) NOT NULL,
+    sigla VARCHAR(10) NOT NULL,
+    status_cr status_enum NOT NULL DEFAULT 'ativo',
+    PRIMARY KEY (codigo_cr),
+    UNIQUE (sigla)
+);
