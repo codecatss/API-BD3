@@ -10,3 +10,17 @@ GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO admin;
 
 -- Define o banco de dados 2rp como o padrão
 \c "2rp";
+
+-- Criação de tabelas
+CREATE TYPE funcao_usuario_enum AS ENUM ('admin', 'gestor', 'colaborador');
+
+CREATE TYPE status_enum AS ENUM ('ativo', 'inativo');
+
+CREATE TABLE usuario (
+    matricula VARCHAR(20) NOT NULL,
+    nome VARCHAR(80) NOT NULL,
+    senha VARCHAR(15) NOT NULL,
+    funcao funcao_usuario_enum NOT NULL,
+    status_usuario status_enum NOT NULL DEFAULT 'ativo',
+    PRIMARY KEY (matricula)
+);
