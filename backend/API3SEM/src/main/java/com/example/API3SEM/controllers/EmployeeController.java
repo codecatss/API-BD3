@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("employee")
@@ -45,6 +46,19 @@ public class EmployeeController {
 
         List<EmployeeResponseDTO> employeesList = repository.findAll().stream().map(EmployeeResponseDTO::new ).toList();
         return employeesList;
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping("/{matricula}")
+    public ResponseEntity<Employee> getOne(@PathVariable String matricula) {
+        Optional<Employee> optionalEmployee = repository.findById(matricula);
+
+        if (optionalEmployee.isPresent()) {
+            Employee employee = optionalEmployee.get();
+            return ResponseEntity.ok(employee);
+        } else {
+            throw new RuntimeException("Funcionário não encontrado");
+        }
     }
 
 }
