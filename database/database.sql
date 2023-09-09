@@ -40,3 +40,12 @@ CREATE TABLE centro_resultado (
     PRIMARY KEY (codigo_cr),
     UNIQUE (sigla)
 );
+
+CREATE TABLE integrante (
+    gestor BOOLEAN NOT NULL,
+    matricula_integrante VARCHAR(20) NOT NULL,
+    cod_cr VARCHAR(10) NOT NULL,
+    FOREIGN KEY (matricula_integrante) REFERENCES usuario(matricula),
+    FOREIGN KEY (cod_cr) REFERENCES centro_resultado(codigo_cr),
+    PRIMARY KEY (matricula_integrante, cod_cr)
+);
