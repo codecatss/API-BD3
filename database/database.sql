@@ -24,3 +24,10 @@ CREATE TABLE usuario (
     status_usuario status_enum NOT NULL DEFAULT 'ativo',
     PRIMARY KEY (matricula)
 );
+
+CREATE TABLE cliente (
+    cnpj BIGINT NOT NULL,
+    razao_social VARCHAR(150) NOT NULL,
+    status_cliente status_enum NOT NULL DEFAULT 'ativo',
+    PRIMARY KEY (cnpj)
+);
