@@ -3,6 +3,7 @@ package com.example.API3SEM.controllers;
 import com.example.API3SEM.employees.Employee;
 import com.example.API3SEM.employees.EmployeeRequestDTO;
 import com.example.API3SEM.employees.EmployeeResponseDTO;
+import com.example.API3SEM.utills.StatusEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -81,6 +82,21 @@ public class EmployeeController {
             }
         } catch (Exception e) {
             throw new RuntimeException("Erro ao atualizar o funcionário: " + e.getMessage());
+        }
+
+        repository.save(employee);
+        return employee;
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @DeleteMapping("/{matricula}")
+    public Employee softDeleteEmployee(@PathVariable String matricula) {
+        Employee employee = repository.findById(matricula).orElseThrow(() -> new RuntimeException("Funcionário não encontrado com a matrícula: " + matricula));
+
+        try {
+            employee.setStatus_usuario(StatusEnum.inativo);
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao inativar o funcionário: " + e.getMessage());
         }
 
         repository.save(employee);
