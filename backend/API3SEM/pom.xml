@@ -68,6 +68,11 @@
 							<artifactId>lombok</artifactId>
 						</exclude>
 					</excludes>
+					<archive>
+						<manifest>
+							<mainClass>Api3SemApplication.ClasseMain</mainClass>
+						</manifest>
+					</archive>
 				</configuration>
 			</plugin>
 		</plugins>
