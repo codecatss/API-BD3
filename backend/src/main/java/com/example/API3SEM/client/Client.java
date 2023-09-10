@@ -1,32 +1,36 @@
 package com.example.API3SEM.client;
 
-import java.io.Serializable;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Table(name = "client")
+@Entity(name = "client")
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 
-@Entity
-public class Client implements Serializable{
+public class Client{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "cnpj", length = 14, nullable = false)
     private String cnpj;
 
-    @Column(name = "razao_social")
+    @Column(name = "razao_social", length = 50, nullable = false)
     private String razao_social;
     
     @Column(name = "status")
-    private String status;
+    private Boolean status;
+
+    public Client(ClientRequestDTO clientRequestDTO){
+        this.cnpj = clientRequestDTO.cnpj();
+        this.razao_social = clientRequestDTO.razao_social();
+        this.status = clientRequestDTO.status();
+    }
 }
