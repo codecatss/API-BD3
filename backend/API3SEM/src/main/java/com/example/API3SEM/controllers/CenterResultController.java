@@ -8,6 +8,8 @@ import com.example.API3SEM.resultCenter.CenterResultRequestDTO;
 import com.example.API3SEM.resultCenter.CenterResultResponseDTO;
 import java.util.List;
 import java.util.Optional;
+
+import com.example.API3SEM.utills.StatusEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -72,6 +74,21 @@ public class CenterResultController {
             }
         } catch (Exception e) {
             throw new RuntimeException("Erro ao atualizar o centro de resultado: " + e.getMessage());
+        }
+
+        repository.save(cr);
+        return cr;
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @PatchMapping("/enable/{codigoCr}")
+    public CenterResult enableCenterResult(@PathVariable String codigoCr) {
+        CenterResult cr = repository.findById(codigoCr).orElseThrow(() -> new RuntimeException("Centro de resultado não encontrado com o código: " + codigoCr));
+
+        try {
+            cr.setStatusCr(StatusEnum.ativo);
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao ativar o centro de resultado: " + e.getMessage());
         }
 
         repository.save(cr);
