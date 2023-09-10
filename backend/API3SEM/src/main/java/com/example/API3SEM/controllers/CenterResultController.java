@@ -95,4 +95,19 @@ public class CenterResultController {
         return cr;
     }
 
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @DeleteMapping("/{codigoCr}")
+    public CenterResult softDeleteCenterResult(@PathVariable String codigoCr) {
+        CenterResult cr = repository.findById(codigoCr).orElseThrow(() -> new RuntimeException("Centro de resultado não encontrado com a matrícula: " + codigoCr));
+
+        try {
+            cr.setStatusCr(StatusEnum.inativo);
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao inativar o centro de resultado: " + e.getMessage());
+        }
+
+        repository.save(cr);
+        return cr;
+    }
+
 }
