@@ -5,8 +5,12 @@ package com.example.API3SEM.controllers;
 import com.example.API3SEM.resultCenter.CenterResult;
 import com.example.API3SEM.resultCenter.CenterResultRepository;
 import com.example.API3SEM.resultCenter.CenterResultRequestDTO;
+import com.example.API3SEM.resultCenter.CenterResultResponseDTO;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+
 
 @RestController
 @RequestMapping("cr")
@@ -26,4 +30,18 @@ public class CenterResultController {
             throw new RuntimeException("Não foi possível Cadastrar o centro de resulto, por favor verifique as informações " + e.getMessage());
         }
 
-}}
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping
+    public List<CenterResultResponseDTO> getAll(){
+
+
+        List<CenterResultResponseDTO> centerResultList = repository.findAll().stream().map(CenterResultResponseDTO::new ).toList();
+        return centerResultList;
+    }
+
+
+   
+
+}
