@@ -10,8 +10,7 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -43,7 +42,7 @@ public class CenterResultController {
         return centerResultList;
     }
 
- @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/{codigoCr}")
     public ResponseEntity<CenterResult> getOne(@PathVariable String codigoCr) {
         Optional<CenterResult> optionalCenterResult = repository.findById(codigoCr);
@@ -55,6 +54,28 @@ public class CenterResultController {
             throw new RuntimeException("Funcionário não encontrado");
         }
     }
-   
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @PatchMapping("/{codigoCr}")
+    public CenterResult updateCR(@PathVariable String codigoCr, @RequestBody CenterResultRequestDTO partialData) {
+        CenterResult cr = repository.findById(codigoCr).orElseThrow(() -> new RuntimeException("Centro de resultado não encontrado com o código: " + codigoCr));
+
+        try {
+            if (partialData.nome() != null) {
+                cr.setNome(partialData.nome());
+            }
+            if (partialData.sigla() != null) {
+                cr.setSigla(partialData.sigla());
+            }
+            if (partialData.statusCr() != null) {
+                cr.setStatusCr(partialData.statusCr());
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao atualizar o centro de resultado: " + e.getMessage());
+        }
+
+        repository.save(cr);
+        return cr;
+    }
 
 }
