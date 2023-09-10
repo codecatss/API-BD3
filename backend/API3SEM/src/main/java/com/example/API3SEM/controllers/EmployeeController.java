@@ -89,6 +89,21 @@ public class EmployeeController {
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @PatchMapping("/enable/{matricula}")
+    public Employee enableEmployee(@PathVariable String matricula) {
+        Employee employee = repository.findById(matricula).orElseThrow(() -> new RuntimeException("Funcionário não encontrado com a matrícula: " + matricula));
+
+        try {
+            employee.setStatus_usuario(StatusEnum.ativo);
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao ativar o funcionário: " + e.getMessage());
+        }
+
+        repository.save(employee);
+        return employee;
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @DeleteMapping("/{matricula}")
     public Employee softDeleteEmployee(@PathVariable String matricula) {
         Employee employee = repository.findById(matricula).orElseThrow(() -> new RuntimeException("Funcionário não encontrado com a matrícula: " + matricula));
