@@ -7,7 +7,9 @@ import com.example.API3SEM.resultCenter.CenterResultRepository;
 import com.example.API3SEM.resultCenter.CenterResultRequestDTO;
 import com.example.API3SEM.resultCenter.CenterResultResponseDTO;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -41,7 +43,18 @@ public class CenterResultController {
         return centerResultList;
     }
 
+ @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping("/{codigoCr}")
+    public ResponseEntity<CenterResult> getOne(@PathVariable String codigoCr) {
+        Optional<CenterResult> optionalCenterResult = repository.findById(codigoCr);
 
+        if (optionalCenterResult.isPresent()) {
+            CenterResult centerResult = optionalCenterResult.get();
+            return ResponseEntity.ok(centerResult);
+        } else {
+            throw new RuntimeException("Funcionário não encontrado");
+        }
+    }
    
 
 }
