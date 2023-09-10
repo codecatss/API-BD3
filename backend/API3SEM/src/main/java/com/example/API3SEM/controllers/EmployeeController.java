@@ -61,4 +61,30 @@ public class EmployeeController {
         }
     }
 
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @PatchMapping("/{matricula}")
+    public Employee updateEmployee(@PathVariable String matricula, @RequestBody EmployeeRequestDTO partialData) {
+        Employee employee = repository.findById(matricula).orElseThrow(() -> new RuntimeException("Funcionário não encontrado com a matrícula: " + matricula));
+
+        try {
+            if (partialData.nome() != null) {
+                employee.setNome(partialData.nome());
+            }
+            if (partialData.senha() != null) {
+                employee.setSenha(partialData.senha());
+            }
+            if (partialData.funcao() != null) {
+                employee.setFuncao(partialData.funcao());
+            }
+            if (partialData.status_usuario() != null) {
+                employee.setStatus_usuario(partialData.status_usuario());
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao atualizar o funcionário: " + e.getMessage());
+        }
+
+        repository.save(employee);
+        return employee;
+    }
+
 }
