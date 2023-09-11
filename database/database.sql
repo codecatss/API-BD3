@@ -30,7 +30,7 @@ CREATE TABLE usuario (
 );
 
 CREATE TABLE cliente (
-    cnpj BIGINT NOT NULL,
+    cnpj VARCHAR(14) NOT NULL,
     razao_social VARCHAR(150) NOT NULL,
     status_cliente VARCHAR(10) NOT NULL DEFAULT 'ativo',
     PRIMARY KEY (cnpj)
