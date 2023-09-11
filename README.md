@@ -37,25 +37,25 @@
     <tr>
       <td>Administrador</td>
       <td>Adicionar colaboradores e gestores, editar ou inativar</td>
-      <td>Que o CR possa utilizar o sistema</td>
+      <td>Que os usuários possam utilizar o sistema</td>
       <td>1</td>
     </tr>
     <tr>
       <td>Administrador</td>
       <td>Adicionar novos clientes, editar ou inativar</td>
-      <td>Que o CR possa utilizar o sistema</td>
+      <td>Que colaboradores e gestores possam selecionar ao lançar suas horas</td>
       <td>2</td>
     </tr>
     <tr>
       <td>Administrador</td>
       <td>Adicionar centro de resultado, editar ou inativar</td>
-      <td>Que o CR possa utilizar o sistema</td>
+      <td>Que colaboradores e gestores possam selecionar ao lançar suas horas</td>
       <td>3</td>
     </tr>
     <tr>
       <td>Administrador</td>
       <td>Adicionar novos integrantes e nomear um gestor para um centro de resultado</td>
-      <td>Que o CR possa trabalhar nos projetos</td>
+      <td>Que o gestor possa gerenciar o centro de resultado</td>
       <td>4</td>
     </tr>
     <tr>
@@ -112,6 +112,11 @@
 <span id="entrega">
 
 ## :white_check_mark: Entrega das Sprints
+
+| **SPRINT** | **PERÍODO**| **O QUE SERÁ ENTREGUE** | **BACKLOG DAS SPRINTS** |
+|:-------------:|:-----------------------:|:-------------------------:|:-------------------------:|
+|  01  | 04/09 a 24/09 | Sistema de cadastro e sistema de lançamento de horas | <a href="https://github.com/codecatss/API-BD3/wiki/Sprint-2">Sprint 1</a> |
+|  02  | 25/09 a 15/10 | Sistema de apontamento de horas do gestor, sistema de aprovação do administrador e sistema de gerenciamento de verbas | <a href="https://github.com/codecatss/API-BD3/wiki/Sprint-2">Sprint 2</a>
 
 <span id="prototipo">
 
