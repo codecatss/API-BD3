@@ -20,7 +20,94 @@
 
 <span id="backlogs">
 
+
+
 ## :dart: Backlog do produto
+
+<table>
+  <thead>
+    <tr>
+      <th>COMO UM</th>
+      <th>EU PRECISO</th>
+      <th>PARA</th>
+      <th>PRIORIDADE</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Administrador</td>
+      <td>Adicionar colaboradores e gestores, editar ou inativar</td>
+      <td>Que o CR possa utilizar o sistema</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>Administrador</td>
+      <td>Adicionar novos clientes, editar ou inativar</td>
+      <td>Que o CR possa utilizar o sistema</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>Administrador</td>
+      <td>Adicionar centro de resultado, editar ou inativar</td>
+      <td>Que o CR possa utilizar o sistema</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>Administrador</td>
+      <td>Adicionar novos integrantes e nomear um gestor para um centro de resultado</td>
+      <td>Que o CR possa trabalhar nos projetos</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <td>Colaborador</td>
+      <td>Lançar minhas horas extras</td>
+      <td>Serem registradas e aprovadas por um gestor</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <td>Colaborador</td>
+      <td>Lançar meus sobreavisos</td>
+      <td>Serem registradas e aprovadas por um gestor</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <td>Gestor</td>
+      <td>Lançar minhas horas extras</td>
+      <td>Serem registradas e aprovadas por um Administrador</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <td>Gestor</td>
+      <td>Lançar meus sobreavisos</td>
+      <td>Serem registradas e aprovadas por um Administrador</td>
+      <td>8</td>
+    </tr>
+    <tr>
+      <td>Gestor</td>
+      <td>Apontar ou não as horas lançadas por um colaborador</td>
+      <td>Repassar ao RH</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <td>Administrador</td>
+      <td>Consultar e aprovar as horas extras e sobreavisos apontadas pelos gestores</td>
+      <td>Serem pagas</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <td>Usuário</td>
+      <td>Acessar o sistema através da matrícula e senha</td>
+      <td>Visualizar minha área de navegação</td>
+      <td>11</td>
+    </tr>
+    <tr>
+      <td>Administrador</td>
+      <td>Poder acessar as informações de parametrização</td>
+      <td>Padronizar o sistema com valores a serem pagos pelas horas</td>
+      <td>12</td>
+    </tr>
+  </tbody>
+</table>
 
 <span id="entrega">
 
