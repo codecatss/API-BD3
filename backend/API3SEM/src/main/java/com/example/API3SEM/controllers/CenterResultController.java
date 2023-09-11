@@ -2,13 +2,17 @@ package com.example.API3SEM.controllers;
 
 
 
+import com.example.API3SEM.members.MemberRepository;
+import com.example.API3SEM.employees.EmployeeRepository;
+
 import com.example.API3SEM.resultCenter.CenterResult;
 import com.example.API3SEM.resultCenter.CenterResultRepository;
 import com.example.API3SEM.resultCenter.CenterResultRequestDTO;
 import com.example.API3SEM.resultCenter.CenterResultResponseDTO;
 import java.util.List;
 import java.util.Optional;
-
+import java.util.stream.Collectors;
+import com.example.API3SEM.employees.Employee;
 import com.example.API3SEM.utills.StatusEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -109,5 +113,40 @@ public class CenterResultController {
         repository.save(cr);
         return cr;
     }
+
+
+    @Autowired
+    private MemberRepository memberRepository;
+
+    @Autowired
+    private EmployeeRepository employeeRepository;
+
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping("/withMembers")
+    public List<CenterResultWithMembersDTO> getAllCenterResultsWithMembers() {
+        List<CenterResult> centerResults = repository.findAll();
+
+        List<CenterResultWithMembersDTO> resultWithMembersList = centerResults.stream()
+                .map(cr -> {
+                    List<MemberDTO> membersWithNames = memberRepository.findByCodCr(cr.getCodigoCr()).stream()
+                            .map(member -> {
+                                Employee employee = employeeRepository.findById(member.getMatriculaIntegrante())
+                                        .orElseThrow(() -> new RuntimeException("Funcionário não encontrado com a matrícula: " + member.getMatriculaIntegrante()));
+                                return new MemberDTO(
+                                        member.getMatriculaIntegrante(),
+                                        member.getGestor(),
+                                        employee.getNome() // Obtém o nome do funcionário
+                                );
+                            })
+                            .collect(Collectors.toList());
+
+                    return new CenterResultWithMembersDTO(cr, membersWithNames);
+                })
+                .collect(Collectors.toList());
+
+        return resultWithMembersList;
+    }
+
 
 }
