@@ -1,26 +1,25 @@
 package com.example.API3SEM.members;
 
-import com.example.API3SEM.employees.Employee;
-import com.example.API3SEM.resultCenter.CenterResult;
-import jakarta.persistence.Embeddable;
-import jakarta.persistence.ManyToOne;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 import java.io.Serializable;
+import java.util.Objects;
 
-@Embeddable
-@Setter
-@Getter
-@NoArgsConstructor
-@AllArgsConstructor
 public class MemberId implements Serializable {
+    private String matriculaIntegrante;
+    private String codCr;
 
-    @ManyToOne
-    private String employeeId;
+    // Construtores, getters e setters
 
-    @ManyToOne
-    private String centerResultId;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MemberId memberId = (MemberId) o;
+        return Objects.equals(matriculaIntegrante, memberId.matriculaIntegrante) &&
+                Objects.equals(codCr, memberId.codCr);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(matriculaIntegrante, codCr);
+    }
 }
