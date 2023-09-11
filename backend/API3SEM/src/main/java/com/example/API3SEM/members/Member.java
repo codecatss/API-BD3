@@ -1,34 +1,38 @@
 package com.example.API3SEM.members;
 
 import com.example.API3SEM.employees.Employee;
+import com.example.API3SEM.employees.EmployeeRequestDTO;
 import com.example.API3SEM.resultCenter.CenterResult;
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.io.Serializable;
 
 @Entity
 @Table(name = "integrante")
 @Getter
 @Setter
+@NoArgsConstructor
 @AllArgsConstructor
-public class Member implements Serializable {
-
-    @EmbeddedId
-    private MemberId id;
-
+@EqualsAndHashCode
+@IdClass(MemberId.class)
+public class Member {
+    @Id
+    @Column(name = "matricula_integrante", length = 20, nullable = false)
+    private String matriculaIntegrante;
 
     @Id
-    @JoinColumn(name = "matricula_integrante", referencedColumnName = "matricula", nullable = false)
-    private Employee employee;
-
-
-    @Id
-    @JoinColumn(name = "cod_cr", referencedColumnName = "codigo_cr", nullable = false)
-    private CenterResult centerResult;
+    @Column(name = "cod_cr", length = 10, nullable = false)
+    private String codCr;
 
     @Column(name = "gestor", nullable = false)
     private Boolean gestor;
+
+
+    public Member(MemberRequestDTO data){
+        this.matriculaIntegrante = data.matriculaIntegrante();
+        this.codCr = data.codCr();
+        this.gestor = data.gestor();
+    }
+
 
 
 }
