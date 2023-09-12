@@ -9,6 +9,9 @@ import com.example.API3SEM.members.MemberRequestDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 @RequestMapping("member")
 public class MemberController {
@@ -18,15 +21,20 @@ public class MemberController {
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping
-    public Member saveMember(@RequestBody MemberRequestDTO data) {
+    public List<Member> saveMembers(@RequestBody List<MemberRequestDTO> dataList) {
+        List<Member> savedMembers = new ArrayList<>();
+
         try {
-            Member memberData = new Member(data);
-            return repository.save(memberData);
+            for (MemberRequestDTO data : dataList) {
+                Member memberData = new Member(data);
+                savedMembers.add(repository.save(memberData));
+            }
         } catch (Exception e) {
-            Member employeeData = new Member(data);
-            throw new RuntimeException("Não foi possível Cadastrar o seu usuário, por favor verifique as informações " + e.getMessage());
+            throw new RuntimeException("Não foi possível cadastrar os membros, verifique as informações: " + e.getMessage());
         }
+
+        return savedMembers;
     }
-
-
 }
+
+
