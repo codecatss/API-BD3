@@ -122,31 +122,7 @@ public class CenterResultController {
     private EmployeeRepository employeeRepository;
 
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @GetMapping("/withMembers")
-    public List<CenterResultWithMembersDTO> getAllCenterResultsWithMembers() {
-        List<CenterResult> centerResults = repository.findAll();
 
-        List<CenterResultWithMembersDTO> resultWithMembersList = centerResults.stream()
-                .map(cr -> {
-                    List<MemberDTO> membersWithNames = memberRepository.findByCodCr(cr.getCodigoCr()).stream()
-                            .map(member -> {
-                                Employee employee = employeeRepository.findById(member.getMatriculaIntegrante())
-                                        .orElseThrow(() -> new RuntimeException("Funcionário não encontrado com a matrícula: " + member.getMatriculaIntegrante()));
-                                return new MemberDTO(
-                                        member.getMatriculaIntegrante(),
-                                        member.getGestor(),
-                                        employee.getNome() // Obtém o nome do funcionário
-                                );
-                            })
-                            .collect(Collectors.toList());
-
-                    return new CenterResultWithMembersDTO(cr, membersWithNames);
-                })
-                .collect(Collectors.toList());
-
-        return resultWithMembersList;
-    }
 
 
 }
