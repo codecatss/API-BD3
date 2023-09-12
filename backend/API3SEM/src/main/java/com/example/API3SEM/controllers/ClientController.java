@@ -64,7 +64,7 @@ public class ClientController {
                 return ResponseEntity.notFound().build();
             }
         } catch (Exception e) {
-            throw new RuntimeException("Não foi possível atualizar o cliente, por favor verifique as informações " + e.getMessage());
+            throw new RuntimeException("Não foi possível desabilitar o cliente, por favor verifique as informações " + e.getMessage());
         }
     }
 
