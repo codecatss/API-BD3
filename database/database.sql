@@ -64,7 +64,7 @@ CREATE TABLE hora (
     tipo VARCHAR(20) CHECK (tipo IN ('extra', 'sobreaviso')),
     justificativa_lancamento VARCHAR(500) NOT NULL,
     projeto VARCHAR(100) NOT NULL,
-    _gestor VARCHAR(80),
+    gestor VARCHAR(80),
     justificativa_negacao VARCHAR(500),
     status_aprovacao VARCHAR(20) CHECK (status_aprovacao IN ('pendente', 'aprovado_gestor', 'aprovado_adm', 'negado_gestor', 'negado_adm')) DEFAULT 'pendente',
     solicitante_lancamento VARCHAR(80) NOT NULL,
