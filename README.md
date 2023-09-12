@@ -21,7 +21,6 @@
 <span id="backlogs">
 
 
-
 ## :dart: Backlog do produto
 
 <table>
@@ -126,13 +125,18 @@
 
 ## :wrench: Tecnologias
 
+![2](https://github.com/codecatss/API-BD3/assets/108769169/42971f63-3c1e-426d-bc86-3fa0f075701f)
+
 <span id="linguagens">
 
 ## 📖 Linguagens
 
+![3](https://github.com/codecatss/API-BD3/assets/108769169/d663d4e8-9c8c-4dd6-bbc7-9b6f26cdc5e8)
+
 <span id="equipe">
 
 ## :busts_in_silhouette: Equipe
+![1](https://github.com/codecatss/API-BD3/assets/108769169/e3ddfb5a-b13d-496e-bcee-ab2b8e6b883b)
 
 |    Função     | Nome    |    LinkedIn & GitHub      |
 | :-----------: | :------------------------------------ | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
