@@ -125,14 +125,17 @@
 <span id="tecnologias">
 
 ## :wrench: Tecnologias
+![2](https://github.com/codecatss/API-BD3/assets/108769169/7d4ae4e8-74cc-4dd4-a6c7-06c1a19db0b3)
 
 <span id="linguagens">
 
 ## 📖 Linguagens
+![3](https://github.com/codecatss/API-BD3/assets/108769169/34753a8e-1dd7-4115-9e44-784dd82e10df)
 
 <span id="equipe">
 
 ## :busts_in_silhouette: Equipe
+![1](https://github.com/codecatss/API-BD3/assets/108769169/17939c17-0cb3-427f-8bd7-c89266c103df)
 
 |    Função     | Nome    |    LinkedIn & GitHub      |
 | :-----------: | :------------------------------------ | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
