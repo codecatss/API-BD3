@@ -53,3 +53,27 @@ CREATE TABLE integrante (
     FOREIGN KEY (cod_cr) REFERENCES centro_resultado(codigo_cr),
     PRIMARY KEY (matricula_integrante, cod_cr)
 );
+
+CREATE TABLE hora (
+    id SERIAL NOT NULL PRIMARY KEY,
+    cod_cr VARCHAR(10) NOT NULL,
+    username_lancador VARCHAR(80) NOT NULL,
+    cnpj_cliente VARCHAR(14) NOT NULL,
+    data_hora_inicio TIMESTAMP NOT NULL,
+    data_hora_fim TIMESTAMP NOT NULL,
+    tipo VARCHAR(20) CHECK (tipo IN ('extra', 'sobreaviso')),
+    turno VARCHAR(20) CHECK (turno IN ('diurno', 'noturno')),
+    cod_dia VARCHAR(20) CHECK (cod_dia IN ('util', 'final de semana')),
+    justificativa_lancamento VARCHAR(500) NOT NULL,
+    projeto VARCHAR(100) NOT NULL,
+    _gestor VARCHAR(80),
+    justificativa_negacao VARCHAR(500),
+    status_aprovacao VARCHAR(20) CHECK (status_aprovacao IN ('pendente', 'aprovado_gestor', 'aprovado_adm', 'negado_gestor', 'negado_adm')) DEFAULT 'pendente',
+    solicitante_lancamento VARCHAR(80) NOT NULL,
+    excepcional BOOLEAN DEFAULT FALSE,
+    aprovador_ADM VARCHAR(80),
+    FOREIGN KEY (aprovador_ADM) REFERENCES usuario(matricula), -- Replace 'usuario' with the actual table name
+    FOREIGN KEY (username_lancador) REFERENCES usuario(matricula), -- Replace 'usuario' with the actual table name
+    FOREIGN KEY (cod_cr) REFERENCES centro_resultado(codigo_cr),
+    FOREIGN KEY (cnpj_cliente) REFERENCES cliente(cnpj) -- Replace 'cliente' with the actual table name
+);
