@@ -1,4 +1,4 @@
-![5](https://github.com/codecatss/API-BD3/assets/108769169/763ec606-e29d-44b8-a273-0cf98ba6f7b3)
+![3](https://github.com/codecatss/API-BD3/assets/108769169/4b3d05cb-e99d-4c51-8ef2-31c987e94521)
 
 <br id="topo">
 <p align="center">
@@ -15,7 +15,7 @@
 
 ## :page_with_curl: O Projeto
 <br></br>
-![6](https://github.com/codecatss/API-BD3/assets/108769169/d2f18112-eb5d-47cf-8906-ef4f29fa7dca)
+![5](https://github.com/codecatss/API-BD3/assets/108769169/ba43707c-72fa-456b-a4a9-0945acc5bf05)
 > Projeto baseado na metodologia ágil SCRUM.
 
 <span id="backlogs">
@@ -121,21 +121,31 @@
 <span id="prototipo">
 
 ## :computer: Protótipo
+- <a href="https://www.figma.com/proto/8vSYUz2vXHStMQyV5PRwjg/Telas-ADM?page-id=0%3A1&type=design&node-id=245-12&viewport=-624%2C814%2C0.44&t=nn4yAOXzbSdnAbSJ-1&scaling=min-zoom&starting-point-node-id=204%3A3&mode=design">Telas do ADM</a>
+
+<br>
+
+- <a href="https://www.figma.com/proto/SRlYvOtqT3aanoUjeVhF7I/Telas-Usu%C3%A1rio?page-id=0%3A1&type=design&node-id=257-971&viewport=-1630%2C195%2C0.42&t=DTxKuXXheJMw9522-1&scaling=min-zoom&mode=design">Tela do Usuário</a>
+
+<br>
+
+- <a href="https://www.figma.com/proto/V082qgtKEwamDaDpHOhhEE/Telas-Gestor?page-id=0%3A1&type=design&node-id=257-971&viewport=205%2C360%2C0.1&t=u58E8K3Sb5eBXItg-1&scaling=min-zoom&mode=design">Tela do Gestor</a>
 
 <span id="tecnologias">
 
 ## :wrench: Tecnologias
-![2](https://github.com/codecatss/API-BD3/assets/108769169/7d4ae4e8-74cc-4dd4-a6c7-06c1a19db0b3)
+![7](https://github.com/codecatss/API-BD3/assets/108769169/8f6798ae-6f20-4154-9560-dabd4fd93ab8)
 
 <span id="linguagens">
 
 ## 📖 Linguagens
-![3](https://github.com/codecatss/API-BD3/assets/108769169/34753a8e-1dd7-4115-9e44-784dd82e10df)
+![9](https://github.com/codecatss/API-BD3/assets/108769169/9570a6fa-42d5-4b41-b46c-16c6fdeed9d5)
 
 <span id="equipe">
 
 ## :busts_in_silhouette: Equipe
-![1](https://github.com/codecatss/API-BD3/assets/108769169/17939c17-0cb3-427f-8bd7-c89266c103df)
+![4](https://github.com/codecatss/API-BD3/assets/108769169/6c0cdc84-bcaf-4106-8886-3f2fd56f7cc0)
+
 
 |    Função     | Nome    |    LinkedIn & GitHub      |
 | :-----------: | :------------------------------------ | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
