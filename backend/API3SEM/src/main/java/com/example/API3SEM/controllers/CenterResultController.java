@@ -146,5 +146,24 @@ public class CenterResultController {
     }
 
 
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @DeleteMapping("/{codigoCr}/member")
+    public ResponseEntity<String> deleteMembers(@PathVariable String codigoCr) {
+        try {
+            List<Member> membersToDelete = memberRepository.findByCodCr(codigoCr);
+
+            if (!membersToDelete.isEmpty()) {
+                memberRepository.deleteAll(membersToDelete);
+                return ResponseEntity.ok("Membros removidos com sucesso.");
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Não foi possível remover os membros: " + e.getMessage());
+        }
+    }
+
+
+
 
 }
