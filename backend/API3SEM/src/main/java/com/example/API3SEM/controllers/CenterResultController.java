@@ -2,6 +2,7 @@ package com.example.API3SEM.controllers;
 
 
 
+import com.example.API3SEM.employees.FuncaoUsuarioEnum;
 import com.example.API3SEM.members.Member;
 import com.example.API3SEM.members.MemberRepository;
 import com.example.API3SEM.employees.EmployeeRepository;
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import com.example.API3SEM.employees.Employee;
+import com.example.API3SEM.utills.ApiException;
 import com.example.API3SEM.utills.StatusEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -32,25 +34,22 @@ public class CenterResultController {
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping
     public CenterResult saveCenterResult(@RequestBody CenterResultRequestDTO data) {
+        if (data.codigoCr() == null || data.nome() == null || data.sigla() == null || data.statusCr() == null) {
+            throw new ApiException("Todas as informações devem ser preenchidas.");
+        }
+
+        if (repository.existsByCodigoCrAndSigla(data.codigoCr(), data.sigla())) {
+            throw new ApiException("Um CR com o mesmo código e sigla já existe.");
+        }
+
         try {
             CenterResult centerResultData = new CenterResult(data);
             return repository.save(centerResultData);
         } catch (Exception e) {
-            CenterResult centerResultData = new CenterResult(data);
-            System.out.println(centerResultData.getNome());
-            throw new RuntimeException("Não foi possível Cadastrar o centro de resulto, por favor verifique as informações " + e.getMessage());
+            throw new ApiException("Não foi possível cadastrar o centro de resultado, verifique as informações: " + e.getMessage());
         }
-
     }
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @GetMapping
-    public List<CenterResultResponseDTO> getAll(){
-
-
-        List<CenterResultResponseDTO> centerResultList = repository.findAll().stream().map(CenterResultResponseDTO::new ).toList();
-        return centerResultList;
-    }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/{codigoCr}")
@@ -61,14 +60,14 @@ public class CenterResultController {
             CenterResult centerResult = optionalCenterResult.get();
             return ResponseEntity.ok(centerResult);
         } else {
-            throw new RuntimeException("Funcionário não encontrado");
+            throw new ApiException("Funcionário não encontrado");
         }
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PatchMapping("/{codigoCr}")
     public CenterResult updateCR(@PathVariable String codigoCr, @RequestBody CenterResultRequestDTO partialData) {
-        CenterResult cr = repository.findById(codigoCr).orElseThrow(() -> new RuntimeException("Centro de resultado não encontrado com o código: " + codigoCr));
+        CenterResult cr = repository.findById(codigoCr).orElseThrow(() -> new ApiException("Centro de resultado não encontrado com o código: " + codigoCr));
 
         try {
             if (partialData.nome() != null) {
@@ -81,7 +80,7 @@ public class CenterResultController {
                 cr.setStatusCr(partialData.statusCr());
             }
         } catch (Exception e) {
-            throw new RuntimeException("Erro ao atualizar o centro de resultado: " + e.getMessage());
+            throw new ApiException("Erro ao atualizar o centro de resultado: " + e.getMessage());
         }
 
         repository.save(cr);
@@ -91,12 +90,12 @@ public class CenterResultController {
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PatchMapping("/enable/{codigoCr}")
     public CenterResult enableCenterResult(@PathVariable String codigoCr) {
-        CenterResult cr = repository.findById(codigoCr).orElseThrow(() -> new RuntimeException("Centro de resultado não encontrado com o código: " + codigoCr));
+        CenterResult cr = repository.findById(codigoCr).orElseThrow(() -> new ApiException("Centro de resultado não encontrado com o código: " + codigoCr));
 
         try {
             cr.setStatusCr(StatusEnum.ativo);
         } catch (Exception e) {
-            throw new RuntimeException("Erro ao ativar o centro de resultado: " + e.getMessage());
+            throw new ApiException("Erro ao ativar o centro de resultado: " + e.getMessage());
         }
 
         repository.save(cr);
@@ -106,12 +105,12 @@ public class CenterResultController {
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @DeleteMapping("/{codigoCr}")
     public CenterResult softDeleteCenterResult(@PathVariable String codigoCr) {
-        CenterResult cr = repository.findById(codigoCr).orElseThrow(() -> new RuntimeException("Centro de resultado não encontrado com o código: " + codigoCr));
+        CenterResult cr = repository.findById(codigoCr).orElseThrow(() -> new ApiException("Centro de resultado não encontrado com o código: " + codigoCr));
 
         try {
             cr.setStatusCr(StatusEnum.inativo);
         } catch (Exception e) {
-            throw new RuntimeException("Erro ao inativar o centro de resultado: " + e.getMessage());
+            throw new ApiException("Erro ao inativar o centro de resultado: " + e.getMessage());
         }
 
         repository.save(cr);
@@ -130,20 +129,35 @@ public class CenterResultController {
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/{codigoCr}/member")
     public List<Member> saveMembers(@PathVariable String codigoCr, @RequestBody List<MemberRequestDTO> dataList) {
+        CenterResult centerResult = repository.findById(codigoCr)
+                .orElseThrow(() -> new ApiException("Centro de resultado não encontrado com o código: " + codigoCr));
+
+        if (centerResult.getStatusCr() != StatusEnum.ativo) {
+            throw new ApiException("Não é possível adicionar membros a um CR inativo.");
+        }
+
         List<Member> savedMembers = new ArrayList<>();
 
         try {
             for (MemberRequestDTO data : dataList) {
+                Employee employee = employeeRepository.findById(data.matriculaIntegrante())
+                        .orElseThrow(() -> new ApiException("Usuário não encontrado com a matrícula: " + data.matriculaIntegrante()));
+
+                if (employee.getFuncao() != FuncaoUsuarioEnum.gestor) {
+                    throw new ApiException("Apenas usuários com cargo de gestor podem ser membros gestores.");
+                }
+
                 Member memberData = new Member(data);
-                memberData.setCodCr(codigoCr); // Defina o código CR no membro
+                memberData.setCodCr(codigoCr);
                 savedMembers.add(memberRepository.save(memberData));
             }
         } catch (Exception e) {
-            throw new RuntimeException("Não foi possível cadastrar os membros, verifique as informações: " + e.getMessage());
+            throw new ApiException("Não foi possível cadastrar os membros, verifique as informações: " + e.getMessage());
         }
 
         return savedMembers;
     }
+
 
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -159,7 +173,7 @@ public class CenterResultController {
                 return ResponseEntity.notFound().build();
             }
         } catch (Exception e) {
-            throw new RuntimeException("Não foi possível remover os membros: " + e.getMessage());
+            throw new ApiException("Não foi possível remover os membros: " + e.getMessage());
         }
     }
 
