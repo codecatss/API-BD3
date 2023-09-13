@@ -2,6 +2,7 @@ package com.example.API3SEM.controllers;
 
 
 
+import com.example.API3SEM.employees.EmployeeResponseDTO;
 import com.example.API3SEM.employees.FuncaoUsuarioEnum;
 import com.example.API3SEM.members.Member;
 import com.example.API3SEM.members.MemberRepository;
@@ -48,6 +49,15 @@ public class CenterResultController {
         } catch (Exception e) {
             throw new ApiException("Não foi possível cadastrar o centro de resultado, verifique as informações: " + e.getMessage());
         }
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping
+    public List<CenterResultResponseDTO> getAll(){
+
+
+        List<CenterResultResponseDTO> crList = repository.findAll().stream().map(CenterResultResponseDTO::new ).toList();
+        return crList;
     }
 
 
