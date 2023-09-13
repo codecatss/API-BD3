@@ -2,13 +2,17 @@ package com.example.API3SEM.controllers;
 
 
 
+import com.example.API3SEM.members.Member;
 import com.example.API3SEM.members.MemberRepository;
 import com.example.API3SEM.employees.EmployeeRepository;
 
+import com.example.API3SEM.members.MemberRequestDTO;
 import com.example.API3SEM.resultCenter.CenterResult;
 import com.example.API3SEM.resultCenter.CenterResultRepository;
 import com.example.API3SEM.resultCenter.CenterResultRequestDTO;
 import com.example.API3SEM.resultCenter.CenterResultResponseDTO;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -122,6 +126,24 @@ public class CenterResultController {
     private EmployeeRepository employeeRepository;
 
 
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @PostMapping("/{codigoCr}/member")
+    public List<Member> saveMembers(@PathVariable String codigoCr, @RequestBody List<MemberRequestDTO> dataList) {
+        List<Member> savedMembers = new ArrayList<>();
+
+        try {
+            for (MemberRequestDTO data : dataList) {
+                Member memberData = new Member(data);
+                memberData.setCodCr(codigoCr); // Defina o código CR no membro
+                savedMembers.add(memberRepository.save(memberData));
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Não foi possível cadastrar os membros, verifique as informações: " + e.getMessage());
+        }
+
+        return savedMembers;
+    }
 
 
 
