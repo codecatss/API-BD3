@@ -24,7 +24,15 @@ html {
 }
 
 .menu li {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    align-items: center;
     padding: 1rem 0rem 1rem 0rem;
+}
+
+.menu li img {
+    width: 24px;
+    height: 24px;
 }
 
 .active-page {
