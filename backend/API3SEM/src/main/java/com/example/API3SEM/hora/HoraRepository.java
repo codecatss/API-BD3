@@ -7,7 +7,5 @@ import org.springframework.data.repository.query.Param;
 
 public interface HoraRepository extends JpaRepository<Hora, Integer>{
 
-    List<Hora> findByUsernameLancador(@Param("nome")String nome);
-
 }
 

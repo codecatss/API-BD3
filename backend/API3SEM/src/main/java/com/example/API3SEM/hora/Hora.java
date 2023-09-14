@@ -28,19 +28,19 @@ import lombok.Setter;
 public class Hora {
     @Id
     @Column(name = "id", nullable = false)
-    private String id;
+    private Integer id;
 
-    @Id
+
     @Column(name = "cod_cr", nullable = false)
-    private Employee cod_cr;
+    private String cod_cr;
 
-    @Id
+
     @Column(name = "username_lancador", nullable = false)
-    private Employee  lancador;
+    private String lancador;
 
-    @Id
+
     @Column (name= "cnpj_cliente", nullable = false)
-    private Client cnpj_cliente;
+    private String cnpj_cliente;
 
     @Column (name = "data_hora_inicio", nullable=false)
     private Timestamp data_hora_inicio;
@@ -69,7 +69,7 @@ public class Hora {
     @Column (name="solicitante_lancamento", length= 80, nullable = false)
     private String solicitante_lancamento;
 
-    @Id
+
     @Column(name="aprovador_ADM", nullable=false)
-    private Employee aprovador_ADM;
+    private String aprovador_ADM;
 }
