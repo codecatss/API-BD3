@@ -1,6 +1,21 @@
+package com.example.API3SEM.hora;
+
+
 import java.sql.Timestamp;
 
+import com.example.API3SEM.client.Client;
+import com.example.API3SEM.employees.Employee;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Column;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 
 @Table(name = "hora")
@@ -15,14 +30,17 @@ public class Hora {
     @Column(name = "id", nullable = false)
     private String id;
 
-    @Column(nome = "cod_cr", length = 50, nullable = false)
-    private String cod_cr;
+    @Id
+    @Column(name = "cod_cr", nullable = false)
+    private Employee cod_cr;
 
-    @Column(name = "username_lancador", length = 800, nullable = false)
-    private String  username_lancador;
+    @Id
+    @Column(name = "username_lancador", nullable = false)
+    private Employee  lancador;
 
-    @Column (name= "cnpj_cliente", length = 14, nullable = false)
-    private String cnpj_cliente;
+    @Id
+    @Column (name= "cnpj_cliente", nullable = false)
+    private Client cnpj_cliente;
 
     @Column (name = "data_hora_inicio", nullable=false)
     private Timestamp data_hora_inicio;
@@ -51,9 +69,7 @@ public class Hora {
     @Column (name="solicitante_lancamento", length= 80, nullable = false)
     private String solicitante_lancamento;
 
-    @Column (name="excepcional", nullable = false)
-    private Boolean excepcional = false;
-
-    @Column (name="aprovador_ADM", length = 80, nullable=false)
-    private String aprovador_ADM;
+    @Id
+    @Column(name="aprovador_ADM", nullable=false)
+    private Employee aprovador_ADM;
 }

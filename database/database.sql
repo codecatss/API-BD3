@@ -68,7 +68,6 @@ CREATE TABLE hora (
     justificativa_negacao VARCHAR(500),
     status_aprovacao VARCHAR(20) CHECK (status_aprovacao IN ('pendente', 'aprovado_gestor', 'aprovado_adm', 'negado_gestor', 'negado_adm')) DEFAULT 'pendente',
     solicitante_lancamento VARCHAR(80) NOT NULL,
-    excepcional BOOLEAN DEFAULT FALSE,
     aprovador_ADM VARCHAR(80),
     FOREIGN KEY (aprovador_ADM) REFERENCES usuario(matricula),
     FOREIGN KEY (username_lancador) REFERENCES usuario(matricula),
