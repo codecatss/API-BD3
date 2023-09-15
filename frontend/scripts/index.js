@@ -123,3 +123,40 @@ function fetchAndRenderData() {
       console.error('Erro ao buscar dados da API:', error);
     });
 }
+
+
+function searchCRByTerm(searchTerm) {
+  const apiUrl = `http://localhost:8080/cr`;
+
+  fetch(apiUrl)
+    .then((response) => response.json())
+    .then((data) => {
+      const ulElement = document.querySelector('.teste');
+      ulElement.innerHTML = '';
+
+      const searchTermLowerCase = searchTerm.toLowerCase();
+
+      if (searchTermLowerCase.trim() === '') {
+
+        data.forEach((item) => {
+          renderListItem(ulElement, item);
+        });
+      } else {
+
+        const filteredData = data.filter((item) => {
+          return (
+            item.nome.toLowerCase().includes(searchTermLowerCase) ||
+            item.codigoCr.toLowerCase().includes(searchTermLowerCase) ||
+            item.sigla.toLowerCase().includes(searchTermLowerCase)
+          );
+        });
+
+        filteredData.forEach((item) => {
+          renderListItem(ulElement, item);
+        });
+      }
+    })
+    .catch((error) => {
+      console.error('Erro ao buscar dados da API:', error);
+    });
+}
