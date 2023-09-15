@@ -81,3 +81,45 @@ function addSwitchClickEvent(liElement, codigoCr) {
     switchElement.classList.toggle('moved');
   });
 }
+
+function fetchAndRenderData() {
+  const apiUrl = 'http://localhost:8080/cr';
+  const ulElement = document.querySelector('.teste');
+
+  fetch(apiUrl)
+    .then((response) => response.json())
+    .then((data) => {
+      ulElement.innerHTML = '';
+      console.log(data);
+
+      data.forEach((item) => {
+        const liElement = document.createElement('li');
+        liElement.classList.add('teste-lista');
+        const codigoCr = item.codigoCr;
+
+        const switchClass = item.statusCr === 'inativo' ? 'moved' : 'light';
+
+        liElement.innerHTML = `
+          <p>${item.statusCr}</p>
+          <p>${item.nome}</p>
+          <p>${item.codigoCr}</p>
+          <p>${item.sigla}</p>
+          
+          <div class="actions">
+            <div class="switch ${switchClass}">
+              <button></button>
+              <span></span>
+            </div>
+            <img src="../assets/dots.svg" alt="">
+          </div>
+        `;
+
+        ulElement.appendChild(liElement);
+
+        addSwitchClickEvent(liElement, codigoCr, item.statusCr);
+      });
+    })
+    .catch((error) => {
+      console.error('Erro ao buscar dados da API:', error);
+    });
+}
