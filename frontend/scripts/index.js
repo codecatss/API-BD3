@@ -160,3 +160,37 @@ function searchCRByTerm(searchTerm) {
       console.error('Erro ao buscar dados da API:', error);
     });
 }
+
+
+function renderListItem(ulElement, item) {
+  const liElement = document.createElement('li');
+  liElement.classList.add('teste-lista');
+  const codigoCr = item.codigoCr;
+
+  const switchClass = item.statusCr === 'inativo' ? 'moved' : 'light';
+
+  liElement.innerHTML = `
+    <p>${item.statusCr}</p>
+    <p>${item.nome}</p>
+    <p>${item.codigoCr}</p>
+    <p>${item.sigla}</p>
+    
+    <div class="actions">
+      <div class="switch ${switchClass}">
+        <button></button>
+        <span></span>
+      </div>
+      <img src="../assets/dots.svg" alt="">
+    </div>
+  `;
+
+  ulElement.appendChild(liElement);
+
+  addSwitchClickEvent(liElement, codigoCr, item.statusCr);
+}
+
+const searchImage = document.querySelector('.search-bar img');
+searchImage.addEventListener('click', function () {
+  const searchTerm = document.querySelector('.input-search').value;
+  searchCRByTerm(searchTerm);
+});
