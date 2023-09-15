@@ -194,3 +194,31 @@ searchImage.addEventListener('click', function () {
   const searchTerm = document.querySelector('.input-search').value;
   searchCRByTerm(searchTerm);
 });
+
+
+const addButton = document.querySelector('button');
+
+
+const modal = document.getElementById('myModal');
+
+
+function openModal() {
+  modal.style.display = 'block';
+}
+
+addButton.addEventListener('click', openModal);
+
+
+closeModal.addEventListener('click', function () {
+  modal.style.display = 'none';
+});
+
+
+window.addEventListener('click', function (event) {
+  if (event.target === modal) {
+    modal.style.display = 'none';
+  }
+});
+
+
+window.addEventListener('load', fetchAndRenderData);
