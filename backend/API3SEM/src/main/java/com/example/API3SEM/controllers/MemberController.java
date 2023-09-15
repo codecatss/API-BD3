@@ -6,6 +6,7 @@ import com.example.API3SEM.employees.EmployeeRequestDTO;
 import com.example.API3SEM.members.Member;
 import com.example.API3SEM.members.MemberRepository;
 import com.example.API3SEM.members.MemberRequestDTO;
+import com.example.API3SEM.utills.ApiException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,7 +31,7 @@ public class MemberController {
                 savedMembers.add(repository.save(memberData));
             }
         } catch (Exception e) {
-            throw new RuntimeException("Não foi possível cadastrar os membros, verifique as informações: " + e.getMessage());
+            throw new ApiException("Não foi possível cadastrar os membros, verifique as informações: " + e.getMessage());
         }
 
         return savedMembers;
