@@ -65,3 +65,19 @@ function softDeleteCenterResult(codigoCr, liElement) {
       console.error('Erro ao realizar o soft delete:', error);
     });
 }
+
+function addSwitchClickEvent(liElement, codigoCr) {
+  const switchElement = liElement.querySelector('.switch');
+  const statusElement = liElement.querySelector('p:first-child');
+
+  switchElement.addEventListener('click', function () {
+    if (statusElement.textContent === 'inativo') {
+      enableCenterResult(codigoCr, liElement);
+    } else {
+      softDeleteCenterResult(codigoCr, liElement);
+    }
+
+    switchElement.classList.toggle('light');
+    switchElement.classList.toggle('moved');
+  });
+}
