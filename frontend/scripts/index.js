@@ -222,3 +222,65 @@ window.addEventListener('click', function (event) {
 
 
 window.addEventListener('load', fetchAndRenderData);
+
+
+function saveCenterResult(data) {
+  const apiUrl = 'http://localhost:8080/cr';
+
+  const requestOptions = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  };
+
+  return fetch(apiUrl, requestOptions)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('Erro na requisição');
+      }
+      console.log("Dados a serem salvos:", data);
+
+      return response.json();
+    })
+    .then((centerResult) => {
+      console.log('Centro de resultado cadastrado com sucesso:', centerResult);
+      return centerResult;
+    })
+    .catch((error) => {
+      console.error('Erro ao cadastrar o centro de resultado:', error);
+      throw error;
+    });
+
+}
+
+
+
+const enviarButton = document.querySelector('.enviar');
+
+enviarButton.addEventListener('click', function (event) {
+  event.preventDefault();
+
+
+  const nomeInput = document.querySelector('input[name="nome"]');
+  const matriculaInput = document.querySelector('input[name="matricula"]');
+  const siglaInput = document.querySelector('input[name="sigla"]');
+
+
+  const dados = {
+    codigoCr: matriculaInput.value,
+    sigla: siglaInput.value,
+    nome: nomeInput.value,
+    statusCr: "ativo",
+  };
+
+
+  console.log(dados);
+  saveCenterResult(dados);
+
+
+  nomeInput.value = "";
+  matriculaInput.value = "";
+  siglaInput.value = "";
+});
