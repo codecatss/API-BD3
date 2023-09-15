@@ -7,3 +7,34 @@ function toggleMode(liElement) {
     liElement.classList.add('moved');
   }
 }
+
+function enableCenterResult(codigoCr, liElement) {
+  const apiUrl = `http://localhost:8080/cr/enable/${codigoCr}`;
+
+  const requestOptions = {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+
+  fetch(apiUrl, requestOptions)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('Erro na requisição');
+      }
+      return response.json();
+    })
+    .then((data) => {
+      console.log('Centro de resultado ativado com sucesso:', data);
+
+      const statusElement = liElement.querySelector('p:first-child');
+      statusElement.textContent = 'ativo';
+    })
+    .catch((error) => {
+      console.error('Erro ao ativar o centro de resultado:', error);
+    });
+}
+
+
+
