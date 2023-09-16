@@ -1,0 +1,7 @@
+:root{
+    --text-color: #FFFFFF;
+    --background-nav-color: #0E0E12;
+    --gradient-navbar: linear-gradient(to bottom, #0B0B0E, #5C1FDC, #9DB2BF);
+    --default-pad: 2.5rem;
+    --medium-pad: calc(var(--default-pad)/2);
+}
