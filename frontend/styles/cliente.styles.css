@@ -51,3 +51,12 @@ body{
 
 }
 
+main{
+    display: flex;
+    flex-direction: column;
+    padding-left: var(--default-pad);
+}
+
+.tabela{
+    padding-top: var(--default-pad);
+}
