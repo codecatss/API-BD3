@@ -31,3 +31,10 @@ body{
     justify-content: space-between;
 }
 
+.panelnav{
+    background: var(--gradient-navbar);
+    display: flex;
+    flex-direction: column;
+    
+}
+
