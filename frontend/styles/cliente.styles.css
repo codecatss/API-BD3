@@ -60,3 +60,16 @@ main{
 .tabela{
     padding-top: var(--default-pad);
 }
+
+.interactivebar{
+    display: flex;
+    align-items: center;
+}
+
+.interactivebar input {
+    margin-right: var(--medium-pad);
+}
+
+.interactivebar button {
+    margin-right: var(--default-pad);
+}
