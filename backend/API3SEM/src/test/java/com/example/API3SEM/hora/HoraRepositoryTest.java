@@ -24,8 +24,13 @@ class HoraRepositoryTest {
 
     @Test
     void createHora(){
-        
     }
 
+    @Test
+    void putHour(){
+        Hora hora = new Hora();
+        //repository.save(hora);
+        //repository.findAll();
+    }
 
 }

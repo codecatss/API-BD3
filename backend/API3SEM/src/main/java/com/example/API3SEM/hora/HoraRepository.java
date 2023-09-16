@@ -10,9 +10,9 @@ public interface HoraRepository extends JpaRepository<Hora, Integer>{
 
     List<Hora> findByCodcr(String filtro);
 
-    List<Hora> findByCliente(String filtro);
-
     List<Hora> findByGestor(String filtro);
+
+    List<Hora> findByCnpj(String filtro);
 
 }
 
