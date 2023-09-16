@@ -5,3 +5,15 @@
     --default-pad: 2.5rem;
     --medium-pad: calc(var(--default-pad)/2);
 }
+
+html, body{
+    height: 100%;
+    margin: 0;
+}
+
+body{
+    font-family: Outfit, sans-serif;
+    color: var(--text-color);
+    display: flex;
+}
+
