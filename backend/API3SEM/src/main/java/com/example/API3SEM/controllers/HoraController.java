@@ -23,37 +23,47 @@ public class HoraController {
     @Autowired
     private HoraRepository repository;
 
+    @GetMapping
+    public List<HoraResponseDTO> allHours(){
+        List<Hora> response = repository.findAll();
+        List<HoraResponseDTO> horas;
+        horas = response.stream()
+                    .map(this::convertToHoraResponseDTO)
+                    .collect(Collectors.toList());
+        return horas;
+    }
+
     @GetMapping("/{var}/{filtro}") 
-public List<HoraResponseDTO> allHoras(@PathVariable String var, @PathVariable String filtro){
-    List<HoraResponseDTO> horas = new ArrayList<>();
-    
-    List<Hora> horasFromRepository = null;
-    if (!filtro.isEmpty()) {
-        if (filtro.equals("matricula")) {
-            horasFromRepository = repository.findByLancador(var);
-            horas = horasFromRepository.stream()
-                .map(this::convertToHoraResponseDTO)
-                .collect(Collectors.toList());
-        } else if (filtro.equals("codigo_cr")) {
-            horasFromRepository = repository.findByCodcr(var);
-            horas = horasFromRepository.stream()
-                .map(this::convertToHoraResponseDTO)
-                .collect(Collectors.toList());
-        } else if (filtro.equals("cliente")) {
-            horasFromRepository = repository.findByCnpj(var);
-            horas = horasFromRepository.stream()
-                .map(this::convertToHoraResponseDTO)
-                .collect(Collectors.toList());
+    public List<HoraResponseDTO> filtredHours(@PathVariable String var, @PathVariable String filtro){
+        List<HoraResponseDTO> horas = new ArrayList<>();
+        
+        List<Hora> horasFromRepository = null;
+        if (!filtro.isEmpty()) {
+            if (filtro.equals("matricula")) {
+                horasFromRepository = repository.findByLancador(var);
+                horas = horasFromRepository.stream()
+                    .map(this::convertToHoraResponseDTO)
+                    .collect(Collectors.toList());
+            } else if (filtro.equals("codigo_cr")) {
+                horasFromRepository = repository.findByCodcr(var);
+                horas = horasFromRepository.stream()
+                    .map(this::convertToHoraResponseDTO)
+                    .collect(Collectors.toList());
+            } else if (filtro.equals("cliente")) {
+                horasFromRepository = repository.findByCnpj(var);
+                horas = horasFromRepository.stream()
+                    .map(this::convertToHoraResponseDTO)
+                    .collect(Collectors.toList());
+            }
         }
+        else{
+            // horasFromRepository = repository.findAll();
+            // horas = horasFromRepository.stream()
+            //     .map(this::convertToHoraResponseDTO)
+            //     .collect(Collectors.toList());
+        }
+        return horas;          
     }
-    else{
-        horasFromRepository = repository.findAll();
-        horas = horasFromRepository.stream()
-            .map(this::convertToHoraResponseDTO)
-            .collect(Collectors.toList());
-    }
-    return horas;          
-}
 
 
     @PostMapping("/{strHourRange}") //2023-12-1-15-15&2023-12-1-15-45  -  yyyy-mm-dd-hh-mm&yyyy-mm-dd-hh-mm
