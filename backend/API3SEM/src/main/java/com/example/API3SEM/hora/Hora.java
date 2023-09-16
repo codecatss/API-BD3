@@ -2,14 +2,12 @@ package com.example.API3SEM.hora;
 
 
 import java.sql.Timestamp;
-
-import com.example.API3SEM.client.Client;
-import com.example.API3SEM.employees.Employee;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Column;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -26,13 +24,32 @@ import lombok.Setter;
 @AllArgsConstructor
 
 public class Hora {
+
+    public Hora(String codcr, String lancador, String cliente, List<Timestamp> hourRange, String tipo,
+    String justificatica, String projeto, String solicitante, String aprovadoradm) {
+        
+        this.codcr = codcr;
+        this.lancador = lancador;
+        this.cliente = cliente;
+        this.data_hora_inicio = hourRange.get(0);
+        this.data_hora_fim = hourRange.get(1);
+        this.tipo = tipo;
+        this. justificativa = justificatica;
+        this.projeto = projeto;
+        this.solicitante = solicitante;
+        this.aprovadoradm = aprovadoradm;
+        
+    }
+
+
     @Id
     @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
 
     @Column(name = "cod_cr", nullable = false)
-    private String cod_cr;
+    private String codcr;
 
 
     @Column(name = "username_lancador", nullable = false)
@@ -40,7 +57,7 @@ public class Hora {
 
 
     @Column (name= "cnpj_cliente", nullable = false)
-    private String cnpj_cliente;
+    private String cliente;
 
     @Column (name = "data_hora_inicio", nullable=false)
     private Timestamp data_hora_inicio;
@@ -67,9 +84,9 @@ public class Hora {
     private String status_aprovacao = "pendente";
 
     @Column (name="solicitante_lancamento", length= 80, nullable = false)
-    private String solicitante_lancamento;
+    private String solicitante;
 
 
-    @Column(name="aprovador_ADM", nullable=false)
-    private String aprovador_ADM;
+    @Column(name="aprovador_ADM", nullable=true)
+    private String aprovadoradm;
 }
