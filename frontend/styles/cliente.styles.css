@@ -38,3 +38,16 @@ body{
     
 }
 
+.main-content{
+    background: var(--background-nav-color);
+    flex-grow: 1;
+}
+
+.topnav{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--medium-pad) var(--default-pad);
+
+}
+
