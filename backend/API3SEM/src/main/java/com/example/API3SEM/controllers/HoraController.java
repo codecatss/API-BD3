@@ -7,6 +7,8 @@ import com.example.API3SEM.hora.HoraResponseDTO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
@@ -34,11 +36,12 @@ public class HoraController {
     }
 
     @GetMapping("/{var}/{filtro}") 
-    public List<HoraResponseDTO> filtredHours(@PathVariable String var, @PathVariable String filtro){
+    public ResponseEntity<List<Object>> filtredHours(@PathVariable String var, @PathVariable String filtro){
+        List<Object> response = new ArrayList<>();
         List<HoraResponseDTO> horas = new ArrayList<>();
         
         List<Hora> horasFromRepository = null;
-        if (!filtro.isEmpty()) {
+        if (filtro.equals("matricula")||filtro.equals("codigo_cr")||filtro.equals("cliente")) {
             if (filtro.equals("matricula")) {
                 horasFromRepository = repository.findByLancador(var);
                 horas = horasFromRepository.stream()
@@ -56,13 +59,13 @@ public class HoraController {
                     .collect(Collectors.toList());
             }
         }
-        else{
-            // horasFromRepository = repository.findAll();
-            // horas = horasFromRepository.stream()
-            //     .map(this::convertToHoraResponseDTO)
-            //     .collect(Collectors.toList());
+        else {
+            String error = "O valor fornecido de filtro '" + filtro + "' não atende a nenhum dos tipos permitidos\nFiltro deve ser 'matricula', 'codigo_cr' ou 'cliente'";
+            response.add(error);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
-        return horas;          
+        response.addAll(horas);
+        return ResponseEntity.ok(response);          
     }
 
 
