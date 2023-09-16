@@ -3,14 +3,17 @@ package com.example.API3SEM.controllers;
 import com.example.API3SEM.hora.Hora;
 import com.example.API3SEM.hora.HoraRepository;
 import com.example.API3SEM.hora.HoraRequestDTO;
+import com.example.API3SEM.hora.HoraResponseDTO;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/hour")
@@ -20,32 +23,45 @@ public class HoraController {
     @Autowired
     private HoraRepository repository;
 
-    @GetMapping("/{var}") 
-    public List<Hora> allHoras(@PathVariable String var, @RequestBody String filtro){
-        List<Hora> horas = null;
-        if(!filtro.isEmpty()){
-            if(filtro.equals("matricula")){
-                horas.clear();
-                horas.addAll(repository.findByLancador(var));
-            }
-            if(filtro.equals("cod_cd")){
-                horas.clear();
-                horas = repository.findByCodcr(filtro);
-            }
-            if(filtro.equals("cliente")){
-                horas.clear();
-                horas = repository.findByCnpj(filtro);
-            }
+    @GetMapping("/{var}/{filtro}") 
+public List<HoraResponseDTO> allHoras(@PathVariable String var, @PathVariable String filtro){
+    List<HoraResponseDTO> horas = new ArrayList<>();
+    
+    List<Hora> horasFromRepository = null;
+    if (!filtro.isEmpty()) {
+        if (filtro.equals("matricula")) {
+            horasFromRepository = repository.findByLancador(var);
+            horas = horasFromRepository.stream()
+                .map(this::convertToHoraResponseDTO)
+                .collect(Collectors.toList());
+        } else if (filtro.equals("codigo_cr")) {
+            horasFromRepository = repository.findByCodcr(var);
+            horas = horasFromRepository.stream()
+                .map(this::convertToHoraResponseDTO)
+                .collect(Collectors.toList());
+        } else if (filtro.equals("cliente")) {
+            horasFromRepository = repository.findByCnpj(var);
+            horas = horasFromRepository.stream()
+                .map(this::convertToHoraResponseDTO)
+                .collect(Collectors.toList());
         }
-        return horas;          
     }
+    else{
+        horasFromRepository = repository.findAll();
+        horas = horasFromRepository.stream()
+            .map(this::convertToHoraResponseDTO)
+            .collect(Collectors.toList());
+    }
+    return horas;          
+}
+
 
     @PostMapping("/{strHourRange}") //2023-12-1-15-15&2023-12-1-15-45  -  yyyy-mm-dd-hh-mm&yyyy-mm-dd-hh-mm
     public String putHour(@PathVariable String strHourRange, @RequestBody HoraRequestDTO horaRequestDTO){
 
         String msg = null;
 
-        //try{
+        try{
 
             List<Timestamp> hourRange = new ArrayList<>();
             for(String str : Arrays.asList(strHourRange.split("&"))){
@@ -67,30 +83,24 @@ public class HoraController {
             
                 msg = "hora criada";
             }
-        // }catch (DataIntegrityViolationException ex) {
-        //     Throwable rootCause = ex.getRootCause();
-        //     if (rootCause instanceof java.sql.SQLException) {
-        //         java.sql.SQLException sqlException = (java.sql.SQLException) rootCause;
-        //         msg = rootCause+"\n";
-        
-        //         // Verifique se a mensagem de erro contém informações sobre o tamanho da coluna
-        //         String errorMessage = sqlException.getMessage();
-        //         if (errorMessage != null && errorMessage.contains("value too long for type")) {
-        //             // Tente encontrar o nome da coluna na mensagem de erro
-        //             int startIndex = errorMessage.indexOf("column \"") + "column \"".length();
-        //             int endIndex = errorMessage.indexOf("\" ", startIndex);
-        //             if (startIndex >= 0 && endIndex >= 0) {
-        //                 String columnName = errorMessage.substring(startIndex, endIndex);
-        //                 msg.concat("Erro de tamanho na coluna: " + columnName);
-        //             }
-        //         }
-        //     } else {
-        //         //System.out.println("Erro: " + errorMessage);
-        //     }
-        // }
-        
-        return "string to int: "+stringToInteger(horaRequestDTO.solicitante())+"\n"+msg;
-    }
+        }catch (DataIntegrityViolationException ex) {
+            Throwable rootCause = ex.getRootCause();
+            msg = rootCause+"\n";
+            
+            if (rootCause instanceof java.sql.SQLException) {
+                java.sql.SQLException sqlException = (java.sql.SQLException) rootCause;
+                String errorMessage = sqlException.getMessage();
+            
+                if (errorMessage != null && errorMessage.contains("value too long for type")) {
+                    msg.concat("O comprimento de um dos dados passados como chave excede o permitido pelo banco");
+                }
+            } else {
+                Exception e = (Exception) rootCause;
+                msg.concat("erro desconhecido:\n" + e.getMessage());
+            }
+        }         
+    return msg;
+}
         
 
     /**
@@ -113,6 +123,26 @@ public class HoraController {
             }
         }
         return retorno;
+    }
+    
+    private HoraResponseDTO convertToHoraResponseDTO(Hora hora) {
+        HoraResponseDTO response = new HoraResponseDTO(
+            String.valueOf(hora.getId()),       //id
+            hora.getCodcr(),                    // code_cr
+            hora.getLancador(),                 // matricula_lancador
+            hora.getCnpj(),                     // cnpj
+            hora.getData_hora_inicio(),         // data_hora_inicio
+            hora.getData_hora_fim(),            // data_hora_fim
+            hora.getTipo(),                     // tipo
+            hora.getJustificativa(),            // justificativa_lancamento
+            hora.getProjeto(),                  // projeto
+            hora.getGestor(),                   // gestor
+            hora.getJustificativa_negacao(),    // justificativa_negacao
+            hora.getStatus_aprovacao(),         // status_aprovacao
+            hora.getSolicitante()               // solicitante_lancamento
+        );
+        
+        return response;
     }
     
 
