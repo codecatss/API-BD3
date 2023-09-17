@@ -140,7 +140,7 @@ html {
 
 .main-content .user ul {
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 2fr;
     background-color: #d9d9d9;
     color: #000;
     margin-bottom: 10px;
@@ -179,11 +179,11 @@ html {
     display: flex;
     justify-content: space-between;
 
-    margin-left: 100px;
+
 }
 
 .column{
-    margin-left: 100px;
+
 }
 
 
@@ -316,10 +316,6 @@ html {
 .cr-inativo{
   border: 1px solid red;
 }
-
-
-
-
 
 
 .actions  img{
