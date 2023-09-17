@@ -4,6 +4,7 @@
     --gradient-navbar: linear-gradient(to bottom, #0B0B0E, #5C1FDC, #9DB2BF, #0B0B0E);
     --default-pad: 2.5rem;
     --medium-pad: calc(var(--default-pad)/2);
+    --small-pad: calc(var(--default-pad)/4);
 }
 
 html, body{
@@ -87,4 +88,16 @@ main{
 
 .interactivebar button {
     margin-right: var(--default-pad);
+}
+
+#tabelaCliente th {
+    background-color: #B3A4DE;
+    color: #333;
+    font-weight: bold;
+    padding: var(--small-pad);
+    border-radius: 5px;
+}
+
+#tabelaCliente th:nth-child(4) {
+    /* Estilizar especificamente a quarta coluna */
 }
