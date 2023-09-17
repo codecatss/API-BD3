@@ -62,6 +62,10 @@ p{
   flex-wrap: nowrap;
   justify-content: space-between;
   padding: 20px 20px 20px 20px;
+  color: white;
+}
+.main-content .header p {
+  color: white;
 }
 
 .main-content .header .user-content {
@@ -116,7 +120,7 @@ p{
   height: 35px;
 }
 
-.main-content .users ul {
+.main-content .colunName ul {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   align-items: center;
@@ -131,7 +135,7 @@ p{
 
 }
 
-.user-add {
+.ITEM-add {
   border-radius: 7px;
   background: var(--background-user-add);
   border: none;
@@ -155,7 +159,7 @@ p{
   border-radius: 4px;
 }
 
-.teste-lista {
+.rendered-item {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   align-items: center;
@@ -166,9 +170,6 @@ p{
   border-radius: 3px;
 }
 
-.teste-lista p {
-
-}
 
 .actions {
   display: flex;
@@ -301,24 +302,4 @@ p{
 
 .actions img {
   cursor: pointer;
-}
-
-
-.status-item {
-    padding: 5px 10px;
-    width:40px;
-    background-color:var(--background-light-switch);
-;
-    border-radius: 4px;
-    color: white;
-
-}
-
-.status-item-inativo {
-    padding: 5px 10px;
-    width: 50px;
-    background-color: var(--background-switch-hover);
-    border-radius: 4px;
-    color: white;
-
 }
