@@ -77,8 +77,8 @@ function addSwitchClickEvent(liElement, codigoCr) {
             softDeleteCenterResult(codigoCr, liElement);
         }
 
-        switchElement.classList.toggle('light');
         switchElement.classList.toggle('moved');
+        switchElement.classList.toggle('light');
     });
 }
 
@@ -97,7 +97,7 @@ function fetchAndRenderData() {
                 liElement.classList.add('teste-lista');
                 const codigoCr = item.codigoCr;
 
-                const switchClass = item.statusCr === 'inativo' ? 'moved' : 'light';
+                const switchClass = item.statusCr === 'inativo' ? 'light' : 'moved';
 
                 liElement.innerHTML = `
           <p>${item.statusCr}</p>
@@ -167,7 +167,7 @@ function renderListItem(ulElement, item) {
     liElement.classList.add('teste-lista');
     const codigoCr = item.codigoCr;
 
-    const switchClass = item.statusCr === 'inativo' ? 'moved' : 'light';
+    const switchClass = item.statusCr === 'inativo' ? 'light' : 'moved';
 
     liElement.innerHTML = `
     <p>${item.statusCr}</p>

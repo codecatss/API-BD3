@@ -157,8 +157,6 @@ html {
 
 
 
-
-
 .teste-lista {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;    
@@ -236,10 +234,15 @@ html {
 
 .switch.moved button {
   left: calc(100% - 35px);
+
+}
+.switch.light button {
+
+  margin-left: 1.5px;
 }
 
 .switch.light span {
-  background-color: #2E7A48; 
+  background-color: #AF2424; 
 }
 
 .switch button:hover {
@@ -255,7 +258,7 @@ html {
   border-radius: 9999px;
 
   transition: background-color 0.4s ease;
-  background-color: #AF2424; 
+  background-color: #2E7A48; 
 }
 
 @keyframes slide-back {
