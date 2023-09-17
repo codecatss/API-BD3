@@ -29,16 +29,20 @@ body{
 }
 
 .menu li img {
-    margin-right: var(--medium-pad); 
+    margin-right: var(--medium-pad);
     
 }
 
 .menus{
-    padding: var(--default-pad);
+    margin: var(--default-pad);
     flex-grow: 1;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+}
+
+.menus img {
+    margin-top: var(--medium-pad); 
 }
 
 .panelnav{
@@ -47,9 +51,7 @@ body{
     flex-direction: column;
     
 }
-.panelnav img {
-    margin-top: var(--medium-pad); 
-}
+
 
 .main-content{
     background: var(--background-nav-color);
@@ -60,7 +62,7 @@ body{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: var(--medium-pad) var(--default-pad);
+    margin: var(--medium-pad) var(--default-pad);
 
 }
 
