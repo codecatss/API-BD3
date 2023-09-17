@@ -25,12 +25,12 @@ body{
 
 .menu li {
     display: flex;
-    align-items: center;
-    margin-bottom: var(--medium-pad);
+    align-items: baseline;
 }
 
 .menu li img {
     margin-right: var(--medium-pad); 
+    
 }
 
 .menus{
@@ -46,6 +46,9 @@ body{
     display: flex;
     flex-direction: column;
     
+}
+.panelnav img {
+    margin-top: var(--medium-pad); 
 }
 
 .main-content{
