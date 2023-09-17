@@ -28,6 +28,9 @@ public class HoraController {
     @Autowired
     private HoraRepository horaRepository;
 
+    @Autowired
+    private ClientRepository clientRepository;
+
     @GetMapping
     public List<HoraResponseDTO> allHours(){
         List<Hora> response = horaRepository.findAll();
@@ -112,7 +115,7 @@ public class HoraController {
             }
             System.out.println(horaRequestDTO.justificativa_lan());
             
-            if(hourRange.get(0).before(hourRange.get(1))){
+            if(hourRange.get(0).before(hourRange.get(1))&&clientRepository.existsById(horaRequestDTO.cnpj())){
                 try{
                 Hora hour = new Hora();
                 hour.setCodcr(horaRequestDTO.codigo_cr());
@@ -132,7 +135,12 @@ public class HoraController {
                     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg+"erro: "+e.getMessage());
                 }
             }else{
-                msg = "O final da hora não pode anteceder seu início, siga o modelo yyyy-mm-dd-hh-mm&yyyy-mm-dd-hh-mm exemplo '2023-12-1-15-15&2023-12-1-15-45'";
+                if(clientRepository.findById(horaRequestDTO.cnpj()).isEmpty()){
+                    msg = "O cliente fornecido não esta cadastrado no sistema";    
+                }
+                if(hourRange.get(0).after(hourRange.get(1))){
+                    msg = "O final da hora não pode anteceder seu início, siga o modelo yyyy-mm-dd-hh-mm&yyyy-mm-dd-hh-mm exemplo '2023-12-1-15-15&2023-12-1-15-45'";
+                }
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg);
             }
             
