@@ -64,6 +64,10 @@ p{
   padding: 20px 20px 20px 20px;
 }
 
+.main-content .header p{
+    color: white;
+}
+
 .main-content .header .user-content {
   display: flex;
   align-items: center;
@@ -116,7 +120,7 @@ p{
   height: 35px;
 }
 
-.main-content .users ul {
+.main-content .colunName ul {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   align-items: center;
@@ -127,7 +131,7 @@ p{
   border-radius: 3px;
 }
 
-.main-content .users ul li {
+.main-content .colunName ul li {
 
 }
 
@@ -136,6 +140,8 @@ p{
   background: var(--background-user-add);
   border: none;
   padding: 10px 20px;
+
+  font-weight: bold;
 }
 
 .main-content .user ul {
@@ -155,7 +161,7 @@ p{
   border-radius: 4px;
 }
 
-.teste-lista {
+.rendered-lista {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   align-items: center;
@@ -166,7 +172,7 @@ p{
   border-radius: 3px;
 }
 
-.teste-lista p {
+.rendered-lista p {
 
 }
 
@@ -291,13 +297,7 @@ p{
   cursor: pointer;
 }
 
-.cr-ativo {
-  border: 1px solid var(--border-color-cr-ativo);
-}
 
-.cr-inativo {
-  border: 1px solid var(--border-color-cr-inativo);
-}
 
 .actions img {
   cursor: pointer;
@@ -306,11 +306,12 @@ p{
 
 .status-item {
     padding: 5px 10px;
-    width:40px;
+    width:50px;
     background-color:var(--background-light-switch);
 ;
     border-radius: 4px;
     color: white;
+    text-align: center;
 
 }
 
@@ -321,4 +322,8 @@ p{
     border-radius: 4px;
     color: white;
 
+}
+
+.page-navegation:hover{
+    border: 1px solid red;
 }

@@ -292,14 +292,26 @@ p{
   cursor: pointer;
 }
 
-.cr-ativo {
-  border: 1px solid var(--border-color-cr-ativo);
-}
-
-.cr-inativo {
-  border: 1px solid var(--border-color-cr-inativo);
-}
-
 .actions img {
   cursor: pointer;
+}
+
+.status-item {
+    padding: 5px 10px;
+    width:50px;
+    background-color:var(--background-light-switch);
+;
+    border-radius: 4px;
+    color: white;
+    text-align: center;
+
+}
+
+.status-item-inativo {
+    padding: 5px 10px;
+    width: 50px;
+    background-color: var(--background-switch-hover);
+    border-radius: 4px;
+    color: white;
+
 }

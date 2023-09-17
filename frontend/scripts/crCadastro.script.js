@@ -92,7 +92,7 @@ function addSwitchClickEvent(liElement, codigoCr) {
 
 function fetchAndRenderData() {
     const apiUrl = 'http://localhost:8080/cr';
-    const ulElement = document.querySelector('.teste');
+    const ulElement = document.querySelector('.list-of-itens');
 
     fetch(apiUrl)
         .then((response) => response.json())
@@ -102,7 +102,7 @@ function fetchAndRenderData() {
 
             data.forEach((item) => {
                 const liElement = document.createElement('li');
-                liElement.classList.add('teste-lista');
+                liElement.classList.add('rendered-lista');
                 const codigoCr = item.codigoCr;
 
                 const switchClass = item.statusCr === 'inativo' ? 'light' : 'moved';
@@ -141,7 +141,7 @@ function searchCRByTerm(searchTerm) {
     fetch(apiUrl)
         .then((response) => response.json())
         .then((data) => {
-            const ulElement = document.querySelector('.teste');
+            const ulElement = document.querySelector('.list-of-itens');
             ulElement.innerHTML = '';
 
             const searchTermLowerCase = searchTerm.toLowerCase();
@@ -174,7 +174,7 @@ function searchCRByTerm(searchTerm) {
 
 function renderListItem(ulElement, item) {
     const liElement = document.createElement('li');
-    liElement.classList.add('teste-lista');
+    liElement.classList.add('rendered-lista');
     const codigoCr = item.codigoCr;
 
     const switchClass = item.statusCr === 'inativo' ? 'light' : 'moved';
