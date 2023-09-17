@@ -30,13 +30,17 @@ function enableCenterResult(codigoCr, liElement) {
 
             const statusElement = liElement.querySelector('p:first-child');
             statusElement.textContent = 'ativo';
+
+
+            statusElement.classList.remove('status-item-inativo');
+            statusElement.classList.add('status-item');
+
+
         })
         .catch((error) => {
             console.error('Erro ao ativar o centro de resultado:', error);
         });
 }
-
-
 
 function softDeleteCenterResult(codigoCr, liElement) {
     const apiUrl = `http://localhost:8080/cr/${codigoCr}`;
@@ -60,11 +64,15 @@ function softDeleteCenterResult(codigoCr, liElement) {
 
             const statusElement = liElement.querySelector('p:first-child');
             statusElement.textContent = 'inativo';
+
+
+            statusElement.classList.add('status-item-inativo');
         })
         .catch((error) => {
             console.error('Erro ao realizar o soft delete:', error);
         });
 }
+
 
 function addSwitchClickEvent(liElement, codigoCr) {
     const switchElement = liElement.querySelector('.switch');
@@ -98,9 +106,11 @@ function fetchAndRenderData() {
                 const codigoCr = item.codigoCr;
 
                 const switchClass = item.statusCr === 'inativo' ? 'light' : 'moved';
+                const statusClass = item.statusCr === 'inativo' ? 'status-item-inativo' : 'status-item';
+
 
                 liElement.innerHTML = `
-          <p>${item.statusCr}</p>
+          <p class=${statusClass}>${item.statusCr}</p>
           <p>${item.nome}</p>
           <p>${item.codigoCr}</p>
           <p>${item.sigla}</p>
@@ -169,8 +179,11 @@ function renderListItem(ulElement, item) {
 
     const switchClass = item.statusCr === 'inativo' ? 'light' : 'moved';
 
+
+    const statusClass = item.statusCr === 'inativo' ? 'status-item-inativo' : 'status-item';
+
     liElement.innerHTML = `
-    <p>${item.statusCr}</p>
+    <p class="${statusClass}">${item.statusCr}</p>
     <p>${item.nome}</p>
     <p>${item.codigoCr}</p>
     <p>${item.sigla}</p>
@@ -188,6 +201,7 @@ function renderListItem(ulElement, item) {
 
     addSwitchClickEvent(liElement, codigoCr, item.statusCr);
 }
+
 
 const searchImage = document.querySelector('.search-bar img');
 searchImage.addEventListener('click', function () {
