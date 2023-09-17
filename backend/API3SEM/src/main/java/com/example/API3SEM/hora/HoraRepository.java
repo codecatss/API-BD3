@@ -14,5 +14,7 @@ public interface HoraRepository extends JpaRepository<Hora, Integer>{
 
     List<Hora> findByCnpj(String filtro);
 
+
+
 }
 

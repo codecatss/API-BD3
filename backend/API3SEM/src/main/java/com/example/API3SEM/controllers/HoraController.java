@@ -42,25 +42,52 @@ public class HoraController {
         
         List<Hora> horasFromRepository = null;
         if (filtro.equals("matricula")||filtro.equals("codigo_cr")||filtro.equals("cliente")) {
+
             if (filtro.equals("matricula")) {
-                horasFromRepository = repository.findByLancador(var);
-                horas = horasFromRepository.stream()
-                    .map(this::convertToHoraResponseDTO)
-                    .collect(Collectors.toList());
+                try {
+                    if (!repository.findByLancador(var).isEmpty()) {
+                        horasFromRepository = repository.findByLancador(var);
+                        horas = horasFromRepository.stream()
+                                .map(this::convertToHoraResponseDTO)
+                                .collect(Collectors.toList());
+                    }else{
+                        response.add("O usuário fornecido não possui horas lançadas");
+                    }
+                }catch (Exception e){
+                    response.add(e.getMessage());
+                }
+
             } else if (filtro.equals("codigo_cr")) {
-                horasFromRepository = repository.findByCodcr(var);
-                horas = horasFromRepository.stream()
-                    .map(this::convertToHoraResponseDTO)
-                    .collect(Collectors.toList());
+                try{
+                    if(!repository.findByCodcr(var).isEmpty()) {
+                        horasFromRepository = repository.findByCodcr(var);
+                        horas = horasFromRepository.stream()
+                                .map(this::convertToHoraResponseDTO)
+                                .collect(Collectors.toList());
+                    }else {
+                        response.add("O CR fornecido não possui horas registradas");
+                    }
+                }catch (Exception e){
+                    response.add(e.getMessage());
+                }
+
             } else if (filtro.equals("cliente")) {
-                horasFromRepository = repository.findByCnpj(var);
-                horas = horasFromRepository.stream()
-                    .map(this::convertToHoraResponseDTO)
-                    .collect(Collectors.toList());
+                try {
+                    if(!repository.findByCnpj(var).isEmpty()) {
+                        horasFromRepository = repository.findByCnpj(var);
+                        horas = horasFromRepository.stream()
+                                .map(this::convertToHoraResponseDTO)
+                                .collect(Collectors.toList());
+                    }else {
+                        response.add("O cliente fornecido não possui horas registradas");
+                    }   
+                }catch (Exception e){
+                    response.add(e.getMessage());
+                }
             }
         }
         else {
-            String error = "O valor fornecido de filtro '" + filtro + "' não atende a nenhum dos tipos permitidos\nFiltro deve ser 'matricula', 'codigo_cr' ou 'cliente'";
+            String error = "O valor fornecido de filtro '" + filtro + "' não atende a nenhum dos tipos permitidos. Filtro deve ser 'matricula', 'codigo_cr' ou 'cliente'";
             response.add(error);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
