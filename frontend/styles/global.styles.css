@@ -1,0 +1,29 @@
+:root {
+  --font-family: "Inter", sans-serif !important;
+  --font-size-h1: 30px !important;
+  --text-color: #fff;
+  --background-menu: linear-gradient(to bottom, #000, #251440);
+  --background-active-page: linear-gradient(to right, #6158D2, #251440);
+  --background-main-content: #0E0E12;
+  --background-search-bar: #24242d;
+  --background-search-button: azure;
+  --background-input-search: #D9D9D9;
+  --background-users-ul: #B3A4DE;
+  --background-user-add: #B3A4DE;
+  --background-user-ul: #d9d9d9;
+  --background-active: #A6DAB3;
+  --background-lista: #d9d9d9;
+  --background-light-switch: #2E7A48;
+  --background-switch-hover: #AF2424;
+  --background-modal: rgba(0, 0, 0, 0.7);
+  --background-modal-content: #0E0E12;
+  --border-color-cr-ativo: red;
+  --border-color-cr-inativo: red;
+  --text-color: white;
+  --bg-url: url(../assets/ball.svg);
+  --stroke-color: rgba(255, 255, 255, 0.5);
+  --surface-color: rgba(255, 255, 255, 0.05);
+  --surface-color-hover: rgba(0, 0, 0, 0.02);
+  --highlight-color: rgba(255, 255, 255, 0.2);
+  --switch-bg-url: url(../assets/ball.svg);
+}
