@@ -4,7 +4,7 @@ package com.example.API3SEM.hora;
 import java.sql.Timestamp;
 import java.util.List;
 
-import javax.validation.constraints.Size;
+import com.example.API3SEM.utills.AprovacaoEnum;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -83,7 +83,7 @@ public class Hora {
     private String justificativa_negacao;
 
     @Column (name="status_aprovacao", length=20)
-    private String status_aprovacao = "pendente";
+    private String status_aprovacao = AprovacaoEnum.PENDENT.name();
 
     @Column (name="solicitante_lancamento", length= 80)
     private String solicitante;

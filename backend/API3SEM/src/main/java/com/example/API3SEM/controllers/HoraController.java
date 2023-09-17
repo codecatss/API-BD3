@@ -5,6 +5,7 @@ import com.example.API3SEM.hora.Hora;
 import com.example.API3SEM.hora.HoraRepository;
 import com.example.API3SEM.hora.HoraRequestDTO;
 import com.example.API3SEM.hora.HoraResponseDTO;
+import com.example.API3SEM.utills.TipoEnum;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -26,7 +27,6 @@ public class HoraController {
     
     @Autowired
     private HoraRepository horaRepository;
-    private ClientRepository clientRepository;
 
     @GetMapping
     public List<HoraResponseDTO> allHours(){
@@ -112,22 +112,27 @@ public class HoraController {
             }
             System.out.println(horaRequestDTO.justificativa_lan());
             
-            if(hourRange.get(0).before(hourRange.get(1))&&clientRepository.existsById(horaRequestDTO.cnpj())){
+            if(hourRange.get(0).before(hourRange.get(1))){
+                try{
                 Hora hour = new Hora();
                 hour.setCodcr(horaRequestDTO.codigo_cr());
                 hour.setLancador(horaRequestDTO.matricula_lancador());
                 hour.setCnpj(horaRequestDTO.cnpj());
                 hour.setData_hora_inicio(hourRange.get(0));
                 hour.setData_hora_fim(hourRange.get(1));
-                hour.setTipo(horaRequestDTO.tipo());
+                hour.setTipo(TipoEnum.valueOf(horaRequestDTO.tipo().toUpperCase()).name());
                 hour.setJustificativa(horaRequestDTO.justificativa_lan());
                 hour.setProjeto(horaRequestDTO.projeto());
                 hour.setSolicitante(horaRequestDTO.solicitante());
                 horaRepository.save(hour);
 
                 msg = "Hora salva com sucesso";
+                }catch(Exception e){
+                    msg = "A hora fornecida apresenta inconsistências";
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg+"erro: "+e.getMessage());
+                }
             }else{
-                msg = "A hora fornecida apresenta inconsistências";
+                msg = "O final da hora não pode anteceder seu início, siga o modelo yyyy-mm-dd-hh-mm&yyyy-mm-dd-hh-mm exemplo '2023-12-1-15-15&2023-12-1-15-45'";
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg);
             }
             
