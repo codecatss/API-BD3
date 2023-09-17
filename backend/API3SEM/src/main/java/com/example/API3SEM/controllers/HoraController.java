@@ -1,5 +1,6 @@
 package com.example.API3SEM.controllers;
 
+import com.example.API3SEM.client.ClientRepository;
 import com.example.API3SEM.hora.Hora;
 import com.example.API3SEM.hora.HoraRepository;
 import com.example.API3SEM.hora.HoraRequestDTO;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.ResponseEntity.BodyBuilder;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
@@ -23,11 +25,12 @@ import java.util.stream.Collectors;
 public class HoraController {
     
     @Autowired
-    private HoraRepository repository;
+    private HoraRepository horaRepository;
+    private ClientRepository clientRepository;
 
     @GetMapping
     public List<HoraResponseDTO> allHours(){
-        List<Hora> response = repository.findAll();
+        List<Hora> response = horaRepository.findAll();
         List<HoraResponseDTO> horas;
         horas = response.stream()
                     .map(this::convertToHoraResponseDTO)
@@ -45,8 +48,8 @@ public class HoraController {
 
             if (filtro.equals("matricula")) {
                 try {
-                    if (!repository.findByLancador(var).isEmpty()) {
-                        horasFromRepository = repository.findByLancador(var);
+                    if (!horaRepository.findByLancador(var).isEmpty()) {
+                        horasFromRepository = horaRepository.findByLancador(var);
                         horas = horasFromRepository.stream()
                                 .map(this::convertToHoraResponseDTO)
                                 .collect(Collectors.toList());
@@ -59,8 +62,8 @@ public class HoraController {
 
             } else if (filtro.equals("codigo_cr")) {
                 try{
-                    if(!repository.findByCodcr(var).isEmpty()) {
-                        horasFromRepository = repository.findByCodcr(var);
+                    if(!horaRepository.findByCodcr(var).isEmpty()) {
+                        horasFromRepository = horaRepository.findByCodcr(var);
                         horas = horasFromRepository.stream()
                                 .map(this::convertToHoraResponseDTO)
                                 .collect(Collectors.toList());
@@ -73,8 +76,8 @@ public class HoraController {
 
             } else if (filtro.equals("cliente")) {
                 try {
-                    if(!repository.findByCnpj(var).isEmpty()) {
-                        horasFromRepository = repository.findByCnpj(var);
+                    if(!horaRepository.findByCnpj(var).isEmpty()) {
+                        horasFromRepository = horaRepository.findByCnpj(var);
                         horas = horasFromRepository.stream()
                                 .map(this::convertToHoraResponseDTO)
                                 .collect(Collectors.toList());
@@ -97,7 +100,7 @@ public class HoraController {
 
 
     @PostMapping("/{strHourRange}") //2023-12-1-15-15&2023-12-1-15-45  -  yyyy-mm-dd-hh-mm&yyyy-mm-dd-hh-mm
-    public String putHour(@PathVariable String strHourRange, @RequestBody HoraRequestDTO horaRequestDTO){
+    public ResponseEntity putHour(@PathVariable String strHourRange, @RequestBody HoraRequestDTO horaRequestDTO){
 
         String msg = null;
 
@@ -108,8 +111,9 @@ public class HoraController {
                 hourRange.add(toTimestamp(str.split("-")));
             }
             System.out.println(horaRequestDTO.justificativa_lan());
-            Hora hour = new Hora();
-            if(10>=stringToInteger(horaRequestDTO.cnpj())){
+            
+            if(hourRange.get(0).before(hourRange.get(1))&&clientRepository.existsById(horaRequestDTO.cnpj())){
+                Hora hour = new Hora();
                 hour.setCodcr(horaRequestDTO.codigo_cr());
                 hour.setLancador(horaRequestDTO.matricula_lancador());
                 hour.setCnpj(horaRequestDTO.cnpj());
@@ -119,10 +123,14 @@ public class HoraController {
                 hour.setJustificativa(horaRequestDTO.justificativa_lan());
                 hour.setProjeto(horaRequestDTO.projeto());
                 hour.setSolicitante(horaRequestDTO.solicitante());
-                repository.save(hour);
-            
-                msg = "hora criada";
+                horaRepository.save(hour);
+
+                msg = "Hora salva com sucesso";
+            }else{
+                msg = "A hora fornecida apresenta inconsistências";
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg);
             }
+            
         }catch (DataIntegrityViolationException ex) {
             Throwable rootCause = ex.getRootCause();
             msg = rootCause+"\n";
@@ -133,14 +141,15 @@ public class HoraController {
             
                 if (errorMessage != null && errorMessage.contains("value too long for type")) {
                     msg.concat("O comprimento de um dos dados passados como chave excede o permitido pelo banco");
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg);
                 }
             } else {
                 Exception e = (Exception) rootCause;
                 msg.concat("erro desconhecido:\n" + e.getMessage());
             }
-        }         
-    return msg;
-}
+        }  
+        return ResponseEntity.status(HttpStatus.CREATED).body(msg);       
+    }
         
 
     /**
