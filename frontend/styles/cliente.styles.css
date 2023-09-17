@@ -1,10 +1,12 @@
 :root{
     --text-color: #FFFFFF;
     --background-nav-color: #0E0E12;
-    --gradient-navbar: linear-gradient(to bottom, #0B0B0E, #5C1FDC, #9DB2BF, #0B0B0E);
+    --gradient-navbar: linear-gradient(to bottom, #0B0B0E , #251440, #0B0B0E);
     --default-pad: 2.5rem;
     --medium-pad: calc(var(--default-pad)/2);
     --small-pad: calc(var(--default-pad)/4);
+    --mini-pad: calc(var(--default-pad)/6);
+    --larger-pad: calc(var(--default-pad)*2);
 }
 
 html, body{
@@ -24,14 +26,20 @@ body{
     list-style-type: none;
 }
 
-.menu li {
+.menu li{
     display: flex;
-    align-items: baseline;
+    flex-direction: row;
+    align-items: center;
+    margin: var(--medium-pad) 0rem 0rem 0rem;
 }
 
 .menu li img {
-    margin-right: var(--medium-pad);
-    
+    padding-right: var(--medium-pad);
+}
+
+.menu .activation{
+    background: linear-gradient(to right, #7468FF, #19191F);
+    border-radius: 14px;
 }
 
 .menus{
@@ -43,51 +51,47 @@ body{
 }
 
 .menus img {
-    margin-top: var(--medium-pad); 
+    margin-top: var(--mini-pad); 
 }
 
 .panelnav{
     background-image: var(--gradient-navbar);
     display: flex;
     flex-direction: column;
-    
+    justify-content: center;
+    align-items: center;
 }
 
 
 .main-content{
     background: var(--background-nav-color);
     flex-grow: 1;
+    padding-left: var(--default-pad);
+    padding-right: var(--default-pad);
 }
 
 .topnav{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: var(--medium-pad) var(--default-pad);
-
+    margin-top: var(--small-pad);
 }
 
 main{
     display: flex;
     flex-direction: column;
-    padding-left: var(--default-pad);
-}
-
-.tabela{
-    padding-top: var(--default-pad);
 }
 
 .interactivebar{
     display: flex;
     align-items: center;
-}
-
-.interactivebar input {
-    margin-right: var(--medium-pad);
+    margin-top: var(--larger-pad);
+    margin-bottom: var(--default-pad);
 }
 
 .interactivebar button {
-    margin-right: var(--default-pad);
+    margin-right: var(--larger-pad);
+
 }
 
 #tabelaCliente th {
@@ -95,7 +99,7 @@ main{
     color: #333;
     font-weight: bold;
     padding: var(--small-pad);
-    border-radius: 5px;
+    border-radius: 8px;
 }
 
 #tabelaCliente th:nth-child(4) {
