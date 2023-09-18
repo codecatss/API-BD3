@@ -4,6 +4,8 @@
   --text-color: #fff;
   --background-menu: linear-gradient(to bottom, #000, #251440);
   --background-active-page: linear-gradient(to right, #6158D2, #251440);
+  --background-navigation-page: linear-gradient(to right, #231f67, #251440);
+
   --background-main-content: #0E0E12;
   --background-search-bar: #24242d;
   --background-search-button: azure;
