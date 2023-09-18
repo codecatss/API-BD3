@@ -1,7 +1,8 @@
 :root{
     --text-color: #FFFFFF;
     --background-nav-color: #0E0E12;
-    --gradient-navbar: linear-gradient(to bottom, #0B0B0E , #251440, #0B0B0E);
+    --background-bar-color: #B3A4DE;
+    --gradient-navbar: linear-gradient(to bottom, #0B0B0E, #251440, #0B0B0E);
     --default-pad: 2.5rem;
     --medium-pad: calc(var(--default-pad)/2);
     --small-pad: calc(var(--default-pad)/4);
@@ -20,6 +21,15 @@ body{
     display: flex;
 }
 
+.logo{
+    width: 155px; 
+    height: 100px;
+}
+
+.lupa{
+    height: 35px;
+}
+
 .menu{
     margin: 0;
     padding: 0;
@@ -35,11 +45,17 @@ body{
 
 .menu li img {
     padding-right: var(--medium-pad);
+    margin: var(--small-pad);
+}
+
+.menu li a {
+    color: var(--text-color); 
+    text-decoration: none; 
 }
 
 .menu .activation{
-    background: linear-gradient(to right, #7468FF, #19191F);
-    border-radius: 14px;
+    background: linear-gradient(to right, #7468FF, #282272, #251440);
+    border-radius: 15px;
 }
 
 .menus{
@@ -62,7 +78,6 @@ body{
     align-items: center;
 }
 
-
 .main-content{
     background: var(--background-nav-color);
     flex-grow: 1;
@@ -75,7 +90,39 @@ body{
     justify-content: space-between;
     align-items: center;
     margin-top: var(--small-pad);
+    margin-bottom: var(--small-pad);
 }
+
+.topnav h1{
+    color: var(--text-color);
+    font-size: 35px;
+}
+
+.topnav .account{
+    margin-right: var(--larger-pad);
+}
+
+.account .dropdown {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    list-style: none;
+    padding: 10px;
+    margin: 0;
+}
+
+.account:hover .dropdown {
+    display: block;
+}
+
+.account .perfil-user {
+    list-style-type: none;
+}
+
+.account .perfil-user a {
+    color: red;
+}
+
 
 main{
     display: flex;
@@ -85,23 +132,61 @@ main{
 .interactivebar{
     display: flex;
     align-items: center;
-    margin-top: var(--larger-pad);
-    margin-bottom: var(--default-pad);
+    background-color: #24242D;
+    height: 80px;
+    width: 800px;
+    margin-bottom: var(--medium-pad);
+    border-radius: 10px; 
 }
 
-.interactivebar button {
+.interactivebar .search-button {
     margin-right: var(--larger-pad);
+    margin-left: var(--medium-pad);
+    background-color: var(--background-bar-color);
+    border-radius: 7px; 
+    height: 40px;
+    width: 80px;
+}
 
+.interactivebar .add-button {
+    margin-right: var(--larger-pad);
+    margin-left: var(--small-pad);
+    background-color: var(--background-bar-color);
+    border-radius: 7px;
+    height: 40px;
+    width: 145px;
+    font-size: 22px;
+}
+
+.interactivebar .search-bar {
+    margin-left: var(--small-pad);
+    background-color: #D9D9D9;
+    border-radius: 7px; 
+    height: 40px;
+    width: 450px;
+    color: #746868;
+    font-size: 20px;
+}
+
+table{
+    border-collapse: collapse;
+    width: 100%;
+    overflow-x: auto;
 }
 
 #tabelaCliente th {
     background-color: #B3A4DE;
-    color: #333;
-    font-weight: bold;
+    color: #000000;
+    font-size: 20px;
     padding: var(--small-pad);
-    border-radius: 8px;
+}
+
+#tabelaCliente th:nth-child(1) {
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
 }
 
 #tabelaCliente th:nth-child(4) {
-    /* Estilizar especificamente a quarta coluna */
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
 }
