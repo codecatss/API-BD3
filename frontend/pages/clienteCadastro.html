@@ -10,13 +10,12 @@
 
 <body>
     <nav class="panelnav">
-        <img src="../assets/logo2rp.svg" alt="Logo da Empresa">
+        <img class="logo" src="../assets/logo2rp.svg" alt="Logo da Empresa">
         <div class="menus">
             <ul class="menu">
                 <li><img src="../assets/iconeDashboard.svg" alt="Ícone Dashboard"><a href="#">Dashboard</a></li>
                 <li><img src="../assets/iconeUsuario.svg" alt="Ícone Usuários"><a href="#">Usuários</a></li>
-                <li class="activation"><img src="../assets/iconeCliente.svg" alt="Ícone Clientes"><a
-                        href="#">Clientes</a></li>
+                <li class="activation"><img src="../assets/iconeCliente.svg" alt="Ícone Clientes"><a href="#">Clientes</a></li>
                 <li><img src="../assets/iconeCR.svg" alt="Ícone CR"><a href="#">CR</a></li>
                 <li><img src="../assets/iconeAprovar.svg" alt="Ícone Aprovar"><a href="#">Aprovar Horas</a></li>
                 <li><img src="../assets/iconeParametriz.svg" alt="Ícone Parametrização"><a href="#">Parametrização</a>
@@ -31,31 +30,40 @@
             <div>
                 <h1>Gerenciamento Clientes</h1>
             </div>
-            <section class="perfil">MILK</section>
+            <section class="account">
+                <ul>
+                    <li class="perfil-user"><a href="#">Milk ▼</a>
+                    <ul class="dropdown">
+                        <li><a href="#">Alterar Senha</a></li>
+                        <li><a href="#">Logout</a></li>
+                    </ul>
+                    </li>
+                </ul>
+            </section>
         </header>
 
         <main>
-            <div class="interactivebar">
-                <input type="text" name="q" placeholder="Pesquisar...">
-                <button type="submit">Buscar</button>
-                <button onclick="adicionarCliente()">Adicionar</button>
-            </div>
+            <nav class="interactivebar">
+                <input type="text" name="q" placeholder="Pesquisar" class="search-bar">
+                <button type="submit" class="search-button"><img class="lupa" src="../assets/iconeLupa.svg" alt="Buscar"></button>
+                <button onclick="adicionarCliente()" class="add-button">Adicionar</button>
+            </nav>
 
-            <div class="tabela">
-                <table id="tabelaCliente" border="1">
+            <nav class="tabela">
+                <table id="tabelaCliente">
                     <thead>
                         <tr>
                             <th>Status</th>
                             <th>Razão Social</th>
                             <th>CNPJ</th>
-                            <th> </th>
+                            <th>EDITAR</th>
                         </tr>
                     </thead>
                     <tbody>
 
                     </tbody>
                 </table>
-            </div>
+            </nav>
 
         </main>
     </nav>
