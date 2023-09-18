@@ -105,7 +105,7 @@ body{
 .account .dropdown {
     display: none;
     position: absolute;
-    background-color: #fff;
+    background-color: #24242D;
     list-style: none;
     padding: 10px;
     margin: 0;
@@ -113,6 +113,11 @@ body{
 
 .account:hover .dropdown {
     display: block;
+    align-items: center;
+}
+
+.account .dropdown li:hover {
+    box-shadow: .5px .5px 5px .5px #585863; /* Adiciona sombra ao passar o mouse */
 }
 
 .account .perfil-user {
@@ -120,9 +125,14 @@ body{
 }
 
 .account .perfil-user a {
-    color: red;
+    text-decoration: none;
+    font-size: 22px;
+    color: var(--text-color);
 }
 
+.account .perfil-user a .seta-dropdown {
+    font-size: 16px;
+}
 
 main{
     display: flex;
