@@ -102,15 +102,15 @@ public class HoraController {
     }
 
 
-    @PostMapping("/{strHourRange}") //2023-12-1-15-15&2023-12-1-15-45  -  yyyy-mm-dd-hh-mm&yyyy-mm-dd-hh-mm
-    public ResponseEntity putHour(@PathVariable String strHourRange, @RequestBody HoraRequestDTO horaRequestDTO){
+    @PostMapping("") //2023-12-1-15-15&2023-12-1-15-45  -  yyyy-mm-dd-hh-mm&yyyy-mm-dd-hh-mm
+    public ResponseEntity putHour(@RequestBody HoraRequestDTO horaRequestDTO){
 
         String msg = null;
 
         try{
 
             List<Timestamp> hourRange = new ArrayList<>();
-            for(String str : Arrays.asList(strHourRange.split("&"))){
+            for(String str : Arrays.asList(horaRequestDTO.intervalo().split("&"))){
                 hourRange.add(toTimestamp(str.split("-")));
             }
             System.out.println(horaRequestDTO.justificativa_lan());
