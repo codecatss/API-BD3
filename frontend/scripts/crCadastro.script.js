@@ -31,11 +31,8 @@ function enableCenterResult(codigoCr, liElement) {
             const statusElement = liElement.querySelector('p:first-child');
             statusElement.textContent = 'ativo';
 
-
             statusElement.classList.remove('status-item-inativo');
             statusElement.classList.add('status-item');
-
-
         })
         .catch((error) => {
             console.error('Erro ao ativar o centro de resultado:', error);
@@ -65,14 +62,12 @@ function softDeleteCenterResult(codigoCr, liElement) {
             const statusElement = liElement.querySelector('p:first-child');
             statusElement.textContent = 'inativo';
 
-
             statusElement.classList.add('status-item-inativo');
         })
         .catch((error) => {
             console.error('Erro ao realizar o soft delete:', error);
         });
 }
-
 
 function addSwitchClickEvent(liElement, codigoCr) {
     const switchElement = liElement.querySelector('.switch');
@@ -101,39 +96,13 @@ function fetchAndRenderData() {
             console.log(data);
 
             data.forEach((item) => {
-                const liElement = document.createElement('li');
-                liElement.classList.add('rendered-lista');
-                const codigoCr = item.codigoCr;
-
-                const switchClass = item.statusCr === 'inativo' ? 'light' : 'moved';
-                const statusClass = item.statusCr === 'inativo' ? 'status-item-inativo' : 'status-item';
-
-
-                liElement.innerHTML = `
-          <p class=${statusClass}>${item.statusCr}</p>
-          <p>${item.nome}</p>
-          <p>${item.codigoCr}</p>
-          <p>${item.sigla}</p>
-          
-          <div class="actions">
-            <div class="switch ${switchClass}">
-              <button></button>
-              <span></span>
-            </div>
-            <img src="../assets/dots.svg" alt="">
-          </div>
-        `;
-
-                ulElement.appendChild(liElement);
-
-                addSwitchClickEvent(liElement, codigoCr, item.statusCr);
+                renderListItem(ulElement, item);
             });
         })
         .catch((error) => {
             console.error('Erro ao buscar dados da API:', error);
         });
 }
-
 
 function searchCRByTerm(searchTerm) {
     const apiUrl = `http://localhost:8080/cr`;
@@ -147,12 +116,10 @@ function searchCRByTerm(searchTerm) {
             const searchTermLowerCase = searchTerm.toLowerCase();
 
             if (searchTermLowerCase.trim() === '') {
-
                 data.forEach((item) => {
                     renderListItem(ulElement, item);
                 });
             } else {
-
                 const filteredData = data.filter((item) => {
                     return (
                         item.nome.toLowerCase().includes(searchTermLowerCase) ||
@@ -171,37 +138,33 @@ function searchCRByTerm(searchTerm) {
         });
 }
 
-
 function renderListItem(ulElement, item) {
     const liElement = document.createElement('li');
     liElement.classList.add('rendered-lista');
     const codigoCr = item.codigoCr;
 
     const switchClass = item.statusCr === 'inativo' ? 'light' : 'moved';
-
-
     const statusClass = item.statusCr === 'inativo' ? 'status-item-inativo' : 'status-item';
 
     liElement.innerHTML = `
-    <p class="${statusClass}">${item.statusCr}</p>
-    <p>${item.nome}</p>
-    <p>${item.codigoCr}</p>
-    <p>${item.sigla}</p>
-    
-    <div class="actions">
-      <div class="switch ${switchClass}">
-        <button></button>
-        <span></span>
-      </div>
-      <img src="../assets/dots.svg" alt="">
-    </div>
-  `;
+        <p class="${statusClass}">${item.statusCr}</p>
+        <p>${item.nome}</p>
+        <p>${item.codigoCr}</p>
+        <p>${item.sigla}</p>
+        
+        <div class="actions">
+            <div class="switch ${switchClass}">
+                <button></button>
+                <span></span>
+            </div>
+            <img src="../assets/dots.svg" alt="">
+        </div>
+    `;
 
     ulElement.appendChild(liElement);
 
     addSwitchClickEvent(liElement, codigoCr, item.statusCr);
 }
-
 
 const searchImage = document.querySelector('.search-bar img');
 searchImage.addEventListener('click', function () {
@@ -209,11 +172,9 @@ searchImage.addEventListener('click', function () {
     searchCRByTerm(searchTerm);
 });
 
-
 const addButton = document.querySelector('button');
 const modal = document.getElementById('myModal');
 const closeModal = document.querySelector('#closeModal');
-
 
 function openModal() {
     modal.style.display = 'block';
@@ -221,11 +182,9 @@ function openModal() {
 
 addButton.addEventListener('click', openModal);
 
-
 closeModal.addEventListener('click', function () {
     modal.style.display = 'none';
 });
-
 
 window.addEventListener('click', function (event) {
     if (event.target === modal) {
@@ -233,24 +192,14 @@ window.addEventListener('click', function (event) {
     }
 });
 
-
-
-
 function closeModalFunction() {
     modal.style.display = 'none';
 }
 
 closeModal.addEventListener('click', closeModalFunction);
 
-
 const cancelarButton = document.querySelector('.cancelar');
 cancelarButton.addEventListener('click', closeModalFunction);
-
-
-
-
-
-
 
 async function handleEnviarClick(event) {
     event.preventDefault();
@@ -269,25 +218,19 @@ async function handleEnviarClick(event) {
     console.log('Dados a serem enviados:', dados);
 
     try {
-
         await saveCenterResult(dados);
-        showSuccessMessage()
-
+        showSuccessMessage();
 
         nomeInput.value = "";
         codigoCrInput.value = "";
         siglaInput.value = "";
 
-
         refreshList();
     } catch (error) {
         console.error('Erro ao adicionar o CR:', error);
-        showErrorMessage()
+        showErrorMessage();
     }
 }
-
-
-
 
 async function saveCenterResult(data) {
     const requestOptions = {
@@ -323,7 +266,6 @@ function showSuccessMessage() {
     }, 3000);
 }
 
-
 function showErrorMessage() {
     const errorMessage = document.getElementById('errorMessage');
     errorMessage.style.backgroundColor = 'red';
@@ -334,19 +276,8 @@ function showErrorMessage() {
     }, 2000);
 }
 
-
-
-
-
-
 const confirmarButton = document.querySelector('.confirmar');
 confirmarButton.addEventListener('click', handleEnviarClick);
-
-
-
-
-
-
 
 window.addEventListener('click', function (event) {
     if (event.target === modal) {
@@ -354,32 +285,14 @@ window.addEventListener('click', function (event) {
     }
 });
 
-
-
-
-
-
-
 const ulElement = document.querySelector('.list-of-itens');
 
-
-
-
-
 function refreshList() {
-
     ulElement.innerHTML = "";
-
-
     fetchAndRenderData();
 }
 
-
-
 confirmarButton.addEventListener('click', handleEnviarClick);
-
-
-
 
 fetchAndRenderData();
 
