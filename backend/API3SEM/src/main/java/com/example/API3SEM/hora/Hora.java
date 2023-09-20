@@ -91,4 +91,11 @@ public class Hora {
 
     @Column(name="aprovador_ADM", nullable = true)
     private String aprovadoradm;
+
+    public static boolean isBetween (Timestamp start, Timestamp end, Timestamp teste){
+        if(start.before(teste)&&end.after(teste)){
+            return true;
+        }
+        return false;
+    }
 }

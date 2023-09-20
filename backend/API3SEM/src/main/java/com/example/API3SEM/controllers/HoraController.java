@@ -5,6 +5,8 @@ import com.example.API3SEM.hora.Hora;
 import com.example.API3SEM.hora.HoraRepository;
 import com.example.API3SEM.hora.HoraRequestDTO;
 import com.example.API3SEM.hora.HoraResponseDTO;
+import com.example.API3SEM.hora.Extra.CompoundHoraDTO;
+import com.example.API3SEM.utills.ApiException;
 import com.example.API3SEM.utills.TipoEnum;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -103,64 +105,53 @@ public class HoraController {
 
 
     @PostMapping("") //2023-12-1-15-15&2023-12-1-15-45  -  yyyy-mm-dd-hh-mm&yyyy-mm-dd-hh-mm
-    public ResponseEntity putHour(@RequestBody HoraRequestDTO horaRequestDTO){
+    public ResponseEntity putHour(@RequestBody CompoundHoraDTO compoundHoraDTO){
 
         String msg = null;
 
-        try{
+        HoraRequestDTO hora = compoundHoraDTO.sobreaviso();   
 
+        if(compoundHoraDTO.extas()==null) {
+
+            if(saveHora(hora).contains("Erro")){
+                msg = "Erro na seguinte hora: " + hora.intervalo() +" "+ saveHora(hora);
+                throw new ApiException(msg);
+            }
+            forSave(hora, TipoEnum.SOBREAVISO);
+        }
+        else{
+            
             List<Timestamp> hourRange = new ArrayList<>();
-            for(String str : Arrays.asList(horaRequestDTO.intervalo().split("&"))){
-                hourRange.add(toTimestamp(str.split("-")));
-            }
-            System.out.println(horaRequestDTO.justificativa_lan());
-            
-            if(hourRange.get(0).before(hourRange.get(1))&&clientRepository.existsById(horaRequestDTO.cnpj())){
-                try{
-                Hora hour = new Hora();
-                hour.setCodcr(horaRequestDTO.codigo_cr());
-                hour.setLancador(horaRequestDTO.matricula_lancador());
-                hour.setCnpj(horaRequestDTO.cnpj());
-                hour.setData_hora_inicio(hourRange.get(0));
-                hour.setData_hora_fim(hourRange.get(1));
-                hour.setTipo(TipoEnum.valueOf(horaRequestDTO.tipo().toUpperCase()).name());
-                hour.setJustificativa(horaRequestDTO.justificativa_lan());
-                hour.setProjeto(horaRequestDTO.projeto());
-                hour.setSolicitante(horaRequestDTO.solicitante());
-                horaRepository.save(hour);
+                for (String str : Arrays.asList(hora.intervalo().split("&"))) {
+                    hourRange.add(toTimestamp(str.split("-")));
+                }
+            Timestamp startTime = hourRange.get(0);
+            Timestamp endTime = hourRange.get(1);
 
-                msg = "Hora salva com sucesso";
-                }catch(Exception e){
-                    msg = "A hora fornecida apresenta inconsistências";
-                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg+"erro: "+e.getMessage());
+            List<Timestamp> hourExtra = new ArrayList<>();
+            for(HoraRequestDTO extra : compoundHoraDTO.extas()){
+                for (String str : Arrays.asList(extra.intervalo().split("&"))) {
+                    hourExtra.add(toTimestamp(str.split("-")));
                 }
-            }else{
-                if(clientRepository.findById(horaRequestDTO.cnpj()).isEmpty()){
-                    msg = "O cliente fornecido não esta cadastrado no sistema";    
+                if(startTime.after(hourExtra.get(0))||endTime.before(hourExtra.get(1))){
+                    throw new ApiException("Erro: erro no intervalo");
                 }
-                if(hourRange.get(0).after(hourRange.get(1))){
-                    msg = "O final da hora não pode anteceder seu início, siga o modelo yyyy-mm-dd-hh-mm&yyyy-mm-dd-hh-mm exemplo '2023-12-1-15-15&2023-12-1-15-45'";
+                if(saveHora(extra).contains("Erro")){
+                    msg = "Erro na seguinte hora: " + extra.intervalo() +" "+ saveHora(extra);
+                    throw new ApiException(msg);
                 }
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg);
             }
-            
-        }catch (DataIntegrityViolationException ex) {
-            Throwable rootCause = ex.getRootCause();
-            msg = rootCause+"\n";
-            
-            if (rootCause instanceof java.sql.SQLException) {
-                java.sql.SQLException sqlException = (java.sql.SQLException) rootCause;
-                String errorMessage = sqlException.getMessage();
-            
-                if (errorMessage != null && errorMessage.contains("value too long for type")) {
-                    msg.concat("O comprimento de um dos dados passados como chave excede o permitido pelo banco");
-                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg);
-                }
-            } else {
-                Exception e = (Exception) rootCause;
-                msg.concat("erro desconhecido:\n" + e.getMessage());
-            }
-        }  
+        }
+
+        if(saveHora(hora).contains("Erro")){
+            msg = saveHora(hora);
+            throw new ApiException(msg);
+        }
+        forSave(hora, TipoEnum.SOBREAVISO);
+        for (HoraRequestDTO extra : compoundHoraDTO.extas()) {
+            forSave(hora, TipoEnum.EXTRA);  
+        }
+        msg = "Horas registradas";
         return ResponseEntity.status(HttpStatus.CREATED).body(msg);       
     }
         
@@ -206,6 +197,39 @@ public class HoraController {
         
         return response;
     }
+
+    private String saveHora(HoraRequestDTO hora){
+
+        List<Timestamp> hourRange = new ArrayList<>();
+        for (String str : Arrays.asList(hora.intervalo().split("&"))) {
+            hourRange.add(toTimestamp(str.split("-")));
+        }
+
+        if (!clientRepository.existsById(hora.cnpj())) {
+            return "Erro: O cliente fornecido não esta cadastrado no sistema";
+        }
+        if (hourRange.get(0).after(hourRange.get(1))) {
+            return "Erro: O final da hora não pode anteceder seu início";
+        }
+        return"";
+    }
     
+    private void forSave(HoraRequestDTO hora, TipoEnum tipo){
+        List<Timestamp> newExtra = new ArrayList<>();
+        for (String str : Arrays.asList(hora.intervalo().split("&"))) {
+            newExtra.add(toTimestamp(str.split("-")));
+        }
+        Hora hour = new Hora();
+        hour.setCodcr(hora.codigo_cr());
+        hour.setLancador(hora.matricula_lancador());
+        hour.setCnpj(hora.cnpj());
+        hour.setData_hora_inicio(newExtra.get(0));
+        hour.setData_hora_fim(newExtra.get(1));
+        hour.setTipo(tipo.name());
+        hour.setJustificativa(hora.justificativa_lan());
+        hour.setProjeto(hora.projeto());
+        hour.setSolicitante(hora.solicitante());
+        horaRepository.save(hour);
+    }
 
 }
