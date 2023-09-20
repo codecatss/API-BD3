@@ -115,7 +115,7 @@ public class HoraController {
                 msg = "Erro na seguinte hora: " + hora.intervalo() +" "+ validacaoHora(hora);
                 throw new ApiException(msg);
             }
-            saveHora(hora, TipoEnum.SOBREAVISO);
+            saveHora(hora, TipoEnum.SOBREAVISO, null);
         }
         else{
             
@@ -145,9 +145,9 @@ public class HoraController {
             msg = validacaoHora(hora);
             throw new ApiException(msg);
         }
-        saveHora(hora, TipoEnum.SOBREAVISO);
+        saveHora(hora, TipoEnum.SOBREAVISO, null);
         for (HoraRequestDTO extra : compoundHoraDTO.extas()) {
-            saveHora(extra, TipoEnum.EXTRA);  
+            saveHora(extra, TipoEnum.EXTRA, hora);  
         }
         msg = "Horas registradas";
         return ResponseEntity.status(HttpStatus.CREATED).body(msg);       
@@ -202,7 +202,7 @@ public class HoraController {
         return"";
     }
     
-    private void saveHora(HoraRequestDTO hora, TipoEnum tipo){
+    private void saveHora(HoraRequestDTO hora, TipoEnum tipo, HoraRequestDTO sobreaviso){
         List<Timestamp> newExtra = new ArrayList<>();
         for (String str : Arrays.asList(hora.intervalo().split("&"))) {
             newExtra.add(toTimestamp(str.split("-")));
@@ -210,13 +210,29 @@ public class HoraController {
         Hora hour = new Hora();
         hour.setCodcr(hora.codigo_cr());
         hour.setLancador(hora.matricula_lancador());
-        hour.setCnpj(hora.cnpj());
+        if(hora.cnpj().isEmpty()){
+            hour.setCnpj(sobreaviso.cnpj());
+        } else{
+            hour.setCnpj(hora.cnpj());
+        }
         hour.setData_hora_inicio(newExtra.get(0));
         hour.setData_hora_fim(newExtra.get(1));
         hour.setTipo(tipo.name());
-        hour.setJustificativa(hora.justificativa_lan());
-        hour.setProjeto(hora.projeto());
-        hour.setSolicitante(hora.solicitante());
+        if(hora.justificativa_lan().isEmpty()){
+            hour.setJustificativa(sobreaviso.justificativa_lan());
+        } else{
+            hour.setJustificativa(hora.justificativa_lan());
+        }
+        if(hora.projeto().isEmpty()){
+            hour.setProjeto(sobreaviso.projeto());
+        } else{
+            hour.setProjeto(hora.projeto());
+        }
+        if(hora.solicitante().isEmpty()){
+            hour.setSolicitante(sobreaviso.solicitante());
+        } else{
+            hour.setSolicitante(hora.solicitante());
+        }
         horaRepository.save(hour);
     }
 
