@@ -5,6 +5,13 @@ import com.example.API3SEM.hora.Hora;
 import com.example.API3SEM.hora.HoraRepository;
 import com.example.API3SEM.hora.HoraRequestDTO;
 import com.example.API3SEM.hora.HoraResponseDTO;
+import com.example.API3SEM.hora.Extra.CompoundHoraDTO;
+import com.example.API3SEM.utills.ApiException;
+import com.example.API3SEM.utills.TipoEnum;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import com.example.API3SEM.utills.TipoEnum;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +35,8 @@ public class HoraController {
     @Autowired
     private HoraRepository horaRepository;
 
+    @Autowired
+    private ClientRepository clientRepository;
     @GetMapping
     public List<HoraResponseDTO> allHours(){
         List<Hora> response = horaRepository.findAll();
@@ -99,60 +108,54 @@ public class HoraController {
     }
 
 
-    @PostMapping("/{strHourRange}") //2023-12-1-15-15&2023-12-1-15-45  -  yyyy-mm-dd-hh-mm&yyyy-mm-dd-hh-mm
-    public ResponseEntity putHour(@PathVariable String strHourRange, @RequestBody HoraRequestDTO horaRequestDTO){
+    @PostMapping("") //2023-12-1-15-15&2023-12-1-15-45  -  yyyy-mm-dd-hh-mm&yyyy-mm-dd-hh-mm
+    public ResponseEntity putHour(@RequestBody CompoundHoraDTO compoundHoraDTO){
 
         String msg = null;
 
-        try{
+        HoraRequestDTO hora = compoundHoraDTO.sobreaviso();   
 
+        if(compoundHoraDTO.extas()==null) {
+
+            if(validacaoHora(hora, false, null).contains("Erro")){
+                msg = "Erro na seguinte hora: " + hora.intervalo() +" "+ validacaoHora(hora, false, null);
+                throw new ApiException(msg);
+            }
+            saveHora(hora, TipoEnum.SOBREAVISO, null);
+        }
+        else{
+            
             List<Timestamp> hourRange = new ArrayList<>();
-            for(String str : Arrays.asList(strHourRange.split("&"))){
-                hourRange.add(toTimestamp(str.split("-")));
-            }
-            System.out.println(horaRequestDTO.justificativa_lan());
-            
-            if(hourRange.get(0).before(hourRange.get(1))){
-                try{
-                Hora hour = new Hora();
-                hour.setCodcr(horaRequestDTO.codigo_cr());
-                hour.setLancador(horaRequestDTO.matricula_lancador());
-                hour.setCnpj(horaRequestDTO.cnpj());
-                hour.setData_hora_inicio(hourRange.get(0));
-                hour.setData_hora_fim(hourRange.get(1));
-                hour.setTipo(TipoEnum.valueOf(horaRequestDTO.tipo().toUpperCase()).name());
-                hour.setJustificativa(horaRequestDTO.justificativa_lan());
-                hour.setProjeto(horaRequestDTO.projeto());
-                hour.setSolicitante(horaRequestDTO.solicitante());
-                horaRepository.save(hour);
+                for (String str : Arrays.asList(hora.intervalo().split("&"))) {
+                    hourRange.add(toTimestamp(str.split("-")));
+                }
+            Timestamp startTime = hourRange.get(0);
+            Timestamp endTime = hourRange.get(1);
 
-                msg = "Hora salva com sucesso";
-                }catch(Exception e){
-                    msg = "A hora fornecida apresenta inconsistências";
-                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg+"erro: "+e.getMessage());
+            List<Timestamp> hourExtra = new ArrayList<>();
+            for(HoraRequestDTO extra : compoundHoraDTO.extas()){
+                for (String str : Arrays.asList(extra.intervalo().split("&"))) {
+                    hourExtra.add(toTimestamp(str.split("-")));
                 }
-            }else{
-                msg = "O final da hora não pode anteceder seu início, siga o modelo yyyy-mm-dd-hh-mm&yyyy-mm-dd-hh-mm exemplo '2023-12-1-15-15&2023-12-1-15-45'";
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg);
-            }
-            
-        }catch (DataIntegrityViolationException ex) {
-            Throwable rootCause = ex.getRootCause();
-            msg = rootCause+"\n";
-            
-            if (rootCause instanceof java.sql.SQLException) {
-                java.sql.SQLException sqlException = (java.sql.SQLException) rootCause;
-                String errorMessage = sqlException.getMessage();
-            
-                if (errorMessage != null && errorMessage.contains("value too long for type")) {
-                    msg.concat("O comprimento de um dos dados passados como chave excede o permitido pelo banco");
-                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg);
+                if(startTime.after(hourExtra.get(0))||endTime.before(hourExtra.get(1))){
+                    throw new ApiException("Erro: erro no intervalo");
                 }
-            } else {
-                Exception e = (Exception) rootCause;
-                msg.concat("erro desconhecido:\n" + e.getMessage());
+                if(validacaoHora(extra, true, hora).contains("Erro")){
+                    msg = "Erro na seguinte hora: " + extra.intervalo() +" "+ validacaoHora(extra, true, hora);
+                    throw new ApiException(msg);
+                }
             }
-        }  
+        }
+
+        if(validacaoHora(hora, false, null).contains("Erro")){
+            msg = validacaoHora(hora,false, null);
+            throw new ApiException(msg);
+        }
+        saveHora(hora, TipoEnum.SOBREAVISO, null);
+        for (HoraRequestDTO extra : compoundHoraDTO.extas()) {
+            saveHora(extra, TipoEnum.EXTRA, hora);  
+        }
+        msg = "Horas registradas";
         return ResponseEntity.status(HttpStatus.CREATED).body(msg);       
     }
         
@@ -167,16 +170,6 @@ public class HoraController {
         String str = list[0]+"-"+list[1]+"-"+list[2]+" "+list[3]+":"+list[4] + ":00";
         hour = Timestamp.valueOf(str);
         return hour;
-    }
-
-    private static Integer stringToInteger(String str){
-        int retorno = 0;
-        if(str != null){
-            for (Character character : str.toCharArray()) {
-                retorno++;
-            }
-        }
-        return retorno;
     }
     
     private HoraResponseDTO convertToHoraResponseDTO(Hora hora) {
@@ -198,6 +191,57 @@ public class HoraController {
         
         return response;
     }
+  
+    private String validacaoHora(HoraRequestDTO hora, boolean extra, HoraRequestDTO sobreavisoHora){
+
+        List<Timestamp> hourRange = new ArrayList<>();
+        for (String str : Arrays.asList(hora.intervalo().split("&"))) {
+            hourRange.add(toTimestamp(str.split("-")));
+        }
+
+        String cnpjCliente;
+        if(extra&&hora.cnpj().isEmpty()){
+            cnpjCliente = sobreavisoHora.cnpj();
+        }
+        else{
+            cnpjCliente = hora.cnpj();
+        }
+        if (!clientRepository.existsById(cnpjCliente)) {
+            return "Erro: O cliente fornecido não esta cadastrado no sistema";
+        }
+        if (hourRange.get(0).after(hourRange.get(1))) {
+            return "Erro: O final da hora não pode anteceder seu início";
+        }
+        return"";
+    }
     
+    private void saveHora(HoraRequestDTO hora, TipoEnum tipo, HoraRequestDTO sobreaviso){
+        List<Timestamp> newExtra = new ArrayList<>();
+        for (String str : Arrays.asList(hora.intervalo().split("&"))) {
+            newExtra.add(toTimestamp(str.split("-")));
+        }
+        Hora hour = new Hora();
+        hour.setLancador(hora.matricula_lancador());
+        hour.setData_hora_inicio(newExtra.get(0));
+        hour.setData_hora_fim(newExtra.get(1));
+        hour.setTipo(tipo.name());
+        if(tipo.equals(TipoEnum.EXTRA)){
+            hour.setJustificativa(sobreaviso.justificativa_lan());
+            hour.setProjeto(sobreaviso.projeto());
+            hour.setProjeto(sobreaviso.projeto());
+            hour.setSolicitante(sobreaviso.solicitante());
+            hour.setCodcr(sobreaviso.codigo_cr());
+            hour.setCnpj(sobreaviso.cnpj());
+        } else{
+            hour.setJustificativa(hora.justificativa_lan());
+            hour.setProjeto(hora.projeto());
+            hour.setProjeto(hora.projeto());
+            hour.setSolicitante(hora.solicitante());
+            hour.setCodcr(hora.codigo_cr());
+            hour.setCnpj(hora.cnpj());
+
+        }
+        horaRepository.save(hour);
+    }
 
 }
