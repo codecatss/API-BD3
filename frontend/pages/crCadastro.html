@@ -92,8 +92,8 @@
                     <button class="cancelar ">
                         cancelar
                     </button>
-                    <div class="rectangle-30"></div>
-                    <div class="navbar">Adicionar CR's</div>
+
+                    <div class="title-modal">Adicionar CR's</div>
 
                     <input class="input-3" name="nome" type="text">
                     <input class="input-2" name="sigla" type="text">
@@ -101,7 +101,7 @@
                     <div class="nome-input">Nome</div>
                     <div class="sigla-input">Sigla</div>
                     <div class="codCr-input">Código do CR</div>
-                    <div class="confirmar">Confirmar</div>
+                    <button class="confirmar">Confirmar</button>
             </div>
 
 
@@ -121,7 +121,41 @@
         Erro ao adicionar o CR.
     </div>
 
-    
+
+    <div class="modal" id="myModalAddMember">
+        <div class="">
+            <div class="gerenciar-cr" id="gerenciar-cr">
+                <ul class="list-users" id="listUsers">
+                    <li class="users-free">Teste 1</li>
+                    <li class="users-free">Teste 2</li>
+                    <li class="users-free">Teste 3</li>
+                </ul>
+
+                <div class="rectangle-31"></div>
+                <div class="rectangle-27"></div>
+                <div class="rectangle-63"></div>
+                <ul class="members-Cr" id="membersCr"></ul>
+                <div class="rectangle-23"></div>
+                <div class="rectangle-33"></div>
+                <div class="usu-rio">Usuário</div>
+                <div class="usu-rio2">Usuário</div>
+                <div class="fun-o">Função</div>
+                <button class="removerUsuario" id="removerUsuario">Remover</button>
+                <button class="adicionarUsuario" id="adicionarUsuario">Adicionar</button>
+                <div class="navbar">Gerenciar CR</div>
+
+
+                <button class="gestor">Gestor</button>
+                <div class="voltar" class="close" id="closeModal">Voltar</div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
 
     <script src="../scripts/crCadastro.script.js"></script>
 </body>
