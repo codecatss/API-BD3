@@ -353,15 +353,21 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     adicionarUsuarioBtn.addEventListener("click", function () {
-
         const selectedItems = listUsers.querySelectorAll(".users-free.selected");
 
-
         selectedItems.forEach(function (item) {
-            item.classList.remove("selected"); 
-            membersCr.appendChild(item); 
+            item.classList.remove("selected");
+
+
+            const userInfoElement = document.createElement("div");
+            userInfoElement.textContent = `${item.textContent} (${item.dataset.funcao})`;
+            userInfoElement.classList.add("user-info");
+
+
+            membersCr.appendChild(userInfoElement);
         });
     });
+
 
 
     removerUsuarioBtn.addEventListener("click", function () {
@@ -370,8 +376,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         selectedItems.forEach(function (item) {
-            item.classList.remove("selected"); 
-            listUsers.appendChild(item); 
+            item.classList.remove("selected");
+            listUsers.appendChild(item);
         });
     });
 });
@@ -379,8 +385,66 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
+function getUsersFromAPI() {
+    const apiUrl = 'http://localhost:8080/employee';
+
+    fetch(apiUrl, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then((data) => {
+            console.log(data);
+
+            const listUsers = document.getElementById("listUsers");
+            const membersCr = document.getElementById("membersCr");
+
+            data.forEach((user) => {
+                const userNameElement = document.createElement("div");
+                userNameElement.classList.add("users-free");
+                userNameElement.textContent = user.nome;
+
+
+                userNameElement.dataset.funcao = user.funcao;
+
+                userNameElement.addEventListener("click", function () {
+                    this.classList.toggle("selected");
+                });
+
+                listUsers.appendChild(userNameElement);
+            });
+
+
+            const confirmarUsuarioBtn = document.getElementById("confirmarUsuario");
+            confirmarUsuarioBtn.addEventListener("click", function () {
+                const selectedItems = listUsers.querySelectorAll(".users-free.selected");
+
+                selectedItems.forEach(function (item) {
+                    item.classList.remove("selected");
+                    console.log("esse é o item")
+                    console.log(item)
+                    membersCr.appendChild(item);
+                });
+            });
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+}
+
+
+
+
 
 fetchAndRenderData();
+getUsersFromAPI();
 
 
 
