@@ -12,6 +12,13 @@ import com.example.API3SEM.utills.TipoEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import com.example.API3SEM.utills.TipoEnum;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.ResponseEntity.BodyBuilder;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
@@ -30,7 +37,6 @@ public class HoraController {
 
     @Autowired
     private ClientRepository clientRepository;
-
     @GetMapping
     public List<HoraResponseDTO> allHours(){
         List<Hora> response = horaRepository.findAll();
@@ -185,7 +191,7 @@ public class HoraController {
         
         return response;
     }
-
+  
     private String validacaoHora(HoraRequestDTO hora, boolean extra, HoraRequestDTO sobreavisoHora){
 
         List<Timestamp> hourRange = new ArrayList<>();

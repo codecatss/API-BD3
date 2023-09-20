@@ -4,6 +4,7 @@ import com.example.API3SEM.employees.Employee;
 import com.example.API3SEM.employees.EmployeeRepository;
 import com.example.API3SEM.employees.EmployeeRequestDTO;
 import com.example.API3SEM.employees.EmployeeResponseDTO;
+import com.example.API3SEM.utills.ApiException;
 import com.example.API3SEM.utills.StatusEnum;
 import java.util.List;
 import java.util.Optional;
@@ -24,11 +25,12 @@ public class EmployeeController {
     public Employee saveEmployee(@RequestBody EmployeeRequestDTO data) {
         try {
             Employee employeeData = new Employee(data);
+            System.out.println(employeeData.getMatricula());
             return repository.save(employeeData);
         } catch (Exception e) {
             Employee employeeData = new Employee(data);
             System.out.println(employeeData.getNome());
-            throw new RuntimeException("Não foi possível Cadastrar o seu usuário, por favor verifique as informações " + e.getMessage());
+            throw new ApiException("Não foi possível Cadastrar o seu usuário, por favor verifique as informações " + e.getMessage());
         }
     }
 
@@ -50,7 +52,7 @@ public class EmployeeController {
             Employee employee = optionalEmployee.get();
             return ResponseEntity.ok(employee);
         } else {
-            throw new RuntimeException("Funcionário não encontrado");
+            throw new ApiException("Funcionário não encontrado");
         }
     }
 
@@ -73,7 +75,7 @@ public class EmployeeController {
                 employee.setStatus_usuario(partialData.status_usuario());
             }
         } catch (Exception e) {
-            throw new RuntimeException("Erro ao atualizar o funcionário: " + e.getMessage());
+            throw new ApiException("Erro ao atualizar o funcionário: " + e.getMessage());
         }
 
         repository.save(employee);
@@ -88,7 +90,7 @@ public class EmployeeController {
         try {
             employee.setStatus_usuario(StatusEnum.ativo);
         } catch (Exception e) {
-            throw new RuntimeException("Erro ao ativar o funcionário: " + e.getMessage());
+            throw new ApiException("Erro ao ativar o funcionário: " + e.getMessage());
         }
 
         repository.save(employee);
@@ -103,7 +105,7 @@ public class EmployeeController {
         try {
             employee.setStatus_usuario(StatusEnum.inativo);
         } catch (Exception e) {
-            throw new RuntimeException("Erro ao inativar o funcionário: " + e.getMessage());
+            throw new ApiException("Erro ao inativar o funcionário: " + e.getMessage());
         }
 
         repository.save(employee);

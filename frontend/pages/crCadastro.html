@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles/reset.css">
+    <link rel="stylesheet" href="../styles/global.styles.css">
+    <link rel="stylesheet" href="../styles/crCadastro.styles.css">
+    <title>Centro De Resultado</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="menu">
+            <div class="logo">
+                <!-- <img src="" alt="" srcset=""> -->
+            </div>
+            <ul class="">
+                <li class="page-navegation">
+                    <img src="../assets/iconeDashboard.svg" alt="" srcset="">
+                    <a>Dashboard</a>
+                </li>
+                <li class="active-page" class="page-navegation">
+                    <img src="../assets/iconeUsuario.svg" alt="" srcset="">
+                    <a>Usuários</a>
+                </li>
+                <li class="page-navegation">
+                    <img src="../assets/iconeCliente.svg" alt="" srcset="">
+                    <a>Clientes</a>
+                </li>
+
+                <li class="page-navegation">
+                    <img src="../assets/iconeCR.svg" alt="" srcset="">
+                    <a>CR</a>
+                </li>
+
+                <li class="page-navegation">
+                    <img src="../assets/iconeAprovar.svg" alt="" srcset="">
+                    <a>Aprovar Horas</a>
+                </li>
+                <li class="page-navegation">
+
+                    <img src="../assets/iconeParametriz.svg" alt="" srcset="">
+                    <a>Parametrização</a>
+                </li>
+            </ul>
+        </div>
+        <div class="main-content">
+            <div class="header">
+                <h1>Gerenciamento de Resultado</h1>
+                <div class="user-content">
+                    <img src="" alt=""
+                        srcset="https://cdn1.iconfinder.com/data/icons/user-pictures/101/malecostume-512.png">
+                    <p>John Doe</p>
+                </div>
+            </div>
+            <div class="search-bar">
+                <div class="content">
+                    <div class="search-content">
+                        <input class="input-search" type="text" name="" id="" placeholder="Pesquisar">
+                        <img src="../assets/lupa.svg" class="search-icon" alt="">
+                    </div>
+                    <button class="user-add">Adicionar</button>
+                </div>
+            </div>
+            <div class="colunName">
+                <ul>
+                    <li>Status</li>
+                    <li>Nome</li>
+                    <li>Código CR</li>
+                    <li>Sigla</li>
+
+                </ul>
+            </div>
+
+            <div>
+                <ul class="list-of-itens">
+
+                </ul>
+            </div>
+
+        </div>
+
+
+    </div>
+    </div>
+
+
+    <div class="modal" id="myModal">
+        <div class="modal-container">
+            <div class="modal-content">
+                <span class="close" id="closeModal">&times;</span>
+                <form action="">
+                    <div class="modal-title">
+                        <h1>Adicionar CR</h1>
+                    </div>
+                    <div class="modal-inputs">
+                        <div class="modal-input">
+                            <p>Nome</p>
+                            <input type="text" name="nome">
+                        </div>
+                        <div class="modal-input">
+                            <p>Matricula</p>
+                            <input type="text" name="matricula">
+                        </div>
+                        <div class="modal-input">
+                            <p>Sigla</p>
+                            <input type="text" name="sigla">
+                        </div>
+                    </div>
+                    <div class="modal-button">
+                        <button class="fantasma"></button>
+                        <button class="enviar">enviar</button>
+                        <button class="cancelar">cancelar</button>
+                    </div>
+
+
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <script src="../scripts/crCadastro.script.js"></script>
+</body>
+
+</html>
