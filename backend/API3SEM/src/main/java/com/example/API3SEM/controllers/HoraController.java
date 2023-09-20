@@ -147,7 +147,7 @@ public class HoraController {
         }
         saveHora(hora, TipoEnum.SOBREAVISO);
         for (HoraRequestDTO extra : compoundHoraDTO.extas()) {
-            saveHora(hora, TipoEnum.EXTRA);  
+            saveHora(extra, TipoEnum.EXTRA);  
         }
         msg = "Horas registradas";
         return ResponseEntity.status(HttpStatus.CREATED).body(msg);       
