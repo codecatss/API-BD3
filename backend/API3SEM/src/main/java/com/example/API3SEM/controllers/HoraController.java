@@ -12,13 +12,6 @@ import com.example.API3SEM.utills.TipoEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import com.example.API3SEM.utills.TipoEnum;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.ResponseEntity.BodyBuilder;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
@@ -37,6 +30,7 @@ public class HoraController {
 
     @Autowired
     private ClientRepository clientRepository;
+
     @GetMapping
     public List<HoraResponseDTO> allHours(){
         List<Hora> response = horaRepository.findAll();
@@ -115,7 +109,7 @@ public class HoraController {
 
         HoraRequestDTO hora = compoundHoraDTO.sobreaviso();   
 
-        if(compoundHoraDTO.extas()==null) {
+        if(compoundHoraDTO.extras()==null) {
 
             if(validacaoHora(hora, false, null).contains("Erro")){
                 msg = "Erro na seguinte hora: " + hora.intervalo() +" "+ validacaoHora(hora, false, null);
@@ -133,7 +127,7 @@ public class HoraController {
             Timestamp endTime = hourRange.get(1);
 
             List<Timestamp> hourExtra = new ArrayList<>();
-            for(HoraRequestDTO extra : compoundHoraDTO.extas()){
+            for(HoraRequestDTO extra : compoundHoraDTO.extras()){
                 for (String str : Arrays.asList(extra.intervalo().split("&"))) {
                     hourExtra.add(toTimestamp(str.split("-")));
                 }
@@ -152,7 +146,7 @@ public class HoraController {
             throw new ApiException(msg);
         }
         saveHora(hora, TipoEnum.SOBREAVISO, null);
-        for (HoraRequestDTO extra : compoundHoraDTO.extas()) {
+        for (HoraRequestDTO extra : compoundHoraDTO.extras()) {
             saveHora(extra, TipoEnum.EXTRA, hora);  
         }
         msg = "Horas registradas";
@@ -182,16 +176,13 @@ public class HoraController {
             hora.getData_hora_fim(),            // data_hora_fim
             hora.getTipo(),                     // tipo
             hora.getJustificativa(),            // justificativa_lancamento
-            hora.getProjeto(),                  // projeto
-            hora.getGestor(),                   // gestor
-            hora.getJustificativa_negacao(),    // justificativa_negacao
-            hora.getStatus_aprovacao(),         // status_aprovacao
+            hora.getProjeto(),                  // projetopg
             hora.getSolicitante()               // solicitante_lancamento
         );
         
         return response;
     }
-  
+
     private String validacaoHora(HoraRequestDTO hora, boolean extra, HoraRequestDTO sobreavisoHora){
 
         List<Timestamp> hourRange = new ArrayList<>();
@@ -228,13 +219,11 @@ public class HoraController {
         if(tipo.equals(TipoEnum.EXTRA)){
             hour.setJustificativa(sobreaviso.justificativa_lan());
             hour.setProjeto(sobreaviso.projeto());
-            hour.setProjeto(sobreaviso.projeto());
             hour.setSolicitante(sobreaviso.solicitante());
             hour.setCodcr(sobreaviso.codigo_cr());
             hour.setCnpj(sobreaviso.cnpj());
         } else{
             hour.setJustificativa(hora.justificativa_lan());
-            hour.setProjeto(hora.projeto());
             hour.setProjeto(hora.projeto());
             hour.setSolicitante(hora.solicitante());
             hour.setCodcr(hora.codigo_cr());
