@@ -28,4 +28,14 @@
   --surface-color-hover: rgba(0, 0, 0, 0.02);
   --highlight-color: rgba(255, 255, 255, 0.2);
   --switch-bg-url: url(../assets/ball.svg);
+
+  --text-color: #FFFFFF;
+  --background-nav-color: #0E0E12;
+  --background-bar-color: #B3A4DE;
+  --gradient-navbar: linear-gradient(to bottom, #0B0B0E, #251440, #0B0B0E);
+  --default-pad: 2.5rem;
+  --medium-pad: calc(var(--default-pad)/2);
+  --small-pad: calc(var(--default-pad)/4);
+  --mini-pad: calc(var(--default-pad)/6);
+  --larger-pad: calc(var(--default-pad)*2);
 }

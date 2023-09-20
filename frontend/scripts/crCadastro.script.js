@@ -211,9 +211,8 @@ searchImage.addEventListener('click', function () {
 
 
 const addButton = document.querySelector('button');
-
-
 const modal = document.getElementById('myModal');
+const closeModal = document.querySelector('#closeModal');
 
 
 function openModal() {
@@ -235,66 +234,103 @@ window.addEventListener('click', function (event) {
 });
 
 
-window.addEventListener('load', fetchAndRenderData);
+
+
+function closeModalFunction() {
+    modal.style.display = 'none';
+}
+
+closeModal.addEventListener('click', closeModalFunction);
+
+
+const cancelarButton = document.querySelector('.cancelar');
+cancelarButton.addEventListener('click', closeModalFunction);
+
+
+
+function handleEnviarClick(event) {
+    event.preventDefault();
+
+
+    const nomeInput = document.querySelector('input[name="nome"]');
+    const siglaInput = document.querySelector('input[name="sigla"]');
+    const codigoCrInput = document.querySelector('input[name="codigoCr"]');
+
+
+    const dados = {
+        codigoCr: codigoCrInput.value,
+        sigla: siglaInput.value,
+        nome: nomeInput.value,
+        statusCr: "ativo",
+    };
+
+    console.log('Dados a serem enviados:', dados);
+
+
+    saveCenterResult(dados);
+
+    // Limpa os campos de entrada
+    nomeInput.value = "";
+    codigoCrInput.value = "";
+    siglaInput.value = "";
+}
+
+
+
 
 
 function saveCenterResult(data) {
-    const apiUrl = 'http://localhost:8080/cr';
 
     const requestOptions = {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(data)
     };
 
-    return fetch(apiUrl, requestOptions)
+
+    const apiUrl = 'http://localhost:8080/cr'; 
+
+    fetch(apiUrl, requestOptions)
         .then((response) => {
             if (!response.ok) {
-                throw new Error('Erro na requisição');
+                throw new Error('Erro na requisição POST');
             }
-            console.log("Dados a serem salvos:", data);
-
             return response.json();
         })
-        .then((centerResult) => {
-            console.log('Centro de resultado cadastrado com sucesso:', centerResult);
-            return centerResult;
+        .then((responseData) => {
+            console.log('Resposta da requisição POST:', responseData);
         })
         .catch((error) => {
-            console.error('Erro ao cadastrar o centro de resultado:', error);
-            throw error;
+            console.error('Erro ao fazer a requisição POST:', error);
         });
-
 }
 
 
 
-const enviarButton = document.querySelector('.enviar');
-
-enviarButton.addEventListener('click', function (event) {
-    event.preventDefault();
 
 
-    const nomeInput = document.querySelector('input[name="nome"]');
-    const matriculaInput = document.querySelector('input[name="matricula"]');
-    const siglaInput = document.querySelector('input[name="sigla"]');
 
 
-    const dados = {
-        codigoCr: matriculaInput.value,
-        sigla: siglaInput.value,
-        nome: nomeInput.value,
-        statusCr: "ativo",
-    };
+const confirmarButton = document.querySelector('.confirmar');
+confirmarButton.addEventListener('click', handleEnviarClick);
 
 
-    console.log(dados);
-    saveCenterResult(dados);
 
 
-    nomeInput.value = "";
-    matriculaInput.value = "";
-    siglaInput.value = "";
+
+
+
+window.addEventListener('click', function (event) {
+    if (event.target === modal) {
+        closeModalFunction();
+    }
 });
+
+
+
+
+
+
+window.addEventListener('load', fetchAndRenderData);
