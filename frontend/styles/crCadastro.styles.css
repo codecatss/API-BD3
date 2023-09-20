@@ -612,6 +612,7 @@ text-align: center;
     text-align: center;
     z-index: 9999; 
 }
+
 .error-message {
     display: none;
     position: fixed;
@@ -623,4 +624,11 @@ text-align: center;
     padding: 10px;
     text-align: center;
     z-index: 9999;
+}
+
+
+.list-of-itens{
+  overflow-y: auto;
+
+  height: 60vh;
 }
