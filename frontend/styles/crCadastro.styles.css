@@ -5,6 +5,9 @@
   
 }
 
+
+
+
 h1 {
   font-size: var(--font-size-h1) !important;
 }
@@ -387,13 +390,23 @@ p{
   
 }
 
+#gerenciar-cr {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 99;
+  border: 1px solid rgb(144, 0, 255);
+
+}
+
 
 
 .modal-content {
   background-color:#24242D ;
   margin: 5% auto;
   padding: 20px;
-border: 25px solid var(--background-modal-content);
+  border: 25px solid var(--background-modal-content);
 
   text-align: center;
   border-radius: 5px;
@@ -401,7 +414,7 @@ border: 25px solid var(--background-modal-content);
   height: 200px;
 
   width: 801px;
-height: 541px;
+  height: 541px;
 
 }
 .close {
@@ -519,13 +532,15 @@ width: 200px;
   left: 569px;
   top: 413px;
 cursor: pointer;
-  font: 400 20px/27.5px "Outfit", sans-serif;
+  font: 400 20px/27.5px "Inter", sans-serif;
+  color: #000000;
+
 border: none;
 text-align: center;
 }
 
 
-.navbar {
+.title-modal {
   color: #ffffff;
   text-align: center;
   font: 700 36px/27.5px "Outfit", sans-serif;
@@ -631,4 +646,253 @@ text-align: center;
   overflow-y: auto;
 
   height: 60vh;
+}
+
+.icons{
+  display: flex;
+
+  align-items: center;
+  gap: 15px;
+}
+
+.addMembers{
+  width: 25px;
+  height: 25px;
+  transition: filter 0.3s
+}
+
+.addMembers:hover{
+  filter: brightness(1.2);
+}
+
+.config{
+  width: 25px;
+  height: 25px;
+  transition: filter 0.3s
+}
+
+.config:hover{
+  filter: brightness(1.2);
+}
+
+
+
+
+.gerenciar-cr,
+.gerenciar-cr * {
+  box-sizing: border-box;
+}
+.gerenciar-cr {
+  background: #0e0e12;
+  width: 1066px;
+  height: 594px;
+  position: relative;
+  overflow: hidden;
+}
+
+
+
+.gerenciar-cr,
+.gerenciar-cr * {
+  box-sizing: border-box;
+}
+.gerenciar-cr {
+  background: #0e0e12;
+  width: 1066px;
+  height: 594px;
+  position: relative;
+  overflow: hidden;
+}
+.list-users {
+  background: #24242d;
+  border-radius: 0px 0 5px 5px;
+  width: 253px;
+  height: 470px;
+  position: absolute;
+  left: 30px;
+  top: 72px;
+  margin-top: 40px;
+  overflow-y: auto;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.rectangle-31 {
+  background: #24242d;
+  border-radius: 13px;
+  width: 253px;
+  height: 496px;
+  position: absolute;
+  left: 299px;
+  top: 72px;
+}
+.rectangle-27 {
+  background: #b3a4de;
+  border-radius: 7px;
+  width: 144px;
+  height: 42px;
+  position: absolute;
+  left: 354px;
+  top: 502px;
+}
+.rectangle-63 {
+  background: #63c0f4;
+  border-radius: 7px;
+  width: 144px;
+  height: 42px;
+  position: absolute;
+  left: 354px;
+  top: 183px;
+}
+.members-Cr {
+  background: #24242d;
+  border-radius: 13px;
+  width: 469px;
+
+  position: absolute;
+  left: 568px;
+  top: 72px;
+  border-radius: 0px 0 5px 5px;
+  height: 470px;
+
+  margin-top: 40px;
+  overflow-y: auto;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.rectangle-23 {
+  background: #b3a4de;
+  border-radius: 8px 8px 0 0px;
+  width: 253px;
+  height: 41px;
+  position: absolute;
+  left: 30px;
+  top: 72px;
+}
+.rectangle-33 {
+  background: #b3a4de;
+  border-radius: 8px 8px 0 0;
+  width: 469px;
+  height: 41px;
+  position: absolute;
+  left: 568px;
+  top: 72px;
+}
+.usu-rio {
+  color: #000000;
+  text-align: left;
+  font: 400 24px/27.5px "Outfit", sans-serif;
+  position: absolute;
+  left: 114px;
+  top: 80px;
+  width: 86px;
+  height: 24px;
+}
+.usu-rio2 {
+  color: #000000;
+  text-align: left;
+  font: 400 24px/27.5px "Outfit", sans-serif;
+  position: absolute;
+  left: 638px;
+  top: 80px;
+  width: 85px;
+  height: 24px;
+}
+.fun-o {
+  color: #000000;
+  text-align: left;
+  font: 400 24px/27.5px "Outfit", sans-serif;
+  position: absolute;
+  left: 882px;
+  top: 80px;
+  width: 86px;
+  height: 24px;
+}
+.removerUsuario {
+  background: #d86666;
+  border-radius: 7px;
+  width: 144px;
+  height: 42px;
+  position: absolute;
+  left: 354px;
+  top: 335px;
+  border: none;
+  cursor: pointer;
+}
+.adicionarUsuario {
+  background: #8dd88b;
+  border-radius: 7px;
+  width: 144px;
+  height: 42px;
+  position: absolute;
+  left: 354px;
+  top: 259px;
+  border: none;
+  cursor: pointer;
+
+}
+.navbar {
+  color: #ffffff;
+  text-align: left;
+  font: 700 36px/27.5px "Outfit", sans-serif;
+  position: absolute;
+  left: calc(50% - 503px);
+  top: 23px;
+  width: 230px;
+  height: 32px;
+}
+.rectangle-40 {
+  color: #000000;
+  text-align: left;
+  font: 400 48px/27.5px "Outfit", sans-serif;
+  position: absolute;
+  left: 399px;
+  top: 342px;
+}
+.rectangle-50 {
+  color: #000000;
+  text-align: left;
+  font: 400 48px/27.5px "Outfit", sans-serif;
+  position: absolute;
+  left: 399px;
+  top: 266px;
+}
+.gestor {
+  color: #000000;
+  text-align: left;
+  font: 400 20px/27.5px "Outfit", sans-serif;
+  position: absolute;
+  left: 395px;
+  top: 190px;
+  border: none;
+  background-color: #63c0f4;
+  text-align: center;
+}
+.voltar {
+  color: #000000;
+  text-align: left;
+  font: 400 20px/27.5px "Outfit", sans-serif;
+  position: absolute;
+  left: 395px;
+  top: 509px;
+}
+.users-free {
+  background: #d9d9d9;
+  border-radius: 5px;
+
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  color: #000000;
+  font-family: "Inter";
+  font-size: 16px;
+}
+
+/* Estilo para itens selecionados */
+.users-free.selected {
+  filter: brightness(1.2); /* Aumenta o brilho para 120% */
 }
