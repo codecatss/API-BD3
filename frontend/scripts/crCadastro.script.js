@@ -147,21 +147,56 @@ function renderListItem(ulElement, item) {
     const statusClass = item.statusCr === 'inativo' ? 'status-item-inativo' : 'status-item';
 
     liElement.innerHTML = `
-        <p class="${statusClass}">${item.statusCr}</p>
-        <p>${item.nome}</p>
-        <p>${item.codigoCr}</p>
-        <p>${item.sigla}</p>
-        
-        <div class="actions">
-            <div class="switch ${switchClass}">
-                <button></button>
-                <span></span>
-            </div>
-            <img src="../assets/dots.svg" alt="">
+    <p class="${statusClass}">${item.statusCr}</p>
+    <p>${item.nome}</p>
+    <p>${item.codigoCr}</p>
+    <p>${item.sigla}</p>
+    
+    <div class="actions">
+        <div class="switch ${switchClass}">
+            <button></button>
+            <span></span>
         </div>
-    `;
+    <div class="icons">
+        
+    
+    <img src="../assets/addUsuario.png" alt="" class="addMembers" data-nome="${item.nome}">
+    <img src="../assets/Icone ajustavel.png" alt="" class="config" ">
+    </div>
+    
+    </div>
+`;
 
     ulElement.appendChild(liElement);
+
+
+    const addMembersImage = liElement.querySelector('.addMembers');
+
+    addMembersImage.addEventListener('click', function () {
+        const nomeDoItem = this.getAttribute('data-nome');
+        console.log('Nome do item:', nomeDoItem);
+    });
+
+
+
+
+
+    addMembersImage.addEventListener('click', function () {
+
+        const modal = document.getElementById('myModalAddMember');
+        modal.style.display = 'block';
+
+
+
+
+        window.addEventListener('click', function (event) {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+    });
+
+
 
     addSwitchClickEvent(liElement, codigoCr, item.statusCr);
 }
@@ -294,9 +329,62 @@ function refreshList() {
 
 confirmarButton.addEventListener('click', handleEnviarClick);
 
+
+
+
+
+
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const listUsers = document.getElementById("listUsers");
+    const membersCr = document.getElementById("membersCr");
+    const adicionarUsuarioBtn = document.getElementById("adicionarUsuario");
+    const removerUsuarioBtn = document.getElementById("removerUsuario");
+
+
+    const usersFreeItems = listUsers.querySelectorAll(".users-free");
+    usersFreeItems.forEach(function (item) {
+        item.addEventListener("click", function () {
+
+            this.classList.toggle("selected");
+        });
+    });
+
+
+    adicionarUsuarioBtn.addEventListener("click", function () {
+
+        const selectedItems = listUsers.querySelectorAll(".users-free.selected");
+
+
+        selectedItems.forEach(function (item) {
+            item.classList.remove("selected"); 
+            membersCr.appendChild(item); 
+        });
+    });
+
+
+    removerUsuarioBtn.addEventListener("click", function () {
+
+        const selectedItems = membersCr.querySelectorAll(".users-free.selected");
+
+
+        selectedItems.forEach(function (item) {
+            item.classList.remove("selected"); 
+            listUsers.appendChild(item); 
+        });
+    });
+});
+
+
+
+
+
 fetchAndRenderData();
 
 
 
 
 window.addEventListener('load', fetchAndRenderData);
+
+
