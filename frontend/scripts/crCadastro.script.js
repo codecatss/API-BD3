@@ -290,7 +290,7 @@ function saveCenterResult(data) {
     };
 
 
-    const apiUrl = 'http://localhost:8080/cr'; 
+    const apiUrl = 'http://localhost:8080/cr';
 
     fetch(apiUrl, requestOptions)
         .then((response) => {
