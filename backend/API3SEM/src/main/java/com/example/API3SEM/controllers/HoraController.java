@@ -111,8 +111,8 @@ public class HoraController {
 
         if(compoundHoraDTO.extas()==null) {
 
-            if(validacaoHora(hora).contains("Erro")){
-                msg = "Erro na seguinte hora: " + hora.intervalo() +" "+ validacaoHora(hora);
+            if(validacaoHora(hora, false, null).contains("Erro")){
+                msg = "Erro na seguinte hora: " + hora.intervalo() +" "+ validacaoHora(hora, false, null);
                 throw new ApiException(msg);
             }
             saveHora(hora, TipoEnum.SOBREAVISO, null);
@@ -134,15 +134,15 @@ public class HoraController {
                 if(startTime.after(hourExtra.get(0))||endTime.before(hourExtra.get(1))){
                     throw new ApiException("Erro: erro no intervalo");
                 }
-                if(validacaoHora(extra).contains("Erro")){
-                    msg = "Erro na seguinte hora: " + extra.intervalo() +" "+ validacaoHora(extra);
+                if(validacaoHora(extra, true, hora).contains("Erro")){
+                    msg = "Erro na seguinte hora: " + extra.intervalo() +" "+ validacaoHora(extra, true, hora);
                     throw new ApiException(msg);
                 }
             }
         }
 
-        if(validacaoHora(hora).contains("Erro")){
-            msg = validacaoHora(hora);
+        if(validacaoHora(hora, false, null).contains("Erro")){
+            msg = validacaoHora(hora,false, null);
             throw new ApiException(msg);
         }
         saveHora(hora, TipoEnum.SOBREAVISO, null);
@@ -186,14 +186,21 @@ public class HoraController {
         return response;
     }
 
-    private String validacaoHora(HoraRequestDTO hora){
+    private String validacaoHora(HoraRequestDTO hora, boolean extra, HoraRequestDTO sobreavisoHora){
 
         List<Timestamp> hourRange = new ArrayList<>();
         for (String str : Arrays.asList(hora.intervalo().split("&"))) {
             hourRange.add(toTimestamp(str.split("-")));
         }
 
-        if (!clientRepository.existsById(hora.cnpj())) {
+        String cnpjCliente;
+        if(extra&&hora.cnpj().isEmpty()){
+            cnpjCliente = sobreavisoHora.cnpj();
+        }
+        else{
+            cnpjCliente = hora.cnpj();
+        }
+        if (!clientRepository.existsById(cnpjCliente)) {
             return "Erro: O cliente fornecido não esta cadastrado no sistema";
         }
         if (hourRange.get(0).after(hourRange.get(1))) {
