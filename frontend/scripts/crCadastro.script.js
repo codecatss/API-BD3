@@ -243,16 +243,21 @@ function closeModalFunction() {
 closeModal.addEventListener('click', closeModalFunction);
 
 
+const cancelarButton = document.querySelector('.cancelar');
+cancelarButton.addEventListener('click', closeModalFunction);
 
 
-function handleEnviarClick(event) {
+
+
+
+
+
+async function handleEnviarClick(event) {
     event.preventDefault();
-
 
     const nomeInput = document.querySelector('input[name="nome"]');
     const siglaInput = document.querySelector('input[name="sigla"]');
     const codigoCrInput = document.querySelector('input[name="codigoCr"]');
-
 
     const dados = {
         codigoCr: codigoCrInput.value,
@@ -263,21 +268,28 @@ function handleEnviarClick(event) {
 
     console.log('Dados a serem enviados:', dados);
 
+    try {
 
-    saveCenterResult(dados);
+        await saveCenterResult(dados);
+        showSuccessMessage()
 
-    // Limpa os campos de entrada
-    nomeInput.value = "";
-    codigoCrInput.value = "";
-    siglaInput.value = "";
+
+        nomeInput.value = "";
+        codigoCrInput.value = "";
+        siglaInput.value = "";
+
+
+        refreshList();
+    } catch (error) {
+        console.error('Erro ao adicionar o CR:', error);
+        showErrorMessage()
+    }
 }
 
 
 
 
-
-function saveCenterResult(data) {
-
+async function saveCenterResult(data) {
     const requestOptions = {
         method: 'POST',
         headers: {
@@ -286,24 +298,41 @@ function saveCenterResult(data) {
         body: JSON.stringify(data)
     };
 
-
     const apiUrl = 'http://localhost:8080/cr';
 
-    fetch(apiUrl, requestOptions)
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error('Erro na requisição POST');
-            }
-            return response.json();
-        })
-        .then((responseData) => {
-            console.log('Resposta da requisição POST:', responseData);
-        })
-        .catch((error) => {
-            console.error('Erro ao fazer a requisição POST:', error);
-        });
+    try {
+        const response = await fetch(apiUrl, requestOptions);
+        if (!response.ok) {
+            throw new Error('Erro na requisição POST');
+        }
+        const responseData = await response.json();
+        console.log('Resposta da requisição POST:', responseData);
+    } catch (error) {
+        console.error('Erro ao fazer a requisição POST:', error);
+        throw error;
+    }
 }
 
+function showSuccessMessage() {
+    const successMessage = document.getElementById('successMessage');
+    successMessage.style.backgroundColor = 'green';
+    successMessage.style.display = 'block';
+    successMessage.style.position = 'fixed';
+    setTimeout(() => {
+        successMessage.style.display = 'none';
+    }, 3000);
+}
+
+
+function showErrorMessage() {
+    const errorMessage = document.getElementById('errorMessage');
+    errorMessage.style.backgroundColor = 'red';
+    errorMessage.style.display = 'block';
+    errorMessage.style.position = 'fixed';
+    setTimeout(() => {
+        errorMessage.style.display = 'none';
+    }, 2000);
+}
 
 
 
@@ -326,6 +355,33 @@ window.addEventListener('click', function (event) {
 });
 
 
+
+
+
+
+
+const ulElement = document.querySelector('.list-of-itens');
+
+
+
+
+
+function refreshList() {
+
+    ulElement.innerHTML = "";
+
+
+    fetchAndRenderData();
+}
+
+
+
+confirmarButton.addEventListener('click', handleEnviarClick);
+
+
+
+
+fetchAndRenderData();
 
 
 
