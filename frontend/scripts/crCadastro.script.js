@@ -243,9 +243,6 @@ function closeModalFunction() {
 closeModal.addEventListener('click', closeModalFunction);
 
 
-const cancelarButton = document.querySelector('.cancelar');
-cancelarButton.addEventListener('click', closeModalFunction);
-
 
 
 function handleEnviarClick(event) {

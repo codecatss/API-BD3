@@ -521,6 +521,7 @@ width: 200px;
 cursor: pointer;
   font: 400 20px/27.5px "Outfit", sans-serif;
 border: none;
+text-align: center;
 }
 
 
@@ -566,7 +567,7 @@ border: none;
   top: 177px;
   border: none;
 }
-.navbar2 {
+.nome-input {
   color: #ffffff;
   text-align: left;
   font: 600 24px/27.5px "Outfit", sans-serif;
@@ -576,7 +577,7 @@ border: none;
   width: 116.93px;
   height: 32px;
 }
-.navbar3 {
+.sigla-input {
   color: #ffffff;
   text-align: left;
   font: 600 24px/27.5px "Outfit", sans-serif;
@@ -586,7 +587,7 @@ border: none;
   width: 116.93px;
   height: 32px;
 }
-.navbar4 {
+.codCr-input {
   color: #ffffff;
   text-align: left;
   font: 600 24px/27.5px "Outfit", sans-serif;
@@ -595,10 +596,4 @@ border: none;
   top: 300px;
   width: 116.93px;
   height: 32px;
-}
-
-
-
-.navbar{
-  
 }
