@@ -10,10 +10,8 @@ import com.example.API3SEM.utills.ApiException;
 import com.example.API3SEM.utills.TipoEnum;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.ResponseEntity.BodyBuilder;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
@@ -113,11 +111,11 @@ public class HoraController {
 
         if(compoundHoraDTO.extas()==null) {
 
-            if(saveHora(hora).contains("Erro")){
-                msg = "Erro na seguinte hora: " + hora.intervalo() +" "+ saveHora(hora);
+            if(validacaoHora(hora).contains("Erro")){
+                msg = "Erro na seguinte hora: " + hora.intervalo() +" "+ validacaoHora(hora);
                 throw new ApiException(msg);
             }
-            forSave(hora, TipoEnum.SOBREAVISO);
+            saveHora(hora, TipoEnum.SOBREAVISO);
         }
         else{
             
@@ -136,20 +134,20 @@ public class HoraController {
                 if(startTime.after(hourExtra.get(0))||endTime.before(hourExtra.get(1))){
                     throw new ApiException("Erro: erro no intervalo");
                 }
-                if(saveHora(extra).contains("Erro")){
-                    msg = "Erro na seguinte hora: " + extra.intervalo() +" "+ saveHora(extra);
+                if(validacaoHora(extra).contains("Erro")){
+                    msg = "Erro na seguinte hora: " + extra.intervalo() +" "+ validacaoHora(extra);
                     throw new ApiException(msg);
                 }
             }
         }
 
-        if(saveHora(hora).contains("Erro")){
-            msg = saveHora(hora);
+        if(validacaoHora(hora).contains("Erro")){
+            msg = validacaoHora(hora);
             throw new ApiException(msg);
         }
-        forSave(hora, TipoEnum.SOBREAVISO);
+        saveHora(hora, TipoEnum.SOBREAVISO);
         for (HoraRequestDTO extra : compoundHoraDTO.extas()) {
-            forSave(hora, TipoEnum.EXTRA);  
+            saveHora(hora, TipoEnum.EXTRA);  
         }
         msg = "Horas registradas";
         return ResponseEntity.status(HttpStatus.CREATED).body(msg);       
@@ -166,16 +164,6 @@ public class HoraController {
         String str = list[0]+"-"+list[1]+"-"+list[2]+" "+list[3]+":"+list[4] + ":00";
         hour = Timestamp.valueOf(str);
         return hour;
-    }
-
-    private static Integer stringToInteger(String str){
-        int retorno = 0;
-        if(str != null){
-            for (Character character : str.toCharArray()) {
-                retorno++;
-            }
-        }
-        return retorno;
     }
     
     private HoraResponseDTO convertToHoraResponseDTO(Hora hora) {
@@ -198,7 +186,7 @@ public class HoraController {
         return response;
     }
 
-    private String saveHora(HoraRequestDTO hora){
+    private String validacaoHora(HoraRequestDTO hora){
 
         List<Timestamp> hourRange = new ArrayList<>();
         for (String str : Arrays.asList(hora.intervalo().split("&"))) {
@@ -214,7 +202,7 @@ public class HoraController {
         return"";
     }
     
-    private void forSave(HoraRequestDTO hora, TipoEnum tipo){
+    private void saveHora(HoraRequestDTO hora, TipoEnum tipo){
         List<Timestamp> newExtra = new ArrayList<>();
         for (String str : Arrays.asList(hora.intervalo().split("&"))) {
             newExtra.add(toTimestamp(str.split("-")));
