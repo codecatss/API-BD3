@@ -215,30 +215,25 @@ public class HoraController {
             newExtra.add(toTimestamp(str.split("-")));
         }
         Hora hour = new Hora();
-        hour.setCodcr(hora.codigo_cr());
         hour.setLancador(hora.matricula_lancador());
-        if(hora.cnpj().isEmpty()){
-            hour.setCnpj(sobreaviso.cnpj());
-        } else{
-            hour.setCnpj(hora.cnpj());
-        }
         hour.setData_hora_inicio(newExtra.get(0));
         hour.setData_hora_fim(newExtra.get(1));
         hour.setTipo(tipo.name());
-        if(hora.justificativa_lan().isEmpty()){
+        if(tipo.equals(TipoEnum.EXTRA)){
             hour.setJustificativa(sobreaviso.justificativa_lan());
+            hour.setProjeto(sobreaviso.projeto());
+            hour.setProjeto(sobreaviso.projeto());
+            hour.setSolicitante(sobreaviso.solicitante());
+            hour.setCodcr(sobreaviso.codigo_cr());
+            hour.setCnpj(sobreaviso.cnpj());
         } else{
             hour.setJustificativa(hora.justificativa_lan());
-        }
-        if(hora.projeto().isEmpty()){
-            hour.setProjeto(sobreaviso.projeto());
-        } else{
             hour.setProjeto(hora.projeto());
-        }
-        if(hora.solicitante().isEmpty()){
-            hour.setSolicitante(sobreaviso.solicitante());
-        } else{
+            hour.setProjeto(hora.projeto());
             hour.setSolicitante(hora.solicitante());
+            hour.setCodcr(hora.codigo_cr());
+            hour.setCnpj(hora.cnpj());
+
         }
         horaRepository.save(hour);
     }
