@@ -34,11 +34,10 @@ public class Hora {
     @Column(name = "codigo_cr", length = 10)
     private String codcr;
 
-
-    @Column(name = "matricula")
+    @Column(name = "matricula_lancador")
     private String lancador;
 
-    @Column (name= "cnpj")
+    @Column (name= "cnpj_cliente")
     private String cnpj;
 
     @Column (name = "data_hora_inicio")
@@ -50,12 +49,12 @@ public class Hora {
     @Column (name = "tipo")
     private  String tipo;
 
-    @Column (name = "justificativa", length= 500)
+    @Column (name = "justificativa_lancamento", length= 500)
     private String justificativa;
 
     @Column (name = "projeto", length= 100)
     private String projeto;
 
-    @Column (name="solicitante", length= 80)
+    @Column (name="solicitante_lancamento", length= 80)
     private String solicitante;
 }
