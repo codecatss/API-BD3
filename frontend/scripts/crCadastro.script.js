@@ -1,3 +1,8 @@
+
+console.log("ola")
+
+
+
 function toggleMode(liElement) {
     if (liElement.classList.contains('moved')) {
         liElement.classList.remove('moved');
@@ -7,6 +12,7 @@ function toggleMode(liElement) {
         liElement.classList.add('moved');
     }
 }
+console.log("oltudo bema")
 
 function enableCenterResult(codigoCr, liElement) {
     const apiUrl = `http://localhost:8080/cr/enable/${codigoCr}`;
@@ -174,7 +180,10 @@ function renderListItem(ulElement, item) {
 
     addMembersImage.addEventListener('click', function () {
         const nomeDoItem = this.getAttribute('data-nome');
-        console.log('Nome do item:', nomeDoItem);
+        const crNome = document.querySelector(".navbar")
+        crNome.textContent = `Gerenciar CR ${item.nome}`
+
+
     });
 
 
@@ -310,132 +319,191 @@ function showErrorMessage() {
         errorMessage.style.display = 'none';
     }, 2000);
 }
+fetchAndRenderData();
 
-const confirmarButton = document.querySelector('.confirmar');
-confirmarButton.addEventListener('click', handleEnviarClick);
 
-window.addEventListener('click', function (event) {
-    if (event.target === modal) {
-        closeModalFunction();
+
+let allUsers = []; // Variável para armazenar todos os objetos
+const adicionarItensButton = document.getElementById('adicionarItens');
+
+async function toggleClasseSelectEImprimir(event, item) {
+    const li = event.target;
+
+    if (li.classList.contains('selected')) {
+        li.classList.remove('selected');
+        console.log('Classe "selected" removida');
+    } else {
+        li.classList.add('selected');
+        console.log('Classe "selected" adicionada');
     }
-});
 
-const ulElement = document.querySelector('.list-of-itens');
-
-function refreshList() {
-    ulElement.innerHTML = "";
-    fetchAndRenderData();
+    console.log('Objeto clicado:', item);
 }
 
-confirmarButton.addEventListener('click', handleEnviarClick);
+async function adicionarClasseSelect(event) {
+    const li = event.target;
+    li.classList.add('selected');
+}
 
+// Função para fazer a requisição GET
+async function fazerRequisicaoGET() {
+    // URL da API
+    const url = 'http://localhost:8080/employee';
 
+    try {
+        // Faz a requisição GET com await
+        const response = await fetch(url);
 
+        // Verifica se a resposta tem status 200 (OK)
+        if (!response.ok) {
+            throw new Error(`Erro na requisição: ${response.status} - ${response.statusText}`);
+        }
 
+        // Converte a resposta para JSON com await
+        const data = await response.json();
 
+        // Armazena os itens da API
+        allUsers = data;
 
+        // Manipula os dados recebidos
+        console.log(data);
+        renderizarLista(data);
+    } catch (error) {
+        // Trata erros
+        console.error('Erro na requisição:', error);
+    }
+}
 
-document.addEventListener("DOMContentLoaded", function () {
+// Função para renderizar a lista no elemento UL
+function renderizarLista(data) {
+    console.log(data);
+    const ul = document.getElementById('listUsers');
+    ul.innerHTML = ''; // Limpa o conteúdo existente
 
-    const listUsers = document.getElementById("listUsers");
-    const membersCr = document.getElementById("membersCr");
-    const adicionarUsuarioBtn = document.getElementById("adicionarUsuario");
-    const removerUsuarioBtn = document.getElementById("removerUsuario");
+    // Itera sobre os itens e cria um elemento LI para cada um
+    data.forEach(item => {
+        const li = document.createElement('li');
+        const p = document.createElement('p');
+        p.textContent = item.nome;
+        li.id = item.matricula;
+        li.appendChild(p);
 
+        // Define a borda com base na função do item
+        if (item.funcao === 'gestor') {
+            li.style.border = '2px solid blue';
+        } else if (item.funcao === 'colaborador') {
+            li.style.border = '2px solid green';
+        } else if (item.funcao === 'admin') {
+            // Não renderiza o item
+            return;
+        }
 
-    const usersFreeItems = listUsers.querySelectorAll(".users-free");
-    usersFreeItems.forEach(function (item) {
-        item.addEventListener("click", function () {
-
-            this.classList.toggle("selected");
+        li.classList.add("users-free");
+        li.addEventListener('click', event => {
+            toggleClasseSelectEImprimir(event, item);
         });
+
+        ul.appendChild(li);
+    });
+}
+
+
+// Inicializa a requisição GET ao carregar a página
+
+
+
+// Função para mover itens selecionados da lista para a outra lista
+function moverItensSelecionados() {
+    const listaUsuarios = document.getElementById('listUsers');
+    const listaMembrosCr = document.getElementById('membersCr');
+
+    // Obtém todos os itens selecionados com a classe "selected"
+    const itensSelecionados = listaUsuarios.querySelectorAll('.selected');
+
+    console.log(itensSelecionados)
+    // Move os itens selecionados para a outra lista
+    itensSelecionados.forEach(item => {
+        listaMembrosCr.appendChild(item);
+        console.log(item)
+        item.classList.remove('selected'); // Remove a classe "selected"
     });
 
 
-    adicionarUsuarioBtn.addEventListener("click", function () {
-        const selectedItems = listUsers.querySelectorAll(".users-free.selected");
-
-        selectedItems.forEach(function (item) {
-            item.classList.remove("selected");
+}
 
 
-            const userInfoElement = document.createElement("div");
-            userInfoElement.textContent = `${item.textContent} (${item.dataset.funcao})`;
-            userInfoElement.classList.add("user-info");
+const botaoAdicionarUsuario = document.getElementById('adicionarUsuario');
+botaoAdicionarUsuario.addEventListener('click', moverItensSelecionados);
 
 
-            membersCr.appendChild(userInfoElement);
-        });
+function selecionarItem(event) {
+    const li = event.target;
+    li.classList.add('selected');
+}
+
+
+function moverItensDeVolta() {
+    const listaUsuarios = document.getElementById('listUsers');
+    const listaMembrosCr = document.getElementById('membersCr');
+
+
+    const itensSelecionados = listaMembrosCr.querySelectorAll('.selected');
+
+
+    itensSelecionados.forEach(item => {
+        listaUsuarios.appendChild(item);
+        item.classList.remove('selected');
     });
+}
 
 
-
-    removerUsuarioBtn.addEventListener("click", function () {
-
-        const selectedItems = membersCr.querySelectorAll(".users-free.selected");
+const listaMembros = document.getElementById('membersCr');
+listaMembros.addEventListener('click', selecionarItem);
 
 
-        selectedItems.forEach(function (item) {
-            item.classList.remove("selected");
-            listUsers.appendChild(item);
-        });
+const botaoRemoverUsuario = document.getElementById('removerUsuario');
+
+function limparSelecao() {
+    const listaMembrosCr = document.getElementById('membersCr');
+    const itensSelecionados = listaMembrosCr.querySelectorAll('.select');
+
+    itensSelecionados.forEach(item => {
+        item.classList.remove('select');
     });
+}
+
+
+
+botaoRemoverUsuario.addEventListener('click', () => {
+    moverItensDeVolta();
+    limparSelecao();
 });
 
 
 
+function salvarMembros(codigoCr, dataList) {
+    const url = `/seu-endpoint-aqui/${codigoCr}/member`;
 
-function getUsersFromAPI() {
-    const apiUrl = 'http://localhost:8080/employee';
-
-    fetch(apiUrl, {
-        method: 'GET',
+    fetch(url, {
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json',
+            // Se você precisar de autenticação ou outros cabeçalhos, adicione-os aqui
         },
+        body: JSON.stringify(dataList),
     })
-        .then((response) => {
+        .then(response => {
             if (!response.ok) {
-                throw new Error('Network response was not ok');
+                throw new Error('Erro ao salvar membros');
             }
             return response.json();
         })
-        .then((data) => {
-            console.log(data);
-
-            const listUsers = document.getElementById("listUsers");
-            const membersCr = document.getElementById("membersCr");
-
-            data.forEach((user) => {
-                const userNameElement = document.createElement("div");
-                userNameElement.classList.add("users-free");
-                userNameElement.textContent = user.nome;
-
-
-                userNameElement.dataset.funcao = user.funcao;
-
-                userNameElement.addEventListener("click", function () {
-                    this.classList.toggle("selected");
-                });
-
-                listUsers.appendChild(userNameElement);
-            });
-
-
-            const confirmarUsuarioBtn = document.getElementById("confirmarUsuario");
-            confirmarUsuarioBtn.addEventListener("click", function () {
-                const selectedItems = listUsers.querySelectorAll(".users-free.selected");
-
-                selectedItems.forEach(function (item) {
-                    item.classList.remove("selected");
-                    console.log("esse é o item")
-                    console.log(item)
-                    membersCr.appendChild(item);
-                });
-            });
+        .then(savedMembers => {
+            // Os membros foram salvos com sucesso
+            console.log('Membros salvos:', savedMembers);
         })
-        .catch((error) => {
-            console.error('Error:', error);
+        .catch(error => {
+            console.error('Erro ao salvar membros:', error);
         });
 }
 
@@ -443,12 +511,11 @@ function getUsersFromAPI() {
 
 
 
-fetchAndRenderData();
-getUsersFromAPI();
+
+
+window.addEventListener('load', fazerRequisicaoGET);
 
 
 
 
 window.addEventListener('load', fetchAndRenderData);
-
-

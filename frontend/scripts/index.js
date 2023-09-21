@@ -1,3 +1,10 @@
+
+
+
+
+
+
+
 function toggleMode(liElement) {
     if (liElement.classList.contains('moved')) {
         liElement.classList.remove('moved');
@@ -7,6 +14,7 @@ function toggleMode(liElement) {
         liElement.classList.add('moved');
     }
 }
+
 
 function enableCenterResult(codigoCr, liElement) {
     const apiUrl = `http://localhost:8080/cr/enable/${codigoCr}`;
@@ -26,17 +34,18 @@ function enableCenterResult(codigoCr, liElement) {
             return response.json();
         })
         .then((data) => {
-            console.log('Centro de resultado ativado com sucesso:', data);
+
 
             const statusElement = liElement.querySelector('p:first-child');
             statusElement.textContent = 'ativo';
+
+            statusElement.classList.remove('status-item-inativo');
+            statusElement.classList.add('status-item');
         })
         .catch((error) => {
             console.error('Erro ao ativar o centro de resultado:', error);
         });
 }
-
-
 
 function softDeleteCenterResult(codigoCr, liElement) {
     const apiUrl = `http://localhost:8080/cr/${codigoCr}`;
@@ -56,10 +65,12 @@ function softDeleteCenterResult(codigoCr, liElement) {
             return response.json();
         })
         .then((data) => {
-            console.log('Soft delete realizado com sucesso:', data);
+
 
             const statusElement = liElement.querySelector('p:first-child');
             statusElement.textContent = 'inativo';
+
+            statusElement.classList.add('status-item-inativo');
         })
         .catch((error) => {
             console.error('Erro ao realizar o soft delete:', error);
@@ -90,40 +101,16 @@ function fetchAndRenderData() {
         .then((response) => response.json())
         .then((data) => {
             ulElement.innerHTML = '';
-            console.log(data);
+
 
             data.forEach((item) => {
-                const liElement = document.createElement('li');
-                liElement.classList.add('rendered-item');
-                const codigoCr = item.codigoCr;
-
-                const switchClass = item.statusCr === 'inativo' ? 'light' : 'moved';
-
-                liElement.innerHTML = `
-          <p class="status-item">${item.statusCr}</p>
-          <p>${item.nome}</p>
-          <p>${item.codigoCr}</p>
-          <p>${item.sigla}</p>
-          
-          <div class="actions">
-            <div class="switch ${switchClass}">
-              <button></button>
-              <span></span>
-            </div>
-            <img src="../assets/dots.svg" alt="">
-          </div>
-        `;
-
-                ulElement.appendChild(liElement);
-
-                addSwitchClickEvent(liElement, codigoCr, item.statusCr);
+                renderListItem(ulElement, item);
             });
         })
         .catch((error) => {
             console.error('Erro ao buscar dados da API:', error);
         });
 }
-
 
 function searchCRByTerm(searchTerm) {
     const apiUrl = `http://localhost:8080/cr`;
@@ -137,12 +124,10 @@ function searchCRByTerm(searchTerm) {
             const searchTermLowerCase = searchTerm.toLowerCase();
 
             if (searchTermLowerCase.trim() === '') {
-
                 data.forEach((item) => {
                     renderListItem(ulElement, item);
                 });
             } else {
-
                 const filteredData = data.filter((item) => {
                     return (
                         item.nome.toLowerCase().includes(searchTermLowerCase) ||
@@ -161,30 +146,333 @@ function searchCRByTerm(searchTerm) {
         });
 }
 
-
 function renderListItem(ulElement, item) {
     const liElement = document.createElement('li');
-    liElement.classList.add('rendered-item');
+    liElement.classList.add('rendered-lista');
     const codigoCr = item.codigoCr;
 
     const switchClass = item.statusCr === 'inativo' ? 'light' : 'moved';
+    const statusClass = item.statusCr === 'inativo' ? 'status-item-inativo' : 'status-item';
 
     liElement.innerHTML = `
-    <p>${item.statusCr}</p>
+    <p class="${statusClass}">${item.statusCr}</p>
     <p>${item.nome}</p>
     <p>${item.codigoCr}</p>
     <p>${item.sigla}</p>
     
     <div class="actions">
-      <div class="switch ${switchClass}">
-        <button></button>
-        <span></span>
-      </div>
-      <img src="../assets/dots.svg" alt="">
+        <div class="switch ${switchClass}">
+            <button></button>
+            <span></span>
+        </div>
+    <div class="icons">
+        
+    
+    <img src="../assets/addUsuario.png" alt="" class="addMembers" data-nome="${item.nome}">
+    <img src="../assets/Icone ajustavel.png" alt="" class="config" ">
     </div>
-  `;
+    
+    </div>
+`;
 
     ulElement.appendChild(liElement);
+
+
+    const addMembersImage = liElement.querySelector('.addMembers');
+
+    addMembersImage.addEventListener('click', function () {
+        const nomeDoItem = this.getAttribute('data-nome');
+        const crNome = document.querySelector(".navbar");
+        crNome.textContent = `Gerenciar CR ${nomeDoItem}`;
+
+
+
+
+
+        ///// AQUIII
+
+
+
+
+
+
+
+        const allUsers = []
+
+
+        async function fazerRequisicaoGET() {
+
+            const url = 'http://localhost:8080/employee';
+
+            try {
+
+                const response = await fetch(url);
+
+
+                if (!response.ok) {
+                    throw new Error(`Erro na requisição: ${response.status} - ${response.statusText}`);
+                }
+
+
+                const data = await response.json();
+
+
+
+
+                await allUsers.push(...data);
+
+
+                renderizarLista(data);
+
+            } catch (error) {
+
+                console.error('Erro na requisição:', error);
+            }
+            return allUsers
+        }
+
+
+
+
+        console.log(allUsers)
+
+        function renderizarLista(data) {
+
+            const ul = document.getElementById('listUsers');
+            ul.innerHTML = '';
+
+
+            data.forEach(item => {
+                const li = document.createElement('li');
+                const p = document.createElement('p');
+                p.textContent = item.nome;
+                li.id = item.matricula;
+                li.appendChild(p);
+
+
+                if (item.funcao === 'gestor') {
+                    li.style.border = '2px solid blue';
+                } else if (item.funcao === 'colaborador') {
+                    li.style.border = '2px solid green';
+                } else if (item.funcao === 'admin') {
+
+                    return;
+                }
+
+                li.classList.add("users-free");
+                li.addEventListener('click', event => {
+                    toggleClasseSelectEImprimir(event, item);
+                });
+
+                ul.appendChild(li);
+            });
+        }
+
+
+
+
+
+
+
+        const adicionarItensButton = document.getElementById('adicionarItens');
+
+        async function toggleClasseSelectEImprimir(event, item) {
+            const li = event.target;
+
+            if (li.classList.contains('selected')) {
+                li.classList.remove('selected');
+
+            } else {
+                li.classList.add('selected');
+
+            }
+
+            //console.log(item);
+        }
+
+        async function adicionarClasseSelect(event) {
+            const li = event.target;
+            li.classList.add('selected');
+        }
+
+
+
+
+
+
+
+
+
+
+        const elementosUsersFree = document.querySelectorAll('.users-free');
+
+
+        const listaTodosUsusarios = fazerRequisicaoGET()
+        console.log(listaTodosUsusarios)
+
+
+        elementosUsersFree.forEach(elemento => {
+            elemento.addEventListener('click', function (event) {
+                toggleClasseSelectEImprimir(event, item);
+            });
+        });
+
+
+
+
+
+        function capitalize(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        }
+
+
+
+        function moverItensSelecionados() {
+            const listaUsuarios = document.getElementById('listUsers');
+            const listaMembrosCr = document.getElementById('membersCr');
+
+
+            const itensSelecionados = listaUsuarios.querySelectorAll('.selected');
+
+
+            itensSelecionados.forEach(item => {
+                allUsers.forEach(user => {
+                    if (item.id == user.matricula) {
+
+                        const liUser = document.createElement('li');
+                        const nome = document.createElement('p');
+                        const funcao = document.createElement('p');
+                        nome.textContent = user.nome;
+
+                        funcao.textContent = user.funcao.charAt(0).toUpperCase() + user.funcao.slice(1);
+
+                        liUser.appendChild(nome);
+                        liUser.appendChild(funcao);
+                        liUser.classList.add("users-free");
+                        listaMembrosCr.appendChild(liUser);
+
+
+                        item.parentNode.removeChild(item);
+                    }
+                });
+            });
+
+
+            itensSelecionados.forEach(item => {
+                item.classList.remove('selected');
+            });
+        }
+
+
+
+        const botaoAdicionarUsuario = document.getElementById('adicionarUsuario');
+        botaoAdicionarUsuario.addEventListener('click', moverItensSelecionados);
+
+
+        function selecionarItem(event) {
+            const li = event.target;
+            li.classList.add('selected');
+        }
+        function moverItensDeVolta() {
+            const listaUsuarios = document.getElementById('listUsers');
+            const listaMembrosCr = document.getElementById('membersCr');
+
+            const itensSelecionados = listaMembrosCr.querySelectorAll('.selected');
+
+            itensSelecionados.forEach(item => {
+
+                const segundoParagrafo = item.querySelector('p:nth-child(2)');
+                if (segundoParagrafo) {
+                    item.removeChild(segundoParagrafo);
+                }
+
+                listaUsuarios.appendChild(item);
+
+
+                item.classList.add('selected');
+
+                item.classList.remove('selected');
+            });
+        }
+
+
+        const listaMembros = document.getElementById('membersCr');
+        listaMembros.addEventListener('click', selecionarItem);
+
+
+        const botaoRemoverUsuario = document.getElementById('removerUsuario');
+
+        function limparSelecao() {
+            const listaMembrosCr = document.getElementById('membersCr');
+            const itensSelecionados = listaMembrosCr.querySelectorAll('.selected');
+
+            itensSelecionados.forEach(item => {
+                item.classList.remove('selected');
+            });
+        }
+
+
+
+        botaoRemoverUsuario.addEventListener('click', () => {
+            moverItensDeVolta();
+            limparSelecao();
+        });
+
+
+
+        function salvarMembros(codigoCr, dataList) {
+            const url = `http://localhost:8080/cr/${codigoCr}/member`;
+
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+
+                },
+                body: JSON.stringify(dataList),
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Erro ao salvar membros');
+                    }
+                    return response.json();
+                })
+                .then(savedMembers => {
+
+                    console.log('Membros salvos:', savedMembers);
+                })
+                .catch(error => {
+                    console.error('Erro ao salvar membros:', error);
+                });
+        }
+
+
+
+
+
+    });
+
+
+
+
+
+
+    addMembersImage.addEventListener('click', function () {
+
+        const modal = document.getElementById('myModalAddMember');
+        modal.style.display = 'block';
+
+
+
+
+        window.addEventListener('click', function (event) {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+    });
+
+
 
     addSwitchClickEvent(liElement, codigoCr, item.statusCr);
 }
@@ -195,12 +483,9 @@ searchImage.addEventListener('click', function () {
     searchCRByTerm(searchTerm);
 });
 
-
 const addButton = document.querySelector('button');
-
-
 const modal = document.getElementById('myModal');
-
+const closeModal = document.querySelector('#closeModal');
 
 function openModal() {
     modal.style.display = 'block';
@@ -208,11 +493,9 @@ function openModal() {
 
 addButton.addEventListener('click', openModal);
 
-
 closeModal.addEventListener('click', function () {
     modal.style.display = 'none';
 });
-
 
 window.addEventListener('click', function (event) {
     if (event.target === modal) {
@@ -220,67 +503,103 @@ window.addEventListener('click', function (event) {
     }
 });
 
-
-window.addEventListener('load', fetchAndRenderData);
-
-
-function saveCenterResult(data) {
-    const apiUrl = 'http://localhost:8080/cr';
-
-    const requestOptions = {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-    };
-
-    return fetch(apiUrl, requestOptions)
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error('Erro na requisição');
-            }
-            console.log("Dados a serem salvos:", data);
-
-            return response.json();
-        })
-        .then((centerResult) => {
-            console.log('Centro de resultado cadastrado com sucesso:', centerResult);
-            return centerResult;
-        })
-        .catch((error) => {
-            console.error('Erro ao cadastrar o centro de resultado:', error);
-            throw error;
-        });
-
+function closeModalFunction() {
+    modal.style.display = 'none';
 }
 
+closeModal.addEventListener('click', closeModalFunction);
 
+const cancelarButton = document.querySelector('.cancelar');
+cancelarButton.addEventListener('click', closeModalFunction);
 
-const enviarButton = document.querySelector('.enviar');
-
-enviarButton.addEventListener('click', function (event) {
+async function handleEnviarClick(event) {
     event.preventDefault();
 
-
     const nomeInput = document.querySelector('input[name="nome"]');
-    const matriculaInput = document.querySelector('input[name="matricula"]');
     const siglaInput = document.querySelector('input[name="sigla"]');
-
+    const codigoCrInput = document.querySelector('input[name="codigoCr"]');
 
     const dados = {
-        codigoCr: matriculaInput.value,
+        codigoCr: codigoCrInput.value,
         sigla: siglaInput.value,
         nome: nomeInput.value,
         statusCr: "ativo",
     };
 
 
-    console.log(dados);
-    saveCenterResult(dados);
+
+    try {
+        await saveCenterResult(dados);
+        showSuccessMessage();
+
+        nomeInput.value = "";
+        codigoCrInput.value = "";
+        siglaInput.value = "";
+
+        refreshList();
+    } catch (error) {
+        console.error('Erro ao adicionar o CR:', error);
+        showErrorMessage();
+    }
+}
+
+async function saveCenterResult(data) {
+    const requestOptions = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    };
+
+    const apiUrl = 'http://localhost:8080/cr';
+
+    try {
+        const response = await fetch(apiUrl, requestOptions);
+        if (!response.ok) {
+            throw new Error('Erro na requisição POST');
+        }
+        const responseData = await response.json();
+
+    } catch (error) {
+        console.error('Erro ao fazer a requisição POST:', error);
+        throw error;
+    }
+}
+
+function showSuccessMessage() {
+    const successMessage = document.getElementById('successMessage');
+    successMessage.style.backgroundColor = 'green';
+    successMessage.style.display = 'block';
+    successMessage.style.position = 'fixed';
+    setTimeout(() => {
+        successMessage.style.display = 'none';
+    }, 3000);
+}
+
+function showErrorMessage() {
+    const errorMessage = document.getElementById('errorMessage');
+    errorMessage.style.backgroundColor = 'red';
+    errorMessage.style.display = 'block';
+    errorMessage.style.position = 'fixed';
+    setTimeout(() => {
+        errorMessage.style.display = 'none';
+    }, 2000);
+}
+fetchAndRenderData();
 
 
-    nomeInput.value = "";
-    matriculaInput.value = "";
-    siglaInput.value = "";
-});
+
+
+
+
+
+
+
+
+
+
+
+
+
+window.addEventListener('load', fetchAndRenderData);
