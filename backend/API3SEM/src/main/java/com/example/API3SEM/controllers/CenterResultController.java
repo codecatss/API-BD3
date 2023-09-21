@@ -188,6 +188,33 @@ public class CenterResultController {
     }
 
 
+    @Autowired
+    private MemberRepository memberRepositoryGET;
+
+    @Autowired
+    private EmployeeRepository employeeRepositoryGET;
+
+
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping("/{codigoCr}/employees")
+    public List<Employee> getEmployeesByCrCode(@PathVariable String codigoCr) {
+        CenterResult centerResult = repository.findById(codigoCr)
+                .orElseThrow(() -> new ApiException("Centro de resultado não encontrado com o código: " + codigoCr));
+
+        if (centerResult.getStatusCr() != StatusEnum.ativo) {
+            throw new ApiException("Não é possível listar membros de um CR inativo.");
+        }
+
+        List<Member> members = memberRepositoryGET.findByCodCr(codigoCr);
+        List<String> matriculas = members.stream()
+                .map(Member::getMatriculaIntegrante)
+                .collect(Collectors.toList());
+
+        List<Employee> employees = employeeRepositoryGET.findByMatriculaIn(matriculas);
+
+        return employees;
+    }
 
 
 }
