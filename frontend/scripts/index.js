@@ -1,10 +1,3 @@
-
-
-
-
-
-
-
 function toggleMode(liElement) {
     if (liElement.classList.contains('moved')) {
         liElement.classList.remove('moved');
@@ -180,10 +173,11 @@ function renderListItem(ulElement, item) {
 
     const addMembersImage = liElement.querySelector('.addMembers');
 
-    addMembersImage.addEventListener('click', function () {
+    addMembersImage.addEventListener('click', async function () {
         const nomeDoItem = this.getAttribute('data-nome');
         const crNome = document.querySelector(".navbar");
-        crNome.textContent = `Gerenciar CR ${nomeDoItem}`;
+        crNome.textContent = `Gerenciar CR ${item.nome}`;
+
 
 
 
@@ -191,85 +185,96 @@ function renderListItem(ulElement, item) {
 
         ///// AQUIII
 
-
-
-
-
-
-
-        const allUsers = []
-
+        const allUsers = [];
+        const membersList = [];
 
         async function fazerRequisicaoGET() {
-
             const url = 'http://localhost:8080/employee';
 
             try {
-
                 const response = await fetch(url);
-
 
                 if (!response.ok) {
                     throw new Error(`Erro na requisição: ${response.status} - ${response.statusText}`);
                 }
 
-
                 const data = await response.json();
 
-
-
-
-                await allUsers.push(...data);
-
+                allUsers.push(...data);
 
                 renderizarLista(data);
-
             } catch (error) {
-
                 console.error('Erro na requisição:', error);
             }
-            return allUsers
+
+            return allUsers;
         }
 
+        console.log(membersList);
 
-
-
-        console.log(allUsers)
-
-        function renderizarLista(data) {
-
+        async function renderizarLista(data) {
             const ul = document.getElementById('listUsers');
             ul.innerHTML = '';
 
+            const matriculasExistem = new Set(membersList.map(user => user.matricula));
 
             data.forEach(item => {
-                const li = document.createElement('li');
-                const p = document.createElement('p');
-                p.textContent = item.nome;
-                li.id = item.matricula;
-                li.appendChild(p);
+                if (!matriculasExistem.has(item.matricula)) {
+                    const li = document.createElement('li');
+                    const p = document.createElement('p');
+                    p.textContent = item.nome;
+                    li.id = item.matricula;
+                    li.appendChild(p);
 
+                    if (item.funcao === 'gestor') {
+                        li.style.border = '2px solid blue';
+                    } else if (item.funcao === 'colaborador') {
+                        li.style.border = '2px solid green';
+                    } else if (item.funcao === 'admin') {
+                        return;
+                    }
 
-                if (item.funcao === 'gestor') {
-                    li.style.border = '2px solid blue';
-                } else if (item.funcao === 'colaborador') {
-                    li.style.border = '2px solid green';
-                } else if (item.funcao === 'admin') {
+                    li.classList.add("users-free");
+                    li.addEventListener('click', event => {
+                        toggleClasseSelectEImprimir(event, item);
+                    });
 
-                    return;
+                    ul.appendChild(li);
                 }
+            });
+        }
 
-                li.classList.add("users-free");
-                li.addEventListener('click', event => {
-                    toggleClasseSelectEImprimir(event, item);
-                });
+        async function renderMembers(items) {
+            const ul = document.getElementById("membersCr");
 
+
+            ul.innerHTML = "";
+
+
+            items.forEach(item => {
+                const li = document.createElement("li");
+                li.textContent = `Nome: ${item.nome}, Função: ${item.funcao}`;
                 ul.appendChild(li);
             });
         }
 
 
+        async function loadMembers() {
+            return fetch(`http://localhost:8080/cr/${item.codigoCr}/employees`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data); 
+                    membersList.push(...data);
+                    renderMembers(data);
 
+                })
+                .catch(error => console.error("Erro ao carregar membros:", error));
+        }
+
+        console.log("Valor de item.codigoCr:", item.codigoCr);
+
+
+        loadMembers();
 
 
 
@@ -304,11 +309,13 @@ function renderListItem(ulElement, item) {
 
 
 
+
+
         const elementosUsersFree = document.querySelectorAll('.users-free');
 
 
         const listaTodosUsusarios = fazerRequisicaoGET()
-        console.log(listaTodosUsusarios)
+
 
 
         elementosUsersFree.forEach(elemento => {
