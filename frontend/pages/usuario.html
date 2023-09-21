@@ -11,27 +11,31 @@
     <div class="container">
         <div class="menu">
             <div class="logo">
-                <!-- <img src="" alt="" srcset=""> -->
+                <img src="../assets/transparent-icons/2rp.svg" alt="" srcset="">
             </div>
             <ul>
                 <li>
-                    <img src="../assets/Icone Parametrizacao.svg" alt="" srcset="">
+                    <img src="../assets/transparent-icons/dashboard.svg" alt="" srcset="">
                     <a>Dashboard</a>
                 </li>
                 <li class="active-page">
-                    <img src="../assets/Icone Parametrizacao.svg" alt="" srcset="">
+                    <img src="../assets/transparent-icons/user.svg" alt="" srcset="">
                     <a>Usuários</a>
                 </li>
                 <li>
-                    <img src="../assets/Icone Parametrizacao.svg" alt="" srcset="">
+                    <img src="../assets/transparent-icons/client.svg" alt="" srcset="">
                     <a>Clientes</a>
                 </li>
                 <li>
-                    <img src="../assets/Icone Parametrizacao.svg" alt="" srcset="">
+                    <img src="../assets/transparent-icons/cr.svg" alt="" srcset="">
+                    <a>CR</a>
+                </li>
+                <li>
+                    <img src="../assets/transparent-icons/approve.svg" alt="" srcset="">
                     <a>Aprovar Horas</a>
                 </li>
                 <li>
-                    <img src="../assets/Icone Parametrizacao.svg" alt="" srcset="">
+                    <img src="../assets/transparent-icons/parameterization.svg" alt="" srcset="">
                     <a>Parametrização</a>
                 </li>
             </ul>
@@ -46,56 +50,57 @@
             </div>
             <div class="search-bar">
                 <div class="content">
-                    <textarea></textarea>
-                    <a>Lupa</a>
-                    <a>Adicionar</a>
+                    <input class="input-search" type="text" name="" id="" placeholder="Pesquisar">
+                    <a class="search">
+                        <img src="../assets/transparent-icons/lupa.svg" alt="">
+                    </a>    
+                    <a class="btn-add" href="#">Adicionar</a>
                 </div>
             </div>
-            <div class="users">
-                <ul>
-                    <li>Status</li>
-                    <li>Nome</li>
-                    <li>Matrícula</li>
-                    <li>Função</li>
-                    <li>5</li>
-                    <li>6</li>
-                    <li>7</li>
-                </ul>
-            </div>
-            <div class="user">
-                <ul>
-                    <li class="active">Ativo</li>
-                    <li>John Doe</li>
-                    <li>1234567</li>
-                    <li>Usuário</li>
-                    <li></li>
-                    <li>On</li>
-                    <li>...</li>
-                </ul>
-            </div>
-            <div class="user">
-                <ul>
-                    <li class="active">Ativo</li>
-                    <li>John Doe</li>
-                    <li>1234567</li>
-                    <li>Usuário</li>
-                    <li></li>
-                    <li>On</li>
-                    <li>...</li>
-                </ul>
-            </div>
-            <div class="user">
-                <ul>
-                    <li class="active">Ativo</li>
-                    <li>John Doe</li>
-                    <li>1234567</li>
-                    <li>Usuário</li>
-                    <li></li>
-                    <li>On</li>
-                    <li>...</li>
-                </ul>
+            <ul class="users">
+                <li class="user-params">
+                    <p>Status</p>
+                    <p>Nome</p>
+                    <p>Matrícula</p>
+                    <p>Função</p>
+                    <p>5</p>
+                    <p>6</p>
+                </li>
+                <li class="user">
+                    <p class="active">Ativo</p>
+                    <p>John Doe</p>
+                    <p>12345</p>
+                    <p>Administrator</p>
+                    <p class="switch">Lorem Ipsum</p>
+                    <div class="actions">
+                            <div class="switch ${switchClass}">
+                              <button></button>
+                              <span></span>
+                            </div>
+                            <img src="../assets/dots.svg" alt="">
+                        </div>
+                </li>
+                <li class="user">
+                    <p class="active">Ativo</p>
+                    <p>John Doe</p>
+                    <p>12345</p>
+                    <p>Administrator</p>
+                    <p class="switch">Lorem Ipsum</p>
+                    <p class="more">Lorem Ipsum</p>
+                </li>
+                <li class="user">
+                    <p class="active">Ativo</p>
+                    <p>John Doe</p>
+                    <p>12345</p>
+                    <p>Administrator</p>
+                    <p class="switch">Lorem Ipsum</p>
+                    <p class="more">Lorem Ipsum</p>
+                </li>
+            </ul>
             </div>
         </div>
-    </div>    
+    </div> 
+    
+    <script src="../scripts/index.js"></script>
 </body>
 </html>
