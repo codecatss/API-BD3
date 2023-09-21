@@ -55,9 +55,8 @@ CREATE TABLE integrante (
 );
 
 
-CREATE TABLE hora
-(
-    id integer NOT NULL DEFAULT nextval('hora_id_seq'::regclass),
+CREATE TABLE hora(
+    id SERIAL NOT NULL,
     codigo_cr character varying(10) COLLATE pg_catalog."default" NOT NULL,
     matricula_lancador character varying(20) COLLATE pg_catalog."default" NOT NULL,
     cnpj_cliente character varying(14) COLLATE pg_catalog."default" NOT NULL,
@@ -66,26 +65,12 @@ CREATE TABLE hora
     tipo character varying(20) COLLATE pg_catalog."default",
     justificativa_lancamento character varying(500) COLLATE pg_catalog."default" NOT NULL,
     projeto character varying(100) COLLATE pg_catalog."default" NOT NULL,
-    gestor character varying(80) COLLATE pg_catalog."default",
-    justificativa_negacao character varying(500) COLLATE pg_catalog."default",
-    status_aprovacao character varying(20) COLLATE pg_catalog."default",
     solicitante_lancamento character varying(80) COLLATE pg_catalog."default" NOT NULL,
-    aprovador_adm character varying(80) COLLATE pg_catalog."default",
     CONSTRAINT hora_pkey PRIMARY KEY (id),
-    CONSTRAINT hora_aprovador_adm_fkey FOREIGN KEY (aprovador_adm)
-        REFERENCES public.usuario (matricula) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION,
     CONSTRAINT hora_cnpj_cliente_fkey FOREIGN KEY (cnpj_cliente)
-        REFERENCES public.cliente (cnpj) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION,
+    	REFERENCES public.cliente (cnpj),
     CONSTRAINT hora_cod_cr_fkey FOREIGN KEY (codigo_cr)
-        REFERENCES public.centro_resultado (codigo_cr) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION,
+    	REFERENCES public.centro_resultado (codigo_cr),
     CONSTRAINT hora_username_lancador_fkey FOREIGN KEY (matricula_lancador)
-        REFERENCES public.usuario (matricula) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION
+    	REFERENCES public.usuario (matricula)
 )
