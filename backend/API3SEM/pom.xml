@@ -70,7 +70,7 @@
 					</excludes>
 					<archive>
 						<manifest>
-							<mainClass>Api3SemApplication.ClasseMain</mainClass>
+							<mainClass>com.example.Api3SemApplication</mainClass>
 						</manifest>
 					</archive>
 				</configuration>

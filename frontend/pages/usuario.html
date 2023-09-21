@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../styles/usuario/main.css">
     <link rel="stylesheet" href="../styles/usuario/modal.css">
+    <link rel="stylesheet" href="../styles/usuario/switch.css">
     <link rel="stylesheet" href="../styles/reset.css">
     <title>Usuário</title>
 </head>
@@ -64,38 +65,47 @@
                     <p>Nome</p>
                     <p>Matrícula</p>
                     <p>Função</p>
-                    <p>5</p>
-                    <p>6</p>
+                    <p>Habilitar/Desabilitar</p>
+                    <p>Editar</p>
                 </li>
                 <li class="user">
                     <p class="active">Ativo</p>
                     <p>John Doe</p>
                     <p>12345</p>
                     <p>Administrator</p>
-                    <p class="switch">Lorem Ipsum</p>
-                    <div class="actions">
-                            <div class="switch ${switchClass}">
-                              <button></button>
-                              <span></span>
-                            </div>
-                            <img src="../assets/dots.svg" alt="">
-                        </div>
+                    <div class="switch-align checkbox-size">
+                        <input type="checkbox" class="checkbox" id="user-1-isEnabled">
+                        <label class="switch" for="user-1-isEnabled">
+                          <span class="slider"></span>
+                        </label>
+                    </div>
+                    <a href="#" class="edit-align"><img class="edit-icon" src="../assets/transparent-icons/edit.svg" alt="" srcset="" /></a>
                 </li>
                 <li class="user">
                     <p class="active">Ativo</p>
                     <p>John Doe</p>
                     <p>12345</p>
                     <p>Administrator</p>
-                    <p class="switch">Lorem Ipsum</p>
-                    <p class="more">Lorem Ipsum</p>
+                    <div class="switch-align checkbox-size">
+                        <input type="checkbox" class="checkbox" id="user-2-isEnabled">
+                        <label class="switch" for="user-2-isEnabled">
+                          <span class="slider"></span>
+                        </label>
+                    </div>
+                    <a href="#" class="edit-align"><img class="edit-icon" src="../assets/transparent-icons/edit.svg" alt="" srcset="" /></a>
                 </li>
                 <li class="user">
                     <p class="active">Ativo</p>
                     <p>John Doe</p>
                     <p>12345</p>
                     <p>Administrator</p>
-                    <p class="switch">Lorem Ipsum</p>
-                    <p class="more">Lorem Ipsum</p>
+                    <div class="switch-align checkbox-size">
+                        <input type="checkbox" class="checkbox" id="user-3-isEnabled">
+                        <label class="switch" for="user-3-isEnabled">
+                          <span class="slider"></span>
+                        </label>
+                    </div>
+                    <a href="#" class="edit-align"><img class="edit-icon" src="../assets/transparent-icons/edit.svg" alt="" srcset="" /></a>
                 </li>
             </ul>
             <button id="addUser">Modal - Adicionar Usuário</button>

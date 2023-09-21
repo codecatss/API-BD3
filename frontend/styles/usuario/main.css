@@ -26,7 +26,6 @@ html {
     padding-left: 2.7rem;
 }
 
-
 .menu li {
     width: 100%;
     display: grid;
@@ -59,7 +58,7 @@ html {
     flex-wrap: nowrap;
     justify-content: space-between;
     padding: 20px 20px 20px 20px;
-} 
+}
 
 .main-content .header .user-content {
     display: flex;
@@ -80,10 +79,10 @@ html {
     padding-top: 5px;
     padding-bottom: 5px;
     margin-bottom: 5px;
-    width: 50vw;    
+    width: 50vw;
     background-color: #24242d;
     border-radius: 7px;
-    
+
 }
 
 .main-content .search-bar .content {
@@ -107,7 +106,7 @@ html {
     height: 12px;
 }
 
-.main-content .search-bar .content .input-search{
+.main-content .search-bar .content .input-search {
     width: auto;
     padding: 10px 0;
     border-radius: 7px;
@@ -138,7 +137,7 @@ html {
     border-radius: 3px;
     /* border: 1px solid red; */
 }
- 
+
 .main-content .users .user {
     background-color: #d9d9d9;
     color: #000;
@@ -151,24 +150,30 @@ html {
 .active {
     background-color: #A6DAB3;
     max-width: max-content;
-    padding: 4px 4px; /* Adicione algum espaço ao redor do texto, se desejar */
+    padding: 4px 4px;
+    /* Adicione algum espaço ao redor do texto, se desejar */
     border-radius: 4px;
 }
 
-.switch {
+.switch-align {
     display: flex;
-    justify-content: flex-end;
-    padding-right: 1rem
+    justify-self: flex-end !important;
+    padding-right: 1rem;
 }
 
-.more {
+.edit-align {
     display: flex;
-    justify-content: flex-start;
-    padding-right: 1rem
+    justify-self: flex-start;
+    padding-left: 2rem
 }
 
-/* Início Check */
-:root {
+.edit-icon {
+    width: 31px;
+    height: 31px;
+}
+
+/* Layoy's checkbox */
+/* :root {
     --text-color: white;
     --bg-url: url(../assets/ball.svg);
     --stroke-color: rgba(255, 255, 255, 0.5);
@@ -176,23 +181,23 @@ html {
     --surface-color-hover: rgba(0, 0, 0, 0.02);
     --highlight-color: rgba(255, 255, 255, 0.2);
     --switch-bg-url: url(../assets/ball.svg);
-  }
-  
-  .switch {
+}
+
+.switch {
     position: relative;
     width: 64px;
     margin: 4px auto;
-    cursor: pointer; 
-  }
-  
-  
-  
-  
-  
-  .switch button {
+    cursor: pointer;
+}
+
+
+
+
+
+.switch button {
     width: 19px;
     height: 19px;
-  
+
     border: 0;
     border-radius: 50%;
     position: absolute;
@@ -203,47 +208,48 @@ html {
     transition: left 0.4s ease;
     min-left: 0;
     max-left: calc(100% - 32px);
-  }
-  
-  
-  
-  .light #switch button {
+}
+
+
+
+.light #switch button {
     animation: slide-in 0.4s forwards;
-    left: 0; 
-  
-  }
-  
-  
-  
-  .switch.moved button {
+    left: 0;
+
+}
+
+
+
+.switch.moved button {
     left: calc(100% - 35px);
-  }
-  
-  .switch.light span {
-    background-color: #2E7A48; 
-  }
-  
-  .switch button:hover {
+}
+
+.switch.light span {
+    background-color: #2E7A48;
+}
+
+.switch button:hover {
     outline: 8px solid var(--highlight-color);
-  }
-  
-  
-  .switch span {
+}
+
+
+.switch span {
     display: block;
     width: 50px;
     height: 22px;
     -webkit-backdrop-filter: blur(4px);
     border-radius: 9999px;
-  
+
     transition: background-color 0.4s ease;
-    background-color: #AF2424; 
-  }
-  
-  @keyframes slide-back {
+    background-color: #AF2424;
+}
+
+@keyframes slide-back {
     from {
-      left: 50%;
+        left: 50%;
     }
+
     to {
-      left: 0;
+        left: 0;
     }
-  }
+} */
