@@ -27,41 +27,38 @@
                     </ul>
                 </div>
             </header>
-        </header>
 
         <nav class="panelnav">
-            <div class="logo2rp">
-                <img class="logo" src="../assets/logo2rp.svg" alt="Logo da Empresa">
-            </div>
-            <div class="interactive">
+                <div class="logo2rp">
+                    <img class="logo" src="../assets/logo2rp.svg" alt="Logo da Empresa">
+                </div>
                 <ul class="menu">
-                    <li><img src="../assets/iconeLancamento.svg" alt="Ícone Lançamento"><a href="#">Lançamentos</a></li>
+                    <li class="activation"><a href="#"><img src="../assets/iconeLancamento.svg" alt="Ícone Lançamentos">Lançamentos</a></li>
                     </li>
                 </ul>
-            </div>
         </nav>
 
         <nav class="interactivebar">
-            <div class="bar-search">
                 <input type="text" name="q" placeholder="Pesquisar" class="search-bar">
-                <button type="submit" class="search-button"><img class="lupa" src="../assets/iconeLupa.svg" alt="Buscar"></button>
-            </div>
+                <button type="submit" class="search-button"><img class="lupa" src="../assets/lupa.svg" alt="Buscar"></button>
+
         </nav>
 
         <nav class="main-content">
-            <div class="form"> 
+            <nav class="teste">
+                <div class="addinputbar">
                 <h3>Tipo</h3>
-                <select name="q" class="form">
+                <select name="q" class="input-bar">
                     <option value="hora-extra">Hora Extra</option>
                     <option value="sobreaviso">Sobreaviso</option>
                 </select>
                 <h3>Data Início</h3>
-                <input type="date" name="data_inicio" class="form">
+                <input type="date" name="data_inicio" class="input-bar">
                 <h3>Data Fim</h3>
-                <input type="date" name="data_fim" class="form">
+                <input type="date" name="data_fim" class="input-bar">
             </div>
-            <div>
-                <table id="tabelaCliente">
+            <div >
+                <table id="tabelaLancamento" class="tabelaLancamento">
                     <thead>
                         <tr>
                             <th>Tipo</th>
@@ -78,6 +75,9 @@
                     </tbody>
                 </table>
             </div>
+            </nav>
+            
+                
         </nav>
     </div>
 
