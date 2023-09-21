@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../styles/cadastro.css">
+    <link rel="stylesheet" href="../styles/usuario/main.css">
+    <link rel="stylesheet" href="../styles/usuario/modal.css">
     <link rel="stylesheet" href="../styles/reset.css">
     <title>Usuário</title>
 </head>
@@ -97,10 +98,140 @@
                     <p class="more">Lorem Ipsum</p>
                 </li>
             </ul>
-            </div>
+            <button id="addUser">Modal - Adicionar Usuário</button>
+            <button id="editUser">Modal - Editar Usuário</button>
         </div>
     </div> 
+
+    <!-- addUserModal -->
+    <div id="modal-addUser" class="modal">
+        <div class="modal-content">
+            <h2 class="modal-title">Adicionar Usuário</h2>
+
+            <!-- Linha 1 -->
+            <div class="row">
+                <div class="column">
+                    <p class="input-title">Nome:</p>
+                </div>
+                <div class="column">
+                    <input class="user-input" type="text" placeholder="Nome">
+                </div>
+            </div>
+
+            <!-- Linha 2 -->
+            <div class="row">
+                <div class="column">
+                    <p class="input-title">Matrícula:</p>
+                </div>
+                <div class="column">
+                    <input class="user-input" type="text" placeholder="Matrícula">
+                </div>
+            </div>
+
+            <!-- Linha 3 -->
+            <div class="row">
+                <div class="column">
+                    <p class="input-title">Função:</p>
+                </div>
+                <div class="column">
+                    <input class="user-input" type="text" placeholder="Função">
+                </div>
+            </div>
+
+            <!-- Nova div com duas colunas, na mesma posição da coluna "Entrada" -->
+            <div class="row">
+                <div class="column">
+                </div>
+                <div class="column-btn">
+                    <button class="btn-cancel">Cancelar</button>
+                    <button class="btn-confirm">Confirmar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- addUserModal -->
+    <div id="modal-editUser" class="modal">
+        <div class="modal-content">
+            <h2 class="modal-title">Editar Usuário</h2>
+
+            <!-- Linha 1 -->
+            <div class="row">
+                <div class="column">
+                    <p class="input-title">Nome:</p>
+                </div>
+                <div class="column">
+                    <input class="user-input" type="text" placeholder="Nome">
+                </div>
+            </div>
+
+            <!-- Linha 2 -->
+            <div class="row">
+                <div class="column">
+                    <p class="input-title">Matrícula:</p>
+                </div>
+                <div class="column">
+                    <input class="user-input" type="text" placeholder="Matrícula">
+                </div>
+            </div>
+
+            <!-- Linha 3 -->
+            <div class="row">
+                <div class="column">
+                    <p class="input-title">Função:</p>
+                </div>
+                <div class="column">
+                    <input class="user-input" type="text" placeholder="Função">
+                </div>
+            </div>
+
+            <!-- Nova div com duas colunas, na mesma posição da coluna "Entrada" -->
+            <div class="row">
+                <div class="column">
+                </div>
+                <div class="column-btn">
+                    <button class="btn-cancel">Cancelar</button>
+                    <button class="btn-confirm">Confirmar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     
-    <script src="../scripts/index.js"></script>
+    
+    <!-- <script src="../scripts/index.js"></script> -->
+
+    <script>
+       // Função para abrir a modal com base no ID do botão
+        function openModal(buttonId, modalId) {
+            var modal = document.getElementById(modalId);
+            var btn = document.getElementById(buttonId);
+
+            if (modal && btn) {
+                btn.onclick = function () {
+                    modal.style.display = "block";
+                }
+            }
+        }
+
+        // Função para fechar todas as modais quando clicado fora delas
+        function closeModals() {
+            var modals = document.querySelectorAll(".modal");
+            modals.forEach(function (modal) {
+                modal.onclick = function (event) {
+                    if (event.target == modal) {
+                        modal.style.display = "none";
+                    }
+                }
+            });
+        }
+
+        // Chame a função para cada modal que deseja controlar
+        openModal("addUser", "modal-addUser");
+        openModal("editUser", "modal-editUser");
+
+        // Chame a função para fechar todas as modais quando a página é carregada
+        closeModals();
+    </script>
 </body>
 </html>
