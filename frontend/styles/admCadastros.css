@@ -12,7 +12,13 @@
     --mini-pad: calc(var(--default-pad)/6);
     --default-margin: 3%;
     --mini-margin: calc(var(--default-margin)/2);
+    --mini2-margin: calc(var(--default-margin)/3);
+    --min-margin: calc(var(--default-margin)/6);
+    --medium-margin: calc(var(--default-margin)*3);
+    --med-margin: calc(var(--default-margin)*2);
     --big-margin: calc(var(--default-margin)*6);
+    --big2-margin: calc(var(--default-margin)*8);
+    --big3-margin: calc(var(--default-margin)*10);
     --larger-margin: calc(var(--default-margin)*4);
     --default-button: .5rem;
 }
@@ -22,6 +28,7 @@ body, html {
     margin: 0;
     padding: 0;
     font-family: sans-serif;
+    font-size: 18px;
     color: var(--text-color);
     background-color: blue;/*teste fundo*/
 }
@@ -29,15 +36,16 @@ body, html {
 .grid-screen {
     display: grid;
     grid-template-columns: 20% 1fr;
-    grid-template-rows: 15% 20% 1fr 1fr;
+    grid-template-rows: min-content min-content 1fr;
     height: 100%;
+    width: 100%;
     background-color: var(--background-nav-color);
     overflow: auto;
 }
 
 .topnav {
-    background-color: var(--background-nav-color);
-    grid-column: 2 / -1;
+    background-color: (--background-nav-color);
+    grid-column: 2 / 3;
     grid-row: 1 / 2;
     display: flex;
     justify-content: space-between;
@@ -48,63 +56,77 @@ body, html {
     background-image: var(--gradient-navbar);
     grid-column: 1 / 2;
     grid-row: 1 / -1;
-    display: flex;
+    display: inline-flex;
     flex-direction: column;
-    justify-content: flex-start;
     align-items: center;
-}
-
-.interactivebar {
-    background-color: var(--background-nav-color);
-    grid-column: 2 / -1;
-    grid-row: 2 / 3;
-    display: flex;
-    flex-direction: column;
-    margin: var(--default-pad);
-}
-
-.main-content {
-    background: var(--background-nav-color);
-    grid-column: 2 / -1;
-    grid-row: 3 / -1;
-    display: flex;
-    flex-direction: column;
-}
-
-.interactive {
-    width: 100%;
-}
-
-.menu{
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    list-style-type: none;
-    margin-top: var(--big-margin);
-    margin-bottom: var(--larger-margin);
-}
-
-.menu li {
-    padding-top: var(--larger-margin);
+    height: 100%;
     
 }
 
-.menu li a{
-    color: var(--text-color); 
-    text-decoration: none; 
+.interactivebar {
+    background-color: #24242D;
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+    border-radius: 10px;
+    margin-left: var(--default-margin);
+    margin-right: var(--big2-margin);
+    padding: var(--mini-margin);
+    display: flex;
+    align-items: center;
+}
+
+
+.main-content {
+    background: var(--background-nav-color);
+    grid-column: 2 / 3;
+    grid-row: 3 / -1;
+    display: flex;
+    margin-top: var(--default-margin);
+}
+
+.logo2rp {
+    margin-top: var(--default-margin);
+}
+
+.menu{
+    margin-top: var(--big2-margin);
+    list-style: none;
+    padding: 0;
+}
+
+.menu li {
+    display: flex;
+    flex-direction: column;
+    color: var(--text-color);
+    margin-bottom: var(--big-margin);
+}
+
+.menu a{
+    display: flex;
+    align-items: center;
+    color: var(--text-color);
+    text-decoration: none;
+    margin: 0;
+    white-space: nowrap;
 }
 
 .menu img {
-    margin-right: var(--default-pad);
+    margin-right: var(--big-margin);
+}
+
+.menu .activation{
+    background: linear-gradient(to right, #7468FF, #282272, #251440);
+    border-radius: 12px;
+    padding: 2%;
+
 }
 
 .topnav .title-screen{
-    margin: var(--default-pad);
+    margin-left: var(--default-margin);
 }
 
 .topnav .account{
-    margin: var(--default-pad);
-    margin-right: var(--big2-pad);
+    margin-right: var(--larger-margin);
 }
 
 .account .dropdown {
@@ -112,8 +134,7 @@ body, html {
     position: absolute;
     background-color: #24242D;
     list-style: none;
-    padding: 10px;
-    margin: 0;
+    padding: 12px;
 }
 
 .account:hover .dropdown {
@@ -121,8 +142,17 @@ body, html {
     align-items: center;
 }
 
+.account .dropdown li {
+    padding: 5px;
+}
+
 .account .dropdown li:hover {
-    box-shadow: .5px .5px 5px .5px #585863;
+    box-shadow: .7px .7px 7px .7px #585863;
+}
+
+.account .dropdown li a {
+    font-size: 18px;
+    word-wrap: break-word;
 }
 
 .account .perfil-user {
@@ -139,48 +169,43 @@ body, html {
     font-size: 16px;
 }
 
-.interactivebar .bar-search {
-    background-color: #24242D;
-    margin-left: var(--default-margin);
-    width: 70%;
-    height: 65%;
-    border-radius: 10px;
-}
-
-.interactivebar .search-bar{
-    width: 55%;
-    height: 40%;
-    border-radius: 7px; 
+.search-bar{
     background-color: #D9D9D9;
+    border-radius: 7px; 
+    border: 1px solid #D9D9D9;
+    box-sizing: border-box;
+    font-size: 18px;
+    margin-left: var(--mini-margin);
+    width: 40%;
+    padding: var(--min-margin) var(--med-margin) var(--min-margin) var(--mini-margin);
 }
 
 .interactivebar .search-button {
     background-color: var(--background-bar-color);
     border-radius: 7px;
-    width: 7%;
+    padding: var(--min-margin) var(--mini-margin) var(--min-margin) var(--mini-margin);
+    margin-left: var(--min-margin);
 }
 
 .interactivebar .add-button {
     background-color: var(--background-bar-color);
     border-radius: 7px;
-    width: var(--default-button);
-    height:  var(--default-button);
+    font-size: 18px;
+    padding: var(--min-margin) var(--mini-margin) var(--min-margin) var(--mini-margin);
+    margin: var(--mini-margin) 0 var(--mini-margin) var(--big-margin);
 }
 
-
-
-table{
-    margin-left: var(--default-pad);
-    margin-right:var(--default-pad) ;
+table {
+    width: 90%;
     border-collapse: collapse;
-    overflow-x: auto;
+    margin-left: var(--default-margin);
 }
 
 #tabelaCliente th {
     background-color: #B3A4DE;
     color: #000000;
-    font-size: 20px;
-    padding: var(--small-pad);
+    padding: var(--min-margin);
+    font-size: 18px;
 }
 
 #tabelaCliente th:nth-child(1) {
@@ -192,6 +217,7 @@ table{
     border-top-right-radius: 8px;
     border-bottom-right-radius: 8px;
 }
+
 
 /*
 @media (max-width: 700px) {
