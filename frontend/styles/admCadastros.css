@@ -1,0 +1,202 @@
+:root {
+    --text-color: #FFFFFF;
+    --background-nav-color: #0E0E12;
+    --background-bar-color: #B3A4DE;
+    --gradient-navbar: linear-gradient(to bottom, #0B0B0E, #251440, #0B0B0E);
+    --default-pad: 2rem;
+    --big-pad: calc(var(--default-pad)*2);
+    --default-pad: 2rem;
+    --big2-pad: calc(var(--default-pad)*3);
+    --medium-pad: calc(var(--default-pad)/2);
+    --small-pad: calc(var(--default-pad)/4);
+    --mini-pad: calc(var(--default-pad)/6);
+    --default-margin: 3%;
+    --mini-margin: calc(var(--default-margin)/2);
+    --big-margin: calc(var(--default-margin)*6);
+    --larger-margin: calc(var(--default-margin)*4);
+    --default-button: .5rem;
+}
+
+body, html {
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    color: var(--text-color);
+    background-color: blue;/*teste fundo*/
+}
+
+.grid-screen {
+    display: grid;
+    grid-template-columns: 20% 1fr;
+    grid-template-rows: 15% 20% 1fr 1fr;
+    height: 100%;
+    background-color: var(--background-nav-color);
+    overflow: auto;
+}
+
+.topnav {
+    background-color: var(--background-nav-color);
+    grid-column: 2 / -1;
+    grid-row: 1 / 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.panelnav {
+    background-image: var(--gradient-navbar);
+    grid-column: 1 / 2;
+    grid-row: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.interactivebar {
+    background-color: var(--background-nav-color);
+    grid-column: 2 / -1;
+    grid-row: 2 / 3;
+    display: flex;
+    flex-direction: column;
+    margin: var(--default-pad);
+}
+
+.main-content {
+    background: var(--background-nav-color);
+    grid-column: 2 / -1;
+    grid-row: 3 / -1;
+    display: flex;
+    flex-direction: column;
+}
+
+.interactive {
+    width: 100%;
+}
+
+.menu{
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    list-style-type: none;
+    margin-top: var(--big-margin);
+    margin-bottom: var(--larger-margin);
+}
+
+.menu li {
+    padding-top: var(--larger-margin);
+    
+}
+
+.menu li a{
+    color: var(--text-color); 
+    text-decoration: none; 
+}
+
+.menu img {
+    margin-right: var(--default-pad);
+}
+
+.topnav .title-screen{
+    margin: var(--default-pad);
+}
+
+.topnav .account{
+    margin: var(--default-pad);
+    margin-right: var(--big2-pad);
+}
+
+.account .dropdown {
+    display: none;
+    position: absolute;
+    background-color: #24242D;
+    list-style: none;
+    padding: 10px;
+    margin: 0;
+}
+
+.account:hover .dropdown {
+    display: block;
+    align-items: center;
+}
+
+.account .dropdown li:hover {
+    box-shadow: .5px .5px 5px .5px #585863;
+}
+
+.account .perfil-user {
+    list-style-type: none;
+}
+
+.account .perfil-user a {
+    text-decoration: none;
+    font-size: 22px;
+    color: var(--text-color);
+}
+
+.account .perfil-user a .seta-dropdown {
+    font-size: 16px;
+}
+
+.interactivebar .bar-search {
+    background-color: #24242D;
+    margin-left: var(--default-margin);
+    width: 70%;
+    height: 65%;
+    border-radius: 10px;
+}
+
+.interactivebar .search-bar{
+    width: 55%;
+    height: 40%;
+    border-radius: 7px; 
+    background-color: #D9D9D9;
+}
+
+.interactivebar .search-button {
+    background-color: var(--background-bar-color);
+    border-radius: 7px;
+    width: 7%;
+}
+
+.interactivebar .add-button {
+    background-color: var(--background-bar-color);
+    border-radius: 7px;
+    width: var(--default-button);
+    height:  var(--default-button);
+}
+
+
+
+table{
+    margin-left: var(--default-pad);
+    margin-right:var(--default-pad) ;
+    border-collapse: collapse;
+    overflow-x: auto;
+}
+
+#tabelaCliente th {
+    background-color: #B3A4DE;
+    color: #000000;
+    font-size: 20px;
+    padding: var(--small-pad);
+}
+
+#tabelaCliente th:nth-child(1) {
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+#tabelaCliente th:nth-child(4) {
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+/*
+@media (max-width: 700px) {
+    .grid-screen {
+        grid-template-columns: 1fr; /* Alterando para uma coluna em telas menores 
+    }
+}
+*/

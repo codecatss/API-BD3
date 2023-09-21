@@ -31,11 +31,8 @@ function enableCenterResult(codigoCr, liElement) {
             const statusElement = liElement.querySelector('p:first-child');
             statusElement.textContent = 'ativo';
 
-
             statusElement.classList.remove('status-item-inativo');
             statusElement.classList.add('status-item');
-
-
         })
         .catch((error) => {
             console.error('Erro ao ativar o centro de resultado:', error);
@@ -65,14 +62,12 @@ function softDeleteCenterResult(codigoCr, liElement) {
             const statusElement = liElement.querySelector('p:first-child');
             statusElement.textContent = 'inativo';
 
-
             statusElement.classList.add('status-item-inativo');
         })
         .catch((error) => {
             console.error('Erro ao realizar o soft delete:', error);
         });
 }
-
 
 function addSwitchClickEvent(liElement, codigoCr) {
     const switchElement = liElement.querySelector('.switch');
@@ -101,39 +96,13 @@ function fetchAndRenderData() {
             console.log(data);
 
             data.forEach((item) => {
-                const liElement = document.createElement('li');
-                liElement.classList.add('rendered-lista');
-                const codigoCr = item.codigoCr;
-
-                const switchClass = item.statusCr === 'inativo' ? 'light' : 'moved';
-                const statusClass = item.statusCr === 'inativo' ? 'status-item-inativo' : 'status-item';
-
-
-                liElement.innerHTML = `
-          <p class=${statusClass}>${item.statusCr}</p>
-          <p>${item.nome}</p>
-          <p>${item.codigoCr}</p>
-          <p>${item.sigla}</p>
-          
-          <div class="actions">
-            <div class="switch ${switchClass}">
-              <button></button>
-              <span></span>
-            </div>
-            <img src="../assets/dots.svg" alt="">
-          </div>
-        `;
-
-                ulElement.appendChild(liElement);
-
-                addSwitchClickEvent(liElement, codigoCr, item.statusCr);
+                renderListItem(ulElement, item);
             });
         })
         .catch((error) => {
             console.error('Erro ao buscar dados da API:', error);
         });
 }
-
 
 function searchCRByTerm(searchTerm) {
     const apiUrl = `http://localhost:8080/cr`;
@@ -147,12 +116,10 @@ function searchCRByTerm(searchTerm) {
             const searchTermLowerCase = searchTerm.toLowerCase();
 
             if (searchTermLowerCase.trim() === '') {
-
                 data.forEach((item) => {
                     renderListItem(ulElement, item);
                 });
             } else {
-
                 const filteredData = data.filter((item) => {
                     return (
                         item.nome.toLowerCase().includes(searchTermLowerCase) ||
@@ -171,15 +138,12 @@ function searchCRByTerm(searchTerm) {
         });
 }
 
-
 function renderListItem(ulElement, item) {
     const liElement = document.createElement('li');
     liElement.classList.add('rendered-lista');
     const codigoCr = item.codigoCr;
 
     const switchClass = item.statusCr === 'inativo' ? 'light' : 'moved';
-
-
     const statusClass = item.statusCr === 'inativo' ? 'status-item-inativo' : 'status-item';
 
     liElement.innerHTML = `
@@ -189,19 +153,53 @@ function renderListItem(ulElement, item) {
     <p>${item.sigla}</p>
     
     <div class="actions">
-      <div class="switch ${switchClass}">
-        <button></button>
-        <span></span>
-      </div>
-      <img src="../assets/dots.svg" alt="">
+        <div class="switch ${switchClass}">
+            <button></button>
+            <span></span>
+        </div>
+    <div class="icons">
+        
+    
+    <img src="../assets/addUsuario.png" alt="" class="addMembers" data-nome="${item.nome}">
+    <img src="../assets/Icone ajustavel.png" alt="" class="config" ">
     </div>
-  `;
+    
+    </div>
+`;
 
     ulElement.appendChild(liElement);
 
+
+    const addMembersImage = liElement.querySelector('.addMembers');
+
+    addMembersImage.addEventListener('click', function () {
+        const nomeDoItem = this.getAttribute('data-nome');
+        console.log('Nome do item:', nomeDoItem);
+    });
+
+
+
+
+
+    addMembersImage.addEventListener('click', function () {
+
+        const modal = document.getElementById('myModalAddMember');
+        modal.style.display = 'block';
+
+
+
+
+        window.addEventListener('click', function (event) {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+    });
+
+
+
     addSwitchClickEvent(liElement, codigoCr, item.statusCr);
 }
-
 
 const searchImage = document.querySelector('.search-bar img');
 searchImage.addEventListener('click', function () {
@@ -209,12 +207,9 @@ searchImage.addEventListener('click', function () {
     searchCRByTerm(searchTerm);
 });
 
-
 const addButton = document.querySelector('button');
-
-
 const modal = document.getElementById('myModal');
-
+const closeModal = document.querySelector('#closeModal');
 
 function openModal() {
     modal.style.display = 'block';
@@ -222,11 +217,9 @@ function openModal() {
 
 addButton.addEventListener('click', openModal);
 
-
 closeModal.addEventListener('click', function () {
     modal.style.display = 'none';
 });
-
 
 window.addEventListener('click', function (event) {
     if (event.target === modal) {
@@ -234,67 +227,228 @@ window.addEventListener('click', function (event) {
     }
 });
 
-
-window.addEventListener('load', fetchAndRenderData);
-
-
-function saveCenterResult(data) {
-    const apiUrl = 'http://localhost:8080/cr';
-
-    const requestOptions = {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-    };
-
-    return fetch(apiUrl, requestOptions)
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error('Erro na requisição');
-            }
-            console.log("Dados a serem salvos:", data);
-
-            return response.json();
-        })
-        .then((centerResult) => {
-            console.log('Centro de resultado cadastrado com sucesso:', centerResult);
-            return centerResult;
-        })
-        .catch((error) => {
-            console.error('Erro ao cadastrar o centro de resultado:', error);
-            throw error;
-        });
-
+function closeModalFunction() {
+    modal.style.display = 'none';
 }
 
+closeModal.addEventListener('click', closeModalFunction);
 
+const cancelarButton = document.querySelector('.cancelar');
+cancelarButton.addEventListener('click', closeModalFunction);
 
-const enviarButton = document.querySelector('.enviar');
-
-enviarButton.addEventListener('click', function (event) {
+async function handleEnviarClick(event) {
     event.preventDefault();
 
-
     const nomeInput = document.querySelector('input[name="nome"]');
-    const matriculaInput = document.querySelector('input[name="matricula"]');
     const siglaInput = document.querySelector('input[name="sigla"]');
-
+    const codigoCrInput = document.querySelector('input[name="codigoCr"]');
 
     const dados = {
-        codigoCr: matriculaInput.value,
+        codigoCr: codigoCrInput.value,
         sigla: siglaInput.value,
         nome: nomeInput.value,
         statusCr: "ativo",
     };
 
+    console.log('Dados a serem enviados:', dados);
 
-    console.log(dados);
-    saveCenterResult(dados);
+    try {
+        await saveCenterResult(dados);
+        showSuccessMessage();
 
+        nomeInput.value = "";
+        codigoCrInput.value = "";
+        siglaInput.value = "";
 
-    nomeInput.value = "";
-    matriculaInput.value = "";
-    siglaInput.value = "";
+        refreshList();
+    } catch (error) {
+        console.error('Erro ao adicionar o CR:', error);
+        showErrorMessage();
+    }
+}
+
+async function saveCenterResult(data) {
+    const requestOptions = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    };
+
+    const apiUrl = 'http://localhost:8080/cr';
+
+    try {
+        const response = await fetch(apiUrl, requestOptions);
+        if (!response.ok) {
+            throw new Error('Erro na requisição POST');
+        }
+        const responseData = await response.json();
+        console.log('Resposta da requisição POST:', responseData);
+    } catch (error) {
+        console.error('Erro ao fazer a requisição POST:', error);
+        throw error;
+    }
+}
+
+function showSuccessMessage() {
+    const successMessage = document.getElementById('successMessage');
+    successMessage.style.backgroundColor = 'green';
+    successMessage.style.display = 'block';
+    successMessage.style.position = 'fixed';
+    setTimeout(() => {
+        successMessage.style.display = 'none';
+    }, 3000);
+}
+
+function showErrorMessage() {
+    const errorMessage = document.getElementById('errorMessage');
+    errorMessage.style.backgroundColor = 'red';
+    errorMessage.style.display = 'block';
+    errorMessage.style.position = 'fixed';
+    setTimeout(() => {
+        errorMessage.style.display = 'none';
+    }, 2000);
+}
+
+const confirmarButton = document.querySelector('.confirmar');
+confirmarButton.addEventListener('click', handleEnviarClick);
+
+window.addEventListener('click', function (event) {
+    if (event.target === modal) {
+        closeModalFunction();
+    }
 });
+
+const ulElement = document.querySelector('.list-of-itens');
+
+function refreshList() {
+    ulElement.innerHTML = "";
+    fetchAndRenderData();
+}
+
+confirmarButton.addEventListener('click', handleEnviarClick);
+
+
+
+
+
+
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const listUsers = document.getElementById("listUsers");
+    const membersCr = document.getElementById("membersCr");
+    const adicionarUsuarioBtn = document.getElementById("adicionarUsuario");
+    const removerUsuarioBtn = document.getElementById("removerUsuario");
+
+
+    const usersFreeItems = listUsers.querySelectorAll(".users-free");
+    usersFreeItems.forEach(function (item) {
+        item.addEventListener("click", function () {
+
+            this.classList.toggle("selected");
+        });
+    });
+
+
+    adicionarUsuarioBtn.addEventListener("click", function () {
+        const selectedItems = listUsers.querySelectorAll(".users-free.selected");
+
+        selectedItems.forEach(function (item) {
+            item.classList.remove("selected");
+
+
+            const userInfoElement = document.createElement("div");
+            userInfoElement.textContent = `${item.textContent} (${item.dataset.funcao})`;
+            userInfoElement.classList.add("user-info");
+
+
+            membersCr.appendChild(userInfoElement);
+        });
+    });
+
+
+
+    removerUsuarioBtn.addEventListener("click", function () {
+
+        const selectedItems = membersCr.querySelectorAll(".users-free.selected");
+
+
+        selectedItems.forEach(function (item) {
+            item.classList.remove("selected");
+            listUsers.appendChild(item);
+        });
+    });
+});
+
+
+
+
+function getUsersFromAPI() {
+    const apiUrl = 'http://localhost:8080/employee';
+
+    fetch(apiUrl, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then((data) => {
+            console.log(data);
+
+            const listUsers = document.getElementById("listUsers");
+            const membersCr = document.getElementById("membersCr");
+
+            data.forEach((user) => {
+                const userNameElement = document.createElement("div");
+                userNameElement.classList.add("users-free");
+                userNameElement.textContent = user.nome;
+
+
+                userNameElement.dataset.funcao = user.funcao;
+
+                userNameElement.addEventListener("click", function () {
+                    this.classList.toggle("selected");
+                });
+
+                listUsers.appendChild(userNameElement);
+            });
+
+
+            const confirmarUsuarioBtn = document.getElementById("confirmarUsuario");
+            confirmarUsuarioBtn.addEventListener("click", function () {
+                const selectedItems = listUsers.querySelectorAll(".users-free.selected");
+
+                selectedItems.forEach(function (item) {
+                    item.classList.remove("selected");
+                    console.log("esse é o item")
+                    console.log(item)
+                    membersCr.appendChild(item);
+                });
+            });
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+}
+
+
+
+
+
+fetchAndRenderData();
+getUsersFromAPI();
+
+
+
+
+window.addEventListener('load', fetchAndRenderData);
+
+

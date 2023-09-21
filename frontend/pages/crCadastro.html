@@ -12,47 +12,43 @@
 
 <body>
     <div class="container">
-        <div class="menu">
-            <div class="logo">
-                <!-- <img src="" alt="" srcset=""> -->
+        <nav class="panelnav">
+            <img class="logo" src="../assets/logo2rp.svg" alt="Logo da Empresa">
+            <div class="menus">
+                <ul class="menu">
+                    <li class="page-navegation"><img src="../assets/iconeDashboard.svg" alt="Ícone Dashboard"><a
+                            href="#">Dashboard</a></li>
+                    <li class="page-navegation"><img src="../assets/iconeUsuario.svg" alt="Ícone Usuários"><a
+                            href="./usuarioCadastro.html">Usuários</a></li>
+                    <li class="page-navegation"><img src="../assets/iconeCliente.svg" alt="Ícone Clientes"><a
+                            href="./clienteCadastro.html">Clientes</a>
+                    </li>
+                    <li class="activation"><img src="../assets/iconeCR.svg" alt="Ícone CR"><a href="#">CR</a></li>
+                    <li class="page-navegation"><img src="../assets/iconeAprovar.svg" alt="Ícone Aprovar"><a
+                            href="#">Aprovar Horas</a></li>
+                    <li class="page-navegation"><img src="../assets/iconeParametriz.svg" alt="Ícone Parametrização"><a
+                            href="#">Parametrização</a>
+                    </li>
+                </ul>
             </div>
-            <ul class="">
-                <li class="page-navegation">
-                    <img src="../assets/iconeDashboard.svg" alt="" srcset="">
-                    <a>Dashboard</a>
-                </li>
-                <li class="active-page" class="page-navegation">
-                    <img src="../assets/iconeUsuario.svg" alt="" srcset="">
-                    <a>Usuários</a>
-                </li>
-                <li class="page-navegation">
-                    <img src="../assets/iconeCliente.svg" alt="" srcset="">
-                    <a>Clientes</a>
-                </li>
+        </nav>
 
-                <li class="page-navegation">
-                    <img src="../assets/iconeCR.svg" alt="" srcset="">
-                    <a>CR</a>
-                </li>
-
-                <li class="page-navegation">
-                    <img src="../assets/iconeAprovar.svg" alt="" srcset="">
-                    <a>Aprovar Horas</a>
-                </li>
-                <li class="page-navegation">
-
-                    <img src="../assets/iconeParametriz.svg" alt="" srcset="">
-                    <a>Parametrização</a>
-                </li>
-            </ul>
-        </div>
         <div class="main-content">
             <div class="header">
-                <h1>Gerenciamento de Resultado</h1>
+                <h1>Gerenciamento de CR</h1>
                 <div class="user-content">
                     <img src="" alt=""
                         srcset="https://cdn1.iconfinder.com/data/icons/user-pictures/101/malecostume-512.png">
-                    <p>John Doe</p>
+                    <section class="account">
+                        <ul>
+                            <li class="perfil-user">John Doe <img class="seta-dropdown" src="../assets/seta.svg" alt="">
+                                <ul class="dropdown">
+                                    <li><a href="#">Alterar Senha</a></li>
+                                    <li><a href="#">Logout</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </section>
                 </div>
             </div>
             <div class="search-bar">
@@ -92,36 +88,70 @@
             <div class="modal-content">
                 <span class="close" id="closeModal">&times;</span>
                 <form action="">
-                    <div class="modal-title">
-                        <h1>Adicionar CR</h1>
-                    </div>
-                    <div class="modal-inputs">
-                        <div class="modal-input">
-                            <p>Nome</p>
-                            <input type="text" name="nome">
-                        </div>
-                        <div class="modal-input">
-                            <p>Matricula</p>
-                            <input type="text" name="matricula">
-                        </div>
-                        <div class="modal-input">
-                            <p>Sigla</p>
-                            <input type="text" name="sigla">
-                        </div>
-                    </div>
-                    <div class="modal-button">
-                        <button class="fantasma"></button>
-                        <button class="enviar">enviar</button>
-                        <button class="cancelar">cancelar</button>
-                    </div>
+                    <div class="rectangle-24"></div>
+                    <button class="cancelar ">
+                        cancelar
+                    </button>
+
+                    <div class="title-modal">Adicionar CR's</div>
+
+                    <input class="input-3" name="nome" type="text">
+                    <input class="input-2" name="sigla" type="text">
+                    <input class="input-1" name="codigoCr" type="text">
+                    <div class="nome-input">Nome</div>
+                    <div class="sigla-input">Sigla</div>
+                    <div class="codCr-input">Código do CR</div>
+                    <button class="confirmar">Confirmar</button>
+            </div>
 
 
-                </form>
+
+            </form>
+
+        </div>
+    </div>
+
+    </div>
+
+    <div class="success-message" id="successMessage">
+        CR ADICIONADO COM SUCESSO
+    </div>
+
+    <div class="error-message" id="errorMessage">
+        Erro ao adicionar o CR.
+    </div>
+
+
+    <div class="modal" id="myModalAddMember">
+        <div class="">
+            <div class="gerenciar-cr" id="gerenciar-cr">
+                <ul class="list-users" id="listUsers">
+
+                </ul>
+
+                <div class="rectangle-31"></div>
+                <div class="rectangle-27"></div>
+                <div class="rectangle-63"></div>
+                <ul class="members-Cr" id="membersCr"></ul>
+                <div class="rectangle-23"></div>
+                <div class="rectangle-33"></div>
+                <div class="usu-rio">Usuário</div>
+                <div class="usu-rio2">Usuário</div>
+                <div class="fun-o">Função</div>
+                <button class="removerUsuario" id="removerUsuario">Remover</button>
+                <button class="adicionarUsuario" id="adicionarUsuario">Adicionar</button>
+                <div class="navbar">Gerenciar CR</div>
+
+
+                <button class="gestor">Gestor</button>
+                <div class="voltar" class="close" id="closeModal">Voltar</div>
 
             </div>
         </div>
-
     </div>
+
+
+
 
 
 
