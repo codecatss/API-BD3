@@ -45,5 +45,28 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    
+    // Adicione um evento de clique aos botões de edição para preencher o modal com os dados do usuário
+    var editButtons = document.querySelectorAll(".edit-align");
+
+    editButtons.forEach(function (editButton) {
+        editButton.addEventListener("click", function () {
+            // Preencha os campos do modal com os dados do usuário
+            var matricula = editButton.id.split("-")[2]; // Obtém a matrícula do ID
+
+            // Acesse o Local Storage para obter os dados do usuário com base na matrícula
+            var usuariosArmazenados = JSON.parse(localStorage.getItem("usuarios")) || [];
+
+            // Encontre o usuário com a matrícula correspondente
+            var usuarioParaEditar = usuariosArmazenados.find(function (usuario) {
+                return usuario.matricula === matricula;
+            });
+
+            // Preencha os campos do modal com os dados do usuário
+            if (usuarioParaEditar) {
+                document.querySelector("#modal-editUser input[placeholder='Nome']").value = usuarioParaEditar.nome;
+                document.querySelector("#modal-editUser input[placeholder='Matrícula']").value = usuarioParaEditar.matricula;
+                document.querySelector("#modal-editUser input[placeholder='Função']").value = usuarioParaEditar.funcao;
+            }
+        });
+    });
 });

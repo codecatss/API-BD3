@@ -1,3 +1,15 @@
+// Função para salvar um usuário no Local Storage
+function salvarUsuarioNoLocalStorage(usuario) {
+    // Obtém a lista de usuários já existente no Local Storage (se houver)
+    const usuariosArmazenados = JSON.parse(localStorage.getItem("usuarios")) || [];
+
+    // Adiciona o novo usuário à lista
+    usuariosArmazenados.push(usuario);
+
+    // Salva a lista atualizada de usuários de volta no Local Storage
+    localStorage.setItem("usuarios", JSON.stringify(usuariosArmazenados));
+}
+
 function adicionarUsuarioALista(usuario) {
     // Obtém a lista de usuários
     const listaUsuarios = document.querySelector(".users");
@@ -30,6 +42,7 @@ function adicionarUsuarioALista(usuario) {
 
     // Adiciona o novo usuário à lista de usuários
     listaUsuarios.appendChild(novoUsuario);
+    salvarUsuarioNoLocalStorage(usuario)
 }
 
 const usuario1 = {
