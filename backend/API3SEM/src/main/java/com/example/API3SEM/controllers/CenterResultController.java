@@ -152,11 +152,6 @@ public class CenterResultController {
             for (MemberRequestDTO data : dataList) {
                 Employee employee = employeeRepository.findById(data.matriculaIntegrante())
                         .orElseThrow(() -> new ApiException("Usuário não encontrado com a matrícula: " + data.matriculaIntegrante()));
-
-                if (employee.getFuncao() != FuncaoUsuarioEnum.gestor) {
-                    throw new ApiException("Apenas usuários com cargo de gestor podem ser membros gestores.");
-                }
-
                 Member memberData = new Member(data);
                 memberData.setCodCr(codigoCr);
                 savedMembers.add(memberRepository.save(memberData));
@@ -171,10 +166,10 @@ public class CenterResultController {
 
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @DeleteMapping("/{codigoCr}/member")
-    public ResponseEntity<String> deleteMembers(@PathVariable String codigoCr) {
+    @DeleteMapping("/{codigoCr}/employee")
+    public ResponseEntity<String> deleteMembersByMatricula(@PathVariable String codigoCr, @RequestBody List<String> matriculas) {
         try {
-            List<Member> membersToDelete = memberRepository.findByCodCr(codigoCr);
+            List<Member> membersToDelete = memberRepository.findByCodCrAndMatriculaIntegranteIn(codigoCr, matriculas);
 
             if (!membersToDelete.isEmpty()) {
                 memberRepository.deleteAll(membersToDelete);
@@ -186,6 +181,7 @@ public class CenterResultController {
             throw new ApiException("Não foi possível remover os membros: " + e.getMessage());
         }
     }
+
 
 
     @Autowired
