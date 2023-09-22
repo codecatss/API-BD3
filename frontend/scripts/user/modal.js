@@ -50,7 +50,8 @@ document.addEventListener("DOMContentLoaded", function () {
 // Utilize event delegation para lidar com os botões de edição, incluindo os dinâmicos
 document.body.addEventListener("click", function (event) {
     if (event.target.classList.contains("edit-align") || event.target.classList.contains("edit-icon")) {
-        var editButton = event.target;
+        var editButton = event.target.closest(".edit-align");
+        
         console.log(editButton)
 
         // Preencha os campos do modal com os dados do usuário

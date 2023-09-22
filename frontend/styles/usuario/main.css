@@ -40,12 +40,27 @@ html {
     height: 24px;
 }
 
+.menu-item {
+    /* Defina o estilo padrão do elemento */
+    background: transparent;
+    border-radius: 6px;
+    transition: 0.9s;
+}
+
+.menu-item:hover {
+    /* Aplique o estilo do hover */
+    background: linear-gradient(to right, #6158D2, #251440);
+}
+
+
 .active-page {
     background: linear-gradient(to right, #6158D2, #251440);
-    display: block;
     border-radius: 6px;
 }
 
+.active-page:hover {
+    background: linear-gradient(to right, #251440, #6158D2);
+}
 
 .main-content {
     background-color: #0E0E12;
