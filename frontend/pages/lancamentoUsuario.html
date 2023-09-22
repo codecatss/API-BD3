@@ -13,7 +13,7 @@
         <img class="logo" src="../assets/logo2rp.svg" alt="Logo da Empresa">
         <div class="menus">
             <ul class="menu">
-                <li><img src="../assets/iconeLancamento.svg" alt="Ícone Lançamento"><a href="#">Lançamentos</a></li>
+                <li class="activation"><a href="#"><img src="../assets/iconeLancamento.svg" alt="Ícone Lançamento"><a href="#">Lançamentos</a></li>
                 </li>
             </ul>
         </div>
@@ -44,17 +44,65 @@
             </nav>
 
             <nav class="addinputbar">
-                <h3>Tipo</h3>
-                <select name="q" class="input-bar">
-                    <option value="hora-extra">Hora Extra</option>
-                    <option value="sobreaviso">Sobreaviso</option>
-                </select>
-                <h3>Data Início</h3>
-                <input type="date" name="data_inicio" class="input-bar">
-                <h3>Data Fim</h3>
-                <input type="date" name="data_fim" class="input-bar">
+                <div class="input">
+                    <div class="content">
+                        <div class="coluna1">
+                            <div class="tipo">
+                                <label for="tipo" class="custom-label">Tipo</label>
+                                <select name="q" class="input-bar small-input">
+                                    <option value="hora-extra">Hora Extra</option>
+                                    <option value="sobreaviso">Sobreaviso</option>
+                                </select>
+                            </div>
+                            <div class="cliente">
+                                <label for="cliente" class="custom-label">Cliente</label>
+                                <select name="q" class="input-bar">
+                                    <option value="Fatec">Fatec</option>
+                                    <option value="2RP">2RP</option>
+                                </select>
+                            </div>
+                            <div class="justificativa">
+                                <label for="justificativa" class="custom-label">Justificativa</label>
+                                <input type="text" name="q" class="input-bar">
+                            </div>
+                        </div>
+                        <div class="coluna2">
+                            <div class="datainicio">
+                                <label for="datainicio" class="custom-label">Data inicio</label>
+                                <input type="date" name="data_inicio" class="input-bar">
+                            </div>
+                            <div class="horainicio">
+                                <label for="hora" class="custom-label">Hora Início</label>
+                                <input type="time" id="horainicio" name="horainicio" class="input-bar">
+                            </div>
+                            <div class="projeto">
+                                <label for="projeto" class="custom-label">Projeto</label>
+                                <input type="text" name="q" class="input-bar" style="margin-left: 40px;">
+                            </div>
+                            
+                        </div>
+                        <div class="coluna3">
+                            <div class="datafim">
+                                <label for="datafim" class="custom-label">Data fim</label>
+                                <input type="date" name="data_fim" class="input-bar">
+                            </div>
+                            <div class="horafim">
+                                <label for="horafim" class="custom-label">Hora fim</label>
+                                <input type="time" id="horafim" name="horafim" class="input-bar">
+                            </div>
+                            <div class="solicitante">
+                                <label for="solicitante" class="custom-label">Solicitante</label>
+                                <input type="text" name="q" class="input-bar" style="margin-left: -7px;">
+                            </div>
+                        </div> 
+                    </div>
+                    <div class="button">
+                        <button class="limpar-button" style="margin-left: 310px;">Limpar</button>
+                        <button class="adicionar-button" style="margin-left: 1px;">Adicionar</button>
+                        <button class="acionamento-button" style="margin-left: 1px;">+ Acionamento</button>
+                    </div>                     
+                </div>   
             </nav>
-                      
 
             <nav class="tabela">
                 <table id="tabelaLancamento">
