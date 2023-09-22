@@ -68,8 +68,8 @@
                     <p>Habilitar/Desabilitar</p>
                     <p>Editar</p>
                 </li>
-                <li class="user">
-                    <p class="active">Ativo</p>
+                <!-- <li class="user">
+                    <p class="disabled">Desabilitado</p>
                     <p>John Doe</p>
                     <p>12345</p>
                     <p>Administrator</p>
@@ -106,7 +106,7 @@
                         </label>
                     </div>
                     <a href="#" class="edit-align"><img class="edit-icon" src="../assets/transparent-icons/edit.svg" alt="" srcset="" /></a>
-                </li>
+                </li> -->
             </ul>
             <button id="addUser">Modal - Adicionar Usuário</button>
             <button id="editUser">Modal - Editar Usuário</button>
@@ -210,38 +210,7 @@
     
     
     <!-- <script src="../scripts/index.js"></script> -->
-
-    <script>
-       // Função para abrir a modal com base no ID do botão
-        function openModal(buttonId, modalId) {
-            var modal = document.getElementById(modalId);
-            var btn = document.getElementById(buttonId);
-
-            if (modal && btn) {
-                btn.onclick = function () {
-                    modal.style.display = "block";
-                }
-            }
-        }
-
-        // Função para fechar todas as modais quando clicado fora delas
-        function closeModals() {
-            var modals = document.querySelectorAll(".modal");
-            modals.forEach(function (modal) {
-                modal.onclick = function (event) {
-                    if (event.target == modal) {
-                        modal.style.display = "none";
-                    }
-                }
-            });
-        }
-
-        // Chame a função para cada modal que deseja controlar
-        openModal("addUser", "modal-addUser");
-        openModal("editUser", "modal-editUser");
-
-        // Chame a função para fechar todas as modais quando a página é carregada
-        closeModals();
-    </script>
+    <script src="../scripts/user/dom_template.js"></script>
+    <script src="../scripts/user/modal.js"></script>
 </body>
 </html>

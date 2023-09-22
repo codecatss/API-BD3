@@ -150,10 +150,19 @@ html {
 .active {
     background-color: #A6DAB3;
     max-width: max-content;
-    padding: 4px 4px;
+    padding: 5px;
     /* Adicione algum espaço ao redor do texto, se desejar */
-    border-radius: 4px;
+    border-radius: 15px;
 }
+
+.disabled {
+    background-color: #E09D9D;
+    max-width: max-content;
+    padding: 5px;
+    /* Adicione algum espaço ao redor do texto, se desejar */
+    border-radius: 15px;
+}
+
 
 .switch-align {
     display: flex;
