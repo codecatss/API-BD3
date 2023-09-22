@@ -414,7 +414,7 @@ function renderListItem(ulElement, item) {
 
 
 
-            await renderizarLista(listFreeUsers);
+
             await renderMembers(listMembersOfCR);
         }
 
@@ -442,13 +442,25 @@ function renderListItem(ulElement, item) {
                         const li = document.createElement("li")
 
                         li.textContent = user.nome
-                        console.log(li)
+                        li.id = item.matricula;
+
+
+                        if (user.funcao === 'gestor') {
+                            li.style.border = '2px solid blue';
+                        } else if (user.funcao === 'colaborador') {
+                            li.style.border = '2px solid green';
+                        } else if (user.funcao === 'admin') {
+                            return;
+                        }
+
+                        li.classList.add("users-free");
+
                         ulFreeMembers.appendChild(li)
                     }
                 })
             })
 
-
+            refreshList()
 
         }
 
