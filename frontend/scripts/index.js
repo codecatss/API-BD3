@@ -225,9 +225,9 @@ function renderListItem(ulElement, item) {
         async function renderizarLista(data) {
             const ul = document.getElementById('listUsers');
             ul.innerHTML = '';
-
+            console.log("to aqui")
             const matriculasExistem = new Set(listMembersOfCR.map(user => user.matricula));
-
+            console.log(matriculasExistem)
             data.forEach(item => {
                 if (!matriculasExistem.has(item.matricula)) {
                     const li = document.createElement('li');
@@ -245,6 +245,7 @@ function renderListItem(ulElement, item) {
                     }
 
                     li.classList.add("users-free");
+
 
 
                     ul.appendChild(li);
@@ -333,8 +334,8 @@ function renderListItem(ulElement, item) {
 
 
 
-        
-        
+
+
         function limparSelecao() {
             const listaMembrosCr = document.getElementById('membersCr');
             const itensSelecionados = listaMembrosCr.querySelectorAll('.selected');
@@ -377,34 +378,117 @@ function renderListItem(ulElement, item) {
 
 
 
-        function deleteMembers(codigoCr) {
-
-            const apiUrl = `http://localhost:8080/cr/${codigoCr}/member`;
-
-
-            fetch(apiUrl, {
+        function deleteMembers(codigoCr, matriculas) {
+            return fetch(`http://localhost:8080/cr/${codigoCr}/employee`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
-
                 },
+                body: JSON.stringify(matriculas),
             })
                 .then((response) => {
-                    if (response.status === 200) {
-
-                        console.log('Membros removidos com sucesso.');
+                    if (response.ok) {
+                        return response.text();
                     } else if (response.status === 404) {
-
-                        console.error('Endpoint não encontrado.');
+                        throw new Error("Membros não encontrados.");
                     } else {
-
-                        console.error('Erro desconhecido ao remover membros.');
+                        throw new Error("Erro ao remover membros.");
                     }
                 })
+                .then((data) => {
+                    return data;
+                })
                 .catch((error) => {
-                    console.error('Erro ao enviar a requisição DELETE:', error);
+                    throw error;
                 });
         }
+
+
+
+        async function refreshList() {
+            const codigoCr = item.codigoCr;
+            const listMembersOfCR = await loadMembers();
+            const listFreeUsers = await fazerRequisicaoGET();
+            const ulMembers = document.getElementById('membersCr');
+            const ulFreeMembers = document.getElementById('listUsers');
+
+
+
+            await renderizarLista(listFreeUsers);
+            await renderMembers(listMembersOfCR);
+        }
+
+
+
+        async function buttonRemoveMembers() {
+            const temp = []
+            const users = document.querySelectorAll('.users-members.selected');
+            users.forEach((user) => {
+                const userId = user.id;
+                temp.push(userId)
+            });
+            const matriculasExistem = new Set(listMembersOfCR.map(user => user.matricula));
+            console.log(matriculasExistem)
+
+
+
+            await deleteMembers(item.codigoCr, temp);
+            ListMembersFree.forEach(user => {
+
+                temp.forEach(userFreeRemoved => {
+                    console.log(userFreeRemoved)
+                    if (userFreeRemoved == user.matricula) {
+                        const ulFreeMembers = document.getElementById('listUsers');
+                        const li = document.createElement("li")
+
+                        li.textContent = user.nome
+                        console.log(li)
+                        ulFreeMembers.appendChild(li)
+                    }
+                })
+            })
+
+
+
+        }
+
+
+
+        const removerUsuarioButton = document.getElementById('removerUsuario');
+        removerUsuarioButton.addEventListener('click', buttonRemoveMembers);
+
+
+
+
+        async function buttonAddMembers() {
+            const temp = []
+            const users = document.querySelectorAll('.users-free.selected');
+
+            users.forEach((user) => {
+                const userId = user.id;
+                temp.push(userId)
+
+            });
+
+            salvarMembros(item.codigoCr, temp)
+
+            const ulMembers = document.getElementById('#membersCr');
+            ulMembers.innerHTML = '';
+
+
+        }
+
+
+        const addUsuarioButton = document.getElementById('adicionarUsuario');
+        addUsuarioButton.addEventListener('click', buttonAddMembers);
+
+
+
+
+
+
+
+
 
 
 
