@@ -349,7 +349,7 @@ function renderListItem(ulElement, item) {
 
 
         function salvarMembros(codigoCr, dataList) {
-            const url = `http://localhost:8080/cr/${codigoCr}/member`;
+            const url = `http://localhost:8080/cr/${codigoCr}/employee`;
 
             fetch(url, {
                 method: 'POST',
@@ -378,33 +378,94 @@ function renderListItem(ulElement, item) {
 
 
 
-        function deleteMembers(codigoCr, matriculas) {
-            return fetch(`http://localhost:8080/cr/${codigoCr}/employee`, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(matriculas),
-            })
-                .then((response) => {
-                    if (response.ok) {
-                        return response.text();
-                    } else if (response.status === 404) {
-                        throw new Error("Membros não encontrados.");
-                    } else {
-                        throw new Error("Erro ao remover membros.");
-                    }
-                })
-                .then((data) => {
-                    return data;
-                })
-                .catch((error) => {
-                    throw error;
-                });
+
+
+        async function refreshListAdd() {
+            const codigoCr = item.codigoCr;
+            const listMembersOfCR = await loadMembers();
+            const listFreeUsers = await fazerRequisicaoGET();
+            const ulMembers = document.getElementById('membersCr');
+            const ulFreeMembers = document.getElementById('listUsers');
+
+
+
+
+            await renderizarLista(listFreeUsers);
         }
 
 
 
+        async function buttonAddMembers() {
+            console.log("entrei na função")
+            const temp = []
+            const users = document.querySelectorAll('.users-free.selected');
+            users.forEach((user) => {
+                const userId = user.id;
+                temp.push(userId)
+            });
+            const dataAddUsers = []
+
+
+            temp.forEach(matricula => {
+                ListMembersFree.forEach(user => {
+                    if (matricula == user.matricula) {
+                        const userData = {
+                            matriculaIntegrante: user.matricula,
+                            gestor: user.funcao == "gestor" ? true : false
+                        }
+                        dataAddUsers.push(userData)
+                    }
+
+                })
+            })
+            console.log(dataAddUsers)
+
+
+
+
+
+
+            await salvarMembros(item.codigoCr, dataAddUsers);
+            refreshListAdd()
+
+            ListMembersFree.forEach(user => {
+
+                temp.forEach(userFreeAdd => {
+                    console.log(userFreeAdd)
+                    if (userFreeAdd == user.matricula) {
+                        const ulFreeMembers = document.getElementById('membersCr');
+                        const li = document.createElement("li")
+
+                        li.textContent = user.nome
+                        li.id = user.matricula;
+
+
+                        if (user.funcao === 'gestor') {
+                            li.style.border = '2px solid blue';
+                        } else if (user.funcao === 'colaborador') {
+                            li.style.border = '2px solid green';
+                        } else if (user.funcao === 'admin') {
+                            return;
+                        }
+
+                        li.classList.add("users-free");
+
+                        ulFreeMembers.appendChild(li)
+                    }
+                })
+            })
+
+
+        }
+
+
+
+        const addUsuarioButton = document.getElementById('adicionarUsuario');
+        addUsuarioButton.addEventListener('click', buttonAddMembers);
+
+
+
+        // ======== REMOVE
         async function refreshList() {
             const codigoCr = item.codigoCr;
             const listMembersOfCR = await loadMembers();
@@ -442,7 +503,7 @@ function renderListItem(ulElement, item) {
                         const li = document.createElement("li")
 
                         li.textContent = user.nome
-                        li.id = item.matricula;
+                        li.id = user.matricula;
 
 
                         if (user.funcao === 'gestor') {
@@ -472,27 +533,7 @@ function renderListItem(ulElement, item) {
 
 
 
-        async function buttonAddMembers() {
-            const temp = []
-            const users = document.querySelectorAll('.users-free.selected');
 
-            users.forEach((user) => {
-                const userId = user.id;
-                temp.push(userId)
-
-            });
-
-            salvarMembros(item.codigoCr, temp)
-
-            const ulMembers = document.getElementById('#membersCr');
-            ulMembers.innerHTML = '';
-
-
-        }
-
-
-        const addUsuarioButton = document.getElementById('adicionarUsuario');
-        addUsuarioButton.addEventListener('click', buttonAddMembers);
 
 
 
