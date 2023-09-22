@@ -137,7 +137,7 @@ public class CenterResultController {
 
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @PostMapping("/{codigoCr}/member")
+    @PostMapping("/{codigoCr}/employee")
     public List<Member> saveMembers(@PathVariable String codigoCr, @RequestBody List<MemberRequestDTO> dataList) {
         CenterResult centerResult = repository.findById(codigoCr)
                 .orElseThrow(() -> new ApiException("Centro de resultado não encontrado com o código: " + codigoCr));
