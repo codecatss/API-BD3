@@ -1,12 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap");
 
 * {
   font-family: var(--font-family) !important;
-  
 }
-
-
-
 
 h1 {
   font-size: var(--font-size-h1) !important;
@@ -16,8 +12,8 @@ html {
   color: var(--text-color);
 }
 
-p{
-    color: black;
+p {
+  color: black;
 }
 
 .container {
@@ -26,130 +22,122 @@ p{
   height: 100vh;
 }
 
-
-.logo{
-    width: 155px; 
-    height: 100px;
+.logo {
+  width: 155px;
+  height: 100px;
 }
 
-.lupa{
-    height: 35px;
+.lupa {
+  height: 35px;
 }
 
-.menu{
-    margin: 0;
-    padding: 0;
-    list-style-type: none;
+.menu {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
 }
 
-.menu li{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin: var(--medium-pad) 0rem 0rem 0rem;
+.menu li {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: var(--medium-pad) 0rem 0rem 0rem;
 }
 
 .menu li img {
-    padding-right: var(--medium-pad);
-    margin: var(--small-pad);
+  padding-right: var(--medium-pad);
+  margin: var(--small-pad);
 }
 
 .menu li a {
-    color: var(--text-color); 
-    text-decoration: none; 
+  color: var(--text-color);
+  text-decoration: none;
 }
 
-.menu .activation{
-    background: linear-gradient(to right, #7468FF, #282272, #251440);
-    border-radius: 15px;
+.menu .activation {
+  background: linear-gradient(to right, #7468ff, #282272, #251440);
+  border-radius: 15px;
 }
 
-.menus{
-    margin: var(--default-pad);
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+.menus {
+  margin: var(--default-pad);
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .menus img {
-    margin-top: var(--mini-pad); 
+  margin-top: var(--mini-pad);
 }
 
-.panelnav{
-    background-image: var(--gradient-navbar);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+.panelnav {
+  background-image: var(--gradient-navbar);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-.main-content{
-
-    background: var(--background-nav-color);
-    flex-grow: 1;
-    padding-left: var(--default-pad);
-    padding-right: var(--default-pad);
+.main-content {
+  background: var(--background-nav-color);
+  flex-grow: 1;
+  padding-left: var(--default-pad);
+  padding-right: var(--default-pad);
 }
 
-.topnav{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: var(--small-pad);
-    margin-bottom: var(--small-pad);
+.topnav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: var(--small-pad);
+  margin-bottom: var(--small-pad);
 }
 
-.topnav h1{
-    color: var(--text-color);
-    font-size: 35px;
+.topnav h1 {
+  color: var(--text-color);
+  font-size: 35px;
 }
 
-.topnav .account{
-    margin-right: var(--larger-pad);
+.topnav .account {
+  margin-right: var(--larger-pad);
 }
-
 
 .account .perfil-user .seta-dropdown {
-    
-    width: 15px !important; 
-    height: 15px !important; 
+  width: 15px !important;
+  height: 15px !important;
 }
 
-.account  .dropdown {
-    display: none;
-    position: absolute;
-    background-color: #24242D;
-    list-style: none;
-    padding: 10px;
-    margin: 0;
+.account .dropdown {
+  display: none;
+  position: absolute;
+  background-color: #24242d;
+  list-style: none;
+  padding: 10px;
+  margin: 0;
 
-    width: 100px;
-
+  width: 100px;
 }
 
 .account:hover .dropdown {
-    display: block;
-    align-items: center;
+  display: block;
+  align-items: center;
 }
 
 .account .dropdown li:hover {
-    box-shadow: .5px .5px 5px .5px #585863; /* Adiciona sombra ao passar o mouse */
+  box-shadow: 0.5px 0.5px 5px 0.5px #585863; /* Adiciona sombra ao passar o mouse */
 }
 
 .account .perfil-user {
-    list-style-type: none;
+  list-style-type: none;
 }
 
 .account .perfil-user a {
-    text-decoration: none;
-    font-size: 22px;
-    color: var(--text-color);
-    font-size: 14px;
+  text-decoration: none;
+  font-size: 22px;
+  color: var(--text-color);
+  font-size: 14px;
 }
-
-
-
 
 .main-content {
   background-color: var(--background-main-content);
@@ -178,20 +166,16 @@ p{
   flex-direction: row;
 }
 
-
 .main-content .header .user-content img {
   width: 36px;
   height: 36px;
   padding-right: 20px;
 }
 
-.user-content section ul li{
-
+.user-content section ul li {
   display: flex;
   gap: 10px;
-
 }
-
 
 .main-content .search-bar {
   padding-top: 23px;
@@ -208,14 +192,13 @@ p{
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
-  
 }
 
 .main-content .search-bar .content a {
   background-color: var(--background-search-button);
   color: var(--text-color);
-  padding: .3rem;
-  border-radius: .3rem;
+  padding: 0.3rem;
+  border-radius: 0.3rem;
 }
 
 .main-content .search-bar .content .input-search {
@@ -243,7 +226,6 @@ p{
 }
 
 .main-content .colunName ul li {
-
 }
 
 .user-add {
@@ -284,7 +266,6 @@ p{
 }
 
 .rendered-lista p {
-
 }
 
 .actions {
@@ -293,7 +274,6 @@ p{
 }
 
 .column {
-
 }
 
 :root {
@@ -387,7 +367,6 @@ p{
   height: 100%;
   background-color: var(--background-modal);
   z-index: 10;
-  
 }
 
 #gerenciar-cr {
@@ -397,13 +376,10 @@ p{
   transform: translate(-50%, -50%);
   z-index: 99;
   border: 1px solid rgb(144, 0, 255);
-
 }
 
-
-
 .modal-content {
-  background-color:#24242D ;
+  background-color: #24242d;
   margin: 5% auto;
   padding: 20px;
   border: 25px solid var(--background-modal-content);
@@ -415,7 +391,6 @@ p{
 
   width: 801px;
   height: 541px;
-
 }
 .close {
   position: absolute;
@@ -425,65 +400,59 @@ p{
   cursor: pointer;
 }
 
-
-
 .actions img {
   cursor: pointer;
 }
 
-
 .status-item {
-    padding: 5px 10px;
-    width:50px;
-    background-color:var(--background-light-switch);
-;
-    border-radius: 4px;
-    color: white;
-    text-align: center;
-
+  padding: 5px 10px;
+  width: 50px;
+  background-color: var(--background-light-switch);
+  border-radius: 4px;
+  color: white;
+  text-align: center;
 }
 
 .status-item-inativo {
-    padding: 5px 10px;
-    width: 50px;
-    background-color: var(--background-switch-hover);
-    border-radius: 4px;
-    color: white;
-
+  padding: 5px 10px;
+  width: 50px;
+  background-color: var(--background-switch-hover);
+  border-radius: 4px;
+  color: white;
 }
-.page-navegation{
-width: 200px;
-
+.page-navegation {
+  width: 200px;
 }
-.page-navegation:hover{
-      background: linear-gradient(to right, rgba(152, 150, 182, 0.554), #29227264, #2514406b);
-    border-radius: 15px;
+.page-navegation:hover {
+  background: linear-gradient(
+    to right,
+    rgba(152, 150, 182, 0.554),
+    #29227264,
+    #2514406b
+  );
+  border-radius: 15px;
 }
 
-
-
- /* Adicione estilos CSS para o dropdown */
+/* Adicione estilos CSS para o dropdown */
 .dropdown {
-    position: relative;
-    display: inline-block;
+  position: relative;
+  display: inline-block;
 }
 
 .dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-    z-index: 1;
-    border-radius: 5px;
-    padding: 10px;
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  border-radius: 5px;
+  padding: 10px;
 }
 
 .dropdown .dropdown-content .show {
-    display: block !important;
+  display: block !important;
 }
-
-
 
 .pop-up-adicionar-usu-rio,
 .pop-up-adicionar-usu-rio * {
@@ -519,9 +488,8 @@ width: 200px;
   border: none;
 }
 
-.cancelar:hover{
+.cancelar:hover {
   background: #ff4b4b;
-
 }
 .confirmar {
   background: #8dd88b;
@@ -531,14 +499,13 @@ width: 200px;
   position: absolute;
   left: 569px;
   top: 413px;
-cursor: pointer;
+  cursor: pointer;
   font: 400 20px/27.5px "Inter", sans-serif;
   color: #000000;
 
-border: none;
-text-align: center;
+  border: none;
+  text-align: center;
 }
-
 
 .title-modal {
   color: #ffffff;
@@ -559,7 +526,6 @@ text-align: center;
   left: 305.74px;
   top: 295px;
   border: none;
-
 }
 .input-2 {
   background: #d9d9d9;
@@ -570,7 +536,6 @@ text-align: center;
   left: 305.74px;
   top: 236px;
   border: none;
-
 }
 .input-3 {
   background: #d9d9d9;
@@ -613,70 +578,64 @@ text-align: center;
   height: 32px;
 }
 
-
-
 .success-message {
-    display: none;
-    position: fixed; 
-    top: 0; 
-    left: 0; 
-    width: 100%; 
-    background-color: green;
-    color: white;
-    padding: 10px; 
-    text-align: center;
-    z-index: 9999; 
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: green;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  z-index: 9999;
 }
 
 .error-message {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background-color: red; 
-    color: white;
-    padding: 10px;
-    text-align: center;
-    z-index: 9999;
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: red;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  z-index: 9999;
 }
 
-
-.list-of-itens{
+.list-of-itens {
   overflow-y: auto;
 
   height: 60vh;
 }
 
-.icons{
+.icons {
   display: flex;
 
   align-items: center;
   gap: 15px;
 }
 
-.addMembers{
+.addMembers {
   width: 25px;
   height: 25px;
-  transition: filter 0.3s
+  transition: filter 0.3s;
 }
 
-.addMembers:hover{
+.addMembers:hover {
   filter: brightness(1.2);
 }
 
-.config{
+.config {
   width: 25px;
   height: 25px;
-  transition: filter 0.3s
+  transition: filter 0.3s;
 }
 
-.config:hover{
+.config:hover {
   filter: brightness(1.2);
 }
-
-
-
 
 .gerenciar-cr,
 .gerenciar-cr * {
@@ -689,8 +648,6 @@ text-align: center;
   position: relative;
   overflow: hidden;
 }
-
-
 
 .gerenciar-cr,
 .gerenciar-cr * {
@@ -833,7 +790,6 @@ text-align: center;
   top: 259px;
   border: none;
   cursor: pointer;
-
 }
 .navbar {
   color: #ffffff;
@@ -894,5 +850,21 @@ text-align: center;
 
 /* Estilo para itens selecionados */
 .users-free.selected {
+  filter: brightness(1.2); /* Aumenta o brilho para 120% */
+}
+
+.users-members {
+  background: #d9d9d9;
+  border-radius: 5px;
+
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #000000;
+  font-family: "Inter";
+  font-size: 16px;
+}
+.users-members.selected {
   filter: brightness(1.2); /* Aumenta o brilho para 120% */
 }

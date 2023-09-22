@@ -185,8 +185,13 @@ function renderListItem(ulElement, item) {
 
         ///// AQUIII
 
-        const allUsers = [];
-        const membersList = [];
+
+
+
+
+
+
+
 
         async function fazerRequisicaoGET() {
             const url = 'http://localhost:8080/employee';
@@ -200,31 +205,36 @@ function renderListItem(ulElement, item) {
 
                 const data = await response.json();
 
-                allUsers.push(...data);
 
-                renderizarLista(data);
+
+
+                return data;
+
             } catch (error) {
                 console.error('Erro na requisição:', error);
             }
 
-            return allUsers;
         }
+        const ListMembersFree = await fazerRequisicaoGET()
+        const listMembersOfCR = await loadMembers()
 
-        console.log(membersList);
+        renderizarLista(ListMembersFree)
+        renderMembers(listMembersOfCR);
+
 
         async function renderizarLista(data) {
             const ul = document.getElementById('listUsers');
             ul.innerHTML = '';
 
-            const matriculasExistem = new Set(membersList.map(user => user.matricula));
+            const matriculasExistem = new Set(listMembersOfCR.map(user => user.matricula));
 
             data.forEach(item => {
                 if (!matriculasExistem.has(item.matricula)) {
                     const li = document.createElement('li');
-                    const p = document.createElement('p');
-                    p.textContent = item.nome;
+
+                    li.textContent = item.nome;
                     li.id = item.matricula;
-                    li.appendChild(p);
+
 
                     if (item.funcao === 'gestor') {
                         li.style.border = '2px solid blue';
@@ -235,9 +245,7 @@ function renderListItem(ulElement, item) {
                     }
 
                     li.classList.add("users-free");
-                    li.addEventListener('click', event => {
-                        toggleClasseSelectEImprimir(event, item);
-                    });
+
 
                     ul.appendChild(li);
                 }
@@ -253,7 +261,13 @@ function renderListItem(ulElement, item) {
 
             items.forEach(item => {
                 const li = document.createElement("li");
-                li.textContent = `Nome: ${item.nome}, Função: ${item.funcao}`;
+                const nome = document.createElement("p");
+                const funcao = document.createElement("p");
+                nome.textContent = item.nome
+                funcao.textContent = capitalize(item.funcao)
+                li.classList.add("users-members")
+                li.id = item.matricula
+                li.append(nome, funcao)
                 ul.appendChild(li);
             });
         }
@@ -263,23 +277,20 @@ function renderListItem(ulElement, item) {
             return fetch(`http://localhost:8080/cr/${item.codigoCr}/employees`)
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data); 
-                    membersList.push(...data);
-                    renderMembers(data);
 
+
+                    return data
                 })
                 .catch(error => console.error("Erro ao carregar membros:", error));
         }
 
-        console.log("Valor de item.codigoCr:", item.codigoCr);
-
-
-        loadMembers();
 
 
 
 
-        const adicionarItensButton = document.getElementById('adicionarItens');
+
+
+
 
         async function toggleClasseSelectEImprimir(event, item) {
             const li = event.target;
@@ -292,31 +303,11 @@ function renderListItem(ulElement, item) {
 
             }
 
-            //console.log(item);
+
         }
-
-        async function adicionarClasseSelect(event) {
-            const li = event.target;
-            li.classList.add('selected');
-        }
-
-
-
-
-
-
-
-
-
-
 
 
         const elementosUsersFree = document.querySelectorAll('.users-free');
-
-
-        const listaTodosUsusarios = fazerRequisicaoGET()
-
-
 
         elementosUsersFree.forEach(elemento => {
             elemento.addEventListener('click', function (event) {
@@ -325,7 +316,13 @@ function renderListItem(ulElement, item) {
         });
 
 
+        const elementosUsersMembers = document.querySelectorAll('.users-members');
 
+        elementosUsersMembers.forEach(elemento => {
+            elemento.addEventListener('click', function (event) {
+                toggleClasseSelectEImprimir(event, item);
+            });
+        });
 
 
         function capitalize(str) {
@@ -334,81 +331,10 @@ function renderListItem(ulElement, item) {
 
 
 
-        function moverItensSelecionados() {
-            const listaUsuarios = document.getElementById('listUsers');
-            const listaMembrosCr = document.getElementById('membersCr');
 
 
-            const itensSelecionados = listaUsuarios.querySelectorAll('.selected');
-
-
-            itensSelecionados.forEach(item => {
-                allUsers.forEach(user => {
-                    if (item.id == user.matricula) {
-
-                        const liUser = document.createElement('li');
-                        const nome = document.createElement('p');
-                        const funcao = document.createElement('p');
-                        nome.textContent = user.nome;
-
-                        funcao.textContent = user.funcao.charAt(0).toUpperCase() + user.funcao.slice(1);
-
-                        liUser.appendChild(nome);
-                        liUser.appendChild(funcao);
-                        liUser.classList.add("users-free");
-                        listaMembrosCr.appendChild(liUser);
-
-
-                        item.parentNode.removeChild(item);
-                    }
-                });
-            });
-
-
-            itensSelecionados.forEach(item => {
-                item.classList.remove('selected');
-            });
-        }
-
-
-
-        const botaoAdicionarUsuario = document.getElementById('adicionarUsuario');
-        botaoAdicionarUsuario.addEventListener('click', moverItensSelecionados);
-
-
-        function selecionarItem(event) {
-            const li = event.target;
-            li.classList.add('selected');
-        }
-        function moverItensDeVolta() {
-            const listaUsuarios = document.getElementById('listUsers');
-            const listaMembrosCr = document.getElementById('membersCr');
-
-            const itensSelecionados = listaMembrosCr.querySelectorAll('.selected');
-
-            itensSelecionados.forEach(item => {
-
-                const segundoParagrafo = item.querySelector('p:nth-child(2)');
-                if (segundoParagrafo) {
-                    item.removeChild(segundoParagrafo);
-                }
-
-                listaUsuarios.appendChild(item);
-
-
-                item.classList.add('selected');
-
-                item.classList.remove('selected');
-            });
-        }
-
-
-        const listaMembros = document.getElementById('membersCr');
-        listaMembros.addEventListener('click', selecionarItem);
-
-
-        const botaoRemoverUsuario = document.getElementById('removerUsuario');
-
+        
+        
         function limparSelecao() {
             const listaMembrosCr = document.getElementById('membersCr');
             const itensSelecionados = listaMembrosCr.querySelectorAll('.selected');
@@ -418,12 +344,6 @@ function renderListItem(ulElement, item) {
             });
         }
 
-
-
-        botaoRemoverUsuario.addEventListener('click', () => {
-            moverItensDeVolta();
-            limparSelecao();
-        });
 
 
 
@@ -454,6 +374,37 @@ function renderListItem(ulElement, item) {
         }
 
 
+
+
+
+        function deleteMembers(codigoCr) {
+
+            const apiUrl = `http://localhost:8080/cr/${codigoCr}/member`;
+
+
+            fetch(apiUrl, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+
+                },
+            })
+                .then((response) => {
+                    if (response.status === 200) {
+
+                        console.log('Membros removidos com sucesso.');
+                    } else if (response.status === 404) {
+
+                        console.error('Endpoint não encontrado.');
+                    } else {
+
+                        console.error('Erro desconhecido ao remover membros.');
+                    }
+                })
+                .catch((error) => {
+                    console.error('Erro ao enviar a requisição DELETE:', error);
+                });
+        }
 
 
 
