@@ -227,7 +227,7 @@ function renderListItem(ulElement, item) {
             ul.innerHTML = '';
             console.log("to aqui")
             const matriculasExistem = new Set(listMembersOfCR.map(user => user.matricula));
-            console.log(matriculasExistem)
+
             data.forEach(item => {
                 if (!matriculasExistem.has(item.matricula)) {
                     const li = document.createElement('li');
@@ -363,6 +363,8 @@ function renderListItem(ulElement, item) {
                     if (!response.ok) {
                         throw new Error('Erro ao salvar membros');
                     }
+
+
                     return response.json();
                 })
                 .then(savedMembers => {
@@ -372,6 +374,9 @@ function renderListItem(ulElement, item) {
                 .catch(error => {
                     console.error('Erro ao salvar membros:', error);
                 });
+
+
+
         }
 
 
@@ -389,14 +394,15 @@ function renderListItem(ulElement, item) {
 
 
 
+            ulFreeMembers.innerHTML = " "
 
-            await renderizarLista(listFreeUsers);
         }
 
 
 
         async function buttonAddMembers() {
-            console.log("entrei na função")
+
+
             const temp = []
             const users = document.querySelectorAll('.users-free.selected');
             users.forEach((user) => {
@@ -404,6 +410,7 @@ function renderListItem(ulElement, item) {
                 temp.push(userId)
             });
             const dataAddUsers = []
+
 
 
             temp.forEach(matricula => {
@@ -422,21 +429,39 @@ function renderListItem(ulElement, item) {
 
 
 
-
-
-
             await salvarMembros(item.codigoCr, dataAddUsers);
-            refreshListAdd()
 
-            ListMembersFree.forEach(user => {
 
-                temp.forEach(userFreeAdd => {
+            const ulFreeMembers = document.getElementById('listUsers');
+            ulFreeMembers.innerHTML = "olaaa"
+
+
+            const listMembersOfCR = await loadMembers()
+
+
+            const matriculasExistem = new Set(listMembersOfCR.map(user => user.matricula));
+
+            const duasListas = [...temp, ...matriculasExistem];
+
+
+
+
+
+            temp.forEach(userFreeAdd => {
+
+                ListMembersFree.forEach(user => {
                     console.log(userFreeAdd)
                     if (userFreeAdd == user.matricula) {
                         const ulFreeMembers = document.getElementById('membersCr');
                         const li = document.createElement("li")
+                        const nome = document.createElement("p")
+                        const funcao = document.createElement("p")
 
-                        li.textContent = user.nome
+                        nome.textContent = user.nome
+                        funcao.textContent = capitalize(user.funcao)
+
+                        li.append(nome, funcao)
+
                         li.id = user.matricula;
 
 
@@ -448,7 +473,7 @@ function renderListItem(ulElement, item) {
                             return;
                         }
 
-                        li.classList.add("users-free");
+                        li.classList.add("users-members");
 
                         ulFreeMembers.appendChild(li)
                     }
@@ -466,6 +491,34 @@ function renderListItem(ulElement, item) {
 
 
         // ======== REMOVE
+
+
+        function deleteMembers(codigoCr, matriculas) {
+            return fetch(`http://localhost:8080/cr/${codigoCr}/employee`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(matriculas),
+            })
+                .then((response) => {
+                    if (response.ok) {
+                        return response.text();
+                    } else if (response.status === 404) {
+                        throw new Error("Membros não encontrados.");
+                    } else {
+                        throw new Error("Erro ao remover membros.");
+                    }
+                })
+                .then((data) => {
+                    return data;
+                })
+                .catch((error) => {
+                    throw error;
+                });
+        }
+
+
         async function refreshList() {
             const codigoCr = item.codigoCr;
             const listMembersOfCR = await loadMembers();
