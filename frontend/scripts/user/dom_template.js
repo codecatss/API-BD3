@@ -45,6 +45,28 @@ function adicionarUsuarioALista(usuario) {
     salvarUsuarioNoLocalStorage(usuario)
 }
 
+// Adicione um evento de clique ao botão "Confirmar" na modal de adicionar usuário
+const btnConfirmarAdicionar = document.querySelector("#modal-addUser .btn-confirm");
+
+btnConfirmarAdicionar.addEventListener("click", function () {
+    // Obtenha os valores dos campos de entrada da modal de adicionar usuário
+    const nomeInput = document.querySelector("#modal-addUser input[placeholder='Nome']").value;
+    const matriculaInput = document.querySelector("#modal-addUser input[placeholder='Matrícula']").value;
+    const funcaoInput = document.querySelector("#modal-addUser input[placeholder='Função']").value;
+
+    // Crie um objeto de usuário com os valores dos campos e defina "ativo" como padrão
+    const novoUsuario = {
+        nome: nomeInput,
+        matricula: matriculaInput,
+        funcao: funcaoInput,
+        ativo: "ativo"
+    };
+
+    // Chame a função para adicionar o novo usuário à lista
+    adicionarUsuarioALista(novoUsuario);
+});
+
+
 const usuario1 = {
     nome: "Usuário 1",
     matricula: "12345",

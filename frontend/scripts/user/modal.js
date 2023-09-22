@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function () {
     openModal(".btn-add", "modal-addUser");
 
     // Chame a função para abrir os modais de edição
-    openModal(".edit-align", "modal-editUser");
+    openModal(".edit-icon", "modal-editUser");
 
     // Chame a função para fechar todas as modais quando a página é carregada
     closeModals();
@@ -45,28 +45,37 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    // Adicione um evento de clique aos botões de edição para preencher o modal com os dados do usuário
-    var editButtons = document.querySelectorAll(".edit-align");
+    
+});
+// Utilize event delegation para lidar com os botões de edição, incluindo os dinâmicos
+document.body.addEventListener("click", function (event) {
+    if (event.target.classList.contains("edit-align") || event.target.classList.contains("edit-icon")) {
+        var editButton = event.target;
+        console.log(editButton)
 
-    editButtons.forEach(function (editButton) {
-        editButton.addEventListener("click", function () {
-            // Preencha os campos do modal com os dados do usuário
-            var matricula = editButton.id.split("-")[2]; // Obtém a matrícula do ID
+        // Preencha os campos do modal com os dados do usuário
+        var matricula = editButton.id.split("-")[2]; // Obtém a matrícula do ID
+        console.log(matricula)
 
-            // Acesse o Local Storage para obter os dados do usuário com base na matrícula
-            var usuariosArmazenados = JSON.parse(localStorage.getItem("usuarios")) || [];
+        // Acesse o Local Storage para obter os dados do usuário com base na matrícula
+        var usuariosArmazenados = JSON.parse(localStorage.getItem("usuarios")) || [];
 
-            // Encontre o usuário com a matrícula correspondente
-            var usuarioParaEditar = usuariosArmazenados.find(function (usuario) {
-                return usuario.matricula === matricula;
-            });
-
-            // Preencha os campos do modal com os dados do usuário
-            if (usuarioParaEditar) {
-                document.querySelector("#modal-editUser input[placeholder='Nome']").value = usuarioParaEditar.nome;
-                document.querySelector("#modal-editUser input[placeholder='Matrícula']").value = usuarioParaEditar.matricula;
-                document.querySelector("#modal-editUser input[placeholder='Função']").value = usuarioParaEditar.funcao;
-            }
+        // Encontre o usuário com a matrícula correspondente
+        var usuarioParaEditar = usuariosArmazenados.find(function (usuario) {
+            return usuario.matricula === matricula;
         });
-    });
+
+        // Preencha os campos do modal com os dados do usuário
+        if (usuarioParaEditar) {
+            document.querySelector("#modal-editUser input[placeholder='Nome']").value = usuarioParaEditar.nome;
+            document.querySelector("#modal-editUser input[placeholder='Matrícula']").value = usuarioParaEditar.matricula;
+            document.querySelector("#modal-editUser input[placeholder='Função']").value = usuarioParaEditar.funcao;
+
+            // Abra o modal de edição
+            var modalEditUser = document.getElementById("modal-editUser");
+            if (modalEditUser) {
+                modalEditUser.style.display = "block";
+            }
+        }
+    }
 });

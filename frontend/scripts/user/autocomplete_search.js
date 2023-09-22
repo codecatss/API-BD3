@@ -14,9 +14,9 @@ inputSearch.addEventListener("input", function () {
     const users = document.querySelectorAll(".user");
 
     users.forEach(function (user) {
-        const userName = removerAcentos(user.querySelector("p:nth-child(2)").textContent.toLowerCase()); // Remove acentos e obtém o nome do usuário em letras minúsculas
+        const userText = removerAcentos(user.textContent.toLowerCase()); // Remove acentos e obtém o texto do usuário em letras minúsculas
 
-        if (searchText === "" || userName.includes(searchText)) {
+        if (searchText === "" || userText.includes(searchText)) {
             user.style.display = "grid"; // Define o estilo de layout do elemento "user" para "grid"
             user.style.gridTemplateColumns = "1fr 1fr 1fr 1fr 2fr 1fr"; // Define as colunas da grade para "1fr 1fr 1fr 1fr 2fr 1fr"
         } else {
