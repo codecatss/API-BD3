@@ -212,5 +212,33 @@ public class CenterResultController {
         return employees;
     }
 
+    @Autowired
+    private EmployeeRepository employeeRepositoryGETUnique;
+
+    // Endpoint para obter funcionários que não estão em um CR específico
+    @GetMapping("/{codigoCr}/employees-not-in-cr")
+    public List<Employee> getEmployeesNotInCenterResult(@PathVariable String codigoCr) {
+        CenterResult centerResult = repository.findById(codigoCr)
+                .orElseThrow(() -> new ApiException("Centro de resultado não encontrado com o código: " + codigoCr));
+
+        if (centerResult.getStatusCr() != StatusEnum.ativo) {
+            throw new ApiException("Não é possível listar membros de um CR inativo.");
+        }
+
+        List<Member> members = memberRepositoryGET.findByCodCr(codigoCr);
+        List<String> matriculas = members.stream()
+                .map(Member::getMatriculaIntegrante)
+                .collect(Collectors.toList());
+
+        // Obtenha todos os funcionários
+        List<Employee> allEmployees = employeeRepositoryGETUnique.findAll();
+
+        // Filtrar funcionários que não estão na lista de matrículas do CR
+        List<Employee> employeesNotInCr = allEmployees.stream()
+                .filter(employee -> !matriculas.contains(employee.getMatricula()))
+                .collect(Collectors.toList());
+
+        return employeesNotInCr;
+    }
 
 }
