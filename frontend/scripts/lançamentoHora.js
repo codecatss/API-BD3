@@ -250,7 +250,7 @@ botaoConfirmar.addEventListener("click", async (event) => {
         solicitanteHoraInput.value === ""
     ) {
         alert("Preencha todos os campos obrigatórios!");
-        return; 
+        return;
     }
 
 
@@ -260,3 +260,27 @@ botaoConfirmar.addEventListener("click", async (event) => {
     const novasHoras = await listarHoras();
     carregarHorasNaLista(novasHoras);
 });
+
+
+
+
+
+
+
+
+
+function verificarTipoHora() {
+    if (tipoHoraInput.value === "sobreaviso") {
+        botaoConfirmar.disabled = true;
+        botaoConfirmar.classList.add("botaoDesabilitado")
+    } else {
+        botaoConfirmar.disabled = false;
+        botaoConfirmar.classList.remove("botaoDesabilitado")
+    }
+}
+
+
+tipoHoraInput.addEventListener("change", verificarTipoHora);
+
+
+verificarTipoHora();
