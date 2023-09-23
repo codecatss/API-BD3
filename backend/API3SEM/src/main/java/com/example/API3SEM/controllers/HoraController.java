@@ -1,9 +1,7 @@
 package com.example.API3SEM.controllers;
 
-import com.example.API3SEM.hora.Hora;
-import com.example.API3SEM.hora.HoraRepository;
-import com.example.API3SEM.hora.HoraRequestDTO;
-import com.example.API3SEM.hora.HoraResponseDTO;
+import com.example.API3SEM.hora.*;
+import com.example.API3SEM.utills.ApiException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +9,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+
+
 
 @RestController
 @RequestMapping("/hora")
@@ -23,21 +24,36 @@ public class HoraController {
         this.horaRepository = horaRepository;
     }
 
-    // Endpoint para criar uma hora extra
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping
-    public ResponseEntity<HoraResponseDTO> criarHoraExtra(@RequestBody HoraRequestDTO horaRequestDTO) {
-        // Crie uma instância de Hora a partir dos dados recebidos no DTO
+    public ResponseEntity<?> criarHoraExtra(@RequestBody HoraRequestDTO horaRequestDTO) {
+        if (horaRequestDTO.data_hora_inicio().after(horaRequestDTO.data_hora_fim())) {
+            throw new ApiException("A hora de início não pode ser maior que a hora de fim.");
+        }
+
         Hora hora = new Hora(horaRequestDTO);
 
-        // Salve a hora extra no banco de dados
         Hora horaCriada = horaRepository.save(hora);
 
-        // Crie um DTO de resposta a partir da hora extra criada
         HoraResponseDTO horaResponseDTO = new HoraResponseDTO(horaCriada);
 
         return new ResponseEntity<>(horaResponseDTO, HttpStatus.CREATED);
     }
 
-    // Outros endpoints e métodos do controlador (por exemplo, para listar, atualizar ou excluir horas extras) podem ser adicionados aqui.
+
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping
+    public ResponseEntity<List<HoraResponseDTO>> listarHoras() {
+        List<Hora> horas = horaRepository.findAll(); // Isso irá buscar todas as horas no banco de dados
+
+        // Mapeie as horas para objetos DTO de resposta
+        List<HoraResponseDTO> horasResponse = horas.stream()
+                .map(HoraResponseDTO::new)
+                .collect(Collectors.toList());
+
+        return new ResponseEntity<>(horasResponse, HttpStatus.OK);
+    }
+
+
 }
