@@ -21,7 +21,8 @@ body {
   color: var(--text-color);
   display: flex;
 }
-input {
+input,
+button {
   border: none;
 }
 
@@ -222,6 +223,11 @@ main {
   font-size: 20px;
 }
 
+.input-bar {
+  padding-left: 7px;
+  font-size: 15px;
+}
+
 table {
   border-collapse: collapse;
   width: 100%;
@@ -395,11 +401,167 @@ table {
   filter: brightness(1.2);
 }
 .horaLancada p {
-  align-self: center; 
+  align-self: center;
 }
 
 .botaoDesabilitado {
   filter: brightness(0.4);
   opacity: 0.7;
   pointer-events: none;
+}
+
+#selecionarEmpresa,
+#selecionarCr {
+  font-size: 14px;
+}
+
+#modalSobreAviso {
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 999;
+}
+
+.modal-content {
+  background: #0e0e12;
+  margin: 5% auto;
+  padding: 20px;
+  border: 25px solid var(--background-modal-content);
+  border-radius: 5px;
+  position: relative;
+  width: 801px;
+  height: 541px;
+  display: grid;
+  grid-template-columns: 2fr 4fr;
+}
+
+.inputs {
+  border-radius: 13px;
+  background: #24242d;
+  padding: 27px 54px;
+  display: flex;
+  flex-direction: column;
+  gap: 35px;
+}
+
+#horaInicioSobreaviso,
+#horaFimSobreaviso {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#horaInicioSobreaviso,
+#horaFimSobreaviso h2 {
+  margin-bottom: 10px;
+  color: #fff;
+
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 27.5px;
+}
+
+.dataInicioSobreaviso,
+.dataFimSobreaviso {
+  border-radius: 7px;
+  background: #d9d9d9;
+  height: 37px;
+  padding: 5px 10px;
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+
+.horaInicioSobreaviso,
+.horaFimSobreaviso {
+  border-radius: 7px;
+  background: #d9d9d9;
+  height: 37px;
+  padding: 5px 10px;
+}
+
+#botoesAcao {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+#botaoConfirmar {
+  border-radius: 7px;
+  background: #8dd88b;
+  width: 144px;
+  height: 42px;
+  color: #000;
+  font-family: Outfit;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 27.5px; /* 137.5% */
+}
+
+#botaoCancelar {
+  border-radius: 7px;
+  background: #d86666;
+  width: 144px;
+  height: 42px;
+  color: #000;
+  font-family: Outfit;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 27.5px; /* 137.5% */
+}
+
+#botaoSalvar {
+  border-radius: 7px;
+  background: #63c0f4;
+  width: 144px;
+  height: 42px;
+  color: #000;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 27.5px; /* 137.5% */
+}
+
+.listaDeLançamentos {
+  padding: 15px;
+}
+
+.tituloAcionamento {
+  color: #fff;
+  font-family: Outfit;
+  font-size: 36px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 27.5px; /* 76.389% */
+}
+
+.colunasTitutlos {
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  border-radius: 8px;
+  background: #b3a4de;
+  height: 30px;
+  padding-left: 10px;
+}
+
+.colunasTitutlos p {
+  align-self: center;
+}
+
+#listaDeHoras {
+  margin-top: 10px;
+  overflow-y: auto;
+  height: 440px;
+  border: 1px solid red;
 }
