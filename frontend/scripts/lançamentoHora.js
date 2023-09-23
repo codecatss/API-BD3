@@ -11,6 +11,10 @@ const selecionarCRInput = document.getElementById("selecionarCr")
 const botaoConfirmar = document.getElementById("adicionarBotao");
 
 
+
+const horaSobreaviso = []
+
+
 // SOBREAVISOO
 
 const dataInicioInputSobreaviso = document.querySelector(".dataInicioSobreaviso");
@@ -146,6 +150,12 @@ function lancamentoHora() {
         projeto: projetoHora,
         solicitante: solicitanteHora,
     };
+
+    if (tipoHora == "sobreaviso") {
+        horaSobreaviso.push(dataHora)
+        console.log("Sobreaviso")
+        return
+    }
 
     console.log(dataHora);
     return dataHora;
@@ -346,7 +356,7 @@ tipoHoraInput.addEventListener("change", verificarTipoHora);
 
 // ABRE O MODAL
 const acionamentoBotao = document.getElementById("acionamentoBotao");
-acionamentoBotao.addEventListener('click', function () {
+acionamentoBotao.addEventListener('click', async function () {
 
     const modalSobreAviso = document.getElementById("modalSobreAviso");
 
@@ -360,6 +370,19 @@ acionamentoBotao.addEventListener('click', function () {
             modalSobreAviso.style.display = 'none';
         }
     });
+
+
+
+    await lancamentoHora();
+
+    console.log(horaSobreaviso)
+
+
+
+
+
+
+
 });
 
 verificarTipoHora();
@@ -369,8 +392,12 @@ verificarTipoHora();
 
 
 
-botaoConfirmarSobreaviso.addEventListener("click", function (event) {
+botaoConfirmarSobreaviso.addEventListener("click", async function (event) {
     event.preventDefault();
+
+
+
+    const sobreaviso = horaSobreaviso[0]
 
 
     const dataInicio = dataInicioInputSobreaviso.value;
@@ -380,18 +407,23 @@ botaoConfirmarSobreaviso.addEventListener("click", function (event) {
 
 
 
-
     const dataHoraSobreaviso = {
-
+        codcr: sobreaviso.codcr,
         lancador: "4533",
+        cnpj: sobreaviso.cnpj,
         data_hora_inicio: `${dataInicio}T${horaInicio}:00Z`,
         data_hora_fim: `${dataFim}T${horaFim}:00Z`,
         tipo: "hora-extra",
+        justificativa: sobreaviso.justificativa,
+        projeto: sobreaviso.projeto,
+        solicitante: sobreaviso.solicitante
     };
 
+    horaSobreaviso.push(dataHoraSobreaviso)
 
+    console.log(dataHoraSobreaviso)
     const listaDeHoras = document.getElementById("listaDeHoras");
-
+    console.log(horaSobreaviso)
 
     const li = document.createElement("li");
     const dataHoraInicioP = document.createElement("p");
@@ -419,3 +451,5 @@ botaoConfirmarSobreaviso.addEventListener("click", function (event) {
     listaDeHoras.appendChild(li);
 
 });
+
+
