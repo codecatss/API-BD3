@@ -69,7 +69,7 @@ function popularSelectEmpresas(clientes) {
     clientes.forEach((cliente) => {
         const option = document.createElement("option");
         option.value = cliente.cnpj;
-        option.textContent = cliente.razao_social; 
+        option.textContent = cliente.razao_social;
         selectEmpresa.appendChild(option);
     });
 }
@@ -85,8 +85,8 @@ function popularSelectCr(centroDeResultado) {
 
     centroDeResultado.forEach((cr) => {
         const option = document.createElement("option");
-        option.value = cr.codigoCr; 
-        option.textContent = cr.nome; 
+        option.value = cr.codigoCr;
+        option.textContent = cr.nome;
         selectCr.appendChild(option);
     });
 }
@@ -151,7 +151,7 @@ async function lancamentoHoraExtra(dadosParaEnviar) {
         const data = await response.json();
         console.log('Resposta da API:', data);
     } catch (error) {
-
+        alert("Houve erro adicionar");
         console.error('Erro na requisição:', error);
     }
 }
@@ -169,11 +169,9 @@ const listarHoras = async () => {
     }
 };
 
+
+
 const horasCadastradas = await listarHoras()
-
-
-
-
 
 
 
@@ -185,6 +183,15 @@ async function carregarHorasNaLista(horas) {
 
 
     horas.forEach((hora) => {
+
+        const razaoSocial = todosClientes.find(item => hora.cnpj === item.cnpj)?.razao_social || null;
+        const centroResultado = todosCr.find(item => hora.codcr === item.codigoCr)?.nome || null;
+
+
+
+
+
+
         const li = document.createElement("li");
         const tipoHora = document.createElement("p");
         const statusHora = document.createElement("p");
@@ -210,8 +217,8 @@ async function carregarHorasNaLista(horas) {
         const horaFimFormatada = dataHoraFim.toLocaleTimeString('pt-BR');
         fimHora.textContent = `${dataFimFormatada} | ${horaFimFormatada}`;
 
-        crHora.textContent = hora.codcr;
-        clienteHora.textContent = hora.cnpj
+        crHora.textContent = centroResultado
+        clienteHora.textContent = razaoSocial
         projetoHora.textContent = hora.projeto;
         justificativaHora.textContent = hora.justificativa;
 
@@ -226,7 +233,27 @@ async function carregarHorasNaLista(horas) {
 
 await carregarHorasNaLista(horasCadastradas);
 
-botaoConfirmar.addEventListener("click", async () => {
+botaoConfirmar.addEventListener("click", async (event) => {
+    event.preventDefault()
+
+
+    if (
+        tipoHoraInput.value === "" ||
+        selecionarEmpresaInput.value === "" ||
+        selecionarCRInput.value === "" ||
+        justificativaHoraInput.value === "" ||
+        dataInicioInput.value === "" ||
+        horaInicioInput.value === "" ||
+        projetoHoraInput.value === "" ||
+        dataFimInput.value === "" ||
+        horaFimInput.value === "" ||
+        solicitanteHoraInput.value === ""
+    ) {
+        alert("Preencha todos os campos obrigatórios!");
+        return; 
+    }
+
+
     const dataHora = lancamentoHora();
     await lancamentoHoraExtra(dataHora);
 
