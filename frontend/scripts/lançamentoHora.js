@@ -11,6 +11,14 @@ const selecionarCRInput = document.getElementById("selecionarCr")
 const botaoConfirmar = document.getElementById("adicionarBotao");
 
 
+// SOBREAVISOO
+
+const dataInicioInputSobreaviso = document.querySelector(".dataInicioSobreaviso");
+const horaInicioInputSobreaviso = document.querySelector(".horaInicioSobreaviso");
+const dataFimInputSobreaviso = document.querySelector(".dataFimSobreaviso");
+const horaFimInputSobreaviso = document.querySelector(".horaFimSobreaviso");
+const botaoConfirmarSobreaviso = document.getElementById("botaoConfirmar");
+
 
 
 
@@ -289,7 +297,7 @@ botaoConfirmar.addEventListener("click", async (event) => {
 
 
 
-
+//Função que verifica a hora inicio e a hora fim da hora extra
 function definirMinDataFim() {
 
     const dataInicioValue = dataInicioInput.value;
@@ -315,9 +323,16 @@ function verificarTipoHora() {
     if (tipoHoraInput.value === "sobreaviso") {
         botaoConfirmar.disabled = true;
         botaoConfirmar.classList.add("botaoDesabilitado")
-    } else {
+        acionamentoBotao.disabled = false
+        acionamentoBotao.classList.remove("botaoDesabilitado")
+
+    } else if (tipoHoraInput.value === "hora-extra") {
+        acionamentoBotao.disabled = true
+        acionamentoBotao.classList.add("botaoDesabilitado")
         botaoConfirmar.disabled = false;
         botaoConfirmar.classList.remove("botaoDesabilitado")
+
+
     }
 }
 
@@ -325,12 +340,11 @@ function verificarTipoHora() {
 tipoHoraInput.addEventListener("change", verificarTipoHora);
 
 
-verificarTipoHora();
 
 
 
 
-
+// ABRE O MODAL
 const acionamentoBotao = document.getElementById("acionamentoBotao");
 acionamentoBotao.addEventListener('click', function () {
 
@@ -346,4 +360,62 @@ acionamentoBotao.addEventListener('click', function () {
             modalSobreAviso.style.display = 'none';
         }
     });
+});
+
+verificarTipoHora();
+
+
+
+
+
+
+botaoConfirmarSobreaviso.addEventListener("click", function (event) {
+    event.preventDefault();
+
+
+    const dataInicio = dataInicioInputSobreaviso.value;
+    const horaInicio = horaInicioInputSobreaviso.value;
+    const dataFim = dataFimInputSobreaviso.value;
+    const horaFim = horaFimInputSobreaviso.value;
+
+
+
+
+    const dataHoraSobreaviso = {
+
+        lancador: "4533",
+        data_hora_inicio: `${dataInicio}T${horaInicio}:00Z`,
+        data_hora_fim: `${dataFim}T${horaFim}:00Z`,
+        tipo: "hora-extra",
+    };
+
+
+    const listaDeHoras = document.getElementById("listaDeHoras");
+
+
+    const li = document.createElement("li");
+    const dataHoraInicioP = document.createElement("p");
+    const dataHoraFimP = document.createElement("p");
+
+
+    const dataHoraInicio = new Date(dataHoraSobreaviso.data_hora_fim);
+    const dataInicioFormatada = dataHoraInicio.toLocaleDateString('pt-BR');
+    const horaInicioFormatada = dataHoraInicio.toLocaleTimeString('pt-BR');
+
+    dataHoraInicioP.textContent = `${dataInicioFormatada} | ${horaInicioFormatada}`
+
+
+    const dataHoraFim = new Date(dataHoraSobreaviso.data_hora_fim);
+    const dataFimFormatada = dataHoraFim.toLocaleDateString('pt-BR');
+    const horaFimFormatada = dataHoraFim.toLocaleTimeString('pt-BR');
+
+
+
+    dataHoraFimP.textContent = `${dataFimFormatada} | ${horaFimFormatada}`;
+
+    li.classList.add("horaLiSobreaviso")
+    li.append(dataHoraInicioP, dataHoraFimP)
+
+    listaDeHoras.appendChild(li);
+
 });

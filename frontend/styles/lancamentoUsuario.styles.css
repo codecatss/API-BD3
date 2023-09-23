@@ -548,7 +548,7 @@ table {
 .colunasTitutlos {
   margin-top: 10px;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 2fr 2fr;
   border-radius: 8px;
   background: #b3a4de;
   height: 30px;
@@ -557,6 +557,7 @@ table {
 
 .colunasTitutlos p {
   align-self: center;
+  color: #000;
 }
 
 #listaDeHoras {
@@ -564,4 +565,28 @@ table {
   overflow-y: auto;
   height: 440px;
   border: 1px solid red;
+}
+
+.horaLiSobreaviso {
+  border-radius: 5px;
+  background: #d9d9d9;
+  height: 54px;
+  display: grid;
+  grid-template-columns: 2fr 2fr;
+  padding-left: 10px;
+  color: #000;
+  font-family: Outfit;
+
+  font-style: normal;
+  font-weight: 400;
+  line-height: 27.5px;
+  margin-bottom: 6px;
+}
+
+.horaLiSobreaviso:hover {
+  filter: brightness(1.2);
+}
+
+.horaLiSobreaviso p {
+  align-self: center;
 }
