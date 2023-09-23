@@ -22,7 +22,7 @@ const horaInicioInputSobreaviso = document.querySelector(".horaInicioSobreaviso"
 const dataFimInputSobreaviso = document.querySelector(".dataFimSobreaviso");
 const horaFimInputSobreaviso = document.querySelector(".horaFimSobreaviso");
 const botaoConfirmarSobreaviso = document.getElementById("botaoConfirmar");
-
+const botaoSalvarSobreaviso = document.getElementById("botaoSalvar")
 
 
 
@@ -452,4 +452,15 @@ botaoConfirmarSobreaviso.addEventListener("click", async function (event) {
 
 });
 
+
+botaoSalvarSobreaviso.addEventListener("click", async function (event) {
+    event.preventDefault();
+
+    horaSobreaviso.forEach(hora => {
+        lancamentoHoraExtra(hora)
+        alert("Lançou")
+    })
+
+
+});
 
