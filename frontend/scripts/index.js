@@ -227,7 +227,7 @@ function renderListItem(ulElement, item) {
             ul.innerHTML = '';
             console.log("to aqui")
             const matriculasExistem = new Set(listMembersOfCR.map(user => user.matricula));
-
+            console.log(matriculasExistem)
             data.forEach(item => {
                 if (!matriculasExistem.has(item.matricula)) {
                     const li = document.createElement('li');
@@ -349,7 +349,7 @@ function renderListItem(ulElement, item) {
 
 
         function salvarMembros(codigoCr, dataList) {
-            const url = `http://localhost:8080/cr/${codigoCr}/employee`;
+            const url = `http://localhost:8080/cr/${codigoCr}/member`;
 
             fetch(url, {
                 method: 'POST',
@@ -363,8 +363,6 @@ function renderListItem(ulElement, item) {
                     if (!response.ok) {
                         throw new Error('Erro ao salvar membros');
                     }
-
-
                     return response.json();
                 })
                 .then(savedMembers => {
@@ -374,123 +372,10 @@ function renderListItem(ulElement, item) {
                 .catch(error => {
                     console.error('Erro ao salvar membros:', error);
                 });
-
-
-
         }
 
 
 
-
-
-
-
-        async function refreshListAdd() {
-            const codigoCr = item.codigoCr;
-            const listMembersOfCR = await loadMembers();
-            const listFreeUsers = await fazerRequisicaoGET();
-            const ulMembers = document.getElementById('membersCr');
-            const ulFreeMembers = document.getElementById('listUsers');
-
-
-
-            ulFreeMembers.innerHTML = " "
-
-        }
-
-
-
-        async function buttonAddMembers() {
-
-
-            const temp = []
-            const users = document.querySelectorAll('.users-free.selected');
-            users.forEach((user) => {
-                const userId = user.id;
-                temp.push(userId)
-            });
-            const dataAddUsers = []
-
-
-
-            temp.forEach(matricula => {
-                ListMembersFree.forEach(user => {
-                    if (matricula == user.matricula) {
-                        const userData = {
-                            matriculaIntegrante: user.matricula,
-                            gestor: user.funcao == "gestor" ? true : false
-                        }
-                        dataAddUsers.push(userData)
-                    }
-
-                })
-            })
-            console.log(dataAddUsers)
-
-
-
-            await salvarMembros(item.codigoCr, dataAddUsers);
-
-
-            const ulFreeMembers = document.getElementById('listUsers');
-            ulFreeMembers.innerHTML = "olaaa"
-
-
-            const listMembersOfCR = await loadMembers()
-
-
-            const matriculasExistem = new Set(listMembersOfCR.map(user => user.matricula));
-
-            const duasListas = [...temp, ...matriculasExistem];
-
-
-
-
-
-            temp.forEach(userFreeAdd => {
-
-                ListMembersFree.forEach(user => {
-                    console.log(userFreeAdd)
-                    if (userFreeAdd == user.matricula) {
-                        const ulFreeMembers = document.getElementById('membersCr');
-                        const li = document.createElement("li")
-                        const nome = document.createElement("p")
-                        const funcao = document.createElement("p")
-
-                        nome.textContent = user.nome
-                        funcao.textContent = capitalize(user.funcao)
-
-                        li.append(nome, funcao)
-
-                        li.id = user.matricula;
-
-
-                        if (user.funcao === 'gestor') {
-                            li.style.border = '2px solid blue';
-                        } else if (user.funcao === 'colaborador') {
-                            li.style.border = '2px solid green';
-                        } else if (user.funcao === 'admin') {
-                            return;
-                        }
-
-                        li.classList.add("users-members");
-
-                        ulFreeMembers.appendChild(li)
-                    }
-                })
-            })
-
-
-        }
-
-
-
-        const addUsuarioButton = document.getElementById('adicionarUsuario');
-        addUsuarioButton.addEventListener('click', buttonAddMembers);
-
-
-
-        // ======== REMOVE
 
 
         function deleteMembers(codigoCr, matriculas) {
@@ -517,6 +402,7 @@ function renderListItem(ulElement, item) {
                     throw error;
                 });
         }
+
 
 
         async function refreshList() {
@@ -556,7 +442,7 @@ function renderListItem(ulElement, item) {
                         const li = document.createElement("li")
 
                         li.textContent = user.nome
-                        li.id = user.matricula;
+                        li.id = item.matricula;
 
 
                         if (user.funcao === 'gestor') {
@@ -586,7 +472,27 @@ function renderListItem(ulElement, item) {
 
 
 
+        async function buttonAddMembers() {
+            const temp = []
+            const users = document.querySelectorAll('.users-free.selected');
 
+            users.forEach((user) => {
+                const userId = user.id;
+                temp.push(userId)
+
+            });
+
+            salvarMembros(item.codigoCr, temp)
+
+            const ulMembers = document.getElementById('#membersCr');
+            ulMembers.innerHTML = '';
+
+
+        }
+
+
+        const addUsuarioButton = document.getElementById('adicionarUsuario');
+        addUsuarioButton.addEventListener('click', buttonAddMembers);
 
 
 

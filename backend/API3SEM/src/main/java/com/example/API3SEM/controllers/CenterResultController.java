@@ -215,8 +215,8 @@ public class CenterResultController {
     @Autowired
     private EmployeeRepository employeeRepositoryGETUnique;
 
-    // Endpoint para obter funcionários que não estão em um CR específico
-    @GetMapping("/{codigoCr}/employees-not-in-cr")
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping("/{codigoCr}/laaaaalaa")
     public List<Employee> getEmployeesNotInCenterResult(@PathVariable String codigoCr) {
         CenterResult centerResult = repository.findById(codigoCr)
                 .orElseThrow(() -> new ApiException("Centro de resultado não encontrado com o código: " + codigoCr));
@@ -230,10 +230,8 @@ public class CenterResultController {
                 .map(Member::getMatriculaIntegrante)
                 .collect(Collectors.toList());
 
-        // Obtenha todos os funcionários
         List<Employee> allEmployees = employeeRepositoryGETUnique.findAll();
 
-        // Filtrar funcionários que não estão na lista de matrículas do CR
         List<Employee> employeesNotInCr = allEmployees.stream()
                 .filter(employee -> !matriculas.contains(employee.getMatricula()))
                 .collect(Collectors.toList());
