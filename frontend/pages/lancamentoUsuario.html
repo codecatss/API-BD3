@@ -49,56 +49,56 @@
                         <div class="coluna1">
                             <div class="tipo">
                                 <label for="tipo" class="custom-label">Tipo</label>
-                                <select name="q" class="input-bar small-input">
+                                <select id="selecionarTipoHora" name="q" class="input-bar small-input">
                                     <option value="hora-extra">Hora Extra</option>
                                     <option value="sobreaviso">Sobreaviso</option>
                                 </select>
                             </div>
                             <div class="cliente">
                                 <label for="cliente" class="custom-label">Cliente</label>
-                                <select name="q" class="input-bar">
+                                <select id="selecionarEmpresa"  name="q" class="input-bar">
                                     <option value="Fatec">Fatec</option>
                                     <option value="2RP">2RP</option>
                                 </select>
                             </div>
                             <div class="justificativa">
                                 <label for="justificativa" class="custom-label">Justificativa</label>
-                                <input type="text" name="q" class="input-bar">
+                                <input id="justificativaHora" type="text" name="q" class="input-bar">
                             </div>
                         </div>
                         <div class="coluna2">
                             <div class="datainicio">
                                 <label for="datainicio" class="custom-label">Data inicio</label>
-                                <input type="date" name="data_inicio" class="input-bar">
+                                <input id="dataInicio" type="date" name="data_inicio" class="input-bar">
                             </div>
                             <div class="horainicio">
                                 <label for="hora" class="custom-label">Hora Início</label>
-                                <input type="time" id="horainicio" name="horainicio" class="input-bar">
+                                <input id="horaInicio" type="time" id="horainicio" name="horainicio" class="input-bar">
                             </div>
                             <div class="projeto">
                                 <label for="projeto" class="custom-label">Projeto</label>
-                                <input type="text" name="q" class="input-bar" style="margin-left: 40px;">
+                                <input id="projetoHora" type="text" name="q" class="input-bar" style="margin-left: 40px;">
                             </div>
                             
                         </div>
                         <div class="coluna3">
                             <div class="datafim">
                                 <label for="datafim" class="custom-label">Data fim</label>
-                                <input type="date" name="data_fim" class="input-bar">
+                                <input id="dataFim" type="date" name="data_fim" class="input-bar">
                             </div>
                             <div class="horafim">
                                 <label for="horafim" class="custom-label">Hora fim</label>
-                                <input type="time" id="horafim" name="horafim" class="input-bar">
+                                <input id="horaFim" type="time" id="horafim" name="horafim" class="input-bar">
                             </div>
                             <div class="solicitante">
                                 <label for="solicitante" class="custom-label">Solicitante</label>
-                                <input type="text" name="q" class="input-bar" style="margin-left: -7px;">
+                                <input id="solicitanteHora" type="text" name="q" class="input-bar" style="margin-left: -7px;">
                             </div>
                         </div> 
                     </div>
                     <div class="button">
                         <button class="limpar-button" style="margin-left: 310px;">Limpar</button>
-                        <button class="adicionar-button" style="margin-left: 1px;">Adicionar</button>
+                        <button id="adicionarBotao" class="adicionar-button" style="margin-left: 1px;">Adicionar</button>
                         <button class="acionamento-button" style="margin-left: 1px;">+ Acionamento</button>
                     </div>                     
                 </div>   
@@ -119,13 +119,16 @@
                         </tr>
                     </thead>
                     <tbody>
-
+  
                     </tbody>
                 </table>
             </nav>
 
         </main>
     </nav>
+
+
+    <script type="module" src="../scripts/lançamentoHora.js"></script>
 </body>
 
 </html>
