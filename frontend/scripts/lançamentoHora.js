@@ -58,12 +58,20 @@ const todosCr = await obterTodosCr()
 
 
 
-
 function popularSelectEmpresas(clientes) {
     const selectEmpresa = document.getElementById("selecionarEmpresa");
 
-
     selectEmpresa.innerHTML = "";
+
+
+    const optionPadrao = document.createElement("option");
+    optionPadrao.value = "";
+    optionPadrao.textContent = "Selecione a empresa";
+    optionPadrao.disabled = true;
+    optionPadrao.selected = true;
+
+
+    selectEmpresa.appendChild(optionPadrao);
 
 
     clientes.forEach((cliente) => {
@@ -74,13 +82,20 @@ function popularSelectEmpresas(clientes) {
     });
 }
 
-
-
 function popularSelectCr(centroDeResultado) {
     const selectCr = document.getElementById("selecionarCr");
 
-
     selectCr.innerHTML = "";
+
+
+    const optionPadrao = document.createElement("option");
+    optionPadrao.value = "";
+    optionPadrao.textContent = "Selecione o CR";
+    optionPadrao.disabled = true;
+    optionPadrao.selected = true;
+
+
+    selectCr.appendChild(optionPadrao);
 
 
     centroDeResultado.forEach((cr) => {
@@ -233,9 +248,9 @@ async function carregarHorasNaLista(horas) {
 
 await carregarHorasNaLista(horasCadastradas);
 
-botaoConfirmar.addEventListener("click", async (event) => {
-    event.preventDefault()
 
+botaoConfirmar.addEventListener("click", async (event) => {
+    event.preventDefault();
 
     if (
         tipoHoraInput.value === "" ||
@@ -253,14 +268,41 @@ botaoConfirmar.addEventListener("click", async (event) => {
         return;
     }
 
-
     const dataHora = lancamentoHora();
     await lancamentoHoraExtra(dataHora);
 
+
+    const formulario = document.getElementById("formularioHora");
+    formulario.reset();
+
+
+    tipoHoraInput.selectedIndex = 0;
+    selecionarEmpresaInput.selectedIndex = 0;
+    selecionarCRInput.selectedIndex = 0;
+
     const novasHoras = await listarHoras();
     carregarHorasNaLista(novasHoras);
+
+
+    alert("Hora lançada com sucesso!");
 });
 
+
+
+
+function definirMinDataFim() {
+
+    const dataInicioValue = dataInicioInput.value;
+
+
+    dataFimInput.min = dataInicioValue;
+}
+
+
+dataInicioInput.addEventListener("change", definirMinDataFim);
+
+
+definirMinDataFim();
 
 
 
@@ -284,3 +326,24 @@ tipoHoraInput.addEventListener("change", verificarTipoHora);
 
 
 verificarTipoHora();
+
+
+
+
+
+const acionamentoBotao = document.getElementById("acionamentoBotao");
+acionamentoBotao.addEventListener('click', function () {
+
+    const modalSobreAviso = document.getElementById("modalSobreAviso");
+
+    modalSobreAviso.style.display = 'block';
+
+
+
+
+    window.addEventListener('click', function (event) {
+        if (event.target === modalSobreAviso) {
+            modalSobreAviso.style.display = 'none';
+        }
+    });
+});
