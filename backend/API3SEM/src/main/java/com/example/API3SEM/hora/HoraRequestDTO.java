@@ -3,6 +3,7 @@ package com.example.API3SEM.hora;
 import java.sql.Timestamp;
 
 public record HoraRequestDTO(
+        Integer id,
         String codcr,
         String lancador,
         String cnpj,
