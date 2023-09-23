@@ -395,5 +395,11 @@ table {
   filter: brightness(1.2);
 }
 .horaLancada p {
-  align-self: center; /* Alinha verticalmente os itens no centro */
+  align-self: center; 
+}
+
+.botaoDesabilitado {
+  filter: brightness(0.4);
+  opacity: 0.7;
+  pointer-events: none;
 }
