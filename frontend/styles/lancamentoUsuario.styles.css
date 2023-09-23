@@ -326,6 +326,12 @@ table {
   font-weight: bold;
 }
 
+.button {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
 .button button {
   width: 150px;
   height: 40px;
