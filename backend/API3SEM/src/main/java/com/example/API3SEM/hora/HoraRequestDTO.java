@@ -1,8 +1,17 @@
 package com.example.API3SEM.hora;
 
-public record HoraRequestDTO(String id, String codigo_cr, String matricula_lancador, String cnpj,
-String intervalo, String tipo, String justificativa_lan, String projeto,
-                             
-String gestor, String jusNegacao, String statusAprovacao, String solicitante) {
-    
+import java.sql.Timestamp;
+
+public record HoraRequestDTO(
+        String codcr,
+        String lancador,
+        String cnpj,
+        Timestamp data_hora_inicio,
+        Timestamp data_hora_fim,
+        String tipo,
+        String justificativa,
+        String projeto,
+        String solicitante
+) {
+
 }
