@@ -27,4 +27,12 @@ public class Client{
     
     @Column(name = "status_cliente")
     private String status;
+
+
+
+    public Client(ClientRequestDTO clientRequestDTO){
+        this.cnpj = clientRequestDTO.getCnpj();
+        this.razaoSocial = clientRequestDTO.getRazaoSocial();
+        this.status = clientRequestDTO.getStatus();
+    }
 }
