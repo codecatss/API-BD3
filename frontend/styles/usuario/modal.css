@@ -55,27 +55,18 @@
 }
 
 .btn-cancel {
-    /* Rectangle 29 */
-    /* position: absolute; */
     width: 144px;
     height: 42px;
-    /* left: 306px;
-    top: 413px; */
-
     background: #D86666;
+    border: none;
     border-radius: 7px;
 }
 
-
-/* Rectangle 30 */
 .btn-confirm {
     width: 144px;
     height: 42px;
-    /* position: absolute;
-    left: 569px;
-    top: 413px; */
-
     background: #8DD88B;
+    border: none;
     border-radius: 7px;
 }
 

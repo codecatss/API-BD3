@@ -7,11 +7,11 @@
     <link rel="stylesheet" href="../styles/usuario/modal.css">
     <link rel="stylesheet" href="../styles/usuario/switch.css">
     <link rel="stylesheet" href="../styles/usuario/rightbar_feedback.css">
-
     <link rel="stylesheet" href="../styles/reset.css">
     <title>Usuário</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://kit.fontawesome.com/acb1260a79.js" crossorigin="anonymous"></script>
+    
 </head>
 <body>
     <div class="container">
@@ -19,7 +19,7 @@
             <div class="logo">
                 <img src="../assets/transparent-icons/2rp.svg" alt="" srcset="">
             </div>
-            <ul>
+            <ul class="main-menu">
                 <li class="menu-item">
                     <img src="../assets/transparent-icons/dashboard.svg" alt="" srcset="">
                     <a>Dashboard</a>
@@ -88,8 +88,6 @@
                 </li>
                 -->
             </ul>
-            <button id="test" onclick="Alert.success('Teste de mensagem de success.','Success',{displayDuration: 3000})">Clique para exibir uma notificação</button>
-
             
             </script>
         </div>
@@ -190,9 +188,11 @@
     </div>
     
     <!-- <script src="../scripts/index.js"></script> -->
-    <script src="../scripts/user/autocomplete_search.js"></script>
+    <script type="module" src="../scripts/user/autocomplete_search.js"></script>
     <script src="../scripts/user/rightbar_feedback.js"></script>
-    <script src="../scripts/user/dom_template.js"></script>
-    <script src="../scripts/user/modal.js"></script>
+    <script type="module" src="../scripts/user/dom_template.js"></script>
+    <script type="module" src="../scripts/user/modal.js"></script>
+    <script type="module" src="../scripts/user/api_consumer.js"></script>
+
 </body>
 </html>

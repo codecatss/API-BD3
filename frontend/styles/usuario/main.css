@@ -45,11 +45,12 @@ html {
     background: transparent;
     border-radius: 6px;
     transition: 0.9s;
+    margin-bottom: 0.1rem;
 }
 
 .menu-item:hover {
     /* Aplique o estilo do hover */
-    background: linear-gradient(to right, #6158D2, #251440);
+    background: #6158D2;
 }
 
 
@@ -122,8 +123,10 @@ html {
 }
 
 .main-content .search-bar .content .input-search {
-    width: auto;
+    /* width: auto; */
     padding: 10px 0;
+    width: 300px;
+    background: #D9D9D9;
     border-radius: 7px;
     background: #D9D9D9;
     padding-left: 10px;
@@ -135,6 +138,10 @@ html {
     color: #000;
     border-radius: .3rem;
     text-decoration: none;
+}
+
+ul.users {
+    background-color: #24242D;
 }
 
 .main-content .users li {
