@@ -53,7 +53,7 @@ $("#modal-addUser .btn-confirm").click(function () {
             nome: nomeInput.val(),
             matricula: matriculaInput.val(),
             funcao: funcaoInput.val(),
-            senha: "padrao",
+            senha: "senha123",
             status_usuario: "ativo"
         };
 
