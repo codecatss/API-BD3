@@ -9,8 +9,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@Entity
 @Table(name = "cliente")
-@Entity(name = "cliente")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -23,15 +23,8 @@ public class Client{
     private String cnpj;
 
     @Column(name = "razao_social", length = 50, nullable = false)
-    private String razao_social;
+    private String razaoSocial;
     
     @Column(name = "status_cliente")
     private String status;
-
-    public Client(ClientRequestDTO clientRequestDTO){
-        this.cnpj = clientRequestDTO.cnpj();
-        this.razao_social = clientRequestDTO.razao_social();
-        this.status = clientRequestDTO.status();
-    }
-
 }
