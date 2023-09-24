@@ -73,7 +73,7 @@ function softDeleteCenterResult(codigoCr, liElement) {
 function addSwitchClickEvent(liElement, codigoCr) {
     const switchElement = liElement.querySelector('.switch');
     const statusElement = liElement.querySelector('p:first-child');
-
+    console.log("to aqui")
     switchElement.addEventListener('click', function () {
         if (statusElement.textContent === 'inativo') {
             enableCenterResult(codigoCr, liElement);

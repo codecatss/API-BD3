@@ -270,6 +270,31 @@ function renderListItem(ulElement, item) {
 
 
 
+        function salvarMembros(codigoCr, dataList) {
+            const url = `http://localhost:8080/cr/${codigoCr}/employee`;
+
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+
+                },
+                body: JSON.stringify(dataList),
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Erro ao salvar membros');
+                    }
+                    return response.json();
+                })
+                .then(savedMembers => {
+
+                    console.log('Membros salvos:', savedMembers);
+                })
+                .catch(error => {
+                    console.error('Erro ao salvar membros:', error);
+                });
+        }
 
 
 
@@ -298,6 +323,30 @@ function renderListItem(ulElement, item) {
             });
         }
 
+        async function renderMembersForaDoCr(items) {
+            const ul = document.getElementById("listUsers");
+
+
+            ul.innerHTML = "";
+
+
+            items.forEach(item => {
+                const li = document.createElement("li");
+                const nome = document.createElement("p");
+                const checkBoxUser = document.createElement("input")
+                const div = document.createElement("div")
+                checkBoxUser.type = "checkbox"
+                nome.textContent = item.nome
+                div.append(checkBoxUser, nome)
+
+                li.classList.add("users-free")
+                li.id = item.matricula
+                div.classList.add("checkboxWithUserForaCR")
+                li.append(div)
+                ul.appendChild(li);
+            });
+        }
+
 
         async function loadMembers() {
             return fetch(`http://localhost:8080/cr/${item.codigoCr}/employees`)
@@ -307,6 +356,79 @@ function renderListItem(ulElement, item) {
                 })
                 .catch(error => console.error("Erro ao carregar membros:", error));
         }
+
+
+        async function loadMembersNoInCr() {
+            return fetch(`http://localhost:8080/cr/${item.codigoCr}/employeeNotInCr`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data)
+                    return data
+                })
+                .catch(error => console.error("Erro ao carregar membros:", error));
+        }
+
+        const membrosForaDoCr = await loadMembersNoInCr()
+        renderMembersForaDoCr(membrosForaDoCr)
+
+
+
+        adicionarUsuario.addEventListener("click", async function () {
+            const checkboxes = document.querySelectorAll(".checkboxWithUserForaCR input[type='checkbox']");
+            const itensSelecionadosParaAdicionar = [];
+            const usuariosAdicionar = []
+
+
+
+            checkboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    const li = checkbox.closest("li");
+                    const matricula = li.id;
+                    itensSelecionadosParaAdicionar.push(matricula);
+                }
+            });
+            console.log(itensSelecionadosParaAdicionar)
+            itensSelecionadosParaAdicionar.forEach(user => {
+                membrosForaDoCr.forEach(userFora => {
+                    if (user == userFora.matricula) {
+                        if (userFora.funcao == "gestor") {
+                            console.log("entrei aqui")
+                            const data = {
+                                matriculaIntegrante: userFora.matricula,
+                                gestor: true
+                            }
+                            usuariosAdicionar.push(data)
+
+                        } else if (userFora.funcao == "colaborador") {
+                            const data = {
+                                matriculaIntegrante: userFora.matricula,
+                                gestor: false
+                            }
+                            usuariosAdicionar.push(data)
+                        }
+
+
+
+                    }
+                })
+
+
+            })
+            console.log(usuariosAdicionar)
+            try {
+                await salvarMembros(item.codigoCr, usuariosAdicionar);
+                alert("Usuários Adicionados");
+                modal.style.display = 'none';
+
+            } catch (error) {
+                console.error("Erro ao adicionar membros:", error);
+            }
+
+        })
+
+
+
+
 
         async function refreshListMembersInCR() {
             const listaMembersInCR = document.getElementById("membersCr")
@@ -363,7 +485,7 @@ function renderListItem(ulElement, item) {
                 await deleteMembers(item.codigoCr, itensSelecionadosRemove);
                 alert("Usuários Removidos");
                 modal.style.display = 'none';
-                modal.style.display = 'block';
+
 
             } catch (error) {
                 console.error("Erro ao excluir membros:", error);
@@ -377,6 +499,7 @@ function renderListItem(ulElement, item) {
 
     });
 
+    addSwitchClickEvent(liElement, codigoCr, item.statusCr);
 
 
 }

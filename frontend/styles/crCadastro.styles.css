@@ -798,8 +798,6 @@ p {
   position: absolute;
   left: calc(50% - 503px);
   top: 23px;
-  width: 230px;
-  height: 32px;
 }
 .rectangle-40 {
   color: #000000;
@@ -869,7 +867,8 @@ p {
   filter: brightness(1.2); /* Aumenta o brilho para 120% */
 }
 
-.checkboxWithUser {
+.checkboxWithUser,
+.checkboxWithUserForaCR {
   display: flex;
   gap: 4px;
   align-items: center;
