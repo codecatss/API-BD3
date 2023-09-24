@@ -47,33 +47,3 @@ document.addEventListener("DOMContentLoaded", function () {
 
     
 });
-// Utilize event delegation para lidar com os botões de edição, incluindo os dinâmicos
-$(document).on("click", ".edit-align, .edit-icon", function() {
-    var editButton = $(this).closest(".edit-align");
-    console.log(editButton);
-
-    // Preencha os campos do modal com os dados do usuário
-    var matricula = editButton.attr("id").split("-")[2];
-    console.log(matricula);
-
-    // Acesse o Local Storage para obter os dados do usuário com base na matrícula
-    var usuariosArmazenados = JSON.parse(localStorage.getItem("usuarios")) || [];
-
-    // Encontre o usuário com a matrícula correspondente
-    var usuarioParaEditar = usuariosArmazenados.find(function(usuario) {
-        return usuario.matricula === matricula;
-    });
-
-    // Preencha os campos do modal com os dados do usuário
-    if (usuarioParaEditar) {
-        $("#modal-editUser input[placeholder='Nome']").val(usuarioParaEditar.nome);
-        $("#modal-editUser input[placeholder='Matrícula']").val(usuarioParaEditar.matricula);
-        $("#modal-editUser input[placeholder='Função']").val(usuarioParaEditar.funcao);
-
-        // Abra o modal de edição
-        var modalEditUser = document.getElementById("modal-editUser");
-        if (modalEditUser) {
-            modalEditUser.style.display = "block";
-        }
-    }
-});

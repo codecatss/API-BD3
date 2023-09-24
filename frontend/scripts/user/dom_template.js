@@ -78,22 +78,70 @@ $("#modal-addUser .btn-confirm").click(function () {
     }
 });
 
+$(document).on("click", ".edit-align, .edit-icon", function() {
+    var editButton = $(this).closest(".edit-align");
+    console.log(editButton);
 
-// Função para carregar a lista de funcionários ao carregar a página
-$(document).ready(function() {
-    obterListaDeFuncionarios()
-        .then(function (funcionarios) {
-            // Iterar sobre a lista de funcionários e adicionar cada um à lista de usuários
-            funcionarios.forEach(function (funcionario) {
-                adicionarUsuarioALista(funcionario);
-            });
-        })
-        .catch(function (error) {
-            // Lida com o erro ao carregar a lista de funcionários
-            console.error("Erro ao carregar a lista de funcionários:", error);
-        });
+    // Preencha os campos do modal com os dados do usuário
+    var matricula = editButton.attr("id").split("-")[2];
+    console.log(matricula);
+
+    // Acesse o Local Storage para obter os dados do usuário com base na matrícula
+    var usuariosArmazenados = JSON.parse(localStorage.getItem("usuarios")) || [];
+
+    // Encontre o usuário com a matrícula correspondente
+    var usuarioParaEditar = usuariosArmazenados.find(function(usuario) {
+        return usuario.matricula === matricula;
+    });
+
+    // Preencha os campos do modal com os dados do usuário
+    if (usuarioParaEditar) {
+        $("#modal-editUser input[placeholder='Nome']").val(usuarioParaEditar.nome);
+        $("#modal-editUser input[placeholder='Matrícula']").val(usuarioParaEditar.matricula);
+        $("#modal-editUser input[placeholder='Matrícula']").prop("disabled", true);
+        $("#modal-editUser input[placeholder='Função']").val(usuarioParaEditar.funcao);
+
+        // Abra o modal de edição
+        var modalEditUser = document.getElementById("modal-editUser");
+        if (modalEditUser) {
+            modalEditUser.style.display = "block";
+        }
+    }
 });
 
+// Adicione um evento de clique ao botão "Confirmar" no modal de edição de usuário
+$("#modal-editUser .btn-confirm").click(function () {
+    const matriculaInput = $("#modal-editUser input[placeholder='Matrícula']");
+    const nomeInput = $("#modal-editUser input[placeholder='Nome']");
+    const funcaoInput = $("#modal-editUser input[placeholder='Função']");
+
+    // Obtém a matrícula do usuário a partir do campo de entrada (caso você precise dela)
+    const matricula = matriculaInput.val();
+
+    // Obtém os novos valores de nome e função do campo de entrada
+    const novoNome = nomeInput.val();
+    const novaFuncao = funcaoInput.val();
+
+    // Crie um objeto com os dados atualizados
+    const dadosAtualizados = {
+        nome: novoNome,
+        funcao: novaFuncao
+    };
+
+    // Chama a função atualizarUsuario para atualizar o usuário
+    atualizarUsuario(matricula, dadosAtualizados)
+        .then(function (response) {
+            console.log(`Usuário com matrícula ${matricula} atualizado com sucesso.`);
+            Alert.success(`Usuário com matrícula ${matricula} atualizado com sucesso.`, "Sucesso!", { displayDuration: 5000 });
+
+            // Feche o modal de edição após a conclusão da atualização
+            $("#modal-editUser").css("display", "none");
+        })
+        .catch(function (error) {
+            console.error(`Erro ao atualizar o usuário com matrícula ${matricula}:`, error);
+            Alert.error(`Erro ao atualizar o usuário com matrícula ${matricula}, detalhes: ${error}`, "Erro!", { displayDuration: 5000 });
+        });
+});
 
 $(document).on('click', 'input[type="checkbox"].checkbox', function () {
     const isChecked = $(this).prop('checked');
@@ -120,5 +168,20 @@ $(document).on('click', 'input[type="checkbox"].checkbox', function () {
         .catch(function (error) {
             console.error(`Erro ao atualizar o usuário com matrícula ${matricula}:`, error);
             Alert.error(`Erro ao atualizar o usuário com matrícula ${matricula}, detalhes: ${error}`, "Erro!", { displayDuration: 5000 });
+        });
+});
+
+// Função para carregar a lista de funcionários ao carregar a página
+$(document).ready(function() {
+    obterListaDeFuncionarios()
+        .then(function (funcionarios) {
+            // Iterar sobre a lista de funcionários e adicionar cada um à lista de usuários
+            funcionarios.forEach(function (funcionario) {
+                adicionarUsuarioALista(funcionario);
+            });
+        })
+        .catch(function (error) {
+            // Lida com o erro ao carregar a lista de funcionários
+            console.error("Erro ao carregar a lista de funcionários:", error);
         });
 });
