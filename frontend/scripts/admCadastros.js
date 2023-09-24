@@ -53,6 +53,34 @@ function updateTableRow(id, status) {
 }
 
 
+function toggleStatus(cnpj, currentStatus) {
+    const newStatus = currentStatus === 'ativo' ? 'inativo' : 'ativo';
+    const requestData = {
+        status: newStatus
+    }
+
+    fetch(`http://localhost:8080/clients/${cnpj}?status=${newStatus}`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestData)
+    })
+        .then(response => response.json())
+        .then(data => {
+            // Atualize a classe e o texto do botão
+            const button = document.querySelector(`#cliente-${cnpj} button`);
+            button.classList.toggle('active'); // Toggle da classe active
+            button.textContent = newStatus === 'ativo' ? 'inativar' : 'ativar';
+        })
+        .catch(error => console.error('Erro ao atualizar o status do cliente:', error));
+}
+
+
+
+function editClient(cnpj, razaoSocial) {
+    alert(`Editar cliente: CNPJ - ${cnpj}, Razão Social - ${razaoSocial}`);
+}
 
 
 
