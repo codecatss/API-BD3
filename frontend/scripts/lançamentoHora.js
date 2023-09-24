@@ -460,6 +460,7 @@ botaoSalvarSobreaviso.addEventListener("click", async function (event) {
         lancamentoHoraExtra(hora)
         alert("Lançou")
     })
+    window.location.reload();
 
 
 });
