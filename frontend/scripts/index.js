@@ -308,6 +308,13 @@ function renderListItem(ulElement, item) {
                 .catch(error => console.error("Erro ao carregar membros:", error));
         }
 
+        async function refreshListMembersInCR() {
+            const listaMembersInCR = document.getElementById("membersCr")
+            console.log("Passei aqui")
+            listaMembersInCR.innerHTML = ""
+
+
+        }
 
 
         function deleteMembers(codigoCr, matriculas) {
@@ -328,6 +335,7 @@ function renderListItem(ulElement, item) {
                     }
                 })
                 .then((data) => {
+                    console.log("estou aqui")
                     return data;
                 })
                 .catch((error) => {
@@ -341,7 +349,6 @@ function renderListItem(ulElement, item) {
 
         removerUsuario.addEventListener("click", async function () {
             const checkboxes = document.querySelectorAll(".checkboxWithUser input[type='checkbox']");
-
             const itensSelecionadosRemove = [];
 
             checkboxes.forEach(checkbox => {
@@ -352,10 +359,19 @@ function renderListItem(ulElement, item) {
                 }
             });
 
-            deleteMembers(item.codigoCr, itensSelecionadosRemove)
-            console.log("Itens selecionados:", itensSelecionadosRemove);
+            try {
+                await deleteMembers(item.codigoCr, itensSelecionadosRemove);
+                alert("Usuários Removidos");
+                modal.style.display = 'none';
+                modal.style.display = 'block';
+
+            } catch (error) {
+                console.error("Erro ao excluir membros:", error);
+            }
 
         })
+
+
 
 
 
