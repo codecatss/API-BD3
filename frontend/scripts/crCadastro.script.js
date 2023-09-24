@@ -1,8 +1,3 @@
-
-console.log("ola")
-
-
-
 function toggleMode(liElement) {
     if (liElement.classList.contains('moved')) {
         liElement.classList.remove('moved');
@@ -12,7 +7,7 @@ function toggleMode(liElement) {
         liElement.classList.add('moved');
     }
 }
-console.log("oltudo bema")
+
 
 function enableCenterResult(codigoCr, liElement) {
     const apiUrl = `http://localhost:8080/cr/enable/${codigoCr}`;
@@ -32,7 +27,7 @@ function enableCenterResult(codigoCr, liElement) {
             return response.json();
         })
         .then((data) => {
-            console.log('Centro de resultado ativado com sucesso:', data);
+
 
             const statusElement = liElement.querySelector('p:first-child');
             statusElement.textContent = 'ativo';
@@ -63,7 +58,7 @@ function softDeleteCenterResult(codigoCr, liElement) {
             return response.json();
         })
         .then((data) => {
-            console.log('Soft delete realizado com sucesso:', data);
+
 
             const statusElement = liElement.querySelector('p:first-child');
             statusElement.textContent = 'inativo';
@@ -99,7 +94,7 @@ function fetchAndRenderData() {
         .then((response) => response.json())
         .then((data) => {
             ulElement.innerHTML = '';
-            console.log(data);
+
 
             data.forEach((item) => {
                 renderListItem(ulElement, item);
@@ -144,6 +139,86 @@ function searchCRByTerm(searchTerm) {
         });
 }
 
+
+async function refreshListCr() {
+    const listaCR = document.querySelector(".list-of-itens")
+    listaCR.innerHTML = ""
+    fetchAndRenderData()
+}
+
+
+
+async function handleEnviarClick(event) {
+    event.preventDefault();
+
+    const nomeInput = document.querySelector('input[name="nome"]');
+    const siglaInput = document.querySelector('input[name="sigla"]');
+    const codigoCrInput = document.querySelector('input[name="codigoCr"]');
+
+    const dados = {
+        codigoCr: codigoCrInput.value,
+        sigla: siglaInput.value,
+        nome: nomeInput.value,
+        statusCr: "ativo",
+    };
+
+    console.log(dados)
+
+    try {
+        await saveCenterResult(dados);
+        refreshListCr()
+        alert(`Centro De Resultado ${dados.nome} Cadastrado Com Sucesso`)
+        nomeInput.value = "";
+        codigoCrInput.value = "";
+        siglaInput.value = "";
+
+
+    } catch (error) {
+        console.error('Erro ao adicionar o CR:', error);
+
+    }
+}
+
+async function saveCenterResult(data) {
+    const requestOptions = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    };
+
+    const apiUrl = 'http://localhost:8080/cr';
+
+    try {
+        const response = await fetch(apiUrl, requestOptions);
+        if (!response.ok) {
+            throw new Error('Erro na requisição POST');
+        }
+        const responseData = await response.json();
+        console.log(responseData)
+    } catch (error) {
+        console.error('Erro ao fazer a requisição POST:', error);
+        throw error;
+    }
+}
+
+
+
+
+const confirmarButton = document.getElementById('confirmarCR');
+
+confirmarButton.addEventListener('click', async (event) => {
+    event.preventDefault();
+    console.log("entrei aqui");
+    await handleEnviarClick(event);
+});
+
+
+
+
+
+
 function renderListItem(ulElement, item) {
     const liElement = document.createElement('li');
     liElement.classList.add('rendered-lista');
@@ -178,13 +253,333 @@ function renderListItem(ulElement, item) {
 
     const addMembersImage = liElement.querySelector('.addMembers');
 
-    addMembersImage.addEventListener('click', function () {
+    addMembersImage.addEventListener('click', async function () {
         const nomeDoItem = this.getAttribute('data-nome');
-        const crNome = document.querySelector(".navbar")
-        crNome.textContent = `Gerenciar CR ${item.nome}`
+        const crNome = document.querySelector(".navbar");
+        crNome.textContent = `Gerenciar CR ${item.nome}`;
+
+
+
+
+
+
+        ///// AQUIII
+
+
+
+        async function fazerRequisicaoGET() {
+            const url = 'http://localhost:8080/employee';
+
+            try {
+                const response = await fetch(url);
+
+                if (!response.ok) {
+                    throw new Error(`Erro na requisição: ${response.status} - ${response.statusText}`);
+                }
+
+                const data = await response.json();
+
+
+
+
+                return data;
+
+            } catch (error) {
+                console.error('Erro na requisição:', error);
+            }
+
+        }
+        const ListMembersFree = await fazerRequisicaoGET()
+        const listMembersOfCR = await loadMembers()
+
+        renderizarLista(ListMembersFree)
+        renderMembers(listMembersOfCR);
+
+
+        async function renderizarLista(data) {
+            const ul = document.getElementById('listUsers');
+            ul.innerHTML = '';
+            console.log("to aqui")
+            const matriculasExistem = new Set(listMembersOfCR.map(user => user.matricula));
+            console.log(matriculasExistem)
+            data.forEach(item => {
+                if (!matriculasExistem.has(item.matricula)) {
+                    const li = document.createElement('li');
+
+                    li.textContent = item.nome;
+                    li.id = item.matricula;
+
+
+                    if (item.funcao === 'gestor') {
+                        li.style.border = '2px solid blue';
+                    } else if (item.funcao === 'colaborador') {
+                        li.style.border = '2px solid green';
+                    } else if (item.funcao === 'admin') {
+                        return;
+                    }
+
+                    li.classList.add("users-free");
+
+
+
+                    ul.appendChild(li);
+                }
+            });
+        }
+
+        async function renderMembers(items) {
+            const ul = document.getElementById("membersCr");
+
+
+            ul.innerHTML = "";
+
+
+            items.forEach(item => {
+                const li = document.createElement("li");
+                const nome = document.createElement("p");
+                const funcao = document.createElement("p");
+                nome.textContent = item.nome
+                funcao.textContent = capitalize(item.funcao)
+                li.classList.add("users-members")
+                li.id = item.matricula
+                li.append(nome, funcao)
+                ul.appendChild(li);
+            });
+        }
+
+
+        async function loadMembers() {
+            return fetch(`http://localhost:8080/cr/${item.codigoCr}/employees`)
+                .then(response => response.json())
+                .then(data => {
+
+
+                    return data
+                })
+                .catch(error => console.error("Erro ao carregar membros:", error));
+        }
+
+
+
+
+
+
+
+
+
+        async function toggleClasseSelectEImprimir(event, item) {
+            const li = event.target;
+
+            if (li.classList.contains('selected')) {
+                li.classList.remove('selected');
+
+            } else {
+                li.classList.add('selected');
+
+            }
+
+
+        }
+
+
+        const elementosUsersFree = document.querySelectorAll('.users-free');
+
+        elementosUsersFree.forEach(elemento => {
+            elemento.addEventListener('click', function (event) {
+                toggleClasseSelectEImprimir(event, item);
+            });
+        });
+
+
+        const elementosUsersMembers = document.querySelectorAll('.users-members');
+
+        elementosUsersMembers.forEach(elemento => {
+            elemento.addEventListener('click', function (event) {
+                toggleClasseSelectEImprimir(event, item);
+            });
+        });
+
+
+        function capitalize(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        }
+
+
+
+
+
+
+
+        function limparSelecao() {
+            const listaMembrosCr = document.getElementById('membersCr');
+            const itensSelecionados = listaMembrosCr.querySelectorAll('.selected');
+
+            itensSelecionados.forEach(item => {
+                item.classList.remove('selected');
+            });
+        }
+
+
+
+
+        function salvarMembros(codigoCr, dataList) {
+            const url = `http://localhost:8080/cr/${codigoCr}/member`;
+
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+
+                },
+                body: JSON.stringify(dataList),
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Erro ao salvar membros');
+                    }
+                    return response.json();
+                })
+                .then(savedMembers => {
+
+                    console.log('Membros salvos:', savedMembers);
+                })
+                .catch(error => {
+                    console.error('Erro ao salvar membros:', error);
+                });
+        }
+
+
+
+
+
+        function deleteMembers(codigoCr, matriculas) {
+            return fetch(`http://localhost:8080/cr/${codigoCr}/employee`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(matriculas),
+            })
+                .then((response) => {
+                    if (response.ok) {
+                        return response.text();
+                    } else if (response.status === 404) {
+                        throw new Error("Membros não encontrados.");
+                    } else {
+                        throw new Error("Erro ao remover membros.");
+                    }
+                })
+                .then((data) => {
+                    return data;
+                })
+                .catch((error) => {
+                    throw error;
+                });
+        }
+
+
+
+        async function refreshList() {
+            const codigoCr = item.codigoCr;
+            const listMembersOfCR = await loadMembers();
+            const listFreeUsers = await fazerRequisicaoGET();
+            const ulMembers = document.getElementById('membersCr');
+            const ulFreeMembers = document.getElementById('listUsers');
+
+
+
+
+            await renderMembers(listMembersOfCR);
+        }
+
+
+
+        async function buttonRemoveMembers() {
+            const temp = []
+            const users = document.querySelectorAll('.users-members.selected');
+            users.forEach((user) => {
+                const userId = user.id;
+                temp.push(userId)
+            });
+            const matriculasExistem = new Set(listMembersOfCR.map(user => user.matricula));
+            console.log(matriculasExistem)
+
+
+
+            await deleteMembers(item.codigoCr, temp);
+            ListMembersFree.forEach(user => {
+
+                temp.forEach(userFreeRemoved => {
+                    console.log(userFreeRemoved)
+                    if (userFreeRemoved == user.matricula) {
+                        const ulFreeMembers = document.getElementById('listUsers');
+                        const li = document.createElement("li")
+
+                        li.textContent = user.nome
+                        li.id = item.matricula;
+
+
+                        if (user.funcao === 'gestor') {
+                            li.style.border = '2px solid blue';
+                        } else if (user.funcao === 'colaborador') {
+                            li.style.border = '2px solid green';
+                        } else if (user.funcao === 'admin') {
+                            return;
+                        }
+
+                        li.classList.add("users-free");
+
+                        ulFreeMembers.appendChild(li)
+                    }
+                })
+            })
+
+            refreshList()
+
+        }
+
+
+
+        const removerUsuarioButton = document.getElementById('removerUsuario');
+        removerUsuarioButton.addEventListener('click', buttonRemoveMembers);
+
+
+
+
+        async function buttonAddMembers() {
+            const temp = []
+            const users = document.querySelectorAll('.users-free.selected');
+
+            users.forEach((user) => {
+                const userId = user.id;
+                temp.push(userId)
+
+            });
+
+            salvarMembros(item.codigoCr, temp)
+
+            const ulMembers = document.getElementById('#membersCr');
+            ulMembers.innerHTML = '';
+
+
+        }
+
+
+        const addUsuarioButton = document.getElementById('adicionarUsuario');
+        addUsuarioButton.addEventListener('click', buttonAddMembers);
+
+
+
+
+
+
+
+
+
 
 
     });
+
 
 
 
@@ -245,60 +640,9 @@ closeModal.addEventListener('click', closeModalFunction);
 const cancelarButton = document.querySelector('.cancelar');
 cancelarButton.addEventListener('click', closeModalFunction);
 
-async function handleEnviarClick(event) {
-    event.preventDefault();
 
-    const nomeInput = document.querySelector('input[name="nome"]');
-    const siglaInput = document.querySelector('input[name="sigla"]');
-    const codigoCrInput = document.querySelector('input[name="codigoCr"]');
 
-    const dados = {
-        codigoCr: codigoCrInput.value,
-        sigla: siglaInput.value,
-        nome: nomeInput.value,
-        statusCr: "ativo",
-    };
 
-    console.log('Dados a serem enviados:', dados);
-
-    try {
-        await saveCenterResult(dados);
-        showSuccessMessage();
-
-        nomeInput.value = "";
-        codigoCrInput.value = "";
-        siglaInput.value = "";
-
-        refreshList();
-    } catch (error) {
-        console.error('Erro ao adicionar o CR:', error);
-        showErrorMessage();
-    }
-}
-
-async function saveCenterResult(data) {
-    const requestOptions = {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data)
-    };
-
-    const apiUrl = 'http://localhost:8080/cr';
-
-    try {
-        const response = await fetch(apiUrl, requestOptions);
-        if (!response.ok) {
-            throw new Error('Erro na requisição POST');
-        }
-        const responseData = await response.json();
-        console.log('Resposta da requisição POST:', responseData);
-    } catch (error) {
-        console.error('Erro ao fazer a requisição POST:', error);
-        throw error;
-    }
-}
 
 function showSuccessMessage() {
     const successMessage = document.getElementById('successMessage');
@@ -323,189 +667,6 @@ fetchAndRenderData();
 
 
 
-let allUsers = []; // Variável para armazenar todos os objetos
-const adicionarItensButton = document.getElementById('adicionarItens');
-
-async function toggleClasseSelectEImprimir(event, item) {
-    const li = event.target;
-
-    if (li.classList.contains('selected')) {
-        li.classList.remove('selected');
-        console.log('Classe "selected" removida');
-    } else {
-        li.classList.add('selected');
-        console.log('Classe "selected" adicionada');
-    }
-
-    console.log('Objeto clicado:', item);
-}
-
-async function adicionarClasseSelect(event) {
-    const li = event.target;
-    li.classList.add('selected');
-}
-
-// Função para fazer a requisição GET
-async function fazerRequisicaoGET() {
-    // URL da API
-    const url = 'http://localhost:8080/employee';
-
-    try {
-        // Faz a requisição GET com await
-        const response = await fetch(url);
-
-        // Verifica se a resposta tem status 200 (OK)
-        if (!response.ok) {
-            throw new Error(`Erro na requisição: ${response.status} - ${response.statusText}`);
-        }
-
-        // Converte a resposta para JSON com await
-        const data = await response.json();
-
-        // Armazena os itens da API
-        allUsers = data;
-
-        // Manipula os dados recebidos
-        console.log(data);
-        renderizarLista(data);
-    } catch (error) {
-        // Trata erros
-        console.error('Erro na requisição:', error);
-    }
-}
-
-// Função para renderizar a lista no elemento UL
-function renderizarLista(data) {
-    console.log(data);
-    const ul = document.getElementById('listUsers');
-    ul.innerHTML = ''; // Limpa o conteúdo existente
-
-    // Itera sobre os itens e cria um elemento LI para cada um
-    data.forEach(item => {
-        const li = document.createElement('li');
-        const p = document.createElement('p');
-        p.textContent = item.nome;
-        li.id = item.matricula;
-        li.appendChild(p);
-
-        // Define a borda com base na função do item
-        if (item.funcao === 'gestor') {
-            li.style.border = '2px solid blue';
-        } else if (item.funcao === 'colaborador') {
-            li.style.border = '2px solid green';
-        } else if (item.funcao === 'admin') {
-            // Não renderiza o item
-            return;
-        }
-
-        li.classList.add("users-free");
-        li.addEventListener('click', event => {
-            toggleClasseSelectEImprimir(event, item);
-        });
-
-        ul.appendChild(li);
-    });
-}
-
-
-// Inicializa a requisição GET ao carregar a página
-
-
-
-// Função para mover itens selecionados da lista para a outra lista
-function moverItensSelecionados() {
-    const listaUsuarios = document.getElementById('listUsers');
-    const listaMembrosCr = document.getElementById('membersCr');
-
-    // Obtém todos os itens selecionados com a classe "selected"
-    const itensSelecionados = listaUsuarios.querySelectorAll('.selected');
-
-    console.log(itensSelecionados)
-    // Move os itens selecionados para a outra lista
-    itensSelecionados.forEach(item => {
-        listaMembrosCr.appendChild(item);
-        console.log(item)
-        item.classList.remove('selected'); // Remove a classe "selected"
-    });
-
-
-}
-
-
-const botaoAdicionarUsuario = document.getElementById('adicionarUsuario');
-botaoAdicionarUsuario.addEventListener('click', moverItensSelecionados);
-
-
-function selecionarItem(event) {
-    const li = event.target;
-    li.classList.add('selected');
-}
-
-
-function moverItensDeVolta() {
-    const listaUsuarios = document.getElementById('listUsers');
-    const listaMembrosCr = document.getElementById('membersCr');
-
-
-    const itensSelecionados = listaMembrosCr.querySelectorAll('.selected');
-
-
-    itensSelecionados.forEach(item => {
-        listaUsuarios.appendChild(item);
-        item.classList.remove('selected');
-    });
-}
-
-
-const listaMembros = document.getElementById('membersCr');
-listaMembros.addEventListener('click', selecionarItem);
-
-
-const botaoRemoverUsuario = document.getElementById('removerUsuario');
-
-function limparSelecao() {
-    const listaMembrosCr = document.getElementById('membersCr');
-    const itensSelecionados = listaMembrosCr.querySelectorAll('.select');
-
-    itensSelecionados.forEach(item => {
-        item.classList.remove('select');
-    });
-}
-
-
-
-botaoRemoverUsuario.addEventListener('click', () => {
-    moverItensDeVolta();
-    limparSelecao();
-});
-
-
-
-function salvarMembros(codigoCr, dataList) {
-    const url = `/seu-endpoint-aqui/${codigoCr}/member`;
-
-    fetch(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            // Se você precisar de autenticação ou outros cabeçalhos, adicione-os aqui
-        },
-        body: JSON.stringify(dataList),
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Erro ao salvar membros');
-            }
-            return response.json();
-        })
-        .then(savedMembers => {
-            // Os membros foram salvos com sucesso
-            console.log('Membros salvos:', savedMembers);
-        })
-        .catch(error => {
-            console.error('Erro ao salvar membros:', error);
-        });
-}
 
 
 
@@ -513,7 +674,7 @@ function salvarMembros(codigoCr, dataList) {
 
 
 
-window.addEventListener('load', fazerRequisicaoGET);
+
 
 
 
