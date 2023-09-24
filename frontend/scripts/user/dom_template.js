@@ -184,6 +184,7 @@ $(document).on('click', 'input[type="checkbox"].checkbox', function () {
     // Chamar a função atualizarUsuario para atualizar o usuário
     atualizarUsuario(matricula, dadosAtualizados)
         .then(function (response) {
+            editarUsuarioNoLocalStorage(matricula, dadosAtualizados);
             console.log(`Usuário com matrícula ${matricula} atualizado com sucesso.\n\nNovo status: ${statusUsuario}`);
             Alert.success(`Usuário com matrícula ${matricula} atualizado com sucesso.\n\nNovo status: ${statusUsuario}`, "Sucesso!", { displayDuration: 5000 });
         
