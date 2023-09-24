@@ -247,6 +247,85 @@ function renderListItem(ulElement, item) {
 
     ulElement.appendChild(liElement);
 
+    const editClient = liElement.querySelector(".config")
+    editClient.addEventListener('click', async function () {
+        const modal = document.getElementById('myModalUpdate');
+        modal.style.display = 'block';
+        window.addEventListener('click', function (event) {
+            event.preventDefault();
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+
+
+        async function updateClient(cnpj, partialData) {
+            const url = `http://localhost:8080/clients/${cnpj}`;
+            const requestOptions = {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(partialData),
+            };
+
+            return fetch(url, requestOptions)
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error(`Erro na requisição: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then((data) => {
+                    console.log(data);
+                    return data;
+                })
+                .catch((error) => {
+                    console.error('Erro na requisição PATCH:', error);
+                    throw error;
+                });
+        }
+
+
+
+        const cnpjInput = document.querySelector('input[name="cnpjUpdate"]');
+        const razaoSocialInput = document.querySelector('input[name="razao_socialUpdate"]');
+        console.log(cnpjInput);
+        console.log(item);
+        cnpjInput.value = item.cnpj;
+        razaoSocialInput.value = item.razao_social;
+
+        const confirmarClient = document.getElementById("confirmarClienteUpdate")
+
+        confirmarClient.addEventListener("click", async function (event) {
+            event.preventDefault()
+
+            const siglinha = razaoSocialInput.value;
+
+            const dados = {
+                razao_social: siglinha,
+            };
+
+            console.log(dados)
+            updateClient(item.cnpj, dados);
+            alert(`Cliente ${dados.razao_social} Alterado Com Sucesso`)
+            refreshListClient();
+            modal.style.display = 'none';
+            window.location.reload();
+
+
+        });
+
+
+
+
+
+
+
+
+
+
+    })
 
     addSwitchClickEvent(liElement, cnpj, item.status);
 
