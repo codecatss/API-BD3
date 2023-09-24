@@ -38,7 +38,7 @@
   }
   
   .checkbox:checked + .switch {
-    background-color: #34C759;
+    background-color: #2E7A48;
   }
   
   .checkbox:checked + .switch .slider {
