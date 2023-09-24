@@ -135,11 +135,13 @@
 
 ## :wrench: Tecnologias
 ![7](https://github.com/codecatss/API-BD3/assets/108769169/8f6798ae-6f20-4154-9560-dabd4fd93ab8)
+> Canva, Docker, Postgres, Jira, Visual Studio Code, IntelliJ, Slack, Figma, Insomnia, Dbeaver, GitHub, Excel
 
 <span id="linguagens">
 
 ## 📖 Linguagens
 ![9](https://github.com/codecatss/API-BD3/assets/108769169/9570a6fa-42d5-4b41-b46c-16c6fdeed9d5)
+> Java, HTML5, CSS3, JavaScript, Spring Boot, Hibernate
 
 <span id="equipe">
 
