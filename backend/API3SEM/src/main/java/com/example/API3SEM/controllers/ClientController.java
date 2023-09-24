@@ -49,7 +49,7 @@ public class ClientController {
     }
 
     @PatchMapping("disable/{cnpj}")
-    public ResponseEntity<ClientResponseDTO> update(@PathVariable String cnpj) {
+    public ResponseEntity<ClientResponseDTO> disable(@PathVariable String cnpj) {
         try {
             if (!repository.existsById(cnpj)) {
                 return ResponseEntity.notFound().build();
@@ -65,6 +65,26 @@ public class ClientController {
             }
         } catch (Exception e) {
             throw new RuntimeException("Não foi possível desabilitar o cliente, por favor verifique as informações " + e.getMessage());
+        }
+    }
+
+    @PatchMapping("enable/{cnpj}")
+    public ResponseEntity<ClientResponseDTO> enable(@PathVariable String cnpj) {
+        try {
+            if (!repository.existsById(cnpj)) {
+                return ResponseEntity.notFound().build();
+            }
+
+            Client client = repository.findById(cnpj).orElse(null);
+            if (client != null) {
+                client.setStatus(StatusEnum.ativo.name());
+                repository.save(client);
+                return ResponseEntity.ok(new ClientResponseDTO(client));
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Não foi possível habilitar o cliente, por favor verifique as informações " + e.getMessage());
         }
     }
 
