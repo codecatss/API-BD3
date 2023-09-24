@@ -40,6 +40,20 @@ function renderTableRow(tbody, item) {
     actionsCell.appendChild(editButton);
 }
 
+function updateTableRow(id, status) {
+    const row = document.querySelector(`#${id}`);
+    if (row) {
+        const statusCell = row.cells[0];
+        const button = row.querySelector('button');
+
+        // Atualize o status da célula e o texto do botão
+        statusCell.textContent = status;
+        button.textContent = status === 'ativo' ? 'inativar' : 'ativar';
+    }
+}
+
+
+
 
 
 fetchAndRenderData();
