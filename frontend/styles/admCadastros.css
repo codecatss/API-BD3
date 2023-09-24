@@ -14,29 +14,33 @@
     --mini-margin: calc(var(--default-margin)/2);
     --mini2-margin: calc(var(--default-margin)/3);
     --min-margin: calc(var(--default-margin)/6);
+    --min2-margin: calc(var(--default-margin)/8);
     --medium-margin: calc(var(--default-margin)*3);
     --med-margin: calc(var(--default-margin)*2);
     --big-margin: calc(var(--default-margin)*6);
     --big2-margin: calc(var(--default-margin)*8);
     --big3-margin: calc(var(--default-margin)*10);
+    --big4-margin: calc(var(--default-margin)*12);
     --larger-margin: calc(var(--default-margin)*4);
     --default-button: .5rem;
 }
 
-body, html {
+body,
+html {
     height: 100vh;
     margin: 0;
     padding: 0;
     font-family: sans-serif;
     font-size: 18px;
     color: var(--text-color);
-    background-color: blue;/*teste fundo*/
+    background-color: blue;
+    /*teste fundo*/
 }
 
 .grid-screen {
     display: grid;
     grid-template-columns: 20% 1fr;
-    grid-template-rows: min-content min-content 1fr;
+    grid-template-rows: min-content min-content 70%;
     height: 100%;
     width: 100%;
     background-color: var(--background-nav-color);
@@ -56,11 +60,9 @@ body, html {
     background-image: var(--gradient-navbar);
     grid-column: 1 / 2;
     grid-row: 1 / -1;
-    display: inline-flex;
+    display: flex;
     flex-direction: column;
     align-items: center;
-    height: 100%;
-    
 }
 
 .interactivebar {
@@ -75,20 +77,21 @@ body, html {
     align-items: center;
 }
 
-
 .main-content {
     background: var(--background-nav-color);
     grid-column: 2 / 3;
     grid-row: 3 / -1;
-    display: flex;
     margin-top: var(--default-margin);
+    margin-bottom: var(--default-margin);
+    overflow: auto;
 }
+
 
 .logo2rp {
     margin-top: var(--default-margin);
 }
 
-.menu{
+.menu {
     margin-top: var(--big2-margin);
     list-style: none;
     padding: 0;
@@ -101,7 +104,7 @@ body, html {
     margin-bottom: var(--big-margin);
 }
 
-.menu a{
+.menu a {
     display: flex;
     align-items: center;
     color: var(--text-color);
@@ -114,18 +117,18 @@ body, html {
     margin-right: var(--big-margin);
 }
 
-.menu .activation{
+.menu .activation {
     background: linear-gradient(to right, #7468FF, #282272, #251440);
     border-radius: 12px;
     padding: 2%;
 
 }
 
-.topnav .title-screen{
+.topnav .title-screen {
     margin-left: var(--default-margin);
 }
 
-.topnav .account{
+.topnav .account {
     margin-right: var(--larger-margin);
 }
 
@@ -169,9 +172,9 @@ body, html {
     font-size: 16px;
 }
 
-.search-bar{
+.search-bar {
     background-color: #D9D9D9;
-    border-radius: 7px; 
+    border-radius: 7px;
     border: 1px solid #D9D9D9;
     box-sizing: border-box;
     font-size: 18px;
@@ -195,22 +198,40 @@ body, html {
     margin: var(--mini-margin) 0 var(--mini-margin) var(--big-margin);
 }
 
-table {
-    width: 90%;
+#tabelaCliente {
     border-collapse: collapse;
     margin-left: var(--default-margin);
+    margin-right: var(--default-margin);
+    width: 90%;
 }
 
 #tabelaCliente th {
+    position: sticky;
+    top: 0;
     background-color: #B3A4DE;
     color: #000000;
+    font-size: 20px;
     padding: var(--min-margin);
-    font-size: 18px;
+    text-align: center;
+}
+
+#tabelaCliente td {
+    text-align: center;
+    padding: var(--mini2-margin);
 }
 
 #tabelaCliente th:nth-child(1) {
     border-top-left-radius: 8px;
     border-bottom-left-radius: 8px;
+    width: 15%;
+}
+
+#tabelaCliente th:nth-child(2) {
+    width: 35%;
+}
+
+#tabelaCliente th:nth-child(3) {
+    width: 25%;
 }
 
 #tabelaCliente th:nth-child(4) {
@@ -218,11 +239,25 @@ table {
     border-bottom-right-radius: 8px;
 }
 
-
-/*
-@media (max-width: 700px) {
-    .grid-screen {
-        grid-template-columns: 1fr; /* Alterando para uma coluna em telas menores 
-    }
+.toggle-button {
+    background: green;
+    cursor: pointer;
+    text-indent: -9999px;
+    width: 25%;
+    height: 25px;
+    display: block;
+    border-radius: 15px;
+    position: relative;
 }
-*/
+
+.toggle-button:after {
+    content: '';
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: 25%;
+    height: 13px;
+    background: #fff;
+    border-radius: 100px;
+    transition: 0.3s;
+}
