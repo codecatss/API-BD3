@@ -16,7 +16,7 @@
 <span id="Usuario">
 
 ### Tabela usuario
-
+Armazena informações sobre os usuários do sistema, permitindo a autenticação e gestão de permissões de acesso.
 #### Colunas
 
 | Nome da Coluna    | Tipo         | Propriedades  | Descrição           |
@@ -30,7 +30,7 @@
 <span id="Cliente">
 
 ### Tabela Cliente
-
+Armazena informações sobre clientes, permitindo que sejam atrelados ao lançamento da hora.
 #### Colunas
 
 | Nome da Coluna    | Tipo         | Propriedades  | Descrição           |
@@ -41,7 +41,8 @@
 
 <span id="Centro_Resultado">
 
-### Tabela centro_esultado
+### Tabela centro_resultado
+Armazena informações sobre os centros de resultados, ou seja, unidades organizacionais dentro da empresa criadas para gerenciar e controlar recursos específicos e alcançar metas de desempenho definidas
 #### Colunas
 | Nome da Coluna    | Tipo         | Propriedades  | Descrição           |
 | ------------------ | ------------ | ------------- | ------------------- |
@@ -53,17 +54,21 @@
 <span id="Integrante">
 
 ### Tabela integrante
+Armazena os usuários que fazem parte do centro de resultado. Além disso, explicita se são gestores desse centro.
 #### Colunas
 | Nome da Coluna       | Tipo         | Propriedades  | Descrição           |
 | --------------------- | ------------ | ------------- | ------------------- |
-| gestor               | BOOLEAN      | NOT NULL      | Indica se o integrante é gestor |
-| matricula_integrante | VARCHAR(20)  | NOT NULL      | Matrícula do integrante |
+| gestor               | BOOLEAN      | NOT NULL      | Indica se o usuário é gestor |
+| matricula_integrante | VARCHAR(20)  | NOT NULL      | Matrícula do usuário |
 | cod_cr               | VARCHAR(10)  | NOT NULL      | Código do centro de resultado ao qual o integrante pertence |
 | PRIMARY KEY          | (matricula_integrante, cod_cr) | Chave primária composta |
+| FOREIGN KEY                | (cod_cr) REFERENCES public.centro_resultado (codigo_cr) | Chave estrangeira para a tabela centro_resultado |
+| FOREIGN KEY                | (matricula_integrante) REFERENCES public.usuario (matricula) | Chave estrangeira para a tabela usuario |
 
 <span id="Hora">
 
 ### Tabela hora
+Armazena as horas lançadas no sistema, assim como quem está lançando, seu centro de resultado e o cliente.
 #### Colunas
 | Nome da Coluna            | Tipo               | Propriedades  | Descrição           |
 | -------------------------- | ------------------ | ------------- | ------------------- |

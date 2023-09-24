@@ -1,6 +1,16 @@
 package com.example.API3SEM.client;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-public record ClientRequestDTO(String cnpj, String razao_social, String status){
-    
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class ClientRequestDTO {
+    private String cnpj;
+    private String razaoSocial;
+    private String status;
 }
