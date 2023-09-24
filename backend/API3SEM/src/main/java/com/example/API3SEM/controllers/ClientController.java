@@ -88,26 +88,25 @@ public class ClientController {
         }
     }
 
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PatchMapping("/{cnpj}")
-    public ResponseEntity<ClientRequestDTO> update(@PathVariable String cnpj,  @RequestBody Client partial_client) {
-        try {
-           if (!repository.existsById(cnpj)) {
-                return ResponseEntity.notFound().build();
-            }
+    public Client update(@PathVariable String cnpj,  @RequestBody ClientRequestDTO partial_client) {
+        Client client = repository.findById(cnpj).orElseThrow(() -> new RuntimeException("Cliente não encontrado com o CNPJ: " + cnpj));
 
-            Optional<Client> clint = repository.findById(cnpj);
-            if (!partial_client.getCnpj().isEmpty()) {
-                clint.get().setCnpj(partial_client.getCnpj());
+        try {
+            if (partial_client.cnpj() != null) {
+                client.setCnpj(partial_client.cnpj());
             }
-            if (!partial_client.getRazao_social().isEmpty()) {
-                clint.get().setRazao_social((partial_client.getRazao_social()));
+            if (partial_client.razao_social() != null) {
+                client.setRazao_social((partial_client.razao_social()));
             }
-            if (!partial_client.getStatus().isEmpty()) {
-                clint.get().setStatus((partial_client.getStatus()));
-            } 
+            if (partial_client.status() != null) {
+                client.setStatus((partial_client.status()));
+            }
         } catch (Exception e) {
             System.out.println(e);
         }
-        return new ResponseEntity<ClientRequestDTO>(null, null, HttpStatusCode.valueOf(200));
+        repository.save(client);
+        return client;
     }
 }
