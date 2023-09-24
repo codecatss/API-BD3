@@ -54,26 +54,23 @@ CREATE TABLE integrante (
     PRIMARY KEY (matricula_integrante, cod_cr)
 );
 
-CREATE TABLE hora (
-    id SERIAL NOT NULL PRIMARY KEY,
-    cod_cr VARCHAR(10) NOT NULL,
-    username_lancador VARCHAR(80) NOT NULL,
-    cnpj_cliente VARCHAR(14) NOT NULL,
-    data_hora_inicio TIMESTAMP NOT NULL,
-    data_hora_fim TIMESTAMP NOT NULL,
-    tipo VARCHAR(20) CHECK (tipo IN ('extra', 'sobreaviso')),
-    turno VARCHAR(20) CHECK (turno IN ('diurno', 'noturno')),
-    cod_dia VARCHAR(20) CHECK (cod_dia IN ('util', 'final de semana')),
-    justificativa_lancamento VARCHAR(500) NOT NULL,
-    projeto VARCHAR(100) NOT NULL,
-    _gestor VARCHAR(80),
-    justificativa_negacao VARCHAR(500),
-    status_aprovacao VARCHAR(20) CHECK (status_aprovacao IN ('pendente', 'aprovado_gestor', 'aprovado_adm', 'negado_gestor', 'negado_adm')) DEFAULT 'pendente',
-    solicitante_lancamento VARCHAR(80) NOT NULL,
-    excepcional BOOLEAN DEFAULT FALSE,
-    aprovador_ADM VARCHAR(80),
-    FOREIGN KEY (aprovador_ADM) REFERENCES usuario(matricula), -- Replace 'usuario' with the actual table name
-    FOREIGN KEY (username_lancador) REFERENCES usuario(matricula), -- Replace 'usuario' with the actual table name
-    FOREIGN KEY (cod_cr) REFERENCES centro_resultado(codigo_cr),
-    FOREIGN KEY (cnpj_cliente) REFERENCES cliente(cnpj) -- Replace 'cliente' with the actual table name
-);
+
+CREATE TABLE hora(
+    id SERIAL NOT NULL,
+    codigo_cr character varying(10) COLLATE pg_catalog."default" NOT NULL,
+    matricula_lancador character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    cnpj_cliente character varying(14) COLLATE pg_catalog."default" NOT NULL,
+    data_hora_inicio timestamp without time zone NOT NULL,
+    data_hora_fim timestamp without time zone NOT NULL,
+    tipo character varying(20) COLLATE pg_catalog."default",
+    justificativa_lancamento character varying(500) COLLATE pg_catalog."default" NOT NULL,
+    projeto character varying(100) COLLATE pg_catalog."default" NOT NULL,
+    solicitante_lancamento character varying(80) COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT hora_pkey PRIMARY KEY (id),
+    CONSTRAINT hora_cnpj_cliente_fkey FOREIGN KEY (cnpj_cliente)
+    	REFERENCES public.cliente (cnpj),
+    CONSTRAINT hora_cod_cr_fkey FOREIGN KEY (codigo_cr)
+    	REFERENCES public.centro_resultado (codigo_cr),
+    CONSTRAINT hora_username_lancador_fkey FOREIGN KEY (matricula_lancador)
+    	REFERENCES public.usuario (matricula)
+)

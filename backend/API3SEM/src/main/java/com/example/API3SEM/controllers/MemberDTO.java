@@ -12,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MemberDTO {
-    private List<String> matriculaIntegrante; // Agora é uma lista
+    private List<String> matriculaIntegrante;
     private Boolean gestor;
-    private String nome; // Adicione este campo para armazenar o nome do funcionário
+    private String nome;
 }

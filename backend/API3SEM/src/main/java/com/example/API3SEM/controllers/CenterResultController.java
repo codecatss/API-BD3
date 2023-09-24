@@ -137,7 +137,7 @@ public class CenterResultController {
 
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @PostMapping("/{codigoCr}/member")
+    @PostMapping("/{codigoCr}/employee")
     public List<Member> saveMembers(@PathVariable String codigoCr, @RequestBody List<MemberRequestDTO> dataList) {
         CenterResult centerResult = repository.findById(codigoCr)
                 .orElseThrow(() -> new ApiException("Centro de resultado não encontrado com o código: " + codigoCr));
@@ -152,11 +152,6 @@ public class CenterResultController {
             for (MemberRequestDTO data : dataList) {
                 Employee employee = employeeRepository.findById(data.matriculaIntegrante())
                         .orElseThrow(() -> new ApiException("Usuário não encontrado com a matrícula: " + data.matriculaIntegrante()));
-
-                if (employee.getFuncao() != FuncaoUsuarioEnum.gestor) {
-                    throw new ApiException("Apenas usuários com cargo de gestor podem ser membros gestores.");
-                }
-
                 Member memberData = new Member(data);
                 memberData.setCodCr(codigoCr);
                 savedMembers.add(memberRepository.save(memberData));
@@ -171,10 +166,10 @@ public class CenterResultController {
 
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @DeleteMapping("/{codigoCr}/member")
-    public ResponseEntity<String> deleteMembers(@PathVariable String codigoCr) {
+    @DeleteMapping("/{codigoCr}/employee")
+    public ResponseEntity<String> deleteMembersByMatricula(@PathVariable String codigoCr, @RequestBody List<String> matriculas) {
         try {
-            List<Member> membersToDelete = memberRepository.findByCodCr(codigoCr);
+            List<Member> membersToDelete = memberRepository.findByCodCrAndMatriculaIntegranteIn(codigoCr, matriculas);
 
             if (!membersToDelete.isEmpty()) {
                 memberRepository.deleteAll(membersToDelete);
@@ -189,5 +184,59 @@ public class CenterResultController {
 
 
 
+    @Autowired
+    private MemberRepository memberRepositoryGET;
+
+    @Autowired
+    private EmployeeRepository employeeRepositoryGET;
+
+
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping("/{codigoCr}/employees")
+    public List<Employee> getEmployeesByCrCode(@PathVariable String codigoCr) {
+        CenterResult centerResult = repository.findById(codigoCr)
+                .orElseThrow(() -> new ApiException("Centro de resultado não encontrado com o código: " + codigoCr));
+
+        if (centerResult.getStatusCr() != StatusEnum.ativo) {
+            throw new ApiException("Não é possível listar membros de um CR inativo.");
+        }
+
+        List<Member> members = memberRepositoryGET.findByCodCr(codigoCr);
+        List<String> matriculas = members.stream()
+                .map(Member::getMatriculaIntegrante)
+                .collect(Collectors.toList());
+
+        List<Employee> employees = employeeRepositoryGET.findByMatriculaIn(matriculas);
+
+        return employees;
+    }
+
+    @Autowired
+    private EmployeeRepository employeeRepositoryGETUnique;
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping("/{codigoCr}/employeeNotInCr")
+    public List<Employee> getEmployeesNotInCenterResult(@PathVariable String codigoCr) {
+        CenterResult centerResult = repository.findById(codigoCr)
+                .orElseThrow(() -> new ApiException("Centro de resultado não encontrado com o código: " + codigoCr));
+
+        if (centerResult.getStatusCr() != StatusEnum.ativo) {
+            throw new ApiException("Não é possível listar membros de um CR inativo.");
+        }
+
+        List<Member> members = memberRepositoryGET.findByCodCr(codigoCr);
+        List<String> matriculas = members.stream()
+                .map(Member::getMatriculaIntegrante)
+                .collect(Collectors.toList());
+
+        List<Employee> allEmployees = employeeRepositoryGETUnique.findAll();
+
+        List<Employee> employeesNotInCr = allEmployees.stream()
+                .filter(employee -> !matriculas.contains(employee.getMatricula()))
+                .collect(Collectors.toList());
+
+        return employeesNotInCr;
+    }
 
 }

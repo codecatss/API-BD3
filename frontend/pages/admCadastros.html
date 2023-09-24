@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles/admCadastros.css">
+    <title>#</title>
+</head>
+
+<body>
+    <div class="grid-screen">
+
+        <header class="topnav">
+            <div class="title-screen">
+                <h1>Gerenciamento Cliente</h1>
+            </div>
+            
+            <div class="account">
+                <ul>
+                    <li class="perfil-user"><a href="#">Milk <span class="seta-dropdown">▼</span></a>
+                        <ul class="dropdown">
+                            <li><a href="#">Alterar Senha</a></li>
+                            <li><a href="#">Logout</a></li>
+                        </ul>
+                        </li>
+                    </ul>
+                </div>
+            </header>
+
+        <nav class="panelnav">
+                <div class="logo2rp">
+                    <img class="logo" src="../assets/logo2rp.svg" alt="Logo da Empresa">
+                </div>
+                <ul class="menu">
+                    <li><a href="#"><img src="../assets/iconeDashboard.svg" alt="Ícone Dashboard">Dashboard</a></li>
+                    <li><a href="#"><img src="../assets/iconeUsuario.svg" alt="Ícone Usuários">Usuário</a></li>
+                    <li class="activation"><a href="#"><img src="../assets/iconeCliente.svg" alt="Ícone Clientes">Cliente</a></li>
+                    <li><a href="#"><img src="../assets/iconeCR.svg" alt="Ícone CR">CR</a></li>
+                    <li><a href="#"><img src="../assets/iconeAprovar.svg" alt="Ícone Aprovar">Aprovar Horas</a></li>
+                    <li><a href="#"><img src="../assets/iconeParametriz.svg" alt="Ícone Parametrização">Parametrização</a>
+                    </li>
+                </ul>
+        </nav>
+
+        <nav class="interactivebar">
+                <input type="text" name="q" placeholder="Pesquisar" class="search-bar">
+                <button type="submit" class="search-button"><img class="lupa" src="../assets/lupa.svg" alt="Buscar"></button>
+                <button onclick="adicionarCliente()" class="add-button">Adicionar</button>
+        </nav>
+
+        <nav class="main-content">
+                <table id="tabelaCliente">
+                    <thead>
+                        <tr>
+                            <th>Status</th>
+                            <th>Razão Social</th>
+                            <th>CNPJ</th>
+                            <th>EDITAR</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+        </nav>
+    </div>
+
+</body>
+</html>
