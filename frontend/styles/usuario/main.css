@@ -8,6 +8,11 @@ h1 {
   font-size: 30px !important;
 }
 
+a {
+  color: white;
+  text-decoration: none;
+}
+
 html {
   color: #fff;
 }
