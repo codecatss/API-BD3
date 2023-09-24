@@ -1,3 +1,5 @@
+import { criarNovoUsuario } from './api_consumer.js';
+
 // Função para salvar um usuário no Local Storage
 function salvarUsuarioNoLocalStorage(usuario) {
     // Obtém a lista de usuários já existente no Local Storage (se houver)
@@ -11,19 +13,12 @@ function salvarUsuarioNoLocalStorage(usuario) {
 }
 
 function adicionarUsuarioALista(usuario) {
-    // Obtém a lista de usuários
-    const listaUsuarios = document.querySelector(".users");
-
-    // Cria um novo elemento <li> para representar o usuário
-    const novoUsuario = document.createElement("li");
-
-    // Define o ID do novo elemento com base na matrícula do usuário
-    novoUsuario.id = `${usuario.matricula}`;
-
-    novoUsuario.classList.add("user");
-
-    // Define o conteúdo do novo elemento com base no objeto de usuário e no estado ativo
-    novoUsuario.innerHTML = `
+    const listaUsuarios = $(".users");
+    const novoUsuario = $("<li>");
+    novoUsuario.attr("id", usuario.matricula);
+    novoUsuario.addClass("user");
+    
+    novoUsuario.html(`
         <p class="${usuario.status_usuario === 'ativo' ? 'active' : 'disabled'}">
             ${usuario.status_usuario === 'ativo' ? 'Ativo' : 'Inativo'}
         </p>
@@ -38,78 +33,46 @@ function adicionarUsuarioALista(usuario) {
             </label>
         </div>
         <a href="#" id="edit-user-${usuario.matricula}" class="edit-align"><img class="edit-icon" src="../assets/transparent-icons/edit.svg" alt="" srcset="" /></a>
-    `;
+    `);
 
     // Adiciona o novo usuário à lista de usuários
-    listaUsuarios.appendChild(novoUsuario);
-    salvarUsuarioNoLocalStorage(usuario)
+    listaUsuarios.append(novoUsuario);
+    salvarUsuarioNoLocalStorage(usuario);
 }
 
 // Adicione um evento de clique ao botão "Confirmar" na modal de adicionar usuário
-const btnConfirmarAdicionar = document.querySelector("#modal-addUser .btn-confirm");
+$("#modal-addUser .btn-confirm").click(function () {
+    const nomeInput = $("#modal-addUser input[placeholder='Nome']");
+    const matriculaInput = $("#modal-addUser input[placeholder='Matrícula']");
+    const funcaoInput = $("#modal-addUser input[placeholder='Função']");
 
-btnConfirmarAdicionar.addEventListener("click", function () {
-    // Obtenha os valores dos campos de entrada da modal de adicionar usuário
-    const nomeInput = document.querySelector("#modal-addUser input[placeholder='Nome']").value;
-    const matriculaInput = document.querySelector("#modal-addUser input[placeholder='Matrícula']").value;
-    const funcaoInput = document.querySelector("#modal-addUser input[placeholder='Função']").value;
-
-    // Verifique se algum dos campos está vazio
-    if (nomeInput === '' || matriculaInput === '' || funcaoInput === '') {
-        // Exiba uma mensagem de erro ou faça algo para informar ao usuário que todos os campos são obrigatórios
-        alert("Todos os campos são obrigatórios. Preencha todos os campos.");
+    if (nomeInput.val() === '' || matriculaInput.val() === '' || funcaoInput.val() === '') {
+        Alert.warning('Todos os campos são obrigatórios.', 'Preencha todos os campos', { displayDuration: 3000 });
     } else {
-        // Se todos os campos estiverem preenchidos, crie o objeto de usuário e adicione à lista
         const novoUsuario = {
-            nome: nomeInput,
-            matricula: matriculaInput,
-            funcao: funcaoInput,
+            nome: nomeInput.val(),
+            matricula: matriculaInput.val(),
+            funcao: funcaoInput.val(),
+            senha: "padrao",
             status_usuario: "ativo"
         };
 
-        // Chame a função para adicionar o novo usuário à lista
-        adicionarUsuarioALista(novoUsuario);
+        criarNovoUsuario(novoUsuario)
+            .then( (response) => {
+                adicionarUsuarioALista(novoUsuario)
+                Alert.success("Novo usuário criado com sucesso...", "Sucesso!", { displayDuration: 3000 });
+
+                // Limpe os campos de entrada
+                nomeInput.val('');
+                matriculaInput.val('');
+                funcaoInput.val('');
+
+                // Feche o modal de adicionar usuário simulando um clique no botão "Cancelar"
+                $("#modal-addUser .btn-cancel").click();
+            })
+            .catch(function (error) {
+                // Lida com o erro
+                console.error("Erro ao criar o usuário:", error);
+            });
     }
 });
-
-
-const usuario1 = {
-    nome: "Usuário 1",
-    matricula: "12345",
-    funcao: "Administrador",
-    status_usuario: "ativo"
-};
-
-const usuario2 = {
-    nome: "Usuário 2",
-    matricula: "23456",
-    funcao: "Colaborador",
-    status_usuario: "ativo"
-};
-
-const usuario3 = {
-    nome: "Usuário 3",
-    matricula: "34567",
-    funcao: "Analista",
-    status_usuario: "inativo"
-};
-
-const usuario4 = {
-    nome: "Usuário 4",
-    matricula: "45678",
-    funcao: "Gerente",
-    status_usuario: "ativo"
-};
-
-const usuario5 = {
-    nome: "Usuário 5",
-    matricula: "56789",
-    funcao: "Supervisor",
-    status_usuario: "inativo"
-};
-
-adicionarUsuarioALista(usuario1);
-adicionarUsuarioALista(usuario2);
-adicionarUsuarioALista(usuario3);
-adicionarUsuarioALista(usuario4);
-adicionarUsuarioALista(usuario5);

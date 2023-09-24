@@ -6,7 +6,7 @@ var Alert = undefined;
     return alert("info", message, title, "fa fa-info-circle", options);
   };
   warning = function(message, title, options) {
-    return alert("warning", message, title, "fa fa-warning", options);
+    return alert("warning", message, title, "fa-solid fa-circle-exclamation", options);
   };
   error = function(message, title, options) {
     return alert("error", message, title, "fa fa-exclamation-circle", options);
