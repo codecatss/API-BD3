@@ -205,7 +205,6 @@ async function saveCenterResult(data) {
 
 
 
-
 const confirmarButton = document.getElementById('confirmarCR');
 
 confirmarButton.addEventListener('click', async (event) => {
@@ -216,6 +215,10 @@ confirmarButton.addEventListener('click', async (event) => {
 
 
 
+
+function capitalize(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+}
 
 
 
@@ -254,7 +257,14 @@ function renderListItem(ulElement, item) {
     const addMembersImage = liElement.querySelector('.addMembers');
 
     addMembersImage.addEventListener('click', async function () {
-        const nomeDoItem = this.getAttribute('data-nome');
+        const modal = document.getElementById('myModalAddMember');
+        modal.style.display = 'block';
+        window.addEventListener('click', function (event) {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+
         const crNome = document.querySelector(".navbar");
         crNome.textContent = `Gerenciar CR ${item.nome}`;
 
@@ -262,76 +272,6 @@ function renderListItem(ulElement, item) {
 
 
 
-
-        ///// AQUIII
-
-
-
-
-
-
-
-
-
-        async function fazerRequisicaoGET() {
-            const url = 'http://localhost:8080/employee';
-
-            try {
-                const response = await fetch(url);
-
-                if (!response.ok) {
-                    throw new Error(`Erro na requisição: ${response.status} - ${response.statusText}`);
-                }
-
-                const data = await response.json();
-
-
-
-
-                return data;
-
-            } catch (error) {
-                console.error('Erro na requisição:', error);
-            }
-
-        }
-        const ListMembersFree = await fazerRequisicaoGET()
-        const listMembersOfCR = await loadMembers()
-
-        renderizarLista(ListMembersFree)
-        renderMembers(listMembersOfCR);
-
-
-        async function renderizarLista(data) {
-            const ul = document.getElementById('listUsers');
-            ul.innerHTML = '';
-            console.log("to aqui")
-            const matriculasExistem = new Set(listMembersOfCR.map(user => user.matricula));
-            console.log(matriculasExistem)
-            data.forEach(item => {
-                if (!matriculasExistem.has(item.matricula)) {
-                    const li = document.createElement('li');
-
-                    li.textContent = item.nome;
-                    li.id = item.matricula;
-
-
-                    if (item.funcao === 'gestor') {
-                        li.style.border = '2px solid blue';
-                    } else if (item.funcao === 'colaborador') {
-                        li.style.border = '2px solid green';
-                    } else if (item.funcao === 'admin') {
-                        return;
-                    }
-
-                    li.classList.add("users-free");
-
-
-
-                    ul.appendChild(li);
-                }
-            });
-        }
 
         async function renderMembers(items) {
             const ul = document.getElementById("membersCr");
@@ -344,11 +284,16 @@ function renderListItem(ulElement, item) {
                 const li = document.createElement("li");
                 const nome = document.createElement("p");
                 const funcao = document.createElement("p");
+                const checkBoxUser = document.createElement("input")
+                const div = document.createElement("div")
+                checkBoxUser.type = "checkbox"
                 nome.textContent = item.nome
+                div.append(checkBoxUser, nome)
                 funcao.textContent = capitalize(item.funcao)
                 li.classList.add("users-members")
                 li.id = item.matricula
-                li.append(nome, funcao)
+                div.classList.add("checkboxWithUser")
+                li.append(div, funcao)
                 ul.appendChild(li);
             });
         }
@@ -358,103 +303,10 @@ function renderListItem(ulElement, item) {
             return fetch(`http://localhost:8080/cr/${item.codigoCr}/employees`)
                 .then(response => response.json())
                 .then(data => {
-
-
                     return data
                 })
                 .catch(error => console.error("Erro ao carregar membros:", error));
         }
-
-
-
-
-
-
-
-
-
-        async function toggleClasseSelectEImprimir(event, item) {
-            const li = event.target;
-
-            if (li.classList.contains('selected')) {
-                li.classList.remove('selected');
-
-            } else {
-                li.classList.add('selected');
-
-            }
-
-
-        }
-
-
-        const elementosUsersFree = document.querySelectorAll('.users-free');
-
-        elementosUsersFree.forEach(elemento => {
-            elemento.addEventListener('click', function (event) {
-                toggleClasseSelectEImprimir(event, item);
-            });
-        });
-
-
-        const elementosUsersMembers = document.querySelectorAll('.users-members');
-
-        elementosUsersMembers.forEach(elemento => {
-            elemento.addEventListener('click', function (event) {
-                toggleClasseSelectEImprimir(event, item);
-            });
-        });
-
-
-        function capitalize(str) {
-            return str.charAt(0).toUpperCase() + str.slice(1);
-        }
-
-
-
-
-
-
-
-        function limparSelecao() {
-            const listaMembrosCr = document.getElementById('membersCr');
-            const itensSelecionados = listaMembrosCr.querySelectorAll('.selected');
-
-            itensSelecionados.forEach(item => {
-                item.classList.remove('selected');
-            });
-        }
-
-
-
-
-        function salvarMembros(codigoCr, dataList) {
-            const url = `http://localhost:8080/cr/${codigoCr}/member`;
-
-            fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-
-                },
-                body: JSON.stringify(dataList),
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Erro ao salvar membros');
-                    }
-                    return response.json();
-                })
-                .then(savedMembers => {
-
-                    console.log('Membros salvos:', savedMembers);
-                })
-                .catch(error => {
-                    console.error('Erro ao salvar membros:', error);
-                });
-        }
-
-
 
 
 
@@ -483,104 +335,27 @@ function renderListItem(ulElement, item) {
                 });
         }
 
+        const removerUsuario = document.getElementById("removerUsuario")
+        const membrosCR = await loadMembers()
+        renderMembers(membrosCR)
 
+        removerUsuario.addEventListener("click", async function () {
+            const checkboxes = document.querySelectorAll(".checkboxWithUser input[type='checkbox']");
 
-        async function refreshList() {
-            const codigoCr = item.codigoCr;
-            const listMembersOfCR = await loadMembers();
-            const listFreeUsers = await fazerRequisicaoGET();
-            const ulMembers = document.getElementById('membersCr');
-            const ulFreeMembers = document.getElementById('listUsers');
+            const itensSelecionadosRemove = [];
 
-
-
-
-            await renderMembers(listMembersOfCR);
-        }
-
-
-
-        async function buttonRemoveMembers() {
-            const temp = []
-            const users = document.querySelectorAll('.users-members.selected');
-            users.forEach((user) => {
-                const userId = user.id;
-                temp.push(userId)
-            });
-            const matriculasExistem = new Set(listMembersOfCR.map(user => user.matricula));
-            console.log(matriculasExistem)
-
-
-
-            await deleteMembers(item.codigoCr, temp);
-            ListMembersFree.forEach(user => {
-
-                temp.forEach(userFreeRemoved => {
-                    console.log(userFreeRemoved)
-                    if (userFreeRemoved == user.matricula) {
-                        const ulFreeMembers = document.getElementById('listUsers');
-                        const li = document.createElement("li")
-
-                        li.textContent = user.nome
-                        li.id = item.matricula;
-
-
-                        if (user.funcao === 'gestor') {
-                            li.style.border = '2px solid blue';
-                        } else if (user.funcao === 'colaborador') {
-                            li.style.border = '2px solid green';
-                        } else if (user.funcao === 'admin') {
-                            return;
-                        }
-
-                        li.classList.add("users-free");
-
-                        ulFreeMembers.appendChild(li)
-                    }
-                })
-            })
-
-            refreshList()
-
-        }
-
-
-
-        const removerUsuarioButton = document.getElementById('removerUsuario');
-        removerUsuarioButton.addEventListener('click', buttonRemoveMembers);
-
-
-
-
-        async function buttonAddMembers() {
-            const temp = []
-            const users = document.querySelectorAll('.users-free.selected');
-
-            users.forEach((user) => {
-                const userId = user.id;
-                temp.push(userId)
-
+            checkboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    const li = checkbox.closest("li");
+                    const matricula = li.id;
+                    itensSelecionadosRemove.push(matricula);
+                }
             });
 
-            salvarMembros(item.codigoCr, temp)
+            deleteMembers(item.codigoCr, itensSelecionadosRemove)
+            console.log("Itens selecionados:", itensSelecionadosRemove);
 
-            const ulMembers = document.getElementById('#membersCr');
-            ulMembers.innerHTML = '';
-
-
-        }
-
-
-        const addUsuarioButton = document.getElementById('adicionarUsuario');
-        addUsuarioButton.addEventListener('click', buttonAddMembers);
-
-
-
-
-
-
-
-
+        })
 
 
 
@@ -588,28 +363,15 @@ function renderListItem(ulElement, item) {
 
 
 
-
-
-
-    addMembersImage.addEventListener('click', function () {
-
-        const modal = document.getElementById('myModalAddMember');
-        modal.style.display = 'block';
-
-
-
-
-        window.addEventListener('click', function (event) {
-            if (event.target === modal) {
-                modal.style.display = 'none';
-            }
-        });
-    });
-
-
-
-    addSwitchClickEvent(liElement, codigoCr, item.statusCr);
 }
+
+
+
+
+
+
+
+
 
 const searchImage = document.querySelector('.search-bar img');
 searchImage.addEventListener('click', function () {
@@ -642,7 +404,6 @@ function closeModalFunction() {
 }
 
 closeModal.addEventListener('click', closeModalFunction);
-
 const cancelarButton = document.querySelector('.cancelar');
 cancelarButton.addEventListener('click', closeModalFunction);
 
@@ -650,39 +411,12 @@ cancelarButton.addEventListener('click', closeModalFunction);
 
 
 
-function showSuccessMessage() {
-    const successMessage = document.getElementById('successMessage');
-    successMessage.style.backgroundColor = 'green';
-    successMessage.style.display = 'block';
-    successMessage.style.position = 'fixed';
-    setTimeout(() => {
-        successMessage.style.display = 'none';
-    }, 3000);
-}
 
-function showErrorMessage() {
-    const errorMessage = document.getElementById('errorMessage');
-    errorMessage.style.backgroundColor = 'red';
-    errorMessage.style.display = 'block';
-    errorMessage.style.position = 'fixed';
-    setTimeout(() => {
-        errorMessage.style.display = 'none';
-    }, 2000);
-}
+
+
+
+
 fetchAndRenderData();
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 window.addEventListener('load', fetchAndRenderData);

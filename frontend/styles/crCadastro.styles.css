@@ -868,3 +868,9 @@ p {
 .users-members.selected {
   filter: brightness(1.2); /* Aumenta o brilho para 120% */
 }
+
+.checkboxWithUser {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
