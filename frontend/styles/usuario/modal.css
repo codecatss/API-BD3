@@ -60,6 +60,7 @@
     background: #D86666;
     border: none;
     border-radius: 7px;
+    transition: background-color 0.3s; /* Adiciona uma transição suave de cor */
 }
 
 .btn-confirm {
@@ -68,6 +69,13 @@
     background: #8DD88B;
     border: none;
     border-radius: 7px;
+    transition: background-color 0.3s; /* Adiciona uma transição suave de cor */
+}
+
+/* Altera a cor de fundo quando o botão é hover */
+.btn-cancel:hover,
+.btn-confirm:hover {
+    border: 2px solid #B3A4DE;
 }
 
 .input-title {
@@ -83,5 +91,7 @@
     width: 407px;
     height: 42px;
     background: #D9D9D9;
+    border: none;
     border-radius: 7px;
+    padding-left: 20px;
 }

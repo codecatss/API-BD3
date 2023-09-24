@@ -115,6 +115,11 @@ html {
     padding: 10px 30px 10px 30px;
     border-radius: 7px;
     background: #B6A4DD;
+    transition: background-color 0.9s; /* Adiciona uma transição suave para a cor da borda */
+}
+
+.main-content .search-bar .content .search:hover {
+    background-color: #7468FF;
 }
 
 .main-content .search-bar .content .search img {
@@ -138,6 +143,11 @@ html {
     color: #000;
     border-radius: .3rem;
     text-decoration: none;
+    transition: background-color 0.9s;
+}
+
+.main-content .search-bar .content .btn-add:hover {
+    background-color: #7468FF;
 }
 
 ul.users {

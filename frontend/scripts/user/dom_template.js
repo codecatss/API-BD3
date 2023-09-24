@@ -210,7 +210,19 @@ $(document).on('click', 'input[type="checkbox"].checkbox', function () {
 $(document).ready(function() {
     obterListaDeFuncionarios()
         .then(function (funcionarios) {
-            // Iterar sobre a lista de funcionários e adicionar cada um à lista de usuários
+            // Ordena a lista de funcionários alfabeticamente por nome e coloca os inativos por último
+            funcionarios.sort(function(a, b) {
+                if (a.status_usuario === 'ativo' && b.status_usuario === 'inativo') {
+                    return -1; // a vem antes de b
+                } else if (a.status_usuario === 'inativo' && b.status_usuario === 'ativo') {
+                    return 1; // b vem antes de a
+                } else {
+                    // Ambos são ativos ou inativos, ordenar alfabeticamente por nome
+                    return a.nome.localeCompare(b.nome);
+                }
+            });
+
+            // Iterar sobre a lista de funcionários ordenada e adicionar cada um à lista de usuários
             funcionarios.forEach(function (funcionario) {
                 adicionarUsuarioALista(funcionario);
             });
