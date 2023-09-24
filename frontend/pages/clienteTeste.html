@@ -100,7 +100,7 @@
                     <input class="input-3" name="cnpj" type="text">
                     <input class="input-2" name="razao_social" type="text">
                     <div class="nome-input">CNPJ</div>
-                    <div class="sigla-input">RAZÃO SOCIAL</div>
+                    <div class="sigla-input">Razão Social</div>
                     <button id="confirmarCR" class="confirmar">Confirmar</button>
                 </form>
 
@@ -113,6 +113,33 @@
 
     </div>
 
+    <div class="modal" id="myModalUpdate">
+        <div class="modal-container">
+            <div class="modal-content">
+                <span class="close" id="closeModal">&times;</span>
+                <form action="">
+                    <div class="rectangle-24"></div>
+                    <button class="cancelar ">
+                        cancelar
+                    </button>
+
+                    <div class="title-modal">Editar Cliente</div>
+
+                    <input class="input-2"  name="razao_socialUpdate" type="text">
+                    <input class="input-3" disabled name="cnpjUpdate" type="text">
+                    <div class="sigla-input">Razão Social</div>
+                    <div class="nome-input">CNPJ</div>
+                    <button id="confirmarClienteUpdate" class="confirmar">Confirmar</button>
+                </form>
+
+
+
+
+
+            </div>
+        </div>
+
+    </div>
 
     <script type="module" src="../scripts/clienteTeste.script.js"></script>
 
