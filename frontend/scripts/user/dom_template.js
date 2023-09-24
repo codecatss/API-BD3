@@ -1,4 +1,4 @@
-import { criarNovoUsuario } from './api_consumer.js';
+import { criarNovoUsuario, obterListaDeFuncionarios, atualizarUsuario } from './api_consumer.js';
 
 // Função para salvar um usuário no Local Storage
 function salvarUsuarioNoLocalStorage(usuario) {
@@ -60,7 +60,7 @@ $("#modal-addUser .btn-confirm").click(function () {
         criarNovoUsuario(novoUsuario)
             .then( (response) => {
                 adicionarUsuarioALista(novoUsuario)
-                Alert.success("Novo usuário criado com sucesso...", "Sucesso!", { displayDuration: 3000 });
+                Alert.success("Novo usuário criado com sucesso...", "Sucesso!", { displayDuration: 5000 });
 
                 // Limpe os campos de entrada
                 nomeInput.val('');
@@ -72,7 +72,53 @@ $("#modal-addUser .btn-confirm").click(function () {
             })
             .catch(function (error) {
                 // Lida com o erro
+                Alert.error(`Erro ao criar o usuário\nDetalhes: ${error}`, "Erro...", { displayDuration: 10000});
                 console.error("Erro ao criar o usuário:", error);
             });
     }
+});
+
+
+// Função para carregar a lista de funcionários ao carregar a página
+$(document).ready(function() {
+    obterListaDeFuncionarios()
+        .then(function (funcionarios) {
+            // Iterar sobre a lista de funcionários e adicionar cada um à lista de usuários
+            funcionarios.forEach(function (funcionario) {
+                adicionarUsuarioALista(funcionario);
+            });
+        })
+        .catch(function (error) {
+            // Lida com o erro ao carregar a lista de funcionários
+            console.error("Erro ao carregar a lista de funcionários:", error);
+        });
+});
+
+
+$(document).on('click', 'input[type="checkbox"].checkbox', function () {
+    const isChecked = $(this).prop('checked');
+    console.log(`Checkbox marcado: ${isChecked}`);
+    
+    const checkboxId = $(this).attr("id");
+    const matricula = checkboxId.replace("user-", "").replace("-isEnabled", "");
+    console.log("Matrícula do usuário clicado:", matricula);
+
+    // Determinar o status do usuário com base no estado da checkbox
+    const statusUsuario = isChecked ? 'ativo' : 'inativo';
+
+    // Criar um objeto com os dados atualizados
+    const dadosAtualizados = {
+        status_usuario: statusUsuario
+    };
+
+    // Chamar a função atualizarUsuario para atualizar o usuário
+    atualizarUsuario(matricula, dadosAtualizados)
+        .then(function (response) {
+            console.log(`Usuário com matrícula ${matricula} atualizado com sucesso.\n\nNovo status: ${statusUsuario}`);
+            Alert.success(`Usuário com matrícula ${matricula} atualizado com sucesso.\n\nNovo status: ${statusUsuario}`, "Sucesso!", { displayDuration: 5000 });
+        })
+        .catch(function (error) {
+            console.error(`Erro ao atualizar o usuário com matrícula ${matricula}:`, error);
+            Alert.error(`Erro ao atualizar o usuário com matrícula ${matricula}, detalhes: ${error}`, "Erro!", { displayDuration: 5000 });
+        });
 });

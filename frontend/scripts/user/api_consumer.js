@@ -43,4 +43,28 @@ function obterListaDeFuncionarios() {
     });
 }
 
-export { criarNovoUsuario, obterListaDeFuncionarios }
+function atualizarUsuario(matricula, dadosAtualizados) {
+    return new Promise(function (resolve, reject) {
+        // Construa a URL com a matrícula
+        const url = `${API_CONFIG.base_url}${API_CONFIG.update_employee.replace('{matricula}', matricula)}`;
+        console.log(url)
+        $.ajax({
+            url: url,
+            method: 'PATCH',
+            contentType: 'application/json',
+            data: JSON.stringify(dadosAtualizados),
+            success: function (response) {
+                console.log(`Usuário com matrícula ${matricula} atualizado com sucesso!`);
+                console.log(response);
+                resolve(response); // Resolve a promessa com a resposta
+            },
+            error: function (error) {
+                const ERROR = `Erro ao atualizar o usuário com matrícula ${matricula}, detalhes: ${error}`;
+                console.error(ERROR);
+                reject(ERROR); // Rejeita a promessa com o erro
+            }
+        });
+    });
+}
+
+export { criarNovoUsuario, obterListaDeFuncionarios, atualizarUsuario }
