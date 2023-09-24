@@ -1,15 +1,36 @@
 import { criarNovoUsuario, obterListaDeFuncionarios, atualizarUsuario } from './api_consumer.js';
 
-// Função para salvar um usuário no Local Storage
 function salvarUsuarioNoLocalStorage(usuario) {
-    // Obtém a lista de usuários já existente no Local Storage (se houver)
     const usuariosArmazenados = JSON.parse(localStorage.getItem("usuarios")) || [];
 
-    // Adiciona o novo usuário à lista
-    usuariosArmazenados.push(usuario);
+    const indiceUsuario = usuariosArmazenados.findIndex(function(u) {
+        return u.matricula === usuario.matricula;
+    });
 
-    // Salva a lista atualizada de usuários de volta no Local Storage
+    if (indiceUsuario !== -1) usuariosArmazenados[indiceUsuario] = usuario;
+    else usuariosArmazenados.push(usuario);
+
     localStorage.setItem("usuarios", JSON.stringify(usuariosArmazenados));
+}
+
+
+function editarUsuarioNoLocalStorage(matricula, novosDados) {
+    const usuariosArmazenados = JSON.parse(localStorage.getItem("usuarios")) || [];
+    const indiceUsuario = usuariosArmazenados.findIndex(function(usuario) {
+        return usuario.matricula === matricula;
+    });
+
+    if (indiceUsuario !== -1) {
+        const usuarioAtualizado = {
+            ...usuariosArmazenados[indiceUsuario],
+            ...novosDados
+        };
+        usuariosArmazenados[indiceUsuario] = usuarioAtualizado;
+        localStorage.setItem("usuarios", JSON.stringify(usuariosArmazenados));
+        return true;
+    } else {
+        return false;
+    }
 }
 
 function adicionarUsuarioALista(usuario) {
@@ -131,6 +152,7 @@ $("#modal-editUser .btn-confirm").click(function () {
     // Chama a função atualizarUsuario para atualizar o usuário
     atualizarUsuario(matricula, dadosAtualizados)
         .then(function (response) {
+            editarUsuarioNoLocalStorage(matricula, dadosAtualizados);
             console.log(`Usuário com matrícula ${matricula} atualizado com sucesso.`);
             Alert.success(`Usuário com matrícula ${matricula} atualizado com sucesso.`, "Sucesso!", { displayDuration: 5000 });
 
@@ -164,7 +186,20 @@ $(document).on('click', 'input[type="checkbox"].checkbox', function () {
         .then(function (response) {
             console.log(`Usuário com matrícula ${matricula} atualizado com sucesso.\n\nNovo status: ${statusUsuario}`);
             Alert.success(`Usuário com matrícula ${matricula} atualizado com sucesso.\n\nNovo status: ${statusUsuario}`, "Sucesso!", { displayDuration: 5000 });
-        })
+        
+            // Encontre o elemento <li> com o id correspondente à matrícula
+            const userListItem = $(`li#${matricula}`);
+        
+            // Atualize a classe do primeiro <p> com base no estado do switch
+            const primeiroParagrafo = userListItem.find("p:first");
+            if (statusUsuario === 'ativo') {
+                primeiroParagrafo.removeClass('disabled').addClass('active');
+                primeiroParagrafo.text("Ativo");
+            } else {
+                primeiroParagrafo.removeClass('active').addClass('disabled');
+                primeiroParagrafo.text("Inativo");
+            }
+        })   
         .catch(function (error) {
             console.error(`Erro ao atualizar o usuário com matrícula ${matricula}:`, error);
             Alert.error(`Erro ao atualizar o usuário com matrícula ${matricula}, detalhes: ${error}`, "Erro!", { displayDuration: 5000 });
