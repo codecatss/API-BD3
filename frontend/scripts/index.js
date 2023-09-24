@@ -245,7 +245,7 @@ function renderListItem(ulElement, item) {
         
     
     <img src="../assets/addUsuario.png" alt="" class="addMembers" data-nome="${item.nome}">
-    <img src="../assets/Icone ajustavel.png" alt="" class="config" ">
+    <img src="../assets/Icone editar.svg" alt="" class="config" ">
     </div>
     
     </div>
@@ -255,6 +255,90 @@ function renderListItem(ulElement, item) {
 
 
     const addMembersImage = liElement.querySelector('.addMembers');
+
+
+    const editCr = liElement.querySelector(".config")
+    editCr.addEventListener('click', async function () {
+        const modal = document.getElementById('myModalUpdate');
+        modal.style.display = 'block';
+        window.addEventListener('click', function (event) {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+
+
+        async function updateCR(codigoCr, partialData) {
+            const url = `http://localhost:8080/cr/${codigoCr}`;
+            const requestOptions = {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(partialData),
+            };
+
+            return fetch(url, requestOptions)
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error(`Erro na requisição: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then((data) => {
+                    return data;
+                })
+                .catch((error) => {
+                    console.error('Erro na requisição PATCH:', error);
+                    throw error;
+                });
+        }
+
+
+
+        const nomeInput = document.querySelector('input[name="nomeUpdate"]');
+        const siglaInput = document.querySelector('input[name="siglaUpdate"]');
+        const codigoCrInput = document.querySelector('input[name="codigoCrUpdate"]');
+
+        nomeInput.value = item.nome;
+        siglaInput.value = item.sigla;
+        codigoCrInput.value = item.codigoCr;
+
+        const confirmarCR = document.getElementById("confirmarCRUpdate")
+
+        confirmarCR.addEventListener("click", async function (event) {
+            event.preventDefault()
+
+            const nomezinho = nomeInput.value;
+            const siglinha = siglaInput.value
+            const codinho = codigoCrInput
+
+            const dados = {
+                sigla: siglinha,
+                nome: nomezinho
+            };
+
+            console.log(dados)
+            await updateCR(item.codigoCr, dados)
+            refreshListCr()
+            alert(`Centro De Resultado ${dados.nome} Alterado Com Sucesso`)
+            modal.style.display = 'none';
+
+
+        });
+
+
+
+
+
+
+
+
+
+
+    })
+
+
 
     addMembersImage.addEventListener('click', async function () {
         const modal = document.getElementById('myModalAddMember');
