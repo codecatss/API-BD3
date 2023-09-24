@@ -139,6 +139,86 @@ function searchCRByTerm(searchTerm) {
         });
 }
 
+
+async function refreshListCr() {
+    const listaCR = document.querySelector(".list-of-itens")
+    listaCR.innerHTML = ""
+    fetchAndRenderData()
+}
+
+
+
+async function handleEnviarClick(event) {
+    event.preventDefault();
+
+    const nomeInput = document.querySelector('input[name="nome"]');
+    const siglaInput = document.querySelector('input[name="sigla"]');
+    const codigoCrInput = document.querySelector('input[name="codigoCr"]');
+
+    const dados = {
+        codigoCr: codigoCrInput.value,
+        sigla: siglaInput.value,
+        nome: nomeInput.value,
+        statusCr: "ativo",
+    };
+
+    console.log(dados)
+
+    try {
+        await saveCenterResult(dados);
+        refreshListCr()
+        alert(`Centro De Resultado ${dados.nome} Cadastrado Com Sucesso`)
+        nomeInput.value = "";
+        codigoCrInput.value = "";
+        siglaInput.value = "";
+
+
+    } catch (error) {
+        console.error('Erro ao adicionar o CR:', error);
+
+    }
+}
+
+async function saveCenterResult(data) {
+    const requestOptions = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    };
+
+    const apiUrl = 'http://localhost:8080/cr';
+
+    try {
+        const response = await fetch(apiUrl, requestOptions);
+        if (!response.ok) {
+            throw new Error('Erro na requisição POST');
+        }
+        const responseData = await response.json();
+        console.log(responseData)
+    } catch (error) {
+        console.error('Erro ao fazer a requisição POST:', error);
+        throw error;
+    }
+}
+
+
+
+
+const confirmarButton = document.getElementById('confirmarCR');
+
+confirmarButton.addEventListener('click', async (event) => {
+    event.preventDefault();
+    console.log("entrei aqui");
+    await handleEnviarClick(event);
+});
+
+
+
+
+
+
 function renderListItem(ulElement, item) {
     const liElement = document.createElement('li');
     liElement.classList.add('rendered-lista');
@@ -566,60 +646,9 @@ closeModal.addEventListener('click', closeModalFunction);
 const cancelarButton = document.querySelector('.cancelar');
 cancelarButton.addEventListener('click', closeModalFunction);
 
-async function handleEnviarClick(event) {
-    event.preventDefault();
-
-    const nomeInput = document.querySelector('input[name="nome"]');
-    const siglaInput = document.querySelector('input[name="sigla"]');
-    const codigoCrInput = document.querySelector('input[name="codigoCr"]');
-
-    const dados = {
-        codigoCr: codigoCrInput.value,
-        sigla: siglaInput.value,
-        nome: nomeInput.value,
-        statusCr: "ativo",
-    };
 
 
 
-    try {
-        await saveCenterResult(dados);
-        showSuccessMessage();
-
-        nomeInput.value = "";
-        codigoCrInput.value = "";
-        siglaInput.value = "";
-
-        refreshList();
-    } catch (error) {
-        console.error('Erro ao adicionar o CR:', error);
-        showErrorMessage();
-    }
-}
-
-async function saveCenterResult(data) {
-    const requestOptions = {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data)
-    };
-
-    const apiUrl = 'http://localhost:8080/cr';
-
-    try {
-        const response = await fetch(apiUrl, requestOptions);
-        if (!response.ok) {
-            throw new Error('Erro na requisição POST');
-        }
-        const responseData = await response.json();
-
-    } catch (error) {
-        console.error('Erro ao fazer a requisição POST:', error);
-        throw error;
-    }
-}
 
 function showSuccessMessage() {
     const successMessage = document.getElementById('successMessage');
