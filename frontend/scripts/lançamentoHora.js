@@ -442,7 +442,7 @@ botaoConfirmarSobreaviso.addEventListener("click", async function (event) {
     const horaFimFormatada = dataHoraFim.toLocaleTimeString('pt-BR');
 
 
-
+    console.log("ola")
     dataHoraFimP.textContent = `${dataFimFormatada} | ${horaFimFormatada}`;
 
     li.classList.add("horaLiSobreaviso")
