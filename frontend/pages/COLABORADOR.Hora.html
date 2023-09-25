@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="pt br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles/reset.css">
+    <link rel="stylesheet" href="../styles/lancamentoUsuario.styles.css">
+    <link rel="shortcut icon" href="../assets/logo2rp.svg" type="image/x-icon">
+
+    <title>Lançamento de horas</title>
+</head>
+
+<body>
+    <nav class="panelnav">
+        <img class="logo" src="../assets/logo2rp.svg" alt="Logo da Empresa">
+        <div class="menus">
+            <ul class="menu">
+                <li class="activation"><a href="#"><img src="../assets/iconeLancamento.svg" alt="Ícone Lançamento"><a
+                            href="#">Lançamentos</a></li>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <nav class="main-content">
+
+        <header class="topnav">
+            <div>
+                <h1>Lançamento de horas</h1>
+            </div>
+            <section class="account">
+                <ul>
+                    <li class="perfil-user"><a href="#">Milk <span class="seta-dropdown">▼</span></a>
+                        <ul class="dropdown">
+                            <li><a href="#">Alterar Senha</a></li>
+                            <li><a href="#">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+        </header>
+
+        <main>
+            <nav class="interactivebar">
+                <input type="text" name="q" placeholder="Pesquisar" class="search-bar">
+                <button type="submit" class="search-button"><img class="lupa" src="../assets/iconeLupa.svg"
+                        alt="Buscar"></button>
+            </nav>
+
+            <nav class="addinputbar">
+                <div class="input">
+                    <form id="formularioHora" class="content">
+                        <div class="coluna1">
+                            <div class="tipo">
+                                <label for="tipo" class="custom-label">Tipo</label>
+                                <select id="selecionarTipoHora" name="q" class="input-bar small-input" required>
+                                    <option value="hora-extra">Hora Extra</option>
+                                    <option value="sobreaviso">Sobreaviso</option>
+                                </select>
+                            </div>
+                            <div class="cliente">
+                                <label for="cliente" class="custom-label">Cliente</label>
+                                <select id="selecionarEmpresa" name="q" class="input-bar" required>
+                                    <option value="" disabled selected>Selecione a empresa</option>
+
+                                </select>
+                            </div>
+                            <div class="cr">
+                                <label for="cr" class="custom-label">CR</label>
+                                <select id="selecionarCr" name="q" class="input-bar" required>
+                                    <option value="" disabled selected>Selecione o CR</option>
+
+                                </select>
+                            </div>
+                            <div class="justificativa">
+                                <label for="justificativa" class="custom-label">Justificativa</label>
+                                <input id="justificativaHora" type="text" name="q" class="input-bar" required>
+                            </div>
+                        </div>
+                        <div class="coluna2">
+                            <div class="datainicio">
+                                <label for="datainicio" class="custom-label">Data inicio</label>
+                                <input id="dataInicio" type="date" name="data_inicio" class="input-bar">
+                            </div>
+                            <div class="horainicio">
+                                <label for="hora" class="custom-label">Hora Início</label>
+                                <input id="horaInicio" type="time" id="horainicio" name="horainicio" class="input-bar">
+                            </div>
+                            <div class="projeto">
+                                <label for="projeto" class="custom-label">Projeto</label>
+                                <input required id="projetoHora" type="text" name="q" class="input-bar"
+                                    style="margin-left: 40px;">
+                            </div>
+
+                        </div>
+                        <div class="coluna3">
+                            <div class="datafim">
+                                <label for="datafim" class="custom-label">Data fim</label>
+                                <input id="dataFim" type="date" name="data_fim" class="input-bar">
+                            </div>
+                            <div class="horafim">
+                                <label for="horafim" class="custom-label">Hora fim</label>
+                                <input id="horaFim" type="time" id="horafim" name="horafim" class="input-bar">
+                            </div>
+                            <div class="solicitante">
+                                <label for="solicitante" class="custom-label">Solicitante</label>
+                                <input id="solicitanteHora" type="text" name="q" class="input-bar"
+                                    style="margin-left: -7px;">
+                            </div>
+                        </div>
+                    </form>
+                    <div class="button">
+
+                        <button id="adicionarBotao" class="adicionar-button"
+                            style="margin-left: 1px;">Adicionar</button>
+                        <button id="acionamentoBotao" class="acionamento-button" style="margin-left: 1px;">+
+                            Acionamento</button>
+                    </div>
+                </div>
+            </nav>
+
+            <nav class="tabela">
+                <div id="tabelaLancamento">
+                    <p>Tipo</p>
+                    <p>Status</p>
+                    <p>Início</p>
+                    <p>Fim</p>
+                    <p>CR</p>
+                    <p>Cliente</p>
+                    <p>Projeto</p>
+                    <p>Justificativa</p>
+                </div>
+                <ul id="listaHoras">
+
+                </ul>
+            </nav>
+
+        </main>
+    </nav>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class="modal" id="modalSobreAviso">
+        <div class="modal-content">
+            <form class="inputs">
+                <div id="horaInicioSobreaviso">
+                    <h2>Inicio</h2>
+                    <input class="dataInicioSobreaviso" type="date" name="data_fim">
+                    <input class="horaInicioSobreaviso" type="time">
+                </div>
+
+                <div id="horaFimSobreaviso">
+                    <h2>Fim</h2>
+                    <input class="dataFimSobreaviso" type="date" name="data_fim">
+                    <input class="horaFimSobreaviso" type="time">
+                </div>
+                <div id="botoesAcao">
+                    <button class="buttonActions" id="botaoConfirmar">Confirmar</button>
+                    <button class="buttonActions" id="botaoCancelar">Cancelar</button>
+                    <button class="buttonActions" id="botaoSalvar">Salvar</button>
+                </div>
+
+
+
+            </form>
+            <div class="listaDeLançamentos">
+                <h2 class="tituloAcionamento">Acionamentos</h2>
+                <div class="colunasTitutlos">
+
+                    <p>Inicio</p>
+                    <p>Fim</p>
+                </div>
+                <div class="horasConteudo">
+                    <ul id="listaDeHoras" class="listaDeHoras"></ul>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <script type="module" src="../scripts/COLAB.Lançamentio-Hora.js"></script>
+</body>
+
+</html>
+
+</html>

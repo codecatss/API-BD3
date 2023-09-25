@@ -2,23 +2,20 @@ package com.example.API3SEM.controllers;
 
 
 
-import com.example.API3SEM.employees.EmployeeResponseDTO;
-import com.example.API3SEM.employees.FuncaoUsuarioEnum;
-import com.example.API3SEM.members.Member;
-import com.example.API3SEM.members.MemberRepository;
-import com.example.API3SEM.employees.EmployeeRepository;
+import com.example.API3SEM.entities.Member;
+import com.example.API3SEM.repositories.MemberRepository;
+import com.example.API3SEM.repositories.EmployeeRepository;
 
-import com.example.API3SEM.members.MemberRequestDTO;
-import com.example.API3SEM.resultCenter.CenterResult;
-import com.example.API3SEM.resultCenter.CenterResultRepository;
-import com.example.API3SEM.resultCenter.CenterResultRequestDTO;
-import com.example.API3SEM.resultCenter.CenterResultResponseDTO;
+import com.example.API3SEM.entities.CenterResult;
+import com.example.API3SEM.DTOS.MemberDTOs;
+import com.example.API3SEM.repositories.CenterResultRepository;
+import com.example.API3SEM.DTOS.ResultCenterDTOs;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import com.example.API3SEM.employees.Employee;
+import com.example.API3SEM.entities.Employee;
 import com.example.API3SEM.utills.ApiException;
 import com.example.API3SEM.utills.StatusEnum;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +31,7 @@ public class CenterResultController {
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping
-    public CenterResult saveCenterResult(@RequestBody CenterResultRequestDTO data) {
+    public CenterResult saveCenterResult(@RequestBody ResultCenterDTOs.CenterResultRequestDTO data) {
         if (data.codigoCr() == null || data.nome() == null || data.sigla() == null || data.statusCr() == null) {
             throw new ApiException("Todas as informações devem ser preenchidas.");
         }
@@ -53,10 +50,10 @@ public class CenterResultController {
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping
-    public List<CenterResultResponseDTO> getAll(){
+    public List<ResultCenterDTOs> getAll(){
 
 
-        List<CenterResultResponseDTO> crList = repository.findAll().stream().map(CenterResultResponseDTO::new ).toList();
+        List<ResultCenterDTOs> crList = repository.findAll().stream().map(ResultCenterDTOs::new ).toList();
         return crList;
     }
 
@@ -76,7 +73,7 @@ public class CenterResultController {
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PatchMapping("/{codigoCr}")
-    public CenterResult updateCR(@PathVariable String codigoCr, @RequestBody CenterResultRequestDTO partialData) {
+    public CenterResult updateCR(@PathVariable String codigoCr, @RequestBody ResultCenterDTOs.CenterResultRequestDTO partialData) {
         CenterResult cr = repository.findById(codigoCr).orElseThrow(() -> new ApiException("Centro de resultado não encontrado com o código: " + codigoCr));
 
         try {
@@ -138,7 +135,7 @@ public class CenterResultController {
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/{codigoCr}/employee")
-    public List<Member> saveMembers(@PathVariable String codigoCr, @RequestBody List<MemberRequestDTO> dataList) {
+    public List<Member> saveMembers(@PathVariable String codigoCr, @RequestBody List<MemberDTOs.MemberRequestDTO> dataList) {
         CenterResult centerResult = repository.findById(codigoCr)
                 .orElseThrow(() -> new ApiException("Centro de resultado não encontrado com o código: " + codigoCr));
 
@@ -149,7 +146,7 @@ public class CenterResultController {
         List<Member> savedMembers = new ArrayList<>();
 
         try {
-            for (MemberRequestDTO data : dataList) {
+            for (MemberDTOs.MemberRequestDTO data : dataList) {
                 Employee employee = employeeRepository.findById(data.matriculaIntegrante())
                         .orElseThrow(() -> new ApiException("Usuário não encontrado com a matrícula: " + data.matriculaIntegrante()));
                 Member memberData = new Member(data);

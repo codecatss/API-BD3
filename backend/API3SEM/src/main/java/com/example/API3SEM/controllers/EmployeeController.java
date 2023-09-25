@@ -1,9 +1,8 @@
 package com.example.API3SEM.controllers;
 
-import com.example.API3SEM.employees.Employee;
-import com.example.API3SEM.employees.EmployeeRepository;
-import com.example.API3SEM.employees.EmployeeRequestDTO;
-import com.example.API3SEM.employees.EmployeeResponseDTO;
+import com.example.API3SEM.entities.Employee;
+import com.example.API3SEM.repositories.EmployeeRepository;
+import com.example.API3SEM.DTOS.EmployeeDTOs;
 import com.example.API3SEM.utills.ApiException;
 import com.example.API3SEM.utills.StatusEnum;
 import java.util.List;
@@ -22,7 +21,7 @@ public class EmployeeController {
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping
-    public Employee saveEmployee(@RequestBody EmployeeRequestDTO data) {
+    public Employee saveEmployee(@RequestBody EmployeeDTOs.EmployeeRequestDTO data) {
         try {
             Employee employeeData = new Employee(data);
             System.out.println(employeeData.getMatricula());
@@ -36,10 +35,10 @@ public class EmployeeController {
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping
-    public List<EmployeeResponseDTO> getAll(){
+    public List<EmployeeDTOs> getAll(){
 
 
-        List<EmployeeResponseDTO> employeesList = repository.findAll().stream().map(EmployeeResponseDTO::new ).toList();
+        List<EmployeeDTOs> employeesList = repository.findAll().stream().map(EmployeeDTOs::new ).toList();
         return employeesList;
     }
 
@@ -58,7 +57,7 @@ public class EmployeeController {
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PatchMapping("/{matricula}")
-    public Employee updateEmployee(@PathVariable String matricula, @RequestBody EmployeeRequestDTO partialData) {
+    public Employee updateEmployee(@PathVariable String matricula, @RequestBody EmployeeDTOs.EmployeeRequestDTO partialData) {
         Employee employee = repository.findById(matricula).orElseThrow(() -> new RuntimeException("Funcionário não encontrado com a matrícula: " + matricula));
 
         try {
