@@ -23,7 +23,7 @@ public class Client{
     private String cnpj;
 
     @Column(name = "razao_social", length = 50, nullable = false)
-    private String razaoSocial;
+    private String razao_social;
     
     @Column(name = "status_cliente")
     private String status;
@@ -31,8 +31,8 @@ public class Client{
 
 
     public Client(ClientRequestDTO clientRequestDTO){
-        this.cnpj = clientRequestDTO.getCnpj();
-        this.razaoSocial = clientRequestDTO.getRazaoSocial();
-        this.status = clientRequestDTO.getStatus();
+        this.cnpj = clientRequestDTO.cnpj();
+        this.razao_social = clientRequestDTO.razao_social();
+        this.status = clientRequestDTO.status();
     }
 }

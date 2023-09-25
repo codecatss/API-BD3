@@ -1,0 +1,97 @@
+/* Estilos para o modal */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background: #24242D;
+    border-radius: 13px;
+    width: 80%;
+    max-width: 600px;
+    margin: 100px auto;
+    padding: 20px;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.modal-title {
+    display: flex;
+    justify-content: center;
+    font-size: 36px;
+    line-height: 28px;
+    color: #FFFFFF;
+    padding-bottom: 20px;
+}
+
+/* Estilos para a estrutura de duas colunas */
+.row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.column {
+    flex-basis: 48%; /* 48% para deixar um pequeno espaço entre as colunas */
+}
+
+/* Estilos para a coluna de botões */
+.column-btn {
+    display: flex;
+    justify-content: space-between; /* Distribui o espaço entre os botões */
+    margin-top: 10px; /* Adiciona margem superior para criar espaço entre os botões */
+}
+
+/* Estilos para os botões */
+.column-btn button {
+    margin-right: 10px; /* Adiciona margem à direita dos botões (espaço entre eles) */
+}
+
+.btn-cancel {
+    width: 144px;
+    height: 42px;
+    background: #D86666;
+    border: none;
+    border-radius: 7px;
+    transition: background-color 0.3s; /* Adiciona uma transição suave de cor */
+}
+
+.btn-confirm {
+    width: 144px;
+    height: 42px;
+    background: #8DD88B;
+    border: none;
+    border-radius: 7px;
+    transition: background-color 0.3s; /* Adiciona uma transição suave de cor */
+}
+
+/* Altera a cor de fundo quando o botão é hover */
+.btn-cancel:hover,
+.btn-confirm:hover {
+    border: 2px solid #B3A4DE;
+}
+
+.input-title {
+    font-family: 'Outfit';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 28px;
+    color: #FFFFFF;
+}
+
+.user-input {
+    width: 407px;
+    height: 42px;
+    background: #D9D9D9;
+    border: none;
+    border-radius: 7px;
+    padding-left: 20px;
+}

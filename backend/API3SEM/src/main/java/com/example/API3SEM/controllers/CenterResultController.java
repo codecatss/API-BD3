@@ -216,7 +216,7 @@ public class CenterResultController {
     private EmployeeRepository employeeRepositoryGETUnique;
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @GetMapping("/{codigoCr}/laaaaalaa")
+    @GetMapping("/{codigoCr}/employeeNotInCr")
     public List<Employee> getEmployeesNotInCenterResult(@PathVariable String codigoCr) {
         CenterResult centerResult = repository.findById(codigoCr)
                 .orElseThrow(() -> new ApiException("Centro de resultado não encontrado com o código: " + codigoCr));

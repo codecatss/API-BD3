@@ -57,4 +57,21 @@ public class Hora {
 
     @Column (name="solicitante_lancamento", length= 80)
     private String solicitante;
+
+
+    public Hora(HoraRequestDTO data){
+        this.id = data.id();
+        this.codcr = data.codcr();
+        this.lancador = data.lancador();
+        this.cnpj = data.cnpj();
+        this.data_hora_inicio = data.data_hora_inicio();
+        this.data_hora_fim = data.data_hora_fim();
+        this.tipo = data.tipo();
+        this.justificativa = data.justificativa();
+        this.projeto = data.projeto();
+        this.solicitante = data.solicitante();
+    }
+
+
+
 }

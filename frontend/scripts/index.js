@@ -139,6 +139,89 @@ function searchCRByTerm(searchTerm) {
         });
 }
 
+
+async function refreshListCr() {
+    const listaCR = document.querySelector(".list-of-itens")
+    listaCR.innerHTML = ""
+    fetchAndRenderData()
+}
+
+
+
+async function handleEnviarClick(event) {
+    event.preventDefault();
+
+    const nomeInput = document.querySelector('input[name="nome"]');
+    const siglaInput = document.querySelector('input[name="sigla"]');
+    const codigoCrInput = document.querySelector('input[name="codigoCr"]');
+
+    const dados = {
+        codigoCr: codigoCrInput.value,
+        sigla: siglaInput.value,
+        nome: nomeInput.value,
+        statusCr: "ativo",
+    };
+
+    console.log(dados)
+
+    try {
+        await saveCenterResult(dados);
+        refreshListCr()
+        alert(`Centro De Resultado ${dados.nome} Cadastrado Com Sucesso`)
+        nomeInput.value = "";
+        codigoCrInput.value = "";
+        siglaInput.value = "";
+
+
+    } catch (error) {
+        console.error('Erro ao adicionar o CR:', error);
+
+    }
+}
+
+async function saveCenterResult(data) {
+    const requestOptions = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    };
+
+    const apiUrl = 'http://localhost:8080/cr';
+
+    try {
+        const response = await fetch(apiUrl, requestOptions);
+        if (!response.ok) {
+            throw new Error('Erro na requisição POST');
+        }
+        const responseData = await response.json();
+        console.log(responseData)
+    } catch (error) {
+        console.error('Erro ao fazer a requisição POST:', error);
+        throw error;
+    }
+}
+
+
+
+const confirmarButton = document.getElementById('confirmarCR');
+
+confirmarButton.addEventListener('click', async (event) => {
+    event.preventDefault();
+    console.log("entrei aqui");
+    await handleEnviarClick(event);
+});
+
+
+
+
+function capitalize(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+
+
 function renderListItem(ulElement, item) {
     const liElement = document.createElement('li');
     liElement.classList.add('rendered-lista');
@@ -162,7 +245,7 @@ function renderListItem(ulElement, item) {
         
     
     <img src="../assets/addUsuario.png" alt="" class="addMembers" data-nome="${item.nome}">
-    <img src="../assets/Icone ajustavel.png" alt="" class="config" ">
+    <img src="../assets/Icone editar.svg" alt="" class="config" ">
     </div>
     
     </div>
@@ -173,183 +256,106 @@ function renderListItem(ulElement, item) {
 
     const addMembersImage = liElement.querySelector('.addMembers');
 
+
+    const editCr = liElement.querySelector(".config")
+    editCr.addEventListener('click', async function () {
+        const modal = document.getElementById('myModalUpdate');
+        modal.style.display = 'block';
+        window.addEventListener('click', function (event) {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+
+
+        async function updateCR(codigoCr, partialData) {
+            const url = `http://localhost:8080/cr/${codigoCr}`;
+            const requestOptions = {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(partialData),
+            };
+
+            return fetch(url, requestOptions)
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error(`Erro na requisição: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then((data) => {
+                    return data;
+                })
+                .catch((error) => {
+                    console.error('Erro na requisição PATCH:', error);
+                    throw error;
+                });
+        }
+
+
+
+        const nomeInput = document.querySelector('input[name="nomeUpdate"]');
+        const siglaInput = document.querySelector('input[name="siglaUpdate"]');
+        const codigoCrInput = document.querySelector('input[name="codigoCrUpdate"]');
+
+        nomeInput.value = item.nome;
+        siglaInput.value = item.sigla;
+        codigoCrInput.value = item.codigoCr;
+
+        const confirmarCR = document.getElementById("confirmarCRUpdate")
+
+        confirmarCR.addEventListener("click", async function (event) {
+            event.preventDefault()
+
+            const nomezinho = nomeInput.value;
+            const siglinha = siglaInput.value
+            const codinho = codigoCrInput
+
+            const dados = {
+                sigla: siglinha,
+                nome: nomezinho
+            };
+
+            console.log(dados)
+            await updateCR(item.codigoCr, dados)
+            refreshListCr()
+            alert(`Centro De Resultado ${dados.nome} Alterado Com Sucesso`)
+            modal.style.display = 'none';
+
+
+        });
+
+
+
+
+
+
+
+
+
+
+    })
+
+
+
     addMembersImage.addEventListener('click', async function () {
-        const nomeDoItem = this.getAttribute('data-nome');
+        const modal = document.getElementById('myModalAddMember');
+        modal.style.display = 'block';
+        window.addEventListener('click', function (event) {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+
         const crNome = document.querySelector(".navbar");
         crNome.textContent = `Gerenciar CR ${item.nome}`;
 
 
 
-
-
-
-        ///// AQUIII
-
-
-
-
-
-
-
-
-
-        async function fazerRequisicaoGET() {
-            const url = 'http://localhost:8080/employee';
-
-            try {
-                const response = await fetch(url);
-
-                if (!response.ok) {
-                    throw new Error(`Erro na requisição: ${response.status} - ${response.statusText}`);
-                }
-
-                const data = await response.json();
-
-
-
-
-                return data;
-
-            } catch (error) {
-                console.error('Erro na requisição:', error);
-            }
-
-        }
-        const ListMembersFree = await fazerRequisicaoGET()
-        const listMembersOfCR = await loadMembers()
-
-        renderizarLista(ListMembersFree)
-        renderMembers(listMembersOfCR);
-
-
-        async function renderizarLista(data) {
-            const ul = document.getElementById('listUsers');
-            ul.innerHTML = '';
-            console.log("to aqui")
-            const matriculasExistem = new Set(listMembersOfCR.map(user => user.matricula));
-            console.log(matriculasExistem)
-            data.forEach(item => {
-                if (!matriculasExistem.has(item.matricula)) {
-                    const li = document.createElement('li');
-
-                    li.textContent = item.nome;
-                    li.id = item.matricula;
-
-
-                    if (item.funcao === 'gestor') {
-                        li.style.border = '2px solid blue';
-                    } else if (item.funcao === 'colaborador') {
-                        li.style.border = '2px solid green';
-                    } else if (item.funcao === 'admin') {
-                        return;
-                    }
-
-                    li.classList.add("users-free");
-
-
-
-                    ul.appendChild(li);
-                }
-            });
-        }
-
-        async function renderMembers(items) {
-            const ul = document.getElementById("membersCr");
-
-
-            ul.innerHTML = "";
-
-
-            items.forEach(item => {
-                const li = document.createElement("li");
-                const nome = document.createElement("p");
-                const funcao = document.createElement("p");
-                nome.textContent = item.nome
-                funcao.textContent = capitalize(item.funcao)
-                li.classList.add("users-members")
-                li.id = item.matricula
-                li.append(nome, funcao)
-                ul.appendChild(li);
-            });
-        }
-
-
-        async function loadMembers() {
-            return fetch(`http://localhost:8080/cr/${item.codigoCr}/employees`)
-                .then(response => response.json())
-                .then(data => {
-
-
-                    return data
-                })
-                .catch(error => console.error("Erro ao carregar membros:", error));
-        }
-
-
-
-
-
-
-
-
-
-        async function toggleClasseSelectEImprimir(event, item) {
-            const li = event.target;
-
-            if (li.classList.contains('selected')) {
-                li.classList.remove('selected');
-
-            } else {
-                li.classList.add('selected');
-
-            }
-
-
-        }
-
-
-        const elementosUsersFree = document.querySelectorAll('.users-free');
-
-        elementosUsersFree.forEach(elemento => {
-            elemento.addEventListener('click', function (event) {
-                toggleClasseSelectEImprimir(event, item);
-            });
-        });
-
-
-        const elementosUsersMembers = document.querySelectorAll('.users-members');
-
-        elementosUsersMembers.forEach(elemento => {
-            elemento.addEventListener('click', function (event) {
-                toggleClasseSelectEImprimir(event, item);
-            });
-        });
-
-
-        function capitalize(str) {
-            return str.charAt(0).toUpperCase() + str.slice(1);
-        }
-
-
-
-
-
-
-
-        function limparSelecao() {
-            const listaMembrosCr = document.getElementById('membersCr');
-            const itensSelecionados = listaMembrosCr.querySelectorAll('.selected');
-
-            itensSelecionados.forEach(item => {
-                item.classList.remove('selected');
-            });
-        }
-
-
-
-
         function salvarMembros(codigoCr, dataList) {
-            const url = `http://localhost:8080/cr/${codigoCr}/member`;
+            const url = `http://localhost:8080/cr/${codigoCr}/employee`;
 
             fetch(url, {
                 method: 'POST',
@@ -376,6 +382,145 @@ function renderListItem(ulElement, item) {
 
 
 
+        async function renderMembers(items) {
+            const ul = document.getElementById("membersCr");
+
+
+            ul.innerHTML = "";
+
+
+            items.forEach(item => {
+                const li = document.createElement("li");
+                const nome = document.createElement("p");
+                const funcao = document.createElement("p");
+                const checkBoxUser = document.createElement("input")
+                const div = document.createElement("div")
+                checkBoxUser.type = "checkbox"
+                nome.textContent = item.nome
+                div.append(checkBoxUser, nome)
+                funcao.textContent = capitalize(item.funcao)
+                li.classList.add("users-members")
+                li.id = item.matricula
+                div.classList.add("checkboxWithUser")
+                li.append(div, funcao)
+                ul.appendChild(li);
+            });
+        }
+
+        async function renderMembersForaDoCr(items) {
+            const ul = document.getElementById("listUsers");
+
+
+            ul.innerHTML = "";
+
+
+            items.forEach(item => {
+                const li = document.createElement("li");
+                const nome = document.createElement("p");
+                const checkBoxUser = document.createElement("input")
+                const div = document.createElement("div")
+                checkBoxUser.type = "checkbox"
+                nome.textContent = item.nome
+                div.append(checkBoxUser, nome)
+
+                li.classList.add("users-free")
+                li.id = item.matricula
+                div.classList.add("checkboxWithUserForaCR")
+                li.append(div)
+                ul.appendChild(li);
+            });
+        }
+
+
+        async function loadMembers() {
+            return fetch(`http://localhost:8080/cr/${item.codigoCr}/employees`)
+                .then(response => response.json())
+                .then(data => {
+                    return data
+                })
+                .catch(error => console.error("Erro ao carregar membros:", error));
+        }
+
+
+        async function loadMembersNoInCr() {
+            return fetch(`http://localhost:8080/cr/${item.codigoCr}/employeeNotInCr`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data)
+                    return data
+                })
+                .catch(error => console.error("Erro ao carregar membros:", error));
+        }
+
+        const membrosForaDoCr = await loadMembersNoInCr()
+        renderMembersForaDoCr(membrosForaDoCr)
+
+
+
+        adicionarUsuario.addEventListener("click", async function () {
+            const checkboxes = document.querySelectorAll(".checkboxWithUserForaCR input[type='checkbox']");
+            const itensSelecionadosParaAdicionar = [];
+            const usuariosAdicionar = []
+
+
+
+            checkboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    const li = checkbox.closest("li");
+                    const matricula = li.id;
+                    itensSelecionadosParaAdicionar.push(matricula);
+                }
+            });
+            console.log(itensSelecionadosParaAdicionar)
+            itensSelecionadosParaAdicionar.forEach(user => {
+                membrosForaDoCr.forEach(userFora => {
+                    if (user == userFora.matricula) {
+                        if (userFora.funcao == "gestor") {
+                            console.log("entrei aqui")
+                            const data = {
+                                matriculaIntegrante: userFora.matricula,
+                                gestor: true
+                            }
+                            usuariosAdicionar.push(data)
+
+                        } else if (userFora.funcao == "colaborador") {
+                            const data = {
+                                matriculaIntegrante: userFora.matricula,
+                                gestor: false
+                            }
+                            usuariosAdicionar.push(data)
+                        }
+
+
+
+                    }
+                })
+
+
+            })
+            console.log(usuariosAdicionar)
+            try {
+                await salvarMembros(item.codigoCr, usuariosAdicionar);
+                alert("Usuários Adicionados");
+                modal.style.display = 'none';
+
+            } catch (error) {
+                console.error("Erro ao adicionar membros:", error);
+            }
+
+        })
+
+
+
+
+
+        async function refreshListMembersInCR() {
+            const listaMembersInCR = document.getElementById("membersCr")
+            console.log("Passei aqui")
+            listaMembersInCR.innerHTML = ""
+
+
+        }
 
 
         function deleteMembers(codigoCr, matriculas) {
@@ -396,6 +541,7 @@ function renderListItem(ulElement, item) {
                     }
                 })
                 .then((data) => {
+                    console.log("estou aqui")
                     return data;
                 })
                 .catch((error) => {
@@ -403,133 +549,52 @@ function renderListItem(ulElement, item) {
                 });
         }
 
+        const removerUsuario = document.getElementById("removerUsuario")
+        const membrosCR = await loadMembers()
+        renderMembers(membrosCR)
 
+        removerUsuario.addEventListener("click", async function () {
+            const checkboxes = document.querySelectorAll(".checkboxWithUser input[type='checkbox']");
+            const itensSelecionadosRemove = [];
 
-        async function refreshList() {
-            const codigoCr = item.codigoCr;
-            const listMembersOfCR = await loadMembers();
-            const listFreeUsers = await fazerRequisicaoGET();
-            const ulMembers = document.getElementById('membersCr');
-            const ulFreeMembers = document.getElementById('listUsers');
-
-
-
-
-            await renderMembers(listMembersOfCR);
-        }
-
-
-
-        async function buttonRemoveMembers() {
-            const temp = []
-            const users = document.querySelectorAll('.users-members.selected');
-            users.forEach((user) => {
-                const userId = user.id;
-                temp.push(userId)
-            });
-            const matriculasExistem = new Set(listMembersOfCR.map(user => user.matricula));
-            console.log(matriculasExistem)
-
-
-
-            await deleteMembers(item.codigoCr, temp);
-            ListMembersFree.forEach(user => {
-
-                temp.forEach(userFreeRemoved => {
-                    console.log(userFreeRemoved)
-                    if (userFreeRemoved == user.matricula) {
-                        const ulFreeMembers = document.getElementById('listUsers');
-                        const li = document.createElement("li")
-
-                        li.textContent = user.nome
-                        li.id = item.matricula;
-
-
-                        if (user.funcao === 'gestor') {
-                            li.style.border = '2px solid blue';
-                        } else if (user.funcao === 'colaborador') {
-                            li.style.border = '2px solid green';
-                        } else if (user.funcao === 'admin') {
-                            return;
-                        }
-
-                        li.classList.add("users-free");
-
-                        ulFreeMembers.appendChild(li)
-                    }
-                })
-            })
-
-            refreshList()
-
-        }
-
-
-
-        const removerUsuarioButton = document.getElementById('removerUsuario');
-        removerUsuarioButton.addEventListener('click', buttonRemoveMembers);
-
-
-
-
-        async function buttonAddMembers() {
-            const temp = []
-            const users = document.querySelectorAll('.users-free.selected');
-
-            users.forEach((user) => {
-                const userId = user.id;
-                temp.push(userId)
-
+            checkboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    const li = checkbox.closest("li");
+                    const matricula = li.id;
+                    itensSelecionadosRemove.push(matricula);
+                }
             });
 
-            salvarMembros(item.codigoCr, temp)
-
-            const ulMembers = document.getElementById('#membersCr');
-            ulMembers.innerHTML = '';
-
-
-        }
-
-
-        const addUsuarioButton = document.getElementById('adicionarUsuario');
-        addUsuarioButton.addEventListener('click', buttonAddMembers);
-
-
-
-
-
-
-
-
-
-
-
-    });
-
-
-
-
-
-
-    addMembersImage.addEventListener('click', function () {
-
-        const modal = document.getElementById('myModalAddMember');
-        modal.style.display = 'block';
-
-
-
-
-        window.addEventListener('click', function (event) {
-            if (event.target === modal) {
+            try {
+                await deleteMembers(item.codigoCr, itensSelecionadosRemove);
+                alert("Usuários Removidos");
                 modal.style.display = 'none';
+
+
+            } catch (error) {
+                console.error("Erro ao excluir membros:", error);
             }
-        });
+
+        })
+
+
+
+
+
     });
-
-
 
     addSwitchClickEvent(liElement, codigoCr, item.statusCr);
+
+
 }
+
+
+
+
+
+
+
+
 
 const searchImage = document.querySelector('.search-bar img');
 searchImage.addEventListener('click', function () {
@@ -562,98 +627,19 @@ function closeModalFunction() {
 }
 
 closeModal.addEventListener('click', closeModalFunction);
-
 const cancelarButton = document.querySelector('.cancelar');
 cancelarButton.addEventListener('click', closeModalFunction);
 
-async function handleEnviarClick(event) {
-    event.preventDefault();
-
-    const nomeInput = document.querySelector('input[name="nome"]');
-    const siglaInput = document.querySelector('input[name="sigla"]');
-    const codigoCrInput = document.querySelector('input[name="codigoCr"]');
-
-    const dados = {
-        codigoCr: codigoCrInput.value,
-        sigla: siglaInput.value,
-        nome: nomeInput.value,
-        statusCr: "ativo",
-    };
 
 
 
-    try {
-        await saveCenterResult(dados);
-        showSuccessMessage();
 
-        nomeInput.value = "";
-        codigoCrInput.value = "";
-        siglaInput.value = "";
 
-        refreshList();
-    } catch (error) {
-        console.error('Erro ao adicionar o CR:', error);
-        showErrorMessage();
-    }
-}
 
-async function saveCenterResult(data) {
-    const requestOptions = {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data)
-    };
 
-    const apiUrl = 'http://localhost:8080/cr';
 
-    try {
-        const response = await fetch(apiUrl, requestOptions);
-        if (!response.ok) {
-            throw new Error('Erro na requisição POST');
-        }
-        const responseData = await response.json();
 
-    } catch (error) {
-        console.error('Erro ao fazer a requisição POST:', error);
-        throw error;
-    }
-}
-
-function showSuccessMessage() {
-    const successMessage = document.getElementById('successMessage');
-    successMessage.style.backgroundColor = 'green';
-    successMessage.style.display = 'block';
-    successMessage.style.position = 'fixed';
-    setTimeout(() => {
-        successMessage.style.display = 'none';
-    }, 3000);
-}
-
-function showErrorMessage() {
-    const errorMessage = document.getElementById('errorMessage');
-    errorMessage.style.backgroundColor = 'red';
-    errorMessage.style.display = 'block';
-    errorMessage.style.position = 'fixed';
-    setTimeout(() => {
-        errorMessage.style.display = 'none';
-    }, 2000);
-}
 fetchAndRenderData();
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 window.addEventListener('load', fetchAndRenderData);
