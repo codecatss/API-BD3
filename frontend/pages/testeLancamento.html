@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles/admCadastros.css">
+    <link rel="shortcut icon" href="../assets/logo2rp.svg" type="image/x-icon">
+
+    <title>Lançamento de horas</title>
+</head>
+
+<body>
+    <div class="grid-screen">
+
+        <header class="topnav">
+            <div class="title-screen">
+                <h1>Lançamento de horas</h1>
+            </div>
+
+            <div class="account">
+                <ul>
+                    <li class="perfil-user"><a href="#">Milk <span class="seta-dropdown">▼</span></a>
+                        <ul class="dropdown">
+                            <li><a href="#">Alterar Senha</a></li>
+                            <li><a href="#">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </header>
+
+        <nav class="panelnav">
+            <div class="logo2rp">
+                <img class="logo" src="../assets/logo2rp.svg" alt="Logo da Empresa">
+            </div>
+            <ul class="menu">
+                <li class="activation"><a href="#"><img src="../assets/iconeLancamento.svg"
+                            alt="Ícone Lançamentos">Lançamentos</a></li>
+                </li>
+            </ul>
+        </nav>
+
+        <nav class="interactivebar">
+            <input type="text" name="q" placeholder="Pesquisar" class="search-bar">
+            <button type="submit" class="search-button"><img class="lupa" src="../assets/lupa.svg"
+                    alt="Buscar"></button>
+
+        </nav>
+
+        <nav class="main-content">
+            <nav class="teste">
+                <div class="addinputbar">
+                    <h3>Tipo</h3>
+                    <select name="q" class="input-bar">
+                        <option value="hora-extra">Hora Extra</option>
+                        <option value="sobreaviso">Sobreaviso</option>
+                    </select>
+                    <h3>Data Início</h3>
+                    <input type="date" name="data_inicio" class="input-bar">
+                    <h3>Data Fim</h3>
+                    <input type="date" name="data_fim" class="input-bar">
+                </div>
+                <div>
+                    <table id="tabelaLancamento" class="tabelaLancamento">
+                        <thead>
+                            <tr>
+                                <th>Tipo</th>
+                                <th>Status</th>
+                                <th>Início</th>
+                                <th>Fim</th>
+                                <th>CR</th>
+                                <th>Cliente</th>
+                                <th>Projeto</th>
+                                <th>Justificativa</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </nav>
+
+
+        </nav>
+    </div>
+
+</body>
+
+</html>

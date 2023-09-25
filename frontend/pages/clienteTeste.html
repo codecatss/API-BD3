@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles/reset.css">
+    <link rel="stylesheet" href="../styles/global.styles.css">
+    <link rel="stylesheet" href="../styles/crCadastro.styles.css">
+    <link rel="shortcut icon" href="../assets/logo2rp.svg" type="image/x-icon">
+    
+    <title>Clientes</title>
+</head>
+
+<body>
+    <div class="container">
+        <nav class="panelnav">
+            <img class="logo" src="../assets/logo2rp.svg" alt="Logo da Empresa">
+            <div class="menus">
+                <ul class="menu">
+                    <li class="page-navegation"><img src="../assets/iconeDashboard.svg" alt="Ícone Dashboard"><a
+                            href="#">Dashboard</a></li>
+                    <li class="page-navegation"><img src="../assets/iconeUsuario.svg" alt="Ícone Usuários"><a
+                            href="./usuarioCadastro.html">Usuários</a></li>
+                    <li class="activation"><img src="../assets/iconeCliente.svg" alt="Ícone Clientes"><a
+                            href="./clienteTeste.html">Clientes</a>
+                    </li>
+                    <li class="page-navegation"><img src="../assets/iconeCR.svg" alt="Ícone CR"><a
+                            href="./crCadastro.html">CR</a>
+                    </li>
+                    <li class="page-navegation"><img src="../assets/iconeAprovar.svg" alt="Ícone Aprovar"><a
+                            href="#">Aprovar Horas</a></li>
+                    <li class="page-navegation"><img src="../assets/iconeParametriz.svg" alt="Ícone Parametrização"><a
+                            href="#">Parametrização</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="main-content">
+            <div class="header">
+                <h1>Gerenciamento de Cliente</h1>
+                <div class="user-content">
+                    <img src="" alt=""
+                        srcset="https://cdn1.iconfinder.com/data/icons/user-pictures/101/malecostume-512.png">
+                    <section class="account">
+                        <ul>
+                            <li class="perfil-user">John Doe <img class="seta-dropdown" src="../assets/seta.svg" alt="">
+                                <ul class="dropdown">
+                                    <li><a href="#">Alterar Senha</a></li>
+                                    <li><a href="#">Logout</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </section>
+                </div>
+            </div>
+            <div class="search-bar">
+                <div class="content">
+                    <div class="search-content">
+                        <input class="input-search" type="text" name="" id="" placeholder="Pesquisar">
+                        <img src="../assets/lupa.svg" class="search-icon" alt="">
+                    </div>
+                    <button class="user-add">Adicionar</button>
+                </div>
+            </div>
+            <div class="colunName">
+                <ul>
+                    <li>Status</li>
+                    <li>Razão Social</li>
+                    <li>CNPJ</li>
+
+                </ul>
+            </div>
+
+            <div>
+                <ul class="list-of-itens">
+
+                </ul>
+            </div>
+
+        </div>
+
+
+    </div>
+    </div>
+
+
+    <div class="modal" id="myModal">
+        <div class="modal-container">
+            <div class="modal-content">
+                <span class="close" id="closeModal">&times;</span>
+                <form action="">
+                    <div class="rectangle-24"></div>
+                    <button class="cancelar ">
+                        cancelar
+                    </button>
+
+                    <div class="title-modal">Adicionar Cliente</div>
+
+                    <input class="input-3" name="cnpj" type="text">
+                    <input class="input-2" name="razao_social" type="text">
+                    <div class="nome-input">CNPJ</div>
+                    <div class="sigla-input">Razão Social</div>
+                    <button id="confirmarCR" class="confirmar">Confirmar</button>
+                </form>
+
+
+
+
+
+            </div>
+        </div>
+
+    </div>
+
+    <div class="modal" id="myModalUpdate">
+        <div class="modal-container">
+            <div class="modal-content">
+                <span class="close" id="closeModal">&times;</span>
+                <form action="">
+                    <div class="rectangle-24"></div>
+                    <button class="cancelar ">
+                        cancelar
+                    </button>
+
+                    <div class="title-modal">Editar Cliente</div>
+
+                    <input class="input-2"  name="razao_socialUpdate" type="text">
+                    <input class="input-3" disabled name="cnpjUpdate" type="text">
+                    <div class="sigla-input">Razão Social</div>
+                    <div class="nome-input">CNPJ</div>
+                    <button id="confirmarClienteUpdate" class="confirmar">Confirmar</button>
+                </form>
+
+
+
+
+
+            </div>
+        </div>
+
+    </div>
+
+    <script type="module" src="../scripts/clienteTeste.script.js"></script>
+
+</body>
+
+</html>

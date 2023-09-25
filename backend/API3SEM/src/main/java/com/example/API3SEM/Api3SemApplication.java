@@ -8,7 +8,11 @@ public class Api3SemApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(Api3SemApplication.class, args);
-		System.out.println("Bem vinde a todes");
+		System.out.println("Server is running");
+
+		System.out.println("  /\\_/\\");
+		System.out.println(" ( o.o )");
+		System.out.println("  > ^ <");
 	}
 
 }

@@ -54,6 +54,12 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>jakarta.validation</groupId>
+			<artifactId>jakarta.validation-api</artifactId>
+			<version>2.0.2</version> <!-- Verifique a versão mais recente no repositório Maven -->
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -68,6 +74,11 @@
 							<artifactId>lombok</artifactId>
 						</exclude>
 					</excludes>
+					<archive>
+						<manifest>
+							<mainClass>com.example.Api3SemApplication</mainClass>
+						</manifest>
+					</archive>
 				</configuration>
 			</plugin>
 		</plugins>
