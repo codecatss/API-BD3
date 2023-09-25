@@ -1,3 +1,6 @@
+
+console.log("Testando se posso comitar na main")
+
 function toggleMode(liElement) {
     if (liElement.classList.contains('moved')) {
         liElement.classList.remove('moved');
