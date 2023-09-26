@@ -75,6 +75,8 @@ html {
 .main-content {
   background-color: #0e0e12;
   padding: 0rem 1rem 0rem 1rem;
+  flex-grow: 1;
+  padding: 17px 37px 93px 32px;
 }
 
 .main-content .header {
@@ -83,13 +85,14 @@ html {
   flex-wrap: nowrap;
   justify-content: space-between;
   padding: 20px 20px 20px 20px;
+  color: white;
 }
 
 .main-content .header .user-content {
   display: flex;
   align-items: center;
   justify-content: center;
-  /* align-content: center; */
+
   flex-wrap: nowrap;
   flex-direction: row;
 }
@@ -119,6 +122,11 @@ html {
   padding: 0.5rem 3rem 0.5rem 0rem;
 }
 
+.main-content .search-bar .content .input-container {
+  display: flex;
+  gap: 20px;
+}
+
 .main-content .search-bar .content .search {
   /* padding: 10px 30px 10px 30px; */
 
@@ -133,22 +141,19 @@ html {
 }
 
 .main-content .search-bar .content .search img {
-  width: 12px;
-  height: 12px;
+  height: 25px;
 }
 
 .main-content .search-bar .content .input-search {
-  /* width: auto; */
+  width: 407px;
   padding: 10px 0;
-  width: 300px;
-  background: #d9d9d9;
   border-radius: 7px;
-  background: #d9d9d9;
   padding-left: 10px;
+  border: none;
 }
 
 .main-content .search-bar .content .btn-add {
-  padding: 10px 30px 10px 30px;
+  padding: 10px 25px 10px 25px;
   background-color: #b6a4dd;
   color: #000;
   border-radius: 0.3rem;
