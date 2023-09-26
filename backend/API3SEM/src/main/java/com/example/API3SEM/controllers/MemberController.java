@@ -1,11 +1,8 @@
 package com.example.API3SEM.controllers;
 
-import com.example.API3SEM.employees.Employee;
-import com.example.API3SEM.employees.EmployeeRepository;
-import com.example.API3SEM.employees.EmployeeRequestDTO;
-import com.example.API3SEM.members.Member;
-import com.example.API3SEM.members.MemberRepository;
-import com.example.API3SEM.members.MemberRequestDTO;
+import com.example.API3SEM.entities.Member;
+import com.example.API3SEM.repositories.MemberRepository;
+import com.example.API3SEM.DTOS.MemberDTOs;
 import com.example.API3SEM.utills.ApiException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -22,11 +19,11 @@ public class MemberController {
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping
-    public List<Member> saveMembers(@RequestBody List<MemberRequestDTO> dataList) {
+    public List<Member> saveMembers(@RequestBody List<MemberDTOs.MemberRequestDTO> dataList) {
         List<Member> savedMembers = new ArrayList<>();
 
         try {
-            for (MemberRequestDTO data : dataList) {
+            for (MemberDTOs.MemberRequestDTO data : dataList) {
                 Member memberData = new Member(data);
                 savedMembers.add(repository.save(memberData));
             }

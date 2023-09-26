@@ -1,10 +1,8 @@
 package com.example.API3SEM.controllers;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,10 +13,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.API3SEM.client.Client;
-import com.example.API3SEM.client.ClientRepository;
-import com.example.API3SEM.client.ClientRequestDTO;
-import com.example.API3SEM.client.ClientResponseDTO;
+import com.example.API3SEM.entities.Client;
+import com.example.API3SEM.repositories.ClientRepository;
+import com.example.API3SEM.DTOS.ClientDTOs;
 import com.example.API3SEM.utills.StatusEnum;
 
 @RestController
@@ -30,13 +27,13 @@ public class ClientController {
     private ClientRepository repository;
 
     @GetMapping
-    public ResponseEntity<List<ClientResponseDTO>> index() {
-        List<ClientResponseDTO> teste = repository.findAll().stream().map(ClientResponseDTO::new).toList();
+    public ResponseEntity<List<ClientDTOs>> index() {
+        List<ClientDTOs> teste = repository.findAll().stream().map(ClientDTOs::new).toList();
         return ResponseEntity.ok(teste);
     }
 
     @PostMapping
-    public Client create(@RequestBody ClientRequestDTO clientRequest) {
+    public Client create(@RequestBody ClientDTOs.ClientRequestDTO clientRequest) {
         try{
             Client client = new Client(clientRequest);
             client.setStatus(StatusEnum.ativo.name());
@@ -49,7 +46,7 @@ public class ClientController {
     }
 
     @PatchMapping("disable/{cnpj}")
-    public ResponseEntity<ClientResponseDTO> disable(@PathVariable String cnpj) {
+    public ResponseEntity<ClientDTOs> disable(@PathVariable String cnpj) {
         try {
             if (!repository.existsById(cnpj)) {
                 return ResponseEntity.notFound().build();
@@ -59,7 +56,7 @@ public class ClientController {
             if (client != null) {
                 client.setStatus(StatusEnum.inativo.name());
                 repository.save(client);
-                return ResponseEntity.ok(new ClientResponseDTO(client));
+                return ResponseEntity.ok(new ClientDTOs(client));
             } else {
                 return ResponseEntity.notFound().build();
             }
@@ -69,7 +66,7 @@ public class ClientController {
     }
 
     @PatchMapping("enable/{cnpj}")
-    public ResponseEntity<ClientResponseDTO> enable(@PathVariable String cnpj) {
+    public ResponseEntity<ClientDTOs> enable(@PathVariable String cnpj) {
         try {
             if (!repository.existsById(cnpj)) {
                 return ResponseEntity.notFound().build();
@@ -79,7 +76,7 @@ public class ClientController {
             if (client != null) {
                 client.setStatus(StatusEnum.ativo.name());
                 repository.save(client);
-                return ResponseEntity.ok(new ClientResponseDTO(client));
+                return ResponseEntity.ok(new ClientDTOs(client));
             } else {
                 return ResponseEntity.notFound().build();
             }
@@ -90,7 +87,7 @@ public class ClientController {
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PatchMapping("/{cnpj}")
-    public Client update(@PathVariable String cnpj,  @RequestBody ClientRequestDTO partial_client) {
+    public Client update(@PathVariable String cnpj,  @RequestBody ClientDTOs.ClientRequestDTO partial_client) {
         Client client = repository.findById(cnpj).orElseThrow(() -> new RuntimeException("Cliente não encontrado com o CNPJ: " + cnpj));
 
         try {

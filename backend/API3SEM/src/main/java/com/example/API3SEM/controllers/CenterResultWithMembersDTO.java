@@ -1,6 +1,6 @@
 package com.example.API3SEM.controllers;
 
-import com.example.API3SEM.resultCenter.CenterResult;
+import com.example.API3SEM.entities.CenterResult;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
