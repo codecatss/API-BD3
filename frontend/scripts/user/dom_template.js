@@ -126,31 +126,35 @@ $(document).on("click", ".edit-align, .edit-icon", function () {
         $("#modal-editUser input[placeholder='Matrícula']").prop("disabled", true);
         $("#modal-editUser input[placeholder='Função']").val(usuarioParaEditar.funcao);
 
+        $("#funcaoFuncionarioEditar").val(usuarioParaEditar.funcao);
+
         // Abra o modal de edição
         var modalEditUser = document.getElementById("modal-editUser");
         if (modalEditUser) {
-            modalEditUser.style.display = "block";
+            modalEditUser.style.display = "block"
+
         }
     }
 });
-
 // Adicione um evento de clique ao botão "Confirmar" no modal de edição de usuário
 $("#modal-editUser .btn-confirm").click(function () {
     const matriculaInput = $("#modal-editUser input[placeholder='Matrícula']");
     const nomeInput = $("#modal-editUser input[placeholder='Nome']");
-    const funcaoInput = $("#modal-editUser input[placeholder='Função']");
+
+    // Get the selected 'funcao' value from the <select> element
+    const funcaoSelect = $("#funcaoFuncionarioEditar");
+    const novaFuncao = funcaoSelect.val();
 
     // Obtém a matrícula do usuário a partir do campo de entrada (caso você precise dela)
     const matricula = matriculaInput.val();
 
-    // Obtém os novos valores de nome e função do campo de entrada
+    // Obtém o novo valor de nome do campo de entrada
     const novoNome = nomeInput.val();
-    const novaFuncao = funcaoInput.val();
 
     // Crie um objeto com os dados atualizados
     const dadosAtualizados = {
         nome: novoNome,
-        funcao: novaFuncao
+        funcao: novaFuncao // Use the selected 'funcao' value
     };
 
     // Chama a função atualizarUsuario para atualizar o usuário
@@ -161,13 +165,19 @@ $("#modal-editUser .btn-confirm").click(function () {
             Alert.success(`Usuário com matrícula ${matricula} atualizado com sucesso.`, "Sucesso!", { displayDuration: 5000 });
 
             // Feche o modal de edição após a conclusão da atualização
-            $("#modal-editUser").css("display", "none");
+            //$("#modal-editUser").css("display", "none");
+            setTimeout(function () {
+                window.location.reload();
+
+            }, 1000);
         })
         .catch(function (error) {
             console.error(`Erro ao atualizar o usuário com matrícula ${matricula}:`, error);
             Alert.error(`Erro ao atualizar o usuário com matrícula ${matricula}, detalhes: ${error}`, "Erro!", { displayDuration: 5000 });
+
         });
 });
+
 
 $(document).on('click', 'input[type="checkbox"].checkbox', function () {
     const isChecked = $(this).prop('checked');
