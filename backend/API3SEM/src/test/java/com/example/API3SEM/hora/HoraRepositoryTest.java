@@ -1,6 +1,6 @@
 package com.example.API3SEM.hora;
 
-import com.example.API3SEM.entities.Hora;
+import API3SEM.API3SEM.entities.Hora;
 import org.junit.jupiter.api.Test;
 
 class HoraRepositoryTest {
