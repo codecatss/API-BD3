@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap");
 
 * {
-  font-family: var(--font-family) !important;
+  font-family: "Outfit", sans-serif !important;
 }
 
 h1 {
@@ -41,7 +41,12 @@ p {
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin: var(--medium-pad) 0rem 0rem 0rem;
+  background: transparent;
+  border-radius: 6px;
+  transition: 0.9s;
+  margin-bottom: 0.1rem;
+  padding: 4px;
+  width: 250px;
 }
 
 .menu li img {
@@ -55,28 +60,30 @@ p {
 }
 
 .menu .activation {
-  background: linear-gradient(to right, #7468ff, #282272, #251440);
-  border-radius: 15px;
+  background: linear-gradient(to right, #6158d2, #251440);
+  border-radius: 6px;
 }
 
 .menus {
-  margin: var(--default-pad);
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
 }
 
 .menus img {
   margin-top: var(--mini-pad);
+  width: 24px;
+  height: 24px;
 }
 
 .panelnav {
-  background-image: var(--gradient-navbar);
+  background: linear-gradient(to bottom, #000, #251440);
+
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 30px;
 }
 
 .main-content {
@@ -354,7 +361,10 @@ p {
 }
 
 .search-icon {
-  height: 35px;
+  height: 25px;
+  background-color: var(--background-users-ul);
+  border-radius: 4px;
+  padding: 4px 8px;
 }
 
 /* Estilos para o modal */
@@ -421,16 +431,10 @@ p {
   color: white;
 }
 .page-navegation {
-  width: 200px;
+  width: 100%;
 }
 .page-navegation:hover {
-  background: linear-gradient(
-    to right,
-    rgba(152, 150, 182, 0.554),
-    #29227264,
-    #2514406b
-  );
-  border-radius: 15px;
+  background: #6158d2;
 }
 
 /* Adicione estilos CSS para o dropdown */

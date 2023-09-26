@@ -114,9 +114,9 @@ function searchCRByTerm(searchTerm) {
             const ulElement = document.querySelector('.list-of-itens');
             ulElement.innerHTML = '';
 
-            const searchTermLowerCase = searchTerm.toLowerCase();
+            const searchTermLowerCase = searchTerm.toLowerCase().trim();
 
-            if (searchTermLowerCase.trim() === '') {
+            if (searchTermLowerCase === '') {
                 data.forEach((item) => {
                     renderListItem(ulElement, item);
                 });
@@ -138,6 +138,8 @@ function searchCRByTerm(searchTerm) {
             console.error('Erro ao buscar dados da API:', error);
         });
 }
+
+
 
 
 async function refreshListCr() {
@@ -673,6 +675,13 @@ fetchAndRenderData();
 
 
 
+const searchInput = document.querySelector('.input-search');
+
+searchInput.addEventListener('input', function () {
+    console.log("entrei aquiii")
+    const searchTerm = searchInput.value;
+    searchCRByTerm(searchTerm);
+});
 
 
 
@@ -680,3 +689,6 @@ fetchAndRenderData();
 
 
 window.addEventListener('load', fetchAndRenderData);
+
+
+
