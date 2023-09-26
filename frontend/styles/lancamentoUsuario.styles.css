@@ -57,39 +57,54 @@ button {
   color: var(--text-color);
   text-decoration: none;
 }
-
-.menu .activation {
-  background: linear-gradient(to right, #7468ff, #282272, #251440);
-  border-radius: 15px;
-}
-
-.menus {
-  margin: var(--default-pad);
-  flex-grow: 1;
+.menu {
+  background: linear-gradient(to bottom, #000, #251440);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-}
-
-.menus img {
-  margin-top: var(--mini-pad);
-}
-
-.menu .activation {
-  background: linear-gradient(to right, #7468ff, #282272, #251440);
-  border-radius: 12px;
-  padding: 2%;
-  width: 180px;
-}
-
-.panelnav {
-  background-image: var(--gradient-navbar);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
 }
 
+.menu .logo {
+  width: 155px;
+  height: 100px;
+  margin-bottom: 30px;
+}
+
+.menu li {
+  width: 250px;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.menu li img {
+  padding-left: 1rem;
+  width: 24px;
+  height: 24px;
+}
+
+.menu-item {
+  /* Defina o estilo padrão do elemento */
+  background: transparent;
+  border-radius: 6px;
+  transition: 0.9s;
+  margin-bottom: 0.1rem;
+}
+
+.menu-item:hover {
+  /* Aplique o estilo do hover */
+  background: #6158d2;
+}
+
+.active-page {
+  background: linear-gradient(to right, #6158d2, #251440);
+  border-radius: 6px;
+}
+
+.active-page:hover {
+  background: linear-gradient(to right, #251440, #6158d2);
+}
 .main-content {
   background: var(--background-nav-color);
   flex-grow: 1;
