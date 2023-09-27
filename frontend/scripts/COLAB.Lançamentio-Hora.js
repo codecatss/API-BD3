@@ -15,6 +15,7 @@ const botaoConfirmar = document.getElementById("adicionarBotao");
 const horaSobreaviso = []
 
 
+
 // SOBREAVISOO
 
 const dataInicioInputSobreaviso = document.querySelector(".dataInicioSobreaviso");
@@ -195,7 +196,7 @@ async function lancamentoHoraExtra(dadosParaEnviar) {
         const data = await response.json();
         console.log('Resposta da API:', data);
     } catch (error) {
-        alert("Houve erro adicionar");
+
         console.error('Erro na requisição:', error);
     }
 }
@@ -368,21 +369,26 @@ tipoHoraInput.addEventListener("change", verificarTipoHora);
 // ABRE O MODAL
 const acionamentoBotao = document.getElementById("acionamentoBotao");
 acionamentoBotao.addEventListener('click', async function () {
-    //  if (
-    //     tipoHoraInput.value === "" ||
-    //     selecionarEmpresaInput.value === "" ||
-    //     selecionarCRInput.value === "" ||
-    //     justificativaHoraInput.value === "" ||
-    //     dataInicioInput.value === "" ||
-    //     horaInicioInput.value === "" ||
-    //     projetoHoraInput.value === "" ||
-    //     dataFimInput.value === "" ||
-    //     horaFimInput.value === "" ||
-    //     solicitanteHoraInput.value === ""
-    // ) {
-    //     alert("Preencha todos os campos obrigatórios!");
-    //     return;
-    // }
+    if (
+        tipoHoraInput.value === "" ||
+        selecionarEmpresaInput.value === "" ||
+        selecionarCRInput.value === "" ||
+        justificativaHoraInput.value === "" ||
+        dataInicioInput.value === "" ||
+        horaInicioInput.value === "" ||
+        projetoHoraInput.value === "" ||
+        dataFimInput.value === "" ||
+        horaFimInput.value === "" ||
+        solicitanteHoraInput.value === ""
+    ) {
+        alert("Preencha todos os campos obrigatórios!");
+        return;
+    }
+
+
+
+
+
 
 
 
@@ -402,9 +408,6 @@ acionamentoBotao.addEventListener('click', async function () {
 
 
     await lancamentoHora();
-
-    console.log(horaSobreaviso)
-
 
 
 
