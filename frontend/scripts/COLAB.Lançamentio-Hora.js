@@ -127,6 +127,8 @@ popularSelectCr(todosCr);
 
 
 
+
+
 function lancamentoHora() {
     const tipoHora = tipoHoraInput.value;
     const selecionarEmpresa = selecionarEmpresaInput.value;
@@ -139,12 +141,18 @@ function lancamentoHora() {
     const horaFim = horaFimInput.value;
     const solicitanteHora = solicitanteHoraInput.value;
 
+    // Converte a data e hora de início para UTC
+    const dataHoraInicioUTC = new Date(`${dataInicio}T${horaInicio}:00Z`);
+
+    // Converte a data e hora de fim para UTC
+    const dataHoraFimUTC = new Date(`${dataFim}T${horaFim}:00Z`);
+
     const dataHora = {
         codcr: selecionarCR,
         lancador: "4533",
         cnpj: selecionarEmpresa,
-        data_hora_inicio: `${dataInicio}T${horaInicio}:00Z`,
-        data_hora_fim: `${dataFim}T${horaFim}:00Z`,
+        data_hora_inicio: dataHoraInicioUTC.toISOString(),
+        data_hora_fim: dataHoraFimUTC.toISOString(),
         tipo: tipoHora,
         justificativa: justificativaHora,
         projeto: projetoHora,
@@ -160,6 +168,9 @@ function lancamentoHora() {
     console.log(dataHora);
     return dataHora;
 }
+
+
+
 
 async function lancamentoHoraExtra(dadosParaEnviar) {
 
@@ -240,14 +251,14 @@ async function carregarHorasNaLista(horas) {
 
 
         const dataHoraInicio = new Date(hora.data_hora_inicio);
-        const dataInicioFormatada = dataHoraInicio.toLocaleDateString('pt-BR');
-        const horaInicioFormatada = dataHoraInicio.toLocaleTimeString('pt-BR');
+        const dataInicioFormatada = dataHoraInicio.toLocaleDateString('pt-BR', { timeZone: 'UTC' });
+        const horaInicioFormatada = dataHoraInicio.toLocaleTimeString('pt-BR', { timeZone: 'UTC' });
         inicioHora.textContent = `${dataInicioFormatada} | ${horaInicioFormatada}`;
 
 
         const dataHoraFim = new Date(hora.data_hora_fim);
-        const dataFimFormatada = dataHoraFim.toLocaleDateString('pt-BR');
-        const horaFimFormatada = dataHoraFim.toLocaleTimeString('pt-BR');
+        const dataFimFormatada = dataHoraFim.toLocaleDateString('pt-BR', { timeZone: 'UTC' });
+        const horaFimFormatada = dataHoraFim.toLocaleTimeString('pt-BR', { timeZone: 'UTC' });
         fimHora.textContent = `${dataFimFormatada} | ${horaFimFormatada}`;
 
         crHora.textContent = centroResultado
@@ -357,6 +368,23 @@ tipoHoraInput.addEventListener("change", verificarTipoHora);
 // ABRE O MODAL
 const acionamentoBotao = document.getElementById("acionamentoBotao");
 acionamentoBotao.addEventListener('click', async function () {
+    //  if (
+    //     tipoHoraInput.value === "" ||
+    //     selecionarEmpresaInput.value === "" ||
+    //     selecionarCRInput.value === "" ||
+    //     justificativaHoraInput.value === "" ||
+    //     dataInicioInput.value === "" ||
+    //     horaInicioInput.value === "" ||
+    //     projetoHoraInput.value === "" ||
+    //     dataFimInput.value === "" ||
+    //     horaFimInput.value === "" ||
+    //     solicitanteHoraInput.value === ""
+    // ) {
+    //     alert("Preencha todos os campos obrigatórios!");
+    //     return;
+    // }
+
+
 
     const modalSobreAviso = document.getElementById("modalSobreAviso");
 
@@ -426,23 +454,21 @@ botaoConfirmarSobreaviso.addEventListener("click", async function (event) {
     console.log(horaSobreaviso)
 
     const li = document.createElement("li");
+
+
+
+    const dataHoraInicio = new Date(dataHoraSobreaviso.data_hora_inicio);
+    const dataInicioFormatada = dataHoraInicio.toLocaleDateString('pt-BR', { timeZone: 'UTC' });
+    const horaInicioFormatada = dataHoraInicio.toLocaleTimeString('pt-BR', { timeZone: 'UTC' });
+
+    const dataHoraFim = new Date(dataHoraSobreaviso.data_hora_fim);
+    const dataFimFormatada = dataHoraFim.toLocaleDateString('pt-BR', { timeZone: 'UTC' });
+    const horaFimFormatada = dataHoraFim.toLocaleTimeString('pt-BR', { timeZone: 'UTC' });
+
     const dataHoraInicioP = document.createElement("p");
     const dataHoraFimP = document.createElement("p");
 
-
-    const dataHoraInicio = new Date(dataHoraSobreaviso.data_hora_fim);
-    const dataInicioFormatada = dataHoraInicio.toLocaleDateString('pt-BR');
-    const horaInicioFormatada = dataHoraInicio.toLocaleTimeString('pt-BR');
-
-    dataHoraInicioP.textContent = `${dataInicioFormatada} | ${horaInicioFormatada}`
-
-
-    const dataHoraFim = new Date(dataHoraSobreaviso.data_hora_fim);
-    const dataFimFormatada = dataHoraFim.toLocaleDateString('pt-BR');
-    const horaFimFormatada = dataHoraFim.toLocaleTimeString('pt-BR');
-
-
-
+    dataHoraInicioP.textContent = `${dataInicioFormatada} | ${horaInicioFormatada}`;
     dataHoraFimP.textContent = `${dataFimFormatada} | ${horaFimFormatada}`;
 
     li.classList.add("horaLiSobreaviso")
