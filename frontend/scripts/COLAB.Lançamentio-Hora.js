@@ -179,7 +179,7 @@ async function lancamentoHoraExtra(dadosParaEnviar) {
             throw new Error(`Erro na requisição: ${response.status}`);
         }
 
-        console.log("enviou");
+        alert("Hora Lançada com sucesso")
 
         const data = await response.json();
         console.log('Resposta da API:', data);
@@ -302,7 +302,7 @@ botaoConfirmar.addEventListener("click", async (event) => {
     carregarHorasNaLista(novasHoras);
 
 
-    alert("Hora lançada com sucesso!");
+
 });
 
 
@@ -458,7 +458,7 @@ botaoSalvarSobreaviso.addEventListener("click", async function (event) {
 
     horaSobreaviso.forEach(hora => {
         lancamentoHoraExtra(hora)
-        alert("Lançou")
+
     })
     window.location.reload();
 

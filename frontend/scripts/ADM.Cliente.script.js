@@ -257,6 +257,11 @@ function renderListItem(ulElement, item) {
                 modal.style.display = 'none';
             }
         });
+        window.addEventListener('click', function (event) {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
 
 
         async function updateClient(cnpj, partialData) {
@@ -317,7 +322,14 @@ function renderListItem(ulElement, item) {
         });
 
 
+        function closeModalFunction() {
+            console.log("Ola")
+            modal.style.display = 'none';
+        }
 
+        closeModal.addEventListener('click', closeModalFunction);
+        const cancelarButton = document.querySelector('.cancelarButton');
+        cancelarButton.addEventListener('click', closeModalFunction);
 
 
 
@@ -367,11 +379,12 @@ window.addEventListener('click', function (event) {
 });
 
 function closeModalFunction() {
+    console.log("Ola")
     modal.style.display = 'none';
 }
 
 closeModal.addEventListener('click', closeModalFunction);
-const cancelarButton = document.querySelector('.cancelar');
+const cancelarButton = document.querySelector('.cancelarButton');
 cancelarButton.addEventListener('click', closeModalFunction);
 
 
