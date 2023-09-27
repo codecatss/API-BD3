@@ -49,9 +49,67 @@ public class HoraController {
             saveHora(horaRequestDTO, TipoEnum.SOBREAVISO);
             return new ResponseEntity<>(horaRequestDTO, HttpStatus.CREATED);
         }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg);
     }
 
+    @GetMapping("/{var}/{filtro}") 
+    public ResponseEntity filtredHours(@PathVariable String var, @PathVariable String filtro){
+        List<Object> response = new ArrayList<>();
+        List<Hora> horas = new ArrayList<>();
+        
+        List<Hora> horasFromRepository = null;
+        if (filtro.equals("matricula")||filtro.equals("codigo_cr")||filtro.equals("cliente")) {
+
+            if (filtro.equals("matricula")) {
+                try {
+                    if (!horaRepository.findByLancador(var).isEmpty()) {
+                        horasFromRepository = horaRepository.findByLancador(var);
+                        for (Hora hora : horasFromRepository) {
+                           horas.add(hora); 
+                        }
+                    }else{
+                        throw new ApiException("O usuário fornecido não possui horas lançadas");
+                    }
+                }catch (Exception e){
+                    response.add(e.getMessage());
+                }
+
+            } else if (filtro.equals("codigo_cr")) {
+                try{
+                    if(!horaRepository.findByCodcr(var).isEmpty()) {
+                        horasFromRepository = horaRepository.findByCodcr(var);
+                        for (Hora hora : horasFromRepository) {
+                           horas.add(hora); 
+                        }
+                    }else {
+                        throw new ApiException("O CR fornecido não possui horas registradas");
+                    }
+                }catch (Exception e){
+                    response.add(e.getMessage());
+                }
+
+            } else if (filtro.equals("cliente")) {
+                try {
+                    if(!horaRepository.findByCnpj(var).isEmpty()) {
+                        horasFromRepository = horaRepository.findByCnpj(var);
+                        for (Hora hora : horasFromRepository) {
+                           horas.add(hora); 
+                        }
+                    }else {
+                        throw new ApiException("O cliente fornecido não possui horas registradas");
+                    }   
+                }catch (Exception e){
+                    response.add(e.getMessage());
+                }
+            }
+        }
+        else {
+            String error = "O valor fornecido de filtro '" + filtro + "' não atende a nenhum dos tipos permitidos. Filtro deve ser 'matricula', 'codigo_cr' ou 'cliente'";
+            response.add(error);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+        response.addAll(horas);
+        return ResponseEntity.ok(response);          
+    }
 
 
     @GetMapping
