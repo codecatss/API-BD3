@@ -98,7 +98,7 @@ public class HoraController {
                         throw new ApiException("O cliente fornecido não possui horas registradas");
                     }   
                 }catch (Exception e){
-                    response.add(e.getMessage());
+                    throw new ApiException(e.getMessage());
                 }
             }
         }
