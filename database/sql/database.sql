@@ -57,20 +57,27 @@ CREATE TABLE integrante (
 
 CREATE TABLE hora(
     id SERIAL NOT NULL,
-    codigo_cr character varying(10) COLLATE pg_catalog."default" NOT NULL,
-    matricula_lancador character varying(20) COLLATE pg_catalog."default" NOT NULL,
-    cnpj_cliente character varying(14) COLLATE pg_catalog."default" NOT NULL,
+    codigo_cr VARCHAR(10) COLLATE pg_catalog."default" NOT NULL,
+    matricula_lancador VARCHAR(20) COLLATE pg_catalog."default" NOT NULL,
+    cnpj_cliente VARCHAR(14) COLLATE pg_catalog."default" NOT NULL,
     data_hora_inicio timestamp without time zone NOT NULL,
     data_hora_fim timestamp without time zone NOT NULL,
-    tipo character varying(20) COLLATE pg_catalog."default",
-    justificativa_lancamento character varying(500) COLLATE pg_catalog."default" NOT NULL,
-    projeto character varying(100) COLLATE pg_catalog."default" NOT NULL,
-    solicitante_lancamento character varying(80) COLLATE pg_catalog."default" NOT NULL,
+    tipo VARCHAR(20) COLLATE pg_catalog."default",
+    justificativa_lancamento VARCHAR(500) COLLATE pg_catalog."default" NOT NULL,
+    projeto VARCHAR(100) COLLATE pg_catalog."default" NOT NULL,
+    solicitante_lancamento VARCHAR(80) COLLATE pg_catalog."default" NOT NULL,
+    status_aprovacao VARCHAR(30) NOT NULL DEFAULT 'pendente',
+    justificativa_negacao VARCHAR(500),
+   	matricula_gestor VARCHAR(20),
+    data_lancamento timestamp without time zone NOT NULL,
+    data_modificacao timestamp without time zone NOT NULL,
     CONSTRAINT hora_pkey PRIMARY KEY (id),
     CONSTRAINT hora_cnpj_cliente_fkey FOREIGN KEY (cnpj_cliente)
     	REFERENCES public.cliente (cnpj),
     CONSTRAINT hora_cod_cr_fkey FOREIGN KEY (codigo_cr)
     	REFERENCES public.centro_resultado (codigo_cr),
-    CONSTRAINT hora_username_lancador_fkey FOREIGN KEY (matricula_lancador)
-    	REFERENCES public.usuario (matricula)
-)
+    CONSTRAINT hora_matricula_lancador_fkey FOREIGN KEY (matricula_lancador)
+    	REFERENCES public.usuario (matricula),
+    CONSTRAINT hora_matricula_gestor_fkey FOREIGN KEY (matricula_gestor)
+    	REFERENCES public.usuario(matricula)
+);
