@@ -88,7 +88,7 @@
 					</excludes>
 					<archive>
 						<manifest>
-							<mainClass>java.API3SEM.Api3SemApplication</mainClass>
+							<mainClass>java.API3SEMApplication</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
