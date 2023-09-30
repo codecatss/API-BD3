@@ -1,15 +1,22 @@
 package API3SEM.API3SEM.entities.funcaoUsuarioEnum;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public enum FuncaoUsuarioEnum {
-    ADMIN("admin"),
-    GESTOR("gestor"),
-    COLABORADOR("colaborador");
+    admin,
+    gestor,
+    colaborador;
 
+    private static final Map<String, FuncaoUsuarioEnum> stringToEnum = new HashMap<>();
 
-    private String role;
-
-    FuncaoUsuarioEnum(String role) {
-        this.role = role;
+    static {
+        for (FuncaoUsuarioEnum funcao : values()) {
+            stringToEnum.put(funcao.name().toLowerCase(), funcao);
+        }
     }
 
+    public static FuncaoUsuarioEnum fromRole(String role) {
+        return stringToEnum.get(role.toLowerCase());
+    }
 }
