@@ -5,6 +5,12 @@ import API3SEM.API3SEM.utills.StatusEnum;
 import API3SEM.API3SEM.entities.funcaoUsuarioEnum.FuncaoUsuarioEnum;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
+import java.util.List;
 
 @Table(name = "usuario")
 @Entity(name = "usuario")
@@ -13,7 +19,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "matricula")
-public class Employee {
+public class Employee implements UserDetails {
 
 
     @Id
@@ -43,4 +49,43 @@ public class Employee {
     }
 
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        if (this.funcao == FuncaoUsuarioEnum.ADMIN)
+            return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_GESTOR"));
+        else if (this.funcao == FuncaoUsuarioEnum.GESTOR)
+            return List.of(new SimpleGrantedAuthority("ROLE_GESTOR"), new SimpleGrantedAuthority("ROLE_COLABORADOR"));
+        else
+            return List.of(new SimpleGrantedAuthority("ROLE_COLABORADOR"));
+    }
+
+    @Override
+    public String getPassword() {
+        return senha;
+    }
+
+    @Override
+    public String getUsername() {
+        return matricula;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }
