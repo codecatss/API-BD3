@@ -48,13 +48,19 @@ public class Employee implements UserDetails {
         this.status_usuario = data.status_usuario();
     }
 
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         if (this.funcao == FuncaoUsuarioEnum.admin)
-            return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_GESTOR"));
+            return List.of(
+                new SimpleGrantedAuthority("ROLE_ADMIN"),
+                new SimpleGrantedAuthority("ROLE_GESTOR"),
+                new SimpleGrantedAuthority("ROLE_COLABORADOR")
+            );
         else if (this.funcao == FuncaoUsuarioEnum.gestor)
-            return List.of(new SimpleGrantedAuthority("ROLE_GESTOR"), new SimpleGrantedAuthority("ROLE_COLABORADOR"));
+            return List.of(
+                new SimpleGrantedAuthority("ROLE_GESTOR"),
+                new SimpleGrantedAuthority("ROLE_COLABORADOR")
+            );
         else
             return List.of(new SimpleGrantedAuthority("ROLE_COLABORADOR"));
     }

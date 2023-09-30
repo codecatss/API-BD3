@@ -10,7 +10,7 @@ import java.util.List;
 public interface EmployeeRepository extends JpaRepository<Employee,String> {
     List<Employee> findByMatriculaIn(List<String> matriculas);
 
-    UserDetails findUserByMatricula(String matricula);
+    UserDetails findByMatricula(String matricula);
 
     List<Employee> findByMatriculaNotIn(List<String> matriculas);
     //  List<Employees> findByNameAndMatricula(String name, String matricula);
