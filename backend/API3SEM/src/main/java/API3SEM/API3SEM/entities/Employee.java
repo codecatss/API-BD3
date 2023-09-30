@@ -52,17 +52,17 @@ public class Employee implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         if (this.funcao == FuncaoUsuarioEnum.admin)
             return List.of(
-                new SimpleGrantedAuthority("ROLE_ADMIN"),
-                new SimpleGrantedAuthority("ROLE_GESTOR"),
-                new SimpleGrantedAuthority("ROLE_COLABORADOR")
+                new SimpleGrantedAuthority("admin"),
+                new SimpleGrantedAuthority("gestor"),
+                new SimpleGrantedAuthority("colaborador")
             );
         else if (this.funcao == FuncaoUsuarioEnum.gestor)
             return List.of(
-                new SimpleGrantedAuthority("ROLE_GESTOR"),
-                new SimpleGrantedAuthority("ROLE_COLABORADOR")
+                new SimpleGrantedAuthority("gestor"),
+                new SimpleGrantedAuthority("colaborador")
             );
         else
-            return List.of(new SimpleGrantedAuthority("ROLE_COLABORADOR"));
+            return List.of(new SimpleGrantedAuthority("colaborador"));
     }
 
     @Override
