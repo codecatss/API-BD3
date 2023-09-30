@@ -46,7 +46,7 @@ public class HoraController {
             throw new ApiException(msg);
         }
         else{
-            saveHora(horaRequestDTO, TipoEnum.SOBREAVISO);
+            saveHora(horaRequestDTO);
             return new ResponseEntity<>(horaRequestDTO, HttpStatus.CREATED);
         }
     }
@@ -143,7 +143,7 @@ public class HoraController {
         return"";
     }
     
-    private void saveHora(HoraRequestDTO hora, TipoEnum tipo){
+    private void saveHora(HoraRequestDTO hora){
         List<Timestamp> hourRange = new ArrayList<>();
         hourRange.add(hora.data_hora_inicio());
         hourRange.add(hora.data_hora_fim());
@@ -152,7 +152,12 @@ public class HoraController {
         hour.setLancador(hora.lancador());
         hour.setData_hora_inicio(hourRange.get(0));
         hour.setData_hora_fim(hourRange.get(1));
-        hour.setTipo(tipo.name());
+        if(hora.tipo().contains("ex")){
+            hour.setTipo(TipoEnum.EXTRA.name());
+        }else {
+            hour.setTipo(TipoEnum.SOBREAVISO.name());
+        }
+
         hour.setJustificativa(hora.justificativa());
         hour.setProjeto(hora.projeto());
         hour.setSolicitante(hora.solicitante());
