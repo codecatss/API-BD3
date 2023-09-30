@@ -2,7 +2,9 @@ package API3SEM.API3SEM.controllers;
 
 import API3SEM.API3SEM.DTOS.AuthenticationDTO;
 import API3SEM.API3SEM.DTOS.EmployeeDTOs;
+import API3SEM.API3SEM.DTOS.LoginResponseDTO;
 import API3SEM.API3SEM.entities.Employee;
+import API3SEM.API3SEM.infra.security.TokenService;
 import API3SEM.API3SEM.repositories.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -26,16 +28,17 @@ public class AuthenticationController {
     @Autowired
     private EmployeeRepository repository;
 
+    @Autowired
+    private TokenService tokenService;
+
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Valid AuthenticationDTO data) {
-        System.out.println("Data:--------> " + data);
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.matricula(), data.senha());
         var auth = this.authenticationManager.authenticate(usernamePassword);
-        System.out.println("erro aqui passou");
-        System.out.println("------------");
-        System.out.println(auth);
-        System.out.println("------------");
-        return ResponseEntity.ok().build();
+
+        var token = tokenService.generateToken((Employee) auth.getPrincipal());
+
+        return ResponseEntity.ok(new LoginResponseDTO(token));
     }
 
     @PostMapping("/register")
@@ -46,6 +49,7 @@ public class AuthenticationController {
         Employee newEmployee = new Employee(data.matricula(), data.nome(), encryptedPassword, data.funcao(), data.status_usuario());
         System.out.println(encryptedPassword);
         System.out.println(newEmployee.toString());
+
         this.repository.save(newEmployee);
 
         return ResponseEntity.ok().build();
