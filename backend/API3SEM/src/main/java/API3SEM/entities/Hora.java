@@ -59,6 +59,20 @@ public class Hora {
     @Column (name="solicitante_lancamento", length= 80)
     private String solicitante;
 
+    @Column (name="status_aprovacao", length= 30, columnDefinition = "VARCHAR(30) DEFAULT 'pendente'")
+    private String status_aprovacao;
+
+    @Column (name="justificativa_negacao", length= 500)
+    private String justificativa_negacao;
+
+    @Column (name="matricula_gestor", length= 20)
+    private String matricula_gestor;
+
+    @Column(name = "data_lancamento", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private Timestamp data_lancamento;
+
+    @Column(name = "data_modificacao", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
+    private Timestamp data_modificacao;
 
     public Hora(HoraDTOs.HoraRequestDTO data){
         this.id = data.id();
@@ -71,6 +85,10 @@ public class Hora {
         this.justificativa = data.justificativa();
         this.projeto = data.projeto();
         this.solicitante = data.solicitante();
+        this.status_aprovacao = data.status_aprovacao();
+        this.justificativa_negacao = data.justificativa_negacao();
+        this.matricula_gestor = data.matricula_gestor();
+        this.data_lancamento = data.data_lancamento();
     }
 
 

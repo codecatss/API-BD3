@@ -248,7 +248,7 @@ async function carregarHorasNaLista(horas) {
         const justificativaHora = document.createElement("p");
 
         tipoHora.textContent = hora.tipo;
-        statusHora.textContent = "Pendente";
+        statusHora.textContent = hora.status_aprovacao;
 
 
         const dataHoraInicio = new Date(hora.data_hora_inicio);
