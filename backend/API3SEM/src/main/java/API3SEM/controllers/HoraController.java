@@ -125,6 +125,39 @@ public class HoraController {
         return new ResponseEntity<>(horasResponse, HttpStatus.OK);
     }
 
+    @PatchMapping("/{id}")
+    public Hora updateHora(@PathVariable Integer id, @RequestBody HoraDTOs.HoraRequestDTO partialData) {
+        Hora hora = horaRepository.findById(id).orElseThrow(() -> new RuntimeException("Hora não encontrada com o id: " + id));
+
+        try {
+            if (partialData.status_aprovacao() != null) {
+                if (partialData.status_aprovacao().equals(AprovacaoEnum.APROVADO_GESTOR.name())) {
+                    hora.setStatus_aprovacao(partialData.status_aprovacao());
+                }
+                else if (partialData.status_aprovacao().equals(AprovacaoEnum.NEGADO_GESTOR.name())){
+                    if(partialData.justificativa_negacao() != null) {
+                        hora.setStatus_aprovacao(partialData.status_aprovacao());
+                        hora.setJustificativa_negacao(partialData.justificativa_negacao());
+                    }else{
+                        throw new ApiException("Deve-se colocar uma justificativa em caso de negação >:|");
+                        }
+                } else{
+                    throw new ApiException("Deve-se colocar um status válido para a hora! >:|");
+                }
+            }
+            if (partialData.matricula_gestor() != null) {
+                hora.setMatricula_gestor(partialData.matricula_gestor());
+            }
+            if (partialData.data_modificacao() != null) {
+                hora.setData_modificacao(partialData.data_modificacao());
+            }
+        } catch (Exception e) {
+            throw new ApiException("Erro ao atualizar hora: " + e.getMessage());
+        }
+
+        horaRepository.save(hora);
+        return hora;
+    }
 
 
 
