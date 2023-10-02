@@ -6,6 +6,7 @@ import API3SEM.entities.Hora;
 import API3SEM.repositories.ClientRepository;
 import API3SEM.repositories.HoraRepository;
 import API3SEM.utills.ApiException;
+import API3SEM.utills.AprovacaoEnum;
 import API3SEM.utills.TipoEnum;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.Null;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -149,6 +151,7 @@ public class HoraController {
         hourRange.add(hora.data_hora_fim());
 
         Hora hour = new Hora();
+
         hour.setLancador(hora.lancador());
         hour.setData_hora_inicio(hourRange.get(0));
         hour.setData_hora_fim(hourRange.get(1));
@@ -157,13 +160,26 @@ public class HoraController {
         }else {
             hour.setTipo(TipoEnum.SOBREAVISO.name());
         }
-
         hour.setJustificativa(hora.justificativa());
         hour.setProjeto(hora.projeto());
         hour.setSolicitante(hora.solicitante());
         hour.setCodcr(hora.codcr());
         hour.setCnpj(hora.cnpj());
+        hour.setStatus_aprovacao(AprovacaoEnum.PENDENTE.name());
 
+
+
+        if(hora.justificativa_negacao()!= null && !hora.justificativa_negacao().equals("")){
+            hour.setJustificativa_negacao(hora.justificativa_negacao());
+        }
+
+        if(hora.matricula_gestor() != null && !hora.matricula_gestor().equals("")){
+            hour.setMatricula_gestor(hora.matricula_gestor());
+        }
+
+        hour.setData_lancamento(new Timestamp(System.currentTimeMillis()));
+
+        hour.setData_modificacao(new Timestamp(System.currentTimeMillis()));
         horaRepository.save(hour);
     }
 }
