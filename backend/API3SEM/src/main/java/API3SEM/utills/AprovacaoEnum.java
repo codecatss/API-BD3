@@ -7,10 +7,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public enum AprovacaoEnum {
 
-    APROVED("Aprovado"),
-    DECLINEGEST("Negado pelo gestor"),
-    DECLINEADM("Negado pelo adminstrador"),
-    PENDENT("Pendente");
+    APROVADO_GESTOR("Aprovado"),
+    NEGADO_GESTOR("Negado pelo gestor"),
+    PENDENTE("Pendente");
 
     private String nome;
 }
