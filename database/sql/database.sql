@@ -70,7 +70,9 @@ CREATE TABLE hora(
     justificativa_negacao VARCHAR(500),
    	matricula_gestor VARCHAR(20),
     data_lancamento timestamp without time zone NOT NULL,
-    data_modificacao timestamp without time zone NOT NULL,
+    data_modificacao_gestor timestamp without time zone NOT NULL,
+   	matricula_admin VARCHAR(20),
+    data_modificacao_admin timestamp without time zone NOT NULL,
     CONSTRAINT hora_pkey PRIMARY KEY (id),
     CONSTRAINT hora_cnpj_cliente_fkey FOREIGN KEY (cnpj_cliente)
     	REFERENCES public.cliente (cnpj),
@@ -79,5 +81,7 @@ CREATE TABLE hora(
     CONSTRAINT hora_matricula_lancador_fkey FOREIGN KEY (matricula_lancador)
     	REFERENCES public.usuario (matricula),
     CONSTRAINT hora_matricula_gestor_fkey FOREIGN KEY (matricula_gestor)
+    	REFERENCES public.usuario(matricula),
+    CONSTRAINT hora_matricula_admin_fkey FOREIGN KEY (matricula_admin)
     	REFERENCES public.usuario(matricula)
 );
