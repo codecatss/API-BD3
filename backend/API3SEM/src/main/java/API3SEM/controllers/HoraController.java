@@ -155,7 +155,12 @@ public class HoraController {
         if(hora.tipo().contains("ex")){
             hour.setTipo(TipoEnum.EXTRA.name());
         }else {
-            hour.setTipo(TipoEnum.SOBREAVISO.name());
+            if(hora.tipo().contains("sobre")){
+                hour.setTipo(TipoEnum.SOBREAVISO.name());
+            }
+            else{
+                throw new ApiException("Parâmetro sobreaviso incorreto");
+            }
         }
 
         hour.setJustificativa(hora.justificativa());
