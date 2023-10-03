@@ -1,8 +1,4 @@
-var acessoPorFuncao = {
-    "admin": ["ADM.Cliente.html", "ADM.CR.html", "ADM.Usuario.html", "admCadastros.html"],
-    "gestor": ["clienteCadastro.html"],
-    "colaborador": ["COLABORADOR.Hora.html"]
-};
+import acessoPorFuncao from './roles.js';
 
 $(document).ready(function() {
     $(".login").click(function() {
@@ -23,7 +19,7 @@ function logIn(username, password) {
             if (data.token) {
                 localStorage.setItem("jwt", data.token);
                 getUserRole(username, data.token);
-                alert("Login bem-sucedido!");
+                // alert("Login bem-sucedido!");
             } else {
                 alert("Credenciais inválidas. Tente novamente.");
             }
@@ -43,11 +39,23 @@ function getUserRole(username, token) {
         },
         dataType: "json",
         success: function(response) {
-            var roleUsuario = response.funcao;
-            alert(`Função do usuário: ${roleUsuario}`);
+            let roleUsuario = response.funcao;
+            localStorage.setItem("role", roleUsuario)
+            // alert(`Função do usuário: ${roleUsuario}`);
+            redirectToPage(roleUsuario);
         },
         error: function(error) {
             console.error("Erro ao obter a função do usuário:", error);
         }
     });
+}
+
+function redirectToPage(role) {
+    const allowedPages = acessoPorFuncao[role];
+
+    if (allowedPages && allowedPages.length > 0) {
+        window.location.href = allowedPages[0];
+    } else {
+        window.alert("Erro KKKKKK");
+    }
 }
