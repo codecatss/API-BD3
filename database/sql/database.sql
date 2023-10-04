@@ -85,3 +85,22 @@ CREATE TABLE hora(
     CONSTRAINT hora_matricula_admin_fkey FOREIGN KEY (matricula_admin)
     	REFERENCES public.usuario(matricula)
 );
+
+CREATE TABLE IF NOT EXISTS public.parametrizacao
+(
+    id integer NOT NULL,
+    hora_inicio time without time zone,
+    hora_fim time without time zone,
+    exclusivo_fds boolean NOT NULL DEFAULT (true),
+    remuneracao SMALLINT NOT NULL,
+    CONSTRAINT parametrizacao_pkey PRIMARY KEY (id)
+);
+
+INSERT INTO public.parametrizacao(
+	id, hora_inicio, hora_fim, exclusivo_fds, remuneracao)
+	VALUES 
+	(1601, '06:00', '22:00', false, 75),
+	(1602, '06:00', '22:00', false, 100),
+	(3000, '22:01', '05:59', false, 75),
+	(3001, '22:01', '05:59', false, 100),
+	(1809, '00:00', '24:00', false, 30)
