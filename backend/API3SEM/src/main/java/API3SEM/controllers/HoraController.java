@@ -136,7 +136,7 @@ public class HoraController {
                         partialData.status_aprovacao().equals(AprovacaoEnum.NEGADO_GESTOR.name())) {
                     if (hora.getMatricula_admin() == null) {
 
-                        // Verifica se a matrícula do gestor e a data da ação vieram na requisição
+                        // Verifica se a matrícula do gestor veio na requisição
                         if (partialData.matricula_gestor() != null) {
 
                             // Em caso de negação, verifica se a justificativa está preenchida
@@ -174,9 +174,10 @@ public class HoraController {
                     } else {
                         throw new ApiException("Essa hora já passou pelo ciclo de aprovação do admin! :'(");
                     }
+                    // Verifica se esse status é igual a APROVADO_ADMIN ou NEGADO_ADMIN
                 } else if (partialData.status_aprovacao().equals(AprovacaoEnum.APROVADO_ADMIN.name()) ||
                         partialData.status_aprovacao().equals(AprovacaoEnum.NEGADO_ADMIN.name())) {
-                    // Verifica se a hora já foi aprovada por um gestor ou por um admin
+                    // Verifica se a hora já foi aprovada por um gestor
                     if(hora.getMatricula_gestor() != null) {
 
                         // Verifica se a matrícula do admin da ação vieram na requisição
@@ -209,8 +210,8 @@ public class HoraController {
                         } else { // Admin não foi preenchido
                             throw new ApiException("Deve-se indicar o admin da ação! >:|");
                         }
-                    }else{ // A hora estava como PENDENTE ou NEGADO_GESTOR
-                        throw new ApiException("O admin não pode aprovar ou negar sem a aprovação do gestor! >:)");
+                    }else{ // A hora estava sem a matrícula do gestor
+                        throw new ApiException("O admin não pode aprovar ou negar sem a hora ter passado pelo ciclo de aprovação do gestor! >:)");
 
                     }
                 } else{ // Não bateu com nenhum dos status válidos
