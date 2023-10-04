@@ -71,8 +71,14 @@ public class Hora {
     @Column(name = "data_lancamento", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Timestamp data_lancamento;
 
-    @Column(name = "data_modificacao", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
-    private Timestamp data_modificacao;
+    @Column(name = "data_modificacao_gestor", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
+    private Timestamp data_modificacao_gestor;
+
+    @Column (name="matricula_admin", length= 20)
+    private String matricula_admin;
+
+    @Column(name = "data_modificacao_admin", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
+    private Timestamp data_modificacao_admin;
 
     public Hora(HoraDTOs.HoraRequestDTO data){
         this.id = data.id();
@@ -89,6 +95,9 @@ public class Hora {
         this.justificativa_negacao = data.justificativa_negacao();
         this.matricula_gestor = data.matricula_gestor();
         this.data_lancamento = data.data_lancamento();
+        this.data_modificacao_gestor = data.data_modificacao_gestor();
+        this.matricula_admin = data.matricula_admin();
+        this.data_modificacao_admin = data.data_modificacao_admin();
     }
 
 
