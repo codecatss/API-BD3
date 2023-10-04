@@ -14,10 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.constraints.Null;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -130,26 +128,97 @@ public class HoraController {
         Hora hora = horaRepository.findById(id).orElseThrow(() -> new RuntimeException("Hora não encontrada com o id: " + id));
 
         try {
+            // Verifica se está chegando algum status para a hora
             if (partialData.status_aprovacao() != null) {
-                if (partialData.status_aprovacao().equals(AprovacaoEnum.APROVADO_GESTOR.name())) {
-                    hora.setStatus_aprovacao(partialData.status_aprovacao());
-                }
-                else if (partialData.status_aprovacao().equals(AprovacaoEnum.NEGADO_GESTOR.name())){
-                    if(partialData.justificativa_negacao() != null) {
-                        hora.setStatus_aprovacao(partialData.status_aprovacao());
-                        hora.setJustificativa_negacao(partialData.justificativa_negacao());
-                    }else{
-                        throw new ApiException("Deve-se colocar uma justificativa em caso de negação >:|");
+
+                // Verifica se esse status é igual a APROVADO_GESTOR ou NEGADO_GESTOR
+                if(partialData.status_aprovacao().equals(AprovacaoEnum.APROVADO_GESTOR.name()) ||
+                        partialData.status_aprovacao().equals(AprovacaoEnum.NEGADO_GESTOR.name())) {
+                    if (hora.getMatricula_admin() == null) {
+
+                        // Verifica se a matrícula do gestor veio na requisição
+                        if (partialData.matricula_gestor() != null) {
+
+                            // Em caso de negação, verifica se a justificativa está preenchida
+                            if (partialData.status_aprovacao().equals(AprovacaoEnum.NEGADO_GESTOR.name())) {
+                                if (partialData.justificativa_negacao() != null) {
+
+                                    // Setta tudo (é tudo ou nada)
+                                    hora.setStatus_aprovacao(partialData.status_aprovacao());
+                                    hora.setMatricula_gestor(partialData.matricula_gestor());
+                                    hora.setJustificativa_negacao(partialData.justificativa_negacao());
+
+                                    // Verifica se veio a data de modificação
+                                    if (partialData.data_modificacao_gestor() != null) {
+                                        hora.setData_modificacao_gestor(partialData.data_modificacao_gestor());
+                                    } else { // Se não veio, configura como agora
+                                        hora.setData_modificacao_gestor(new Timestamp(System.currentTimeMillis()));
+                                    }
+
+                                } else {
+                                    throw new ApiException("Deve-se colocar uma justificativa em caso de negação >:|");
+                                }
+                            } else { // É aprovação, tudo preenchido
+                                // Setta tudo
+                                hora.setStatus_aprovacao(partialData.status_aprovacao());
+                                hora.setMatricula_gestor(partialData.matricula_gestor());
+                                if (partialData.data_modificacao_gestor() != null) {
+                                    hora.setData_modificacao_gestor(partialData.data_modificacao_gestor());
+                                } else {
+                                    hora.setData_modificacao_gestor(new Timestamp(System.currentTimeMillis()));
+                                }
+                            }
+                        } else { // Gestor da ação não foi preenchido
+                            throw new ApiException("Deve-se indicar o gestor da ação! >:|");
                         }
-                } else{
+                    } else {
+                        throw new ApiException("Essa hora já passou pelo ciclo de aprovação do admin! :'(");
+                    }
+                    // Verifica se esse status é igual a APROVADO_ADMIN ou NEGADO_ADMIN
+                } else if (partialData.status_aprovacao().equals(AprovacaoEnum.APROVADO_ADMIN.name()) ||
+                        partialData.status_aprovacao().equals(AprovacaoEnum.NEGADO_ADMIN.name())) {
+                    // Verifica se a hora já foi aprovada por um gestor
+                    if(hora.getMatricula_gestor() != null) {
+
+                        // Verifica se a matrícula do admin da ação vieram na requisição
+                        if (partialData.matricula_admin() != null) {
+
+                            // Em caso de negação, verifica se a justificativa está preenchida
+                            if (partialData.status_aprovacao().equals(AprovacaoEnum.NEGADO_ADMIN.name())) {
+                                if (partialData.justificativa_negacao() != null) {
+                                    // Setta tudo (é tudo ou nada)
+                                    hora.setStatus_aprovacao(partialData.status_aprovacao());
+                                    hora.setMatricula_admin(partialData.matricula_admin());
+                                    hora.setJustificativa_negacao(partialData.justificativa_negacao());
+                                    if (partialData.data_modificacao_admin() != null) {
+                                        hora.setData_modificacao_admin(partialData.data_modificacao_admin());
+                                    } else {
+                                        hora.setData_modificacao_admin(new Timestamp(System.currentTimeMillis()));
+                                    }
+                                } else { // Veio sem justificativa
+                                    throw new ApiException("Deve-se colocar uma justificativa em caso de negação >:|");
+                                }
+                            } else { // É aprovação, tudo preenchido
+                                hora.setStatus_aprovacao(partialData.status_aprovacao());
+                                hora.setMatricula_admin(partialData.matricula_admin());
+                                if (partialData.data_modificacao_admin() != null) {
+                                    hora.setData_modificacao_admin(partialData.data_modificacao_admin());
+                                } else {
+                                    hora.setData_modificacao_admin(new Timestamp(System.currentTimeMillis()));
+                                }
+                            }
+                        } else { // Admin não foi preenchido
+                            throw new ApiException("Deve-se indicar o admin da ação! >:|");
+                        }
+                    }else{ // A hora estava sem a matrícula do gestor
+                        throw new ApiException("O admin não pode aprovar ou negar sem a hora ter passado pelo ciclo de aprovação do gestor! >:)");
+
+                    }
+                } else{ // Não bateu com nenhum dos status válidos
                     throw new ApiException("Deve-se colocar um status válido para a hora! >:|");
                 }
-            }
-            if (partialData.matricula_gestor() != null) {
-                hora.setMatricula_gestor(partialData.matricula_gestor());
-            }
-            if (partialData.data_modificacao() != null) {
-                hora.setData_modificacao(partialData.data_modificacao());
+            } else{ // Status chegou null
+                throw new ApiException("O status da hora não pode ser nulo! >:|");
             }
         } catch (Exception e) {
             throw new ApiException("Erro ao atualizar hora: " + e.getMessage());
@@ -200,8 +269,6 @@ public class HoraController {
         hour.setCnpj(hora.cnpj());
         hour.setStatus_aprovacao(AprovacaoEnum.PENDENTE.name());
 
-
-
         if(hora.justificativa_negacao()!= null && !hora.justificativa_negacao().equals("")){
             hour.setJustificativa_negacao(hora.justificativa_negacao());
         }
@@ -212,7 +279,22 @@ public class HoraController {
 
         hour.setData_lancamento(new Timestamp(System.currentTimeMillis()));
 
-        hour.setData_modificacao(new Timestamp(System.currentTimeMillis()));
+        if(hora.data_modificacao_gestor() != null){
+            hour.setData_modificacao_gestor(hora.data_modificacao_gestor());
+        }else{
+            hour.setData_modificacao_gestor(new Timestamp(System.currentTimeMillis()));
+        }
+
+        if(hora.matricula_admin() != null && !hora.matricula_admin().equals("")){
+            hour.setMatricula_admin(hora.matricula_admin());
+        }
+
+        if(hora.data_modificacao_admin() != null){
+            hour.setData_modificacao_admin(hora.data_modificacao_admin());
+        }else{
+            hour.setData_modificacao_admin(new Timestamp(System.currentTimeMillis()));
+        }
+
         horaRepository.save(hour);
     }
 }
