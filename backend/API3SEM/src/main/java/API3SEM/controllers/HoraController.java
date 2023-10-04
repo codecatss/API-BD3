@@ -270,7 +270,7 @@ public class HoraController {
         if(hora.data_modificacao_gestor() != null){
             hour.setData_modificacao_gestor(hora.data_modificacao_gestor());
         }else{
-            hour.setData_modificacao_admin(new Timestamp(System.currentTimeMillis()));
+            hour.setData_modificacao_gestor(new Timestamp(System.currentTimeMillis()));
         }
 
         if(hora.matricula_admin() != null && !hora.matricula_admin().equals("")){
