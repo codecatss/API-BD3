@@ -1,87 +1,213 @@
 <!DOCTYPE html>
-<html lang="pt br">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles/reset.css">
+    <link rel="stylesheet" href="../styles/global.styles.css">
     <link rel="stylesheet" href="../styles/admAprovacao.css">
-    <title>Aprovação Horas</title>
+    <link rel="shortcut icon" href="../assets/logo2rp.svg" type="image/x-icon">
+    <title>Aprovar horas</title>
 </head>
 
 <body>
-    <div class="grid-screen">
-
-        <header class="topnav">
-            <div class="title-screen">
-                <h1>Aprovação Horas</h1>
+    <div class="container">
+        <div class="menu">
+            <div class="logo">
+                <img src="../assets/transparent-icons/2rp.svg" alt="" srcset="">
             </div>
-
-            <div class="account">
-                <ul>
-                    <li class="perfil-user"><a href="#">Xica Silva <span class="seta-dropdown">▼</span></a>
-                        <ul class="dropdown">
-                            <li><a href="#">Alterar Senha</a></li>
-                            <li><a href="#">Logout</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </header>
-
-        <nav class="panelnav">
-            <div class="logo2rp">
-                <img class="logo" src="../assets/logo2rp.svg" alt="Logo da Empresa">
-            </div>
-            <ul class="menu">
-                <li><a href="#"><img src="../assets/iconeDashboard.svg" alt="Ícone Dashboard">Dashboard</a></li>
-                <li><a href="#"><img src="../assets/iconeUsuario.svg" alt="Ícone Usuários">Usuário</a></li>
-                <li><a href="#"><img src="../assets/iconeCliente.svg" alt="Ícone Clientes">Cliente</a></li>
-                <li><a href="#"><img src="../assets/iconeCR.svg" alt="Ícone CR">CR</a></li>
-                <li class="activation"><a href="#"><img src="../assets/iconeAprovar.svg" alt="Ícone Aprovar">Aprovar
-                        Horas</a></li>
-                <li><a href="#"><img src="../assets/iconeParametriz.svg" alt="Ícone Parametrização">Parametrização</a>
+            <ul class="main-menu">
+                <li class="menu-item">
+                    <img src="../assets/transparent-icons/dashboard.svg" alt="" srcset="">
+                    <a href="#">Dashboard</a>
+                </li>
+                <li class="menu-item ">
+                    <img src="../assets/transparent-icons/user.svg" alt="" srcset="">
+                    <a href="./ADM.Usuario.html">Usuários</a>
+                </li>
+                <li class="menu-item">
+                    <img src="../assets/transparent-icons/client.svg" alt="" srcset="">
+                    <a href="./ADM.Cliente.html">Clientes</a>
+                </li>
+                <li class="menu-item active-page">
+                    <img src="../assets/transparent-icons/cr.svg" alt="" srcset="">
+                    <a href="./ADM.CR.html">CR</a>
+                </li>
+                <li class="menu-item">
+                    <img src="../assets/transparent-icons/approve.svg" alt="" srcset="">
+                    <a href="#">Aprovar Horas</a>
+                </li>
+                <li class="menu-item">
+                    <img src="../assets/transparent-icons/parameterization.svg" alt="" srcset="">
+                    <a href="#">Parametrização</a>
                 </li>
             </ul>
-        </nav>
+        </div>
 
-        <nav class="interactivebar">
-            <input type="text" name="q" placeholder="Pesquisar" class="search-bar">
-            <button onclick="" class="Apr-button">Aprovar</button>
-            <button onclick="" class="Rep-button">Reprovar</button>
-            <dialog id="modal-content" class="modal-content">
-                <div class="form-modal">
-                    <div class="inModal">
-                    </div>
-                    <div class="modal-buttons">
-                        <button onclick="closeModal()" class="close-button"></button>
-                        <button onclick="" class="add-check"></button>
+        <div class="main-content">
+            <div class="header">
+                <h1>Aprovar horas</h1>
+                <div class="user-content">
+                    <img src="" alt=""
+                        srcset="https://cdn1.iconfinder.com/data/icons/user-pictures/101/malecostume-512.png">
+                    <section class="account">
+                        <ul>
+                            <li class="perfil-user">John Doe <img class="seta-dropdown" src="../assets/seta.svg" alt="">
+                                <ul class="dropdown">
+                                    <li><a href="#">Alterar Senha</a></li>
+                                    <li><a href="#">Logout</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </section>
+                </div>
+            </div>
+            <div class="search-bar">
+                <div class="content">
+                    <div class="button">
+                        <div class="search-content">
+                            <input class="input-search" type="text" name="" id="" placeholder="Pesquisar">
+                            <a class="search-icon">
+                                <img src="../assets/lupa.svg" alt="">
+                            </a>
+    
+                        </div>
+                        <button id="aprovarBotao" class="aprovar-button"
+                            style="margin-left: 1px;">Aprovar</button>
+                        <button id="reprovarBotao" class="reprovar-button"
+                            style="margin-left: 1px;">Reprovar</button>
                     </div>
                 </div>
-            </dialog>
-        </nav>
+            </div>
+            <div class="colunName">
+                <ul>
+                    <li>Status</li>
+                    <li>Colaborador</li>
+                    <li>CR</li>
+                    <li>Cliente</li>
+                    <li>Tipo</li>
+                    <li>Início</li>
+                    <li>Fim</li>
+                    <li>Justificativa</li>
+                </ul>
+            </div>
 
-        <nav class="main-content">
-            <table id="tabelaAprovacao">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>Colaborador</th>
-                        <th>CR</th>
-                        <th>Cliente</th>
-                        <th>Projeto</th>
-                        <th>Tipo</th>
-                        <th>Início</th>
-                        <th>Fim</th>
-                        <th>Justificativa</th>
-                    </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
-        </nav>
+            <div>
+                <ul class="list-of-itens">
+
+                </ul>
+            </div>
+        </div>
     </div>
 
+
+    <div class="modal" id="myModal">
+        <div class="modal-container">
+            <div class="modal-content">
+                <span class="close" id="closeModal">&times;</span>
+                <form action="">
+                    <div class="rectangle-24"></div>
+                    <button class="cancelar ">
+                        cancelar
+                    </button>
+
+                    <div class="title-modal">Adicionar CR's</div>
+
+                    <input class="input-3" name="nome" type="text">
+                    <input class="input-2" name="sigla" type="text">
+                    <input class="input-1" name="codigoCr" type="text">
+                    <div class="nome-input">Nome</div>
+                    <div class="sigla-input">Sigla</div>
+                    <div class="codCr-input">Código do CR</div>
+                    <button id="confirmarCR" class="confirmar">Confirmar</button>
+                </form>
+
+
+
+
+
+            </div>
+        </div>
+
+    </div>
+
+    <div class="modal" id="myModalUpdate">
+        <div class="modal-container">
+            <div class="modal-content">
+                <span class="close" id="closeModal">&times;</span>
+                <form action="">
+                    <div class="rectangle-24"></div>
+                    <button class="cancelar ">
+                        cancelar
+                    </button>
+
+                    <div class="title-modal">Editar CR's</div>
+
+                    <input class="input-3" name="nomeUpdate" type="text">
+                    <input class="input-2" name="siglaUpdate" type="text">
+                    <input class="input-1" disabled name="codigoCrUpdate" type="text">
+                    <div class="nome-input">Nome</div>
+                    <div class="sigla-input">Sigla</div>
+                    <div class="codCr-input">Código do CR</div>
+                    <button id="confirmarCRUpdate" class="confirmar">Confirmar</button>
+                </form>
+
+
+
+
+
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+    <div class="success-message" id="successMessage">
+        CR ADICIONADO COM SUCESSO
+    </div>
+
+    <div class="error-message" id="errorMessage">
+        Erro ao adicionar o CR.
+    </div>
+
+
+    <div class="modal" id="myModalAddMember">
+        <div class="">
+            <div class="gerenciar-cr" id="gerenciar-cr">
+                <ul class="list-users" id="listUsers">
+
+                </ul>
+
+                <div class="rectangle-31"></div>
+                <div class="rectangle-27"></div>
+
+                <ul class="members-Cr" id="membersCr"></ul>
+                <div class="rectangle-23"></div>
+                <div class="rectangle-33"></div>
+                <div class="usu-rio">Usuário</div>
+                <div class="usu-rio2">Usuário</div>
+                <div class="fun-o">Função</div>
+                <button class="removerUsuario" id="removerUsuario">Remover</button>
+                <button class="adicionarUsuario" id="adicionarUsuario">Adicionar</button>
+                <div class="navbar">Gerenciar CR {nome do CR}</div>
+
+
+
+                <div class="voltar" class="close" id="closeModal">Voltar</div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <script type="module" src="../scripts/index.js"></script>
+
 </body>
-<script src="../scripts/admAprovacao.js"></script>
 
 </html>
