@@ -6,6 +6,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public enum TipoEnum {
-    SOBREAVISO, EXTRA("Hora-extra");
+    SOBREAVISO,ACIONAMENTO, EXTRA("Hora-extra");
     private String nome;
 }
