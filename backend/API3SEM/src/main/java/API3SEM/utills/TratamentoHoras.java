@@ -6,6 +6,7 @@ import java.time.Instant;
 import java.util.List;
 
 public class TratamentoHoras {
+    
     /**
      * Converte um total de horas reais em horas noturna para serempagas
      * 

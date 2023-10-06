@@ -27,7 +27,7 @@ class TratamentoHorasTest {
         teste.add(inicio);
         teste.add(fim);
         Double expected = 120 * 1.142;
-        assertEquals(expected, TratamentoHoras.getProporcionalNoturna(teste), 0, "errou boco");
+        assertEquals(expected, TratamentoHoras.getProporcionalNoturna(teste), 0, "Erro na função 'getProporcionalNoturna' na pasta utils");
     }
 
 }
