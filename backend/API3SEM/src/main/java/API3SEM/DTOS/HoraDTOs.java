@@ -1,7 +1,6 @@
 package API3SEM.DTOS;
 
 import API3SEM.entities.Hora;
-import jakarta.persistence.Column;
 
 import java.sql.Timestamp;
 
@@ -20,7 +19,9 @@ public record HoraDTOs(
         String justificativa_negacao,
         String matricula_gestor,
         Timestamp data_lancamento,
-        Timestamp data_modificacao
+        Timestamp data_modificacao_gestor,
+        String matricula_admin,
+        Timestamp data_modificacao_admin
 ) {
 
     public HoraDTOs(Hora hora){
@@ -39,7 +40,9 @@ public record HoraDTOs(
                 hora.getJustificativa_negacao(),
                 hora.getMatricula_gestor(),
                 hora.getData_lancamento(),
-                hora.getData_modificacao()
+                hora.getData_modificacao_gestor(),
+                hora.getMatricula_admin(),
+                hora.getData_modificacao_admin()
         );
     }
 
@@ -58,7 +61,9 @@ public record HoraDTOs(
             String justificativa_negacao,
             String matricula_gestor,
             Timestamp data_lancamento,
-            Timestamp data_modificacao
+            Timestamp data_modificacao_gestor,
+            String matricula_admin,
+            Timestamp data_modificacao_admin
     ) {
 
     }
