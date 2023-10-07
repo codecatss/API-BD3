@@ -133,20 +133,23 @@ public class HoraController {
         horas.forEach(hora -> {
 
 
-            Hora hour = new Hora(hora);
 
             if(hora.getTipo().equals(TipoEnum.SOBREAVISO.name())){
+                Hora hour = new Hora(hora);
                 List<Hora >listaAcionamentos = new ArrayList<>();
                 horas.forEach(hora1 -> {
                     if(hora1.getTipo().equals(TipoEnum.ACIONAMENTO.name()) && hora1.getCodcr().equals(hora.getCodcr())){
                         listaAcionamentos.add(hora1);
                     }
                 });
-               
+
                 hour.setLista_de_acionamentos(listaAcionamentos);
+                listaHora.add(hour);
+            }else if (hora.getTipo().equals(TipoEnum.EXTRA.name())){
+                listaHora.add(hora);
+
             }
 
-            listaHora.add(hour);
         });
 
 
