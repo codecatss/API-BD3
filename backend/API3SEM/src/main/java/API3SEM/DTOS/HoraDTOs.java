@@ -3,6 +3,7 @@ package API3SEM.DTOS;
 import API3SEM.entities.Hora;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 public record HoraDTOs(
         Integer id,
@@ -21,7 +22,8 @@ public record HoraDTOs(
         Timestamp data_lancamento,
         Timestamp data_modificacao_gestor,
         String matricula_admin,
-        Timestamp data_modificacao_admin
+        Timestamp data_modificacao_admin,
+        List<Hora> lista_de_acionamentos
 ) {
 
     public HoraDTOs(Hora hora){
@@ -42,7 +44,8 @@ public record HoraDTOs(
                 hora.getData_lancamento(),
                 hora.getData_modificacao_gestor(),
                 hora.getMatricula_admin(),
-                hora.getData_modificacao_admin()
+                hora.getData_modificacao_admin(),
+                hora.getLista_de_acionamentos()
         );
     }
 
