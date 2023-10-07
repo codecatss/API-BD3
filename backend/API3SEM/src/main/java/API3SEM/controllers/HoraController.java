@@ -111,16 +111,50 @@ public class HoraController {
         return ResponseEntity.ok(response);          
     }
 
+    @GetMapping("/todas")
+    public ResponseEntity<List<Hora>> listarTodasHoras(
+
+    ) {
+        List<Hora> horas = horaRepository.findAllHoras();
+        System.out.println(horas);
+
+        return new ResponseEntity<>(horas, HttpStatus.OK);
+    }
 
     @GetMapping
-    public ResponseEntity<List<HoraDTOs>> listarHoras() {
+    public ResponseEntity<List<Hora>> listarHoras() {
+
+
+        List<Hora >listaHora = new ArrayList<>();
+
         List<Hora> horas = horaRepository.findAll();
 
-        List<HoraDTOs> horasResponse = horas.stream()
-                .map(HoraDTOs::new)
-                .collect(Collectors.toList());
 
-        return new ResponseEntity<>(horasResponse, HttpStatus.OK);
+        horas.forEach(hora -> {
+
+
+
+            if(hora.getTipo().equals(TipoEnum.SOBREAVISO.name())){
+                Hora hour = new Hora(hora);
+                List<Hora >listaAcionamentos = new ArrayList<>();
+                horas.forEach(hora1 -> {
+                    if(hora1.getTipo().equals(TipoEnum.ACIONAMENTO.name()) && hora1.getCodcr().equals(hora.getCodcr())){
+                        listaAcionamentos.add(hora1);
+                    }
+                });
+
+                hour.setLista_de_acionamentos(listaAcionamentos);
+                listaHora.add(hour);
+            }else if (hora.getTipo().equals(TipoEnum.EXTRA.name())){
+                listaHora.add(hora);
+
+            }
+
+        });
+
+
+
+        return new ResponseEntity<>(listaHora, HttpStatus.OK);
     }
 
     @PatchMapping("/{id}")
