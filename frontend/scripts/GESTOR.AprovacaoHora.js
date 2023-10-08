@@ -2,7 +2,7 @@
 
 const listarHoras = async () => {
     try {
-        const response = await fetch('http://localhost:8080/hora');
+        const response = await fetch('http://localhost:8080/hora/pendentes');
         if (!response.ok) {
             throw new Error('Não foi possível obter os dados.');
         }
@@ -271,7 +271,7 @@ btnAprovar.addEventListener("click", async function () {
     // Exiba os IDs das horas selecionadas
     if (horasSelecionadas.length > 0) {
 
-        horasSelecionadas.forEach(async function (idHora) {
+        const promises = horasSelecionadas.map(async function (idHora) {
             console.log(idHora);
             await atualizarHora(idHora, {
                 status_aprovacao: "APROVADO_GESTOR",
@@ -280,24 +280,21 @@ btnAprovar.addEventListener("click", async function () {
             });
         });
 
+        await Promise.all(promises);
+
         // Update the list after the approval
         listaHoras.innerHTML = "";
+
+        const horasCadastradas = await listarHoras();
+
         await carregarHorasNaLista(horasCadastradas);
 
-        console.log(horasSelecionadas)
         horasSelecionadas = [];
-        console.log(horasSelecionadas)
-
-
-
-
 
     } else {
         alert("Nenhuma hora foi marcada para aprovação.");
     }
 });
-
-
 
 const btnReprovar = document.querySelector(".hora-reprova");
 
@@ -327,6 +324,8 @@ btnReprovar.addEventListener("click", async function () {
                 justificativa_negacao: "Não foi possível aprovar a hora.",
             });
             listaHoras.innerHTML = "";
+            const horasCadastradas = await listarHoras();
+
             await carregarHorasNaLista(horasCadastradas);
 
         });
