@@ -28,6 +28,7 @@ p {
 .logo {
   width: 155px;
   height: 100px;
+  border: 1px solid red;
 }
 
 .lupa {
@@ -394,4 +395,450 @@ p {
   display: flex;
 
   gap: 30px;
+}
+
+.addinputbar {
+  display: flex;
+  align-items: center;
+  background-color: #24242d;
+  height: auto; /* Definir altura automática para ajustar o conteúdo */
+  width: 100%; /* Largura de 100% para ocupar toda a largura disponível */
+  max-width: 1500px; /* Largura máxima para evitar que a div cresça demais */
+  margin-bottom: var(--medium-pad);
+  border-radius: 10px;
+}
+
+.addinputbar input {
+  margin-bottom: 30px;
+  margin-right: 50px;
+  margin-left: 50px;
+}
+
+.addinputbar select {
+  margin-bottom: 20px;
+  margin-right: 50px;
+  margin-left: 20px;
+}
+
+.addinputbar .input-bar {
+  margin-left: var(--small-pad);
+  background-color: #d9d9d9;
+  border-radius: 7px;
+  height: 30px;
+  width: 150px;
+  color: #746868;
+  font-size: 20px;
+}
+
+.input-bar {
+  padding-left: 7px;
+  font-size: 15px;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  overflow-x: auto;
+}
+
+.input {
+  display: grid;
+  margin-top: 10px;
+  margin-left: 10px;
+}
+
+.coluna1 {
+  padding: 5px;
+  margin-right: 5px;
+}
+
+.coluna2 {
+  padding: 5px;
+  margin-right: 5px;
+}
+
+.coluna3 {
+  padding: 5px;
+  margin-right: 5px;
+}
+
+.tipo {
+  display: flex;
+  justify-content: space-between;
+}
+
+.cliente {
+  display: flex;
+  justify-content: space-between;
+
+  height: 40px;
+}
+.cr {
+  display: flex;
+  justify-content: space-between;
+
+  height: 40px;
+}
+
+.justificativa {
+  display: flex;
+  justify-content: space-between;
+}
+
+.content {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.datainicio {
+  display: flex;
+}
+
+.horainicio {
+  display: flex;
+}
+
+.projeto {
+  display: flex;
+}
+
+.datafim {
+  display: flex;
+}
+
+.horafim {
+  display: flex;
+}
+
+.solicitante {
+  display: flex;
+}
+
+.limpar-button {
+  background-color: #d86666;
+  color: #000000;
+  font-family: "Arial", sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.adicionar-button {
+  background-color: #8dd88b;
+  color: #000000;
+  font-family: "Arial", sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.acionamento-button {
+  background-color: #63c0f4;
+  color: #000000;
+  font-family: "Arial", sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.button {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.button button {
+  width: 150px;
+  height: 40px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 10px;
+  flex-direction: row;
+  justify-content: center;
+  gap: 30px;
+  display: inline-block;
+  margin-bottom: 10px;
+}
+
+.custom-label {
+  font-family: "Arial", sans-serif;
+  font-size: 20px;
+  font-weight: bold;
+  color: #ffffff;
+  margin-right: 20px;
+}
+
+.small-input {
+  width: 50px;
+}
+
+#tabelaLancamento {
+  background-color: #b3a4de;
+  color: #000000;
+  font-size: 20px;
+  padding: var(--small-pad);
+  display: grid;
+  grid-template-columns: 0.5fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  border-radius: 5px;
+  padding: 5px 20px;
+}
+
+#listaHoras {
+  margin-top: 10px;
+  max-height: 550px;
+  overflow-y: auto;
+  border-radius: 13px;
+  background-color: #24242d;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.btnver {
+  border-style: dashed;
+  background-color: transparent;
+  border-color: black;
+  width: 90px;
+}
+
+.horaLancada {
+  display: grid;
+  grid-template-columns: 0.5fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  border-radius: 5px;
+  background: #d9d9d9;
+  color: #000000;
+  padding: 10px 15px;
+  font-size: 14px;
+}
+
+.horaLancada:hover {
+  filter: brightness(1.2);
+}
+.horaLancada p {
+  align-self: center;
+}
+
+.botaoDesabilitado {
+  filter: brightness(0.4);
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+#selecionarEmpresa,
+#selecionarCr {
+  font-size: 14px;
+}
+
+#modalSobreAviso {
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 999;
+}
+
+.modal-content {
+  background: #0e0e12;
+  margin: 5% auto;
+  padding: 20px;
+  border: 25px solid var(--background-modal-content);
+  border-radius: 5px;
+  position: relative;
+  width: 801px;
+  height: 541px;
+  display: grid;
+  grid-template-columns: 2fr 4fr;
+}
+
+.inputs {
+  border-radius: 13px;
+  background: #24242d;
+  padding: 27px 54px;
+  display: flex;
+  flex-direction: column;
+  gap: 35px;
+}
+
+#horaInicioSobreaviso,
+#horaFimSobreaviso {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#horaInicioSobreaviso,
+#horaFimSobreaviso h2 {
+  margin-bottom: 10px;
+  color: #fff;
+
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 27.5px;
+}
+
+.dataInicioSobreaviso,
+.dataFimSobreaviso {
+  border-radius: 7px;
+  background: #d9d9d9;
+  height: 37px;
+  padding: 5px 10px;
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+
+.horaInicioSobreaviso,
+.horaFimSobreaviso {
+  border-radius: 7px;
+  background: #d9d9d9;
+  height: 37px;
+  padding: 5px 10px;
+}
+
+#botoesAcao {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+#botaoConfirmar {
+  border-radius: 7px;
+  background: #8dd88b;
+  width: 144px;
+  height: 42px;
+  color: #000;
+  font-family: Outfit;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 27.5px; /* 137.5% */
+}
+
+#botaoCancelar {
+  border-radius: 7px;
+  background: #d86666;
+  width: 144px;
+  height: 42px;
+  color: #000;
+  font-family: Outfit;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 27.5px; /* 137.5% */
+}
+
+#botaoSalvar {
+  border-radius: 7px;
+  background: #63c0f4;
+  width: 144px;
+  height: 42px;
+  color: #000;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 27.5px; /* 137.5% */
+}
+
+.listaDeLançamentos {
+  padding: 15px;
+}
+
+.tituloAcionamento {
+  color: #fff;
+  font-family: Outfit;
+  font-size: 36px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 27.5px; /* 76.389% */
+}
+
+.colunasTitutlos {
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: 2fr 2fr;
+  border-radius: 8px;
+  background: #b3a4de;
+  height: 30px;
+  padding-left: 10px;
+}
+
+.colunasTitutlos p {
+  align-self: center;
+  color: #000;
+}
+
+#listaDeHoras {
+  margin-top: 10px;
+  overflow-y: auto;
+  height: 440px;
+  border: 1px solid red;
+}
+
+.horaLiSobreaviso {
+  border-radius: 5px;
+  background: #d9d9d9;
+  height: 54px;
+  display: grid;
+  grid-template-columns: 2fr 2fr;
+  padding-left: 10px;
+  color: #000;
+  font-family: Outfit;
+
+  font-style: normal;
+  font-weight: 400;
+  line-height: 27.5px;
+  margin-bottom: 6px;
+}
+
+.horaLiSobreaviso:hover {
+  filter: brightness(1.2);
+}
+
+.horaLiSobreaviso p {
+  align-self: center;
+}
+
+.modal-content {
+  background-color: #6158d2;
+}
+
+.hora-pendente {
+  width: 90px;
+  background-color: #efb435;
+  text-align: center;
+  padding: 4px 3px;
+  border-radius: 7px;
+}
+
+.hora-negada {
+  width: 90px;
+  background-color: #d86666;
+  text-align: center;
+  padding: 4px 3px;
+  border-radius: 7px;
+}
+
+.hora-negada {
+  width: 90px;
+  background-color: #af2424;
+  text-align: center;
+  padding: 4px 3px;
+  border-radius: 7px;
+  color: white;
+}
+
+.hora-aprovada {
+  width: 90px;
+  background-color: #2e7a48;
+  text-align: center;
+  padding: 4px 3px;
+  border-radius: 7px;
+  color: white;
 }
