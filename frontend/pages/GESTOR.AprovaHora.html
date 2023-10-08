@@ -6,10 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../styles/reset.css">
     <link rel="stylesheet" href="../styles/global.styles.css">
+
     <link rel="stylesheet" href="../styles/GESTOR.AprovaHora.css">
+
     <link rel="shortcut icon" href="../assets/logo2rp.svg" type="image/x-icon">
 
-    <title>Apontamento De Horas</title>
+    <title>Aprovação De Horas</title>
 </head>
 
 <body>
@@ -19,20 +21,20 @@
                 <img src="../assets/transparent-icons/2rp.svg" alt="" srcset="">
             </div>
             <ul class="main-menu">
-                <li class="menu-item">
+                <li class="menu-item ">
                     <img src="../assets/iconeLancamento.svg" alt="" srcset="">
-                    <a href="#">Lançar Hora</a>
+                    <a href="./GESTOR.LancaHora.html">Lançar Hora</a>
                 </li>
                 <li class="menu-item active-page">
                     <img src="../assets/iconeApontamento.svg" alt="" srcset="">
-                    <a href="./ADM.Usuario.html">Apontamento</a>
+                    <a href="./GESTOR.AprovaHora.html">Apontamento</a>
                 </li>
             </ul>
         </div>
 
         <div class="main-content">
             <div class="header">
-                <h1>Apontamento de horas</h1>
+                <h1>Aprovação De Horas</h1>
                 <div class="user-content">
                     <img src="" alt=""
                         srcset="https://cdn1.iconfinder.com/data/icons/user-pictures/101/malecostume-512.png">
@@ -53,80 +55,45 @@
                     <div class="search-content">
                         <input class="input-search" type="text" name="" id="" placeholder="Pesquisar">
                     </div>
-                    <div class="button">
+                    <div class="buttons">
                         <button class="hora-aprova">Aprovar</button>
                         <button class="hora-reprova">Reprovar</button>
                     </div>
+
+
+                </div>
+            </div>
+
+            <nav class="tabela">
+                <div id="tabelaLancamento">
+                    <p></p>
+                    <p>Status</p>
+                    <p>Usuário</p>
+                    <p>Tipo</p>
+                    <p>Início</p>
+                    <p>Fim</p>
+                    <p>CR</p>
+                    <p>Cliente</p>
+                </div>
+                <ul id="listaHoras">
+
+                </ul>
+            </nav>
+
+
+
+            <div class="modal" id="modalSobreAviso">
+                <div class="modal-content">
+
 
                 </div>
             </div>
 
 
 
-        </div>
 
 
-    </div>
-    </div>
-
-
-    <div class="modal" id="myModal">
-        <div class="modal-container">
-            <div class="modal-content">
-                <span class="close" id="closeModal">&times;</span>
-                <form action="">
-                    <div class="rectangle-24"></div>
-                    <button class="cancelar ">
-                        cancelar
-                    </button>
-
-                    <div class="title-modal">Adicionar Cliente</div>
-
-                    <input class="input-3" name="cnpj" type="text">
-                    <input class="input-2" name="razao_social" type="text">
-                    <div class="nome-input">CNPJ</div>
-                    <div class="sigla-input">Razão Social</div>
-                    <button id="confirmarCR" class="confirmar">Confirmar</button>
-                </form>
-
-
-
-
-
-            </div>
-        </div>
-
-    </div>
-
-    <div class="modal" id="myModalUpdate">
-        <div class="modal-container">
-            <div class="modal-content">
-                <span class="close" id="closeModal">&times;</span>
-                <form action="">
-                    <div class="rectangle-24"></div>
-                    <button class="cancelar cancelarButton">
-                        cancelar
-                    </button>
-
-                    <div class="title-modal">Editar Cliente</div>
-
-                    <input class="input-2" name="razao_socialUpdate" type="text">
-                    <input class="input-3" disabled name="cnpjUpdate" type="text">
-                    <div class="sigla-input">Razão Social</div>
-                    <div class="nome-input">CNPJ</div>
-                    <button id="confirmarClienteUpdate" class="confirmar">Confirmar</button>
-                </form>
-
-
-
-
-
-            </div>
-        </div>
-
-    </div>
-
-
+            <script type="module" src="../scripts/GESTOR.AprovacaoHora.js"></script>
 
 </body>
 
