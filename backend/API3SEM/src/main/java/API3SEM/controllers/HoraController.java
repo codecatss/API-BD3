@@ -138,7 +138,10 @@ public class HoraController {
                 Hora hour = new Hora(hora);
                 List<Hora >listaAcionamentos = new ArrayList<>();
                 horas.forEach(hora1 -> {
-                    if(hora1.getTipo().equals(TipoEnum.ACIONAMENTO.name()) && hora1.getCodcr().equals(hora.getCodcr())){
+                    if (hora1.getTipo().equals(TipoEnum.ACIONAMENTO.name())
+                            && hora1.getCodcr().equals(hora.getCodcr())
+                            && hora1.getData_hora_inicio().after(hora.getData_hora_inicio())
+                            && hora1.getData_hora_fim().before(hora.getData_hora_fim())) {
                         listaAcionamentos.add(hora1);
                     }
                 });
@@ -148,6 +151,48 @@ public class HoraController {
             }else if (hora.getTipo().equals(TipoEnum.EXTRA.name())){
                 listaHora.add(hora);
 
+            }
+
+        });
+
+
+
+        return new ResponseEntity<>(listaHora, HttpStatus.OK);
+    }
+
+    @GetMapping("/pendentes")
+    public ResponseEntity<List<Hora>> horasAprovarGestor() {
+
+
+        List<Hora >listaHora = new ArrayList<>();
+
+        List<Hora> horas = horaRepository.findAll();
+
+
+        horas.forEach(hora -> {
+
+
+
+            if(!hora.getStatus_aprovacao().equals(AprovacaoEnum.APROVADO_ADMIN.name()) && !hora.getStatus_aprovacao().equals(AprovacaoEnum.NEGADO_ADMIN.name())){
+                System.out.println(hora.getId());
+                if(hora.getTipo().equals(TipoEnum.SOBREAVISO.name())){
+                    Hora hour = new Hora(hora);
+                    List<Hora >listaAcionamentos = new ArrayList<>();
+                    horas.forEach(hora1 -> {
+                        if (hora1.getTipo().equals(TipoEnum.ACIONAMENTO.name())
+                                && hora1.getCodcr().equals(hora.getCodcr())
+                                && hora1.getData_hora_inicio().after(hora.getData_hora_inicio())
+                                && hora1.getData_hora_fim().before(hora.getData_hora_fim())) {
+                            listaAcionamentos.add(hora1);
+                        }
+                    });
+
+                    hour.setLista_de_acionamentos(listaAcionamentos);
+                    listaHora.add(hour);
+                }else if (hora.getTipo().equals(TipoEnum.EXTRA.name())){
+                    listaHora.add(hora);
+
+                }
             }
 
         });
