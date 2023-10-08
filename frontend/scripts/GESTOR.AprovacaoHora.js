@@ -339,3 +339,17 @@ btnReprovar.addEventListener("click", async function () {
         alert("Nenhuma hora foi marcada para aprovação.");
     }
 });
+
+const checkboxes = document.querySelectorAll("input[type='checkbox']");
+
+
+checkboxes.forEach(function (checkbox) {
+    checkbox.addEventListener("change", function () {
+        const checkedCheckboxes = document.querySelectorAll("input[type='checkbox']:checked");
+        if (checkedCheckboxes.length > 1) {
+            btnReprovar.disabled = true;
+        } else {
+            btnReprovar.disabled = false;
+        }
+    });
+});
