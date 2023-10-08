@@ -140,6 +140,7 @@ public class HoraController {
                 horas.forEach(hora1 -> {
                     if (hora1.getTipo().equals(TipoEnum.ACIONAMENTO.name())
                             && hora1.getCodcr().equals(hora.getCodcr())
+                            && hora1.getLancador().equals(hora.getLancador())
                             && hora1.getData_hora_inicio().after(hora.getData_hora_inicio())
                             && hora1.getData_hora_fim().before(hora.getData_hora_fim())) {
                         listaAcionamentos.add(hora1);
