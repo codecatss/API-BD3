@@ -77,8 +77,8 @@ console.log(todosUsuarios)
 
 
 
+const listaHoras = document.getElementById("listaHoras");
 async function carregarHorasNaLista(horas) {
-    const listaHoras = document.getElementById("listaHoras");
     console.log("vou resetar o ul")
 
     listaHoras.innerHTML = "";
@@ -141,11 +141,13 @@ async function carregarHorasNaLista(horas) {
         ver.textContent = "VER";
         li.classList.add("horaLancada");
         ver.classList.add("btnver");
+
+        li.dataset.horaId = hora.id;
         li.append(checkbox, statusHora, lancador, tipoHora, inicioHora, fimHora, crHora, clienteHora, ver);
         listaHoras.appendChild(li);
 
 
-        li.addEventListener("click", function () {
+        ver.addEventListener("click", function () {
             const modal = document.getElementById("modalSobreAviso");
             modal.style.display = "block";
             console.log(hora.id)
@@ -181,6 +183,36 @@ await carregarHorasNaLista(horasCadastradas);
 
 
 
+
+
+async function atualizarHora(id, partialData) {
+    try {
+        const response = await fetch(`http://localhost:8080/hora/${id}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(partialData),
+        });
+
+        if (!response.ok) {
+            throw new Error('Erro ao atualizar a hora.');
+        }
+
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Erro na requisição:', error);
+        throw error;
+    }
+}
+
+
+
+
+
+
+
 // Adicione um ouvinte de eventos de input ao campo de pesquisa
 const inputSearch = document.querySelector(".input-search");
 
@@ -208,4 +240,103 @@ inputSearch.addEventListener("input", function () {
             hora.style.display = "none"; // Oculta a hora se não houver correspondência
         }
     });
+});
+
+
+
+
+
+
+
+// Array para armazenar os IDs das horas selecionadas
+let horasSelecionadas = [];
+
+// Adicione um ouvinte de eventos ao botão "Aprovar"
+const btnAprovar = document.querySelector(".hora-aprova");
+
+btnAprovar.addEventListener("click", async function () {
+    const checkboxes = document.querySelectorAll("input[type='checkbox']");
+
+    // Limpe o array de horas selecionadas a cada clique no botão
+    horasSelecionadas.length = 0;
+
+    checkboxes.forEach(function (checkbox) {
+        if (checkbox.checked) {
+            // Se o checkbox estiver marcado, obtenha o valor do ID da hora e adicione ao array
+            const idHora = checkbox.parentElement.dataset.horaId;
+            horasSelecionadas.push(idHora);
+        }
+    });
+
+    // Exiba os IDs das horas selecionadas
+    if (horasSelecionadas.length > 0) {
+
+        horasSelecionadas.forEach(async function (idHora) {
+            console.log(idHora);
+            await atualizarHora(idHora, {
+                status_aprovacao: "APROVADO_GESTOR",
+                matricula_gestor: 4533,
+                data_modificacao_gestor: new Date(),
+            });
+        });
+
+        // Update the list after the approval
+        listaHoras.innerHTML = "";
+        await carregarHorasNaLista(horasCadastradas);
+
+        console.log(horasSelecionadas)
+        horasSelecionadas = [];
+        console.log(horasSelecionadas)
+
+
+
+
+
+    } else {
+        alert("Nenhuma hora foi marcada para aprovação.");
+    }
+});
+
+
+
+const btnReprovar = document.querySelector(".hora-reprova");
+
+btnReprovar.addEventListener("click", async function () {
+    const checkboxes = document.querySelectorAll("input[type='checkbox']");
+
+    // Limpe o array de horas selecionadas a cada clique no botão
+    horasSelecionadas.length = 0;
+
+    checkboxes.forEach(function (checkbox) {
+        if (checkbox.checked) {
+            // Se o checkbox estiver marcado, obtenha o valor do ID da hora e adicione ao array
+            const idHora = checkbox.parentElement.dataset.horaId;
+            horasSelecionadas.push(idHora);
+        }
+    });
+
+    // Exiba os IDs das horas selecionadas
+    if (horasSelecionadas.length > 0) {
+
+        horasSelecionadas.forEach(async function (idHora) {
+            console.log(idHora);
+            await atualizarHora(idHora, {
+                status_aprovacao: "NEGADO_GESTOR",
+                matricula_gestor: 4533,
+                data_modificacao_gestor: new Date(),
+                justificativa_negacao: "Não foi possível aprovar a hora.",
+            });
+            listaHoras.innerHTML = "";
+            await carregarHorasNaLista(horasCadastradas);
+
+        });
+
+        // Atualize a lista de horas com os dados mais recentes do servidor
+
+        console.log(horasSelecionadas)
+        horasSelecionadas = [];
+        console.log(horasSelecionadas)
+    } else {
+        alert("Nenhuma hora foi marcada para aprovação.");
+    }
 });
