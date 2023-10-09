@@ -2,6 +2,8 @@ package API3SEM.entities;
 
 
 import java.sql.Timestamp;
+import java.time.Duration;
+import java.time.Instant;
 
 import API3SEM.DTOS.HoraDTOs;
 import jakarta.persistence.Column;
@@ -89,6 +91,10 @@ public class Hora {
         this.justificativa_negacao = data.justificativa_negacao();
         this.matricula_gestor = data.matricula_gestor();
         this.data_lancamento = data.data_lancamento();
+    }
+
+    public long getDuration(){
+        return Duration.between(this.getData_hora_inicio().toInstant(), this.getData_hora_fim().toInstant()).toSeconds();
     }
 
 

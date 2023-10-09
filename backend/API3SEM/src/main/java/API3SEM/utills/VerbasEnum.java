@@ -12,7 +12,7 @@ public enum VerbasEnum {
     HEN70("3000"),
     HEN100("3001"),
     ADN("1809"),
-    SOBRE("3016");
+    SOBREAVISO("3016");
 
     private String nome;
 }
