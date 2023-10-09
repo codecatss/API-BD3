@@ -213,19 +213,19 @@ async function atualizarHora(id, partialData) {
 
 
 
-// Adicione um ouvinte de eventos de input ao campo de pesquisa
+
 const inputSearch = document.querySelector(".input-search");
 
 inputSearch.addEventListener("input", function () {
-    const searchText = inputSearch.value.toLowerCase(); // Obtém o texto de pesquisa em letras minúsculas
+    const searchText = inputSearch.value.toLowerCase(); 
 
     const horas = document.querySelectorAll(".horaLancada");
 
     horas.forEach(function (hora) {
-        const nomeUsuario = hora.querySelector("p:nth-child(2)").textContent.toLowerCase(); // Obtém o nome do usuário em letras minúsculas
-        const crHora = hora.querySelector("p:nth-child(7)").textContent.toLowerCase(); // Obtém o CR da hora em letras minúsculas
+        const nomeUsuario = hora.querySelector("p:nth-child(2)").textContent.toLowerCase(); 
+        const crHora = hora.querySelector("p:nth-child(7)").textContent.toLowerCase(); 
         const statusHora = hora.querySelector("p:nth-child(4)").textContent.toLowerCase();
-        const cliente = hora.querySelector("p:nth-child(8)").textContent.toLowerCase(); // Obtém o status da hora em letras minúsculas
+        const cliente = hora.querySelector("p:nth-child(8)").textContent.toLowerCase(); 
 
 
         if (
@@ -235,9 +235,9 @@ inputSearch.addEventListener("input", function () {
             statusHora.includes(searchText) ||
             cliente.includes(searchText)
         ) {
-            hora.style.display = "grid"; // Define o estilo de layout da hora para "grid"
+            hora.style.display = "grid"; 
         } else {
-            hora.style.display = "none"; // Oculta a hora se não houver correspondência
+            hora.style.display = "none"; 
         }
     });
 });
@@ -248,27 +248,27 @@ inputSearch.addEventListener("input", function () {
 
 
 
-// Array para armazenar os IDs das horas selecionadas
+
 let horasSelecionadas = [];
 
-// Adicione um ouvinte de eventos ao botão "Aprovar"
+
 const btnAprovar = document.querySelector(".hora-aprova");
 
 btnAprovar.addEventListener("click", async function () {
     const checkboxes = document.querySelectorAll("input[type='checkbox']");
 
-    // Limpe o array de horas selecionadas a cada clique no botão
+
     horasSelecionadas.length = 0;
 
     checkboxes.forEach(function (checkbox) {
         if (checkbox.checked) {
-            // Se o checkbox estiver marcado, obtenha o valor do ID da hora e adicione ao array
+
             const idHora = checkbox.parentElement.dataset.horaId;
             horasSelecionadas.push(idHora);
         }
     });
 
-    // Exiba os IDs das horas selecionadas
+
     if (horasSelecionadas.length > 0) {
 
         const promises = horasSelecionadas.map(async function (idHora) {
@@ -282,7 +282,7 @@ btnAprovar.addEventListener("click", async function () {
 
         await Promise.all(promises);
 
-        // Update the list after the approval
+
         listaHoras.innerHTML = "";
 
         const horasCadastradas = await listarHoras();
@@ -301,55 +301,63 @@ const btnReprovar = document.querySelector(".hora-reprova");
 btnReprovar.addEventListener("click", async function () {
     const checkboxes = document.querySelectorAll("input[type='checkbox']");
 
-    // Limpe o array de horas selecionadas a cada clique no botão
+
     horasSelecionadas.length = 0;
 
     checkboxes.forEach(function (checkbox) {
         if (checkbox.checked) {
-            // Se o checkbox estiver marcado, obtenha o valor do ID da hora e adicione ao array
+
             const idHora = checkbox.parentElement.dataset.horaId;
             horasSelecionadas.push(idHora);
         }
     });
 
-    // Exiba os IDs das horas selecionadas
-    if (horasSelecionadas.length > 0) {
 
-        horasSelecionadas.forEach(async function (idHora) {
-            console.log(idHora);
-            await atualizarHora(idHora, {
+    if (horasSelecionadas.length == 1) {
+        const modal = document.getElementById("modalReprovar");
+        modal.style.display = "block";
+
+
+        console.log(horasSelecionadas);
+        const btnConfirmar = document.querySelector(".aceitarReprovacao");
+
+        btnConfirmar.addEventListener("click", async function () {
+            const justificativa = document.querySelector("#justificativa").value;
+            console.log(horasSelecionadas);
+
+
+            await atualizarHora(horasSelecionadas[0], {
                 status_aprovacao: "NEGADO_GESTOR",
                 matricula_gestor: 4533,
                 data_modificacao_gestor: new Date(),
-                justificativa_negacao: "Não foi possível aprovar a hora.",
+                justificativa_negacao: justificativa,
             });
+
+
             listaHoras.innerHTML = "";
             const horasCadastradas = await listarHoras();
 
             await carregarHorasNaLista(horasCadastradas);
 
+            document.querySelector("#justificativa").value = ""; 
+
+            modal.style.display = "none";
+        })
+
+
+
+        window.addEventListener('click', function (event) {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
         });
 
-        // Atualize a lista de horas com os dados mais recentes do servidor
+        console.log(horasSelecionadas)
+        console.log(horasSelecionadas)
+    } else if (horasSelecionadas.length >= 2) {
 
-        console.log(horasSelecionadas)
-        horasSelecionadas = [];
-        console.log(horasSelecionadas)
-    } else {
-        alert("Nenhuma hora foi marcada para aprovação.");
+        alert("Precisa selecionar apenas uma hora para reprovar.");
     }
-});
-
-const checkboxes = document.querySelectorAll("input[type='checkbox']");
 
 
-checkboxes.forEach(function (checkbox) {
-    checkbox.addEventListener("change", function () {
-        const checkedCheckboxes = document.querySelectorAll("input[type='checkbox']:checked");
-        if (checkedCheckboxes.length > 1) {
-            btnReprovar.disabled = true;
-        } else {
-            btnReprovar.disabled = false;
-        }
-    });
 });
