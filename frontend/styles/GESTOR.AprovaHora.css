@@ -600,6 +600,11 @@ table {
   border-color: black;
   width: 90px;
   cursor: pointer;
+  transition: background-color 0.4s ease;
+}
+
+.btnver:hover {
+  background-color: #c0c0c0;
 }
 
 .horaLancada {
@@ -807,7 +812,7 @@ table {
 }
 
 .modal-content {
-  background-color: #6158d2;
+  background-color: #24242d;
 }
 
 .hora-pendente {
@@ -842,4 +847,66 @@ table {
   padding: 4px 3px;
   border-radius: 7px;
   color: white;
+}
+
+.btn-disabled {
+  background-color: #d8666632;
+}
+
+#justificativa-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#justificativa-content div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  width: 400px;
+}
+
+#justificativa-content div h1 {
+  color: #fff;
+  font-family: Outfit;
+  font-size: 36px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 27.5px; /* 76.389% */
+  margin-bottom: 66px;
+}
+
+#justificativa-content div textarea {
+  width: 600px;
+  height: 300px;
+  margin-bottom: 40px;
+  font-size: 20px;
+}
+
+.justificativa-buttons {
+  display: flex !important;
+  flex-direction: row !important;
+
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.aceitarReprovacao,
+.cancelarReprovacao {
+  color: #000;
+  font-family: Outfit;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 27.5px; /* 137.5% */
+  border-radius: 7px;
+  border: none;
+  padding: 7px 26px;
+  background: #8dd88b;
+}
+
+.cancelarReprovacao {
+  background-color: #d86666;
 }
