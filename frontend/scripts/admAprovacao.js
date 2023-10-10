@@ -1,16 +1,20 @@
-const botaoConfirmar = document.getElementById("adicionarBotao");
 
 
+const listarHoras = async () => {
+    try {
+        const response = await fetch('http://localhost:8080/hora/pendentesAdmin');
+        if (!response.ok) {
+            throw new Error('Não foi possível obter os dados.');
+        }
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        throw error;
+    }
+};
 
-const horaSobreaviso = []
+const horasCadastradas = await listarHoras();
 
-
-
-// SOBREAVISOO
-
-const justificativaInputAprovacao = document.querySelector(".justificativaInputAprovacao");
-const botaoConfirmarAprovacao = document.getElementById("botaoConfirmar");
-const botaoCancelarAprovacao = document.getElementById("botaoCancelar")
 
 
 const obterTodosClientes = async () => {
@@ -52,160 +56,29 @@ const obterTodosCr = async () => {
 const todosCr = await obterTodosCr()
 
 
-
-
-
-function popularSelectEmpresas(clientes) {
-    const selectEmpresa = document.getElementById("selecionarEmpresa");
-
-    selectEmpresa.innerHTML = "";
-
-
-    const optionPadrao = document.createElement("option");
-    optionPadrao.value = "";
-    optionPadrao.textContent = "Selecione a empresa";
-    optionPadrao.disabled = true;
-    optionPadrao.selected = true;
-
-
-    selectEmpresa.appendChild(optionPadrao);
-
-
-    clientes.forEach((cliente) => {
-        const option = document.createElement("option");
-        option.value = cliente.cnpj;
-        option.textContent = cliente.razao_social;
-        selectEmpresa.appendChild(option);
-    });
-}
-
-function popularSelectCr(centroDeResultado) {
-    const selectCr = document.getElementById("selecionarCr");
-
-    selectCr.innerHTML = "";
-
-
-    const optionPadrao = document.createElement("option");
-    optionPadrao.value = "";
-    optionPadrao.textContent = "Selecione o CR";
-    optionPadrao.disabled = true;
-    optionPadrao.selected = true;
-
-
-    selectCr.appendChild(optionPadrao);
-
-
-    centroDeResultado.forEach((cr) => {
-        const option = document.createElement("option");
-        option.value = cr.codigoCr;
-        option.textContent = cr.nome;
-        selectCr.appendChild(option);
-    });
-}
-
-
-
-popularSelectEmpresas(todosClientes)
-popularSelectCr(todosCr);
-
-
-
-
-
-
-
-function lancamentoHora() {
-    const tipoHora = tipoHoraInput.value;
-    const selecionarEmpresa = selecionarEmpresaInput.value;
-    const selecionarCR = selecionarCRInput.value
-    const justificativaHora = justificativaHoraInput.value;
-    const dataInicio = dataInicioInput.value;
-    const horaInicio = horaInicioInput.value;
-    const projetoHora = projetoHoraInput.value;
-    const dataFim = dataFimInput.value;
-    const horaFim = horaFimInput.value;
-    const solicitanteHora = solicitanteHoraInput.value;
-
-    // Converte a data e hora de início para UTC
-    const dataHoraInicioUTC = new Date(`${dataInicio}T${horaInicio}:00Z`);
-
-    // Converte a data e hora de fim para UTC
-    const dataHoraFimUTC = new Date(`${dataFim}T${horaFim}:00Z`);
-
-    const dataHora = {
-        codcr: selecionarCR,
-        lancador: "4533",
-        cnpj: selecionarEmpresa,
-        data_hora_inicio: dataHoraInicioUTC.toISOString(),
-        data_hora_fim: dataHoraFimUTC.toISOString(),
-        tipo: tipoHora,
-        justificativa: justificativaHora,
-        projeto: projetoHora,
-        solicitante: solicitanteHora,
-    };
-
-    if (tipoHora == "sobreaviso") {
-        horaSobreaviso.push(dataHora)
-        console.log("Sobreaviso")
-        return
-    }
-
-    console.log(dataHora);
-    return dataHora;
-}
-
-
-
-
-async function lancamentoHoraExtra(dadosParaEnviar) {
-
-    const requestOptions = {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(dadosParaEnviar),
-    };
-
+const obterTodosUsuarios = async () => {
     try {
-
-        const response = await fetch('http://localhost:8080/hora', requestOptions);
+        const response = await fetch('http://localhost:8080/employee');
 
         if (!response.ok) {
             throw new Error(`Erro na requisição: ${response.status}`);
         }
 
-        alert("Hora Lançada com sucesso")
-
-        const data = await response.json();
-        console.log('Resposta da API:', data);
-    } catch (error) {
-
-        console.error('Erro na requisição:', error);
-    }
-}
-
-const listarHoras = async () => {
-    try {
-        const response = await fetch('http://localhost:8080/hora');
-        if (!response.ok) {
-            throw new Error('Não foi possível obter os dados.');
-        }
         const data = await response.json();
         return data;
     } catch (error) {
+        console.error('Erro na requisição:', error);
         throw error;
     }
 };
 
+const todosUsuarios = await obterTodosUsuarios()
+console.log(todosUsuarios)
 
 
-const horasCadastradas = await listarHoras()
 
-
-
+const listaHoras = document.getElementById("listaHoras");
 async function carregarHorasNaLista(horas) {
-    const listaHoras = document.getElementById("listaHoras");
     console.log("vou resetar o ul")
 
     listaHoras.innerHTML = "";
@@ -215,6 +88,9 @@ async function carregarHorasNaLista(horas) {
 
         const razaoSocial = todosClientes.find(item => hora.cnpj === item.cnpj)?.razao_social || null;
         const centroResultado = todosCr.find(item => hora.codcr === item.codigoCr)?.nome || null;
+        const usuario = todosUsuarios.find(item => hora.lancador === item.matricula)?.nome || null;
+        console.log(usuario)
+
 
 
 
@@ -228,12 +104,24 @@ async function carregarHorasNaLista(horas) {
         const fimHora = document.createElement("p");
         const crHora = document.createElement("p");
         const clienteHora = document.createElement("p");
-        const projetoHora = document.createElement("p");
+        const lancador = document.createElement("p");
         const justificativaHora = document.createElement("p");
+        const checkbox = document.createElement("input");
+        const ver = document.createElement("button");
+
+        checkbox.type = "checkbox";
 
         tipoHora.textContent = hora.tipo;
         statusHora.textContent = hora.status_aprovacao;
-
+        if (hora.status_aprovacao == "PENDENTE") {
+            statusHora.classList.add("hora-pendente");
+        } else if (hora.status_aprovacao == "NEGADO_GESTOR") {
+            statusHora.textContent = "NEGADO";
+            statusHora.classList.add("hora-negada");
+        } else if (hora.status_aprovacao == "APROVADO_GESTOR") {
+            statusHora.textContent = "APROVADO";
+            statusHora.classList.add("hora-aprovada");
+        }
 
         const dataHoraInicio = new Date(hora.data_hora_inicio);
         const dataInicioFormatada = dataHoraInicio.toLocaleDateString('pt-BR', { timeZone: 'UTC' });
@@ -248,232 +136,228 @@ async function carregarHorasNaLista(horas) {
 
         crHora.textContent = centroResultado
         clienteHora.textContent = razaoSocial
-        projetoHora.textContent = hora.projeto;
+        lancador.textContent = usuario;
         justificativaHora.textContent = hora.justificativa;
-
+        ver.textContent = "VER";
         li.classList.add("horaLancada");
+        ver.classList.add("btnver");
 
-        li.append(tipoHora, statusHora, inicioHora, fimHora, crHora, clienteHora, projetoHora, justificativaHora);
+        li.dataset.horaId = hora.id;
+        li.append(checkbox, statusHora, lancador, tipoHora, inicioHora, fimHora, crHora, clienteHora, ver);
         listaHoras.appendChild(li);
+
+
+        ver.addEventListener("click", function () {
+            const modal = document.getElementById("modalSobreAviso");
+            modal.style.display = "block";
+            console.log(hora.id)
+
+
+            const div = document.querySelector(".modal-content")
+            const p = document.createElement("p");
+
+            p.textContent = hora.tipo;
+
+            div.appendChild(p);
+
+
+        });
+
+        window.addEventListener('click', function (event) {
+            if (event.target === modalSobreAviso) {
+                modalSobreAviso.style.display = 'none';
+            }
+        });
+
+
     });
 }
 
 
+
+
+console.log(horasCadastradas)
 
 await carregarHorasNaLista(horasCadastradas);
 
 
-botaoConfirmar.addEventListener("click", async (event) => {
-    event.preventDefault();
 
-    if (
-        tipoHoraInput.value === "" ||
-        selecionarEmpresaInput.value === "" ||
-        selecionarCRInput.value === "" ||
-        justificativaHoraInput.value === "" ||
-        dataInicioInput.value === "" ||
-        horaInicioInput.value === "" ||
-        projetoHoraInput.value === "" ||
-        dataFimInput.value === "" ||
-        horaFimInput.value === "" ||
-        solicitanteHoraInput.value === ""
-    ) {
-        alert("Preencha todos os campos obrigatórios!");
-        return;
+
+
+
+async function atualizarHora(id, partialData) {
+    try {
+        const response = await fetch(`http://localhost:8080/hora/${id}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(partialData),
+        });
+
+        if (!response.ok) {
+            throw new Error('Erro ao atualizar a hora.');
+        }
+
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Erro na requisição:', error);
+        throw error;
     }
-
-    const dataHora = lancamentoHora();
-    await lancamentoHoraExtra(dataHora);
-
-
-    const formulario = document.getElementById("formularioHora");
-    formulario.reset();
-
-
-    tipoHoraInput.selectedIndex = 0;
-    selecionarEmpresaInput.selectedIndex = 0;
-    selecionarCRInput.selectedIndex = 0;
-
-    const novasHoras = await listarHoras();
-    carregarHorasNaLista(novasHoras);
+}
 
 
 
+
+
+
+
+
+const inputSearch = document.querySelector(".input-search");
+
+inputSearch.addEventListener("input", function () {
+    const searchText = inputSearch.value.toLowerCase(); 
+
+    const horas = document.querySelectorAll(".horaLancada");
+
+    horas.forEach(function (hora) {
+        const nomeUsuario = hora.querySelector("p:nth-child(2)").textContent.toLowerCase(); 
+        const crHora = hora.querySelector("p:nth-child(7)").textContent.toLowerCase(); 
+        const statusHora = hora.querySelector("p:nth-child(4)").textContent.toLowerCase();
+        const cliente = hora.querySelector("p:nth-child(8)").textContent.toLowerCase(); 
+
+
+        if (
+            searchText === "" ||
+            nomeUsuario.includes(searchText) ||
+            crHora.includes(searchText) ||
+            statusHora.includes(searchText) ||
+            cliente.includes(searchText)
+        ) {
+            hora.style.display = "grid"; 
+        } else {
+            hora.style.display = "none"; 
+        }
+    });
 });
 
 
 
-//Função que verifica a hora inicio e a hora fim da hora extra
-function definirMinDataFim() {
-
-    const dataInicioValue = dataInicioInput.value;
-
-
-    dataFimInput.min = dataInicioValue;
-}
-
-
-dataInicioInput.addEventListener("change", definirMinDataFim);
-
-
-definirMinDataFim();
 
 
 
 
 
+let horasSelecionadas = [];
 
 
+const btnAprovar = document.querySelector(".hora-aprova");
 
-function verificarTipoHora() {
-    if (tipoHoraInput.value === "sobreaviso") {
-        botaoConfirmar.disabled = true;
-        botaoConfirmar.classList.add("botaoDesabilitado")
-        acionamentoBotao.disabled = false
-        acionamentoBotao.classList.remove("botaoDesabilitado")
-
-    } else if (tipoHoraInput.value === "hora-extra") {
-        acionamentoBotao.disabled = true
-        acionamentoBotao.classList.add("botaoDesabilitado")
-        botaoConfirmar.disabled = false;
-        botaoConfirmar.classList.remove("botaoDesabilitado")
+btnAprovar.addEventListener("click", async function () {
+    const checkboxes = document.querySelectorAll("input[type='checkbox']");
 
 
-    }
-}
+    horasSelecionadas.length = 0;
 
+    checkboxes.forEach(function (checkbox) {
+        if (checkbox.checked) {
 
-tipoHoraInput.addEventListener("change", verificarTipoHora);
-
-
-
-
-
-
-// ABRE O MODAL
-const acionamentoBotao = document.getElementById("acionamentoBotao");
-acionamentoBotao.addEventListener('click', async function () {
-    if (
-        tipoHoraInput.value === "" ||
-        selecionarEmpresaInput.value === "" ||
-        selecionarCRInput.value === "" ||
-        justificativaHoraInput.value === "" ||
-        dataInicioInput.value === "" ||
-        horaInicioInput.value === "" ||
-        projetoHoraInput.value === "" ||
-        dataFimInput.value === "" ||
-        horaFimInput.value === "" ||
-        solicitanteHoraInput.value === ""
-    ) {
-        alert("Preencha todos os campos obrigatórios!");
-        return;
-    }
-
-
-
-
-
-
-
-
-    const modalSobreAviso = document.getElementById("modalSobreAviso");
-
-    modalSobreAviso.style.display = 'block';
-
-
-
-
-    window.addEventListener('click', function (event) {
-        if (event.target === modalSobreAviso) {
-            modalSobreAviso.style.display = 'none';
+            const idHora = checkbox.parentElement.dataset.horaId;
+            horasSelecionadas.push(idHora);
         }
     });
 
 
+    if (horasSelecionadas.length > 0) {
 
-    await lancamentoHora();
+        const promises = horasSelecionadas.map(async function (idHora) {
+            console.log(idHora);
+            await atualizarHora(idHora, {
+            status_aprovacao: "APROVADO_ADMIN",
+                matricula_admin: 6987,
+                data_modificacao_admin: new Date(),
+            });
+        });
+
+        await Promise.all(promises);
+
+
+        listaHoras.innerHTML = "";
+
+        const horasCadastradas = await listarHoras();
+
+        await carregarHorasNaLista(horasCadastradas);
+
+        horasSelecionadas = [];
+
+    } else {
+        alert("Nenhuma hora foi marcada para aprovação.");
+    }
+});
+
+const btnReprovar = document.querySelector(".hora-reprova");
+
+btnReprovar.addEventListener("click", async function () {
+    const checkboxes = document.querySelectorAll("input[type='checkbox']");
+
+
+    horasSelecionadas.length = 0;
+
+    checkboxes.forEach(function (checkbox) {
+        if (checkbox.checked) {
+
+            const idHora = checkbox.parentElement.dataset.horaId;
+            horasSelecionadas.push(idHora);
+        }
+    });
+
+
+    if (horasSelecionadas.length == 1) {
+        const modal = document.getElementById("modalReprovar");
+        modal.style.display = "block";
+
+
+        console.log(horasSelecionadas);
+        const btnConfirmar = document.querySelector(".aceitarReprovacao");
+
+        btnConfirmar.addEventListener("click", async function () {
+            const justificativa = document.querySelector("#justificativa").value;
+            console.log(horasSelecionadas);
+
+
+            await atualizarHora(horasSelecionadas[0], {
+                status_aprovacao: "NEGADO_ADMIN",
+                matricula_admin: 6987,
+                data_modificacao_admin: new Date(),
+                justificativa_negacao: justificativa,
+            });
+
+
+            listaHoras.innerHTML = "";
+            const horasCadastradas = await listarHoras();
+
+            await carregarHorasNaLista(horasCadastradas);
+
+            document.querySelector("#justificativa").value = ""; 
+
+            modal.style.display = "none";
+        })
 
 
 
+        window.addEventListener('click', function (event) {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
 
+        console.log(horasSelecionadas)
+        console.log(horasSelecionadas)
+    } else if (horasSelecionadas.length >= 2) {
+
+        alert("Precisa selecionar apenas uma hora para reprovar.");
+    }
 
 
 });
-
-verificarTipoHora();
-
-
-
-
-
-
-botaoConfirmarSobreaviso.addEventListener("click", async function (event) {
-    event.preventDefault();
-
-
-
-    const sobreaviso = horaSobreaviso[0]
-
-
-    const dataInicio = dataInicioInputSobreaviso.value;
-    const horaInicio = horaInicioInputSobreaviso.value;
-    const dataFim = dataFimInputSobreaviso.value;
-    const horaFim = horaFimInputSobreaviso.value;
-
-
-
-    const dataHoraSobreaviso = {
-        codcr: sobreaviso.codcr,
-        lancador: "4533",
-        cnpj: sobreaviso.cnpj,
-        data_hora_inicio: `${dataInicio}T${horaInicio}:00Z`,
-        data_hora_fim: `${dataFim}T${horaFim}:00Z`,
-        tipo: "hora-extra",
-        justificativa: sobreaviso.justificativa,
-        projeto: sobreaviso.projeto,
-        solicitante: sobreaviso.solicitante
-    };
-
-    horaSobreaviso.push(dataHoraSobreaviso)
-
-    console.log(dataHoraSobreaviso)
-    const listaDeHoras = document.getElementById("listaDeHoras");
-    console.log(horaSobreaviso)
-
-    const li = document.createElement("li");
-
-
-
-    const dataHoraInicio = new Date(dataHoraSobreaviso.data_hora_inicio);
-    const dataInicioFormatada = dataHoraInicio.toLocaleDateString('pt-BR', { timeZone: 'UTC' });
-    const horaInicioFormatada = dataHoraInicio.toLocaleTimeString('pt-BR', { timeZone: 'UTC' });
-
-    const dataHoraFim = new Date(dataHoraSobreaviso.data_hora_fim);
-    const dataFimFormatada = dataHoraFim.toLocaleDateString('pt-BR', { timeZone: 'UTC' });
-    const horaFimFormatada = dataHoraFim.toLocaleTimeString('pt-BR', { timeZone: 'UTC' });
-
-    const dataHoraInicioP = document.createElement("p");
-    const dataHoraFimP = document.createElement("p");
-
-    dataHoraInicioP.textContent = `${dataInicioFormatada} | ${horaInicioFormatada}`;
-    dataHoraFimP.textContent = `${dataFimFormatada} | ${horaFimFormatada}`;
-
-    li.classList.add("horaLiSobreaviso")
-    li.append(dataHoraInicioP, dataHoraFimP)
-
-    listaDeHoras.appendChild(li);
-
-});
-
-
-botaoSalvarSobreaviso.addEventListener("click", async function (event) {
-    event.preventDefault();
-
-    horaSobreaviso.forEach(hora => {
-        lancamentoHoraExtra(hora)
-
-    })
-    window.location.reload();
-
-});
-
