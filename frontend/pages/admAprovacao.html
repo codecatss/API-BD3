@@ -6,9 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../styles/reset.css">
     <link rel="stylesheet" href="../styles/global.styles.css">
+
     <link rel="stylesheet" href="../styles/admAprovacao.css">
+
     <link rel="shortcut icon" href="../assets/logo2rp.svg" type="image/x-icon">
-    <title>Aprovar horas</title>
+
+    <title>Aprovação de Horas</title>
 </head>
 
 <body>
@@ -36,7 +39,7 @@
                 </li>
                 <li class="menu-item active-page">
                     <img src="../assets/transparent-icons/approve.svg" alt="" srcset="">
-                    <a href="#">Aprovar Horas</a>
+                    <a href="./admAprovacao.html">Aprovar horas</a>
                 </li>
                 <li class="menu-item">
                     <img src="../assets/transparent-icons/parameterization.svg" alt="" srcset="">
@@ -47,7 +50,7 @@
 
         <div class="main-content">
             <div class="header">
-                <h1>Aprovar horas</h1>
+                <h1>Aprovação de Horas</h1>
                 <div class="user-content">
                     <img src="" alt=""
                         srcset="https://cdn1.iconfinder.com/data/icons/user-pictures/101/malecostume-512.png">
@@ -65,148 +68,64 @@
             </div>
             <div class="search-bar">
                 <div class="content">
-                    <div class="button">
-                        <div class="search-content">
-                            <input class="input-search" type="text" name="" id="" placeholder="Pesquisar">
-                            <a class="search-icon">
-                                <img src="../assets/lupa.svg" alt="">
-                            </a>
-    
-                        </div>
-                        <button id="aprovarBotao" class="aprovar-button"
-                            style="margin-left: 1px;">Aprovar</button>
-                        <button id="reprovarBotao" class="reprovar-button"
-                            style="margin-left: 1px;">Reprovar</button>
+                    <div class="search-content">
+                        <input class="input-search" type="text" name="" id="" placeholder="Pesquisar">
                     </div>
+                    <div class="buttons">
+                        <button class="hora-aprova">Aprovar</button>
+                        <button class="hora-reprova">Reprovar</button>
+                    </div>
+
+
                 </div>
             </div>
-            <div class="colunName">
-                <ul>
-                    <li>Status</li>
-                    <li>Colaborador</li>
-                    <li>CR</li>
-                    <li>Cliente</li>
-                    <li>Tipo</li>
-                    <li>Início</li>
-                    <li>Fim</li>
-                    <li>Justificativa</li>
-                </ul>
-            </div>
 
-            <div>
-                <ul class="list-of-itens">
-
-                </ul>
-            </div>
-        </div>
-    </div>
-
-
-    <div class="modal" id="myModal">
-        <div class="modal-container">
-            <div class="modal-content">
-                <span class="close" id="closeModal">&times;</span>
-                <form action="">
-                    <div class="rectangle-24"></div>
-                    <button class="cancelar ">
-                        cancelar
-                    </button>
-
-                    <div class="title-modal">Adicionar CR's</div>
-
-                    <input class="input-3" name="nome" type="text">
-                    <input class="input-2" name="sigla" type="text">
-                    <input class="input-1" name="codigoCr" type="text">
-                    <div class="nome-input">Nome</div>
-                    <div class="sigla-input">Sigla</div>
-                    <div class="codCr-input">Código do CR</div>
-                    <button id="confirmarCR" class="confirmar">Confirmar</button>
-                </form>
-
-
-
-
-
-            </div>
-        </div>
-
-    </div>
-
-    <div class="modal" id="myModalUpdate">
-        <div class="modal-container">
-            <div class="modal-content">
-                <span class="close" id="closeModal">&times;</span>
-                <form action="">
-                    <div class="rectangle-24"></div>
-                    <button class="cancelar ">
-                        cancelar
-                    </button>
-
-                    <div class="title-modal">Editar CR's</div>
-
-                    <input class="input-3" name="nomeUpdate" type="text">
-                    <input class="input-2" name="siglaUpdate" type="text">
-                    <input class="input-1" disabled name="codigoCrUpdate" type="text">
-                    <div class="nome-input">Nome</div>
-                    <div class="sigla-input">Sigla</div>
-                    <div class="codCr-input">Código do CR</div>
-                    <button id="confirmarCRUpdate" class="confirmar">Confirmar</button>
-                </form>
-
-
-
-
-
-            </div>
-        </div>
-
-    </div>
-
-
-
-
-    <div class="success-message" id="successMessage">
-        CR ADICIONADO COM SUCESSO
-    </div>
-
-    <div class="error-message" id="errorMessage">
-        Erro ao adicionar o CR.
-    </div>
-
-
-    <div class="modal" id="myModalAddMember">
-        <div class="">
-            <div class="gerenciar-cr" id="gerenciar-cr">
-                <ul class="list-users" id="listUsers">
+            <nav class="tabela">
+                <div id="tabelaLancamento">
+                    <p></p>
+                    <p>Status</p>
+                    <p>Colaborador</p>
+                    <p>CR</p>
+                    <p>Cliente</p>
+                    <p>Tipo</p>
+                    <p>Inicio</p>
+                    <p>Fim</p>
+                    <p>Justificativa</p>
+                </div>
+                <ul id="listaHoras">
 
                 </ul>
-
-                <div class="rectangle-31"></div>
-                <div class="rectangle-27"></div>
-
-                <ul class="members-Cr" id="membersCr"></ul>
-                <div class="rectangle-23"></div>
-                <div class="rectangle-33"></div>
-                <div class="usu-rio">Usuário</div>
-                <div class="usu-rio2">Usuário</div>
-                <div class="fun-o">Função</div>
-                <button class="removerUsuario" id="removerUsuario">Remover</button>
-                <button class="adicionarUsuario" id="adicionarUsuario">Adicionar</button>
-                <div class="navbar">Gerenciar CR {nome do CR}</div>
+            </nav>
 
 
 
-                <div class="voltar" class="close" id="closeModal">Voltar</div>
+            <div class="modal" id="modalSobreAviso">
+                <div class="modal-content">
 
+
+                </div>
             </div>
-        </div>
-    </div>
+
+            <div class="modal" id="modalReprovar">
+
+                <div id="justificativa-content" class="modal-content">
+                    <div>
+                        <h1>Justificativa</h1>
+                        <textarea name="justificativaText" id="justificativa"
+                            placeholder="Escreva aqui uma justificativa com no máximo 500 caracteres" cols="30"
+                            rows="10" maxlength="500"></textarea>
+                        <div class="justificativa-buttons">
+                            <button class="cancelarReprovacao">Cancelar</button>
+                            <button class="aceitarReprovacao">Confirma</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
 
 
 
-
-
-    <script type="module" src="../scripts/index.js"></script>
+            <script type="module" src="../scripts/admAprovacao.js"></script>
 
 </body>
 
