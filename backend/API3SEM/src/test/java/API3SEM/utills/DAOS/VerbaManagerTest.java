@@ -74,12 +74,29 @@ public class VerbaManagerTest {
         assertEquals(VerbasEnum.HE100, verbas.get(1).getVerba());
     }
 
+        @Test
+    public void testVerbasDiurnasSimples() {
+        
+        Hora horaDiurna = new Hora();
+        horaDiurna.setTipo(TipoEnum.EXTRA.name());
+        horaDiurna.setData_hora_inicio(Timestamp.valueOf(LocalDateTime.of(2023, 10, 9, 20, 0, 0)));
+        horaDiurna.setData_hora_fim(Timestamp.valueOf(LocalDateTime.of(2023, 10, 9, 22, 0, 0)));
+
+        verbas = VerbaManager.getVerbaFromHora(horaDiurna);
+        assertEquals(VerbasEnum.HE75, verbas.get(0).getVerba());
+        assertEquals(1, verbas.size());
+
+        Long duration = Duration.between(horaDiurna.getData_hora_inicio().toInstant(), horaDiurna.getData_hora_fim().toInstant()).toSeconds();
+
+        assertEquals(duration, verbas.get(0).getDuration().toSeconds());
+    }
+
     @Test
     public void testVerbasNoturnaSimples() {
         
         Hora horaNoturna = new Hora();
         horaNoturna.setTipo(TipoEnum.EXTRA.name());
-        horaNoturna.setData_hora_inicio(Timestamp.valueOf(LocalDateTime.of(2023, 10, 8, 23, 0, 0)));
+        horaNoturna.setData_hora_inicio(Timestamp.valueOf(LocalDateTime.of(2023, 10, 9, 23, 0, 0)));
         horaNoturna.setData_hora_fim(Timestamp.valueOf(LocalDateTime.of(2023, 10, 9, 23, 50, 0)));
 
         verbas = VerbaManager.getVerbaFromHora(horaNoturna);
@@ -111,16 +128,16 @@ public class VerbaManagerTest {
 
         @Test
     public void testCompoundHora() {
-        
+
         Hora compoundHora = new Hora();
         compoundHora.setTipo(TipoEnum.EXTRA.name());
-        compoundHora.setData_hora_inicio(Timestamp.valueOf(LocalDateTime.of(2023, 10, 8, 20, 0, 0)));
-        compoundHora.setData_hora_fim(Timestamp.valueOf(LocalDateTime.of(2023, 10, 9, 2, 0, 0)));
+        compoundHora.setData_hora_inicio(Timestamp.valueOf(LocalDateTime.of(2023, 10, 9, 20, 0, 0)));
+        compoundHora.setData_hora_fim(Timestamp.valueOf(LocalDateTime.of(2023, 10, 10, 2, 0, 0)));
 
         verbas = VerbaManager.getVerbaFromHora(compoundHora);
 
         assertEquals(VerbasEnum.HE75, verbas.get(0).getVerba());
-        assertEquals(VerbasEnum.HE100, verbas.get(1).getVerba());
+        assertEquals(VerbasEnum.HEN100, verbas.get(1).getVerba());
 
 
         assertEquals(2, verbas.size());
@@ -131,6 +148,6 @@ public class VerbaManagerTest {
 
         assertEquals(14400, verbas.get(1).getDuration().getSeconds());
         assertEquals(VerbasEnum.HEN100, verbas.get(1).getVerba());
+            
     }
-
 }
