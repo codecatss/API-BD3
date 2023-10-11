@@ -50,7 +50,7 @@ public class VerbaManager {
                 LocalDateTime InicioDiurno = localDateTimeInicio.withHour(6).withMinute(0).withSecond(0);
                 LocalDateTime FimDiurno = localDateTimeInicio.withHour(22).withMinute(0).withSecond(0);
 
-                if (localDateTimeInicio.isBefore(FimDiurno) && localDateTimeFim.isAfter(InicioDiurno)) {
+                if (localDateTimeInicio.isBefore(FimDiurno) && localDateTimeFim.isBefore(FimDiurno.plusSeconds(1))) {
                     verbas_temp.addAll(calcularVerbasDiurnas(hora, InicioDiurno, FimDiurno));
                 }else{
                     verbas_temp.addAll(calcularVerbasNoturnas(hora, InicioDiurno, FimDiurno));
@@ -135,7 +135,6 @@ public class VerbaManager {
                 verbasNoturnas.add(toVerbaHora(newHora, VerbasEnum.HEN100, tempo));
             }
         }
-
         return verbasNoturnas;
     }
 
