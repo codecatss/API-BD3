@@ -10,8 +10,6 @@ import org.junit.jupiter.api.Test;
 import API3SEM.entities.Hora;
 import API3SEM.utills.TipoEnum;
 import API3SEM.utills.VerbasEnum;
-import API3SEM.utills.verbaService.VerbaHora;
-import API3SEM.utills.verbaService.VerbaManager;
 import java.time.Duration;
 
 import java.sql.Timestamp;
