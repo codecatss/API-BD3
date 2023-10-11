@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 public enum VerbasEnum {
     HE75("1601"),
     HE100("1602"),
-    HEN70("3000"),
+    HEN75("3000"),
     HEN100("3001"),
     ADN("1809"),
     SOBREAVISO("3016");
