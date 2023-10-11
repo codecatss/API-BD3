@@ -106,7 +106,6 @@ public class Hora {
         return Duration.between(this.getData_hora_inicio().toInstant(), this.getData_hora_fim().toInstant()).toSeconds();
     }
 
-
     public Hora(Hora hora) {
         this.id = hora.getId();
         this.codcr = hora.getCodcr();
