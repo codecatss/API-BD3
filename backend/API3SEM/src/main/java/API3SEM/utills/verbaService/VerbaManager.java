@@ -8,29 +8,18 @@ import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import API3SEM.entities.Hora;
-import API3SEM.repositories.HoraRepository;
-import API3SEM.repositories.VerbaRepository;
 import API3SEM.utills.TipoEnum;
 import API3SEM.utills.VerbasEnum;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 @Service
 public class VerbaManager {
 
-    private final VerbaRepository verbaRepository;
-    private final HoraRepository horaRepository;
-
     private static List<VerbaHora> verbas = new ArrayList<VerbaHora>();
-
-    @Autowired
-    public VerbaManager(VerbaRepository verbaRepository, HoraRepository horaRepository) {
-        this.verbaRepository = verbaRepository;
-        this.horaRepository = horaRepository;
-
-    }
 
     public static List<VerbaHora> getVerbaFromHora(Hora hora) {
         verbas.clear();
