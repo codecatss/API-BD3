@@ -136,4 +136,5 @@ public class VerbaManager {
 
         return makeVerbaHora(verba, Duration.between(hora.getData_hora_inicio().toInstant(), hora.getData_hora_inicio().toInstant().plusSeconds(segundos)).toSeconds());
     }
+
 }
