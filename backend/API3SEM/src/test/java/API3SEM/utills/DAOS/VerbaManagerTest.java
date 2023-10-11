@@ -24,7 +24,7 @@ public class VerbaManagerTest {
 
     private List<VerbaHora> verbas = new ArrayList<>();
 
-    @Before(value = "")
+    @BeforeEach
     public void setUp() {
         verbas.clear();
     }
