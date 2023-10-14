@@ -97,8 +97,9 @@ public class VerbaManagerTest {
         horaNoturna.setData_hora_fim(Timestamp.valueOf(LocalDateTime.of(2023, 10, 9, 23, 50, 0)));
 
         verbas = VerbaManager.getVerbaFromHora(horaNoturna);
+        assertEquals(2, verbas.size());
         assertEquals(VerbasEnum.HEN75, verbas.get(0).getVerba());
-        assertEquals(1, verbas.size());
+        assertEquals(VerbasEnum.ADN, verbas.get(1).getVerba());
 
         Long duration = Duration.between(horaNoturna.getData_hora_inicio().toInstant(), horaNoturna.getData_hora_fim().toInstant()).toSeconds();
 
@@ -114,13 +115,16 @@ public class VerbaManagerTest {
         horaNoturna.setData_hora_fim(Timestamp.valueOf(LocalDateTime.of(2023, 10, 9, 2, 1, 0)));
 
         verbas = VerbaManager.getVerbaFromHora(horaNoturna);
-        assertEquals(2, verbas.size());
+        assertEquals(3, verbas.size());
 
         assertEquals(7200, verbas.get(0).getDuration().getSeconds());
         assertEquals(VerbasEnum.HEN75, verbas.get(0).getVerba());
 
         assertEquals(7200, verbas.get(1).getDuration().getSeconds());
         assertEquals(VerbasEnum.HEN100, verbas.get(1).getVerba());
+
+        assertEquals(horaNoturna.getDuration(), verbas.get(2).getDuration().getSeconds());
+        assertEquals(VerbasEnum.ADN, verbas.get(2).getVerba());
     }
 
         @Test
@@ -137,7 +141,7 @@ public class VerbaManagerTest {
         assertEquals(VerbasEnum.HEN100, verbas.get(1).getVerba());
 
 
-        assertEquals(2, verbas.size());
+        assertEquals(3, verbas.size());
 
 
         assertEquals(7200, verbas.get(0).getDuration().getSeconds());
@@ -145,6 +149,9 @@ public class VerbaManagerTest {
 
         assertEquals(14400, verbas.get(1).getDuration().getSeconds());
         assertEquals(VerbasEnum.HEN100, verbas.get(1).getVerba());
+
+        assertEquals(14400, verbas.get(2).getDuration().getSeconds());
+        assertEquals(VerbasEnum.ADN, verbas.get(2).getVerba());
             
     }
 }

@@ -107,21 +107,25 @@ public class VerbaManager {
         }
 
         Long tempo = Duration.between(newHora.getData_hora_inicio().toInstant(), hora.getData_hora_fim().toInstant()).toSeconds();
+        Long tempoInicial = tempo;
 
         if(!verbasNoturnas.isEmpty()){
 
             verbasNoturnas.add(toVerbaHora(newHora, VerbasEnum.HEN100, tempo));
+            verbasNoturnas.add(toVerbaHora(newHora, VerbasEnum.ADN, tempo));
             
         }else{
 
             if( tempo < 7200){
                 verbasNoturnas.add(toVerbaHora(newHora, VerbasEnum.HEN75, tempo));
+                verbasNoturnas.add(toVerbaHora(newHora, VerbasEnum.ADN, tempo));
             }else{
                 verbasNoturnas.add(toVerbaHora(newHora, VerbasEnum.HEN75, 7200));
 
                 newHora.setData_hora_inicio(Timestamp.from(newHora.getData_hora_inicio().toInstant().plusSeconds(7200)));
                 tempo = Duration.between(newHora.getData_hora_inicio().toInstant(), hora.getData_hora_fim().toInstant()).toSeconds();
                 verbasNoturnas.add(toVerbaHora(newHora, VerbasEnum.HEN100, tempo));
+                verbasNoturnas.add(toVerbaHora(newHora, VerbasEnum.ADN, tempoInicial));
             }
         }
         return verbasNoturnas;
