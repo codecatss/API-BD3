@@ -1,3 +1,5 @@
+const token = localStorage.getItem("jwt");
+
 function toggleMode(liElement) {
     if (liElement.classList.contains('moved')) {
         liElement.classList.remove('moved');
@@ -16,6 +18,7 @@ function enableCenterResult(codigoCr, liElement) {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
+            "Authorization": `Bearer ${token}`
         },
     };
 
