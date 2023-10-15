@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles/reset.css">
+    <link rel="stylesheet" href="../styles/global.styles.css">
+
+    <link rel="stylesheet" href="../styles/GESTOR.LancaHora.css">
+
+    <link rel="shortcut icon" href="../assets/logo2rp.svg" type="image/x-icon">
+
+    <title>Lançamento De Horas</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="menu">
+            <div class="logo">
+                <img src="../assets/transparent-icons/2rp.svg" alt="" srcset="">
+            </div>
+            <ul class="main-menu">
+                <li class="menu-item active-page">
+                    <img src="../assets/iconeLancamento.svg" alt="" srcset="">
+                    <a href="./GESTOR.LancaHora.html">Lançar Hora</a>
+                </li>
+                <li class="menu-item ">
+                    <img src="../assets/iconeApontamento.svg" alt="" srcset="">
+                    <a href="./GESTOR.AprovaHora.html">Apontamento</a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="main-content">
+            <div class="header">
+                <h1>Lançamento De Horas</h1>
+                <div class="user-content">
+                    <img src="" alt=""
+                        srcset="https://cdn1.iconfinder.com/data/icons/user-pictures/101/malecostume-512.png">
+                    <section class="account">
+                        <ul>
+                            <li class="perfil-user">John Doe <img class="seta-dropdown" src="../assets/seta.svg" alt="">
+                                <ul class="dropdown">
+                                    <li><a href="#">Alterar Senha</a></li>
+                                    <li><a href="#">Logout</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </section>
+                </div>
+            </div>
+            <div class="search-bar">
+                <div class="content">
+                    <div class="search-content">
+                        <input class="input-search" type="text" name="" id="" placeholder="Pesquisar">
+                    </div>
+
+
+                </div>
+            </div>
+
+            <nav class="addinputbar">
+                <div class="input">
+                    <form id="formularioHora" class="content">
+                        <div class="coluna1">
+                            <div class="tipo">
+                                <label for="tipo" class="custom-label">Tipo</label>
+                                <select id="selecionarTipoHora" name="q" class="input-bar small-input" required>
+                                    <option value="hora-extra">Hora Extra</option>
+                                    <option value="sobreaviso">Sobreaviso</option>
+                                </select>
+                            </div>
+                            <div class="cliente">
+                                <label for="cliente" class="custom-label">Cliente</label>
+                                <select id="selecionarEmpresa" name="q" class="input-bar" required>
+                                    <option value="" disabled selected>Selecione a empresa</option>
+
+                                </select>
+                            </div>
+                            <div class="cr">
+                                <label for="cr" class="custom-label">CR</label>
+                                <select id="selecionarCr" name="q" class="input-bar" required>
+                                    <option value="" disabled selected>Selecione o CR</option>
+
+                                </select>
+                            </div>
+                            <div class="justificativa" id="just">
+                                <label for="justificativa" class="custom-label">Justificativa</label>
+                                <input id="justificativaHora" type="text" name="q" placeholder="Justificativa"
+                                    class="input-bar" required>
+                            </div>
+                        </div>
+                        <div class="coluna2">
+                            <div class="datainicio">
+                                <label for="datainicio" class="custom-label">Data inicio</label>
+                                <input id="dataInicio" type="date" name="data_inicio" class="input-bar">
+                            </div>
+                            <div class="horainicio">
+                                <label for="hora" class="custom-label">Hora Início</label>
+                                <input id="horaInicio" type="time" id="horainicio" name="horainicio" class="input-bar">
+                            </div>
+                            <div class="projeto">
+                                <label for="projeto" class="custom-label">Projeto</label>
+                                <input required id="projetoHora" type="text" name="q" class="input-bar"
+                                    style="margin-left: 40px;">
+                            </div>
+
+                        </div>
+                        <div class="coluna3">
+                            <div class="datafim">
+                                <label for="datafim" class="custom-label">Data fim</label>
+                                <input id="dataFim" type="date" name="data_fim" class="input-bar">
+                            </div>
+                            <div class="horafim">
+                                <label for="horafim" class="custom-label">Hora fim</label>
+                                <input id="horaFim" type="time" id="horafim" name="horafim" class="input-bar">
+                            </div>
+                            <div class="solicitante">
+                                <label for="solicitante" class="custom-label">Solicitante</label>
+                                <input id="solicitanteHora" type="text" name="q" class="input-bar"
+                                    style="margin-left: -7px;">
+                            </div>
+                        </div>
+                    </form>
+                    <div class="button">
+
+                        <button id="adicionarBotao" class="adicionar-button"
+                            style="margin-left: 1px;">Adicionar</button>
+                        <button id="acionamentoBotao" class="acionamento-button" style="margin-left: 1px;">+
+                            Acionamento</button>
+                    </div>
+                </div>
+            </nav>
+
+            <nav class="tabela">
+                <div id="tabelaLancamento">
+                    <p>Tipo</p>
+                    <p>Status</p>
+                    <p>Início</p>
+                    <p>Fim</p>
+                    <p>CR</p>
+                    <p>Cliente</p>
+                    <p>Projeto</p>
+                    <p>Justificativa</p>
+                </div>
+                <ul id="listaHoras">
+
+                </ul>
+            </nav>
+        </div>
+
+
+
+    </div>
+
+
+
+
+
+
+
+    <div class="modal" id="modalSobreAviso">
+        <div class="modal-content">
+            <form class="inputs">
+                <div id="horaInicioSobreaviso">
+                    <h2>Inicio</h2>
+                    <input class="dataInicioSobreaviso" type="date" name="data_fim">
+                    <input class="horaInicioSobreaviso" type="time">
+                </div>
+
+                <div id="horaFimSobreaviso">
+                    <h2>Fim</h2>
+                    <input class="dataFimSobreaviso" type="date" name="data_fim">
+                    <input class="horaFimSobreaviso" type="time">
+                </div>
+                <div id="botoesAcao">
+                    <button class="buttonActions" id="botaoConfirmar">Confirmar</button>
+                    <button class="buttonActions" id="botaoCancelar">Cancelar</button>
+                    <button class="buttonActions" id="botaoSalvar">Salvar</button>
+                </div>
+
+
+
+            </form>
+            <div class="listaDeLançamentos">
+                <h2 class="tituloAcionamento">Acionamentos</h2>
+                <div class="colunasTitutlos">
+
+                    <p>Inicio</p>
+                    <p>Fim</p>
+                </div>
+                <div class="horasConteudo">
+                    <ul id="listaDeHoras" class="listaDeHoras"></ul>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+    <script type="module" src="../scripts/COLAB.Lançamentio-Hora.js"></script>
+
+</body>
+
+</html>

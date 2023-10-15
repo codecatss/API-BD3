@@ -25,13 +25,19 @@ html {
 
 .menu {
   background: linear-gradient(to bottom, #000, #251440);
-  display: grid;
-  align-content: space-evenly;
-  padding-left: 2.7rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.menu .logo {
+  width: 155px;
+  height: 100px;
+  margin-bottom: 30px;
 }
 
 .menu li {
-  width: 100%;
+  width: 250px;
   display: grid;
   grid-template-columns: 1fr 2fr;
   align-items: center;
@@ -69,6 +75,8 @@ html {
 .main-content {
   background-color: #0e0e12;
   padding: 0rem 1rem 0rem 1rem;
+  flex-grow: 1;
+  padding: 17px 37px 93px 32px;
 }
 
 .main-content .header {
@@ -77,13 +85,14 @@ html {
   flex-wrap: nowrap;
   justify-content: space-between;
   padding: 20px 20px 20px 20px;
+  color: white;
 }
 
 .main-content .header .user-content {
   display: flex;
   align-items: center;
   justify-content: center;
-  /* align-content: center; */
+
   flex-wrap: nowrap;
   flex-direction: row;
 }
@@ -113,6 +122,11 @@ html {
   padding: 0.5rem 3rem 0.5rem 0rem;
 }
 
+.main-content .search-bar .content .input-container {
+  display: flex;
+  gap: 20px;
+}
+
 .main-content .search-bar .content .search {
   /* padding: 10px 30px 10px 30px; */
 
@@ -127,22 +141,19 @@ html {
 }
 
 .main-content .search-bar .content .search img {
-  width: 12px;
-  height: 12px;
+  height: 25px;
 }
 
 .main-content .search-bar .content .input-search {
-  /* width: auto; */
+  width: 407px;
   padding: 10px 0;
-  width: 300px;
-  background: #d9d9d9;
   border-radius: 7px;
-  background: #d9d9d9;
   padding-left: 10px;
+  border: none;
 }
 
 .main-content .search-bar .content .btn-add {
-  padding: 10px 30px 10px 30px;
+  padding: 10px 25px 10px 25px;
   background-color: #b6a4dd;
   color: #000;
   border-radius: 0.3rem;
@@ -187,8 +198,9 @@ ul.users {
   background-color: #2e7a48;
   max-width: max-content;
   padding: 5px 10px;
-  /* Adicione algum espaço ao redor do texto, se desejar */
-  border-radius: 15px;
+
+  border-radius: 4px;
+
   color: white;
   font-size: 15px;
 }
@@ -201,8 +213,8 @@ input {
   background-color: #af2424;
   max-width: max-content;
   padding: 5px 10px;
-  /* Adicione algum espaço ao redor do texto, se desejar */
-  border-radius: 15px;
+  border-radius: 4px;
+
   color: white;
 }
 
@@ -304,3 +316,84 @@ input {
         left: 0;
     }
 } */
+.header {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  padding: 20px 20px 20px 20px;
+  color: white;
+}
+.main-content .header p {
+  color: white;
+}
+
+.main-content .header .user-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-wrap: nowrap;
+  flex-direction: row;
+}
+
+.main-content .header .user-content img {
+  width: 36px;
+  height: 36px;
+  padding-right: 20px;
+}
+
+.account .perfil-user .seta-dropdown {
+  width: 15px !important;
+  height: 15px !important;
+}
+
+.account .dropdown {
+  display: none;
+  position: absolute;
+  background-color: #24242d;
+  list-style: none;
+  padding: 10px;
+  margin: 0;
+
+  width: 100px;
+}
+
+.account:hover .dropdown {
+  display: block;
+  align-items: center;
+}
+
+.account .dropdown li:hover {
+  box-shadow: 0.5px 0.5px 5px 0.5px #585863; /* Adiciona sombra ao passar o mouse */
+}
+
+.account .perfil-user {
+  list-style-type: none;
+}
+
+.account .perfil-user a {
+  text-decoration: none;
+  font-size: 22px;
+  color: var(--text-color);
+  font-size: 14px;
+}
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.dropdown .dropdown-content .show {
+  display: block !important;
+}

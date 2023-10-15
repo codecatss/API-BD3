@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles/gestorApontamento.css">
+    <title>Apontamento Horas</title>
+</head>
+
+<body>
+    <div class="grid-screen">
+
+        <header class="topnav">
+            <div class="title-screen">
+                <h1>Apontamento Horas</h1>
+            </div>
+            
+            <div class="account">
+                <ul>
+                    <li class="perfil-user"><a href="#">Xica Silva<span class="seta-dropdown">▼</span></a>
+                        <ul class="dropdown">
+                            <li><a href="#">Alterar Senha</a></li>
+                            <li><a href="#">Logout</a></li>
+                        </ul>
+                        </li>
+                    </ul>
+                </div>
+            </header>
+
+        <nav class="panelnav">
+                <div class="logo2rp">
+                    <img class="logo" src="../assets/logo2rp.svg" alt="Logo da Empresa">
+                </div>
+                <ul class="menu">
+                    <li><a href="#"><img src="../assets/iconeLancamento.svg" alt="Ícone Lançamentos">Lançamentos</a></li>
+                    <li class="activation"><a href="#"><img src="../assets/iconeApontamento.svg" alt="Ícone Apontamentos">Apontamentos</a></li>
+                    </li>
+                </ul>
+        </nav>
+
+        <nav class="interactivebar">
+                <input type="text" name="q" placeholder="Pesquisar" class="search-bar">
+                <button onclick="" class="Apr-button">Aprovar</button>
+                <button onclick="" class="Rep-button">Reprovar</button>
+                <dialog id="modal-content" class="modal-content">
+                    <div class="form-modal">
+                    <div class="inModal">
+                    </div>
+                    <div class="modal-buttons">
+                    <button onclick="closeModal()" class="close-button"></button>
+                    <button onclick="" class="add-check"></button>
+                    </div>
+                    </div>
+                </dialog>
+        </nav>
+
+        <nav class="main-content">
+                <table id="tabelaApontamento">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Colaborador</th>
+                            <th>CR</th>
+                            <th>Cliente</th>
+                            <th>Projeto</th>
+                            <th>Tipo</th>
+                            <th>Início</th>
+                            <th>Fim</th>
+                            <th>Justificativa</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+        </nav>
+    </div>
+
+</body>
+<script src="../scripts/gestorApontamento.js"></script>
+</html>

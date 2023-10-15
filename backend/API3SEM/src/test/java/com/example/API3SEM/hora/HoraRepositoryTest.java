@@ -1,8 +1,7 @@
 package com.example.API3SEM.hora;
 
+import API3SEM.entities.Hora;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class HoraRepositoryTest {
 

@@ -1,29 +1,28 @@
-:root {
-  --text-color: #ffffff;
-  --background-nav-color: #0e0e12;
-  --background-bar-color: #b3a4de;
-  --gradient-navbar: linear-gradient(to bottom, #0b0b0e, #251440, #0b0b0e);
-  --default-pad: 2.5rem;
-  --medium-pad: calc(var(--default-pad) / 2);
-  --small-pad: calc(var(--default-pad) / 4);
-  --mini-pad: calc(var(--default-pad) / 6);
-  --larger-pad: calc(var(--default-pad) * 2);
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap");
+
+* {
+  font-family: "Outfit", sans-serif !important;
+}
+a {
+  color: white;
+  text-decoration: none;
+}
+h1 {
+  font-size: var(--font-size-h1) !important;
 }
 
-html,
-body {
-  height: 100%;
-  margin: 0;
-}
-
-body {
-  font-family: Outfit, sans-serif;
+html {
   color: var(--text-color);
-  display: flex;
 }
-input,
-button {
-  border: none;
+
+p {
+  color: black;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 1fr 4fr !important;
+  height: 100vh;
 }
 
 .logo {
@@ -35,28 +34,6 @@ button {
   height: 35px;
 }
 
-.menu {
-  margin: 0;
-  padding: 0;
-  list-style-type: none;
-}
-
-.menu li {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin: var(--medium-pad) 0rem 0rem 0rem;
-}
-
-.menu li img {
-  padding-right: var(--medium-pad);
-  margin: var(--small-pad);
-}
-
-.menu li a {
-  color: var(--text-color);
-  text-decoration: none;
-}
 .menu {
   background: linear-gradient(to bottom, #000, #251440);
   display: flex;
@@ -75,7 +52,7 @@ button {
   display: grid;
   grid-template-columns: 1fr 2fr;
   align-items: center;
-  padding: 10px 0;
+  padding: 1rem 0rem 1rem 0rem;
 }
 
 .menu li img {
@@ -129,6 +106,11 @@ button {
   margin-right: var(--larger-pad);
 }
 
+.account .perfil-user .seta-dropdown {
+  width: 15px !important;
+  height: 15px !important;
+}
+
 .account .dropdown {
   display: none;
   position: absolute;
@@ -136,6 +118,8 @@ button {
   list-style: none;
   padding: 10px;
   margin: 0;
+
+  width: 100px;
 }
 
 .account:hover .dropdown {
@@ -144,7 +128,7 @@ button {
 }
 
 .account .dropdown li:hover {
-  box-shadow: 0.5px 0.5px 5px 0.5px #585863;
+  box-shadow: 0.5px 0.5px 5px 0.5px #585863; /* Adiciona sombra ao passar o mouse */
 }
 
 .account .perfil-user {
@@ -155,54 +139,261 @@ button {
   text-decoration: none;
   font-size: 22px;
   color: var(--text-color);
+  font-size: 14px;
 }
 
-.account .perfil-user a .seta-dropdown {
-  font-size: 16px;
+.main-content {
+  background-color: var(--background-main-content);
+  padding-left: 20px;
+  padding: 17px 37px 93px 32px;
 }
 
-main {
+.main-content .header {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  padding: 20px 20px 20px 20px;
+  color: white;
+}
+.main-content .header p {
+  color: white;
 }
 
-.interactivebar {
+.main-content .header .user-content {
   display: flex;
   align-items: center;
-  background-color: #24242d;
-  height: 80px;
-  width: 564px;
-  margin-bottom: var(--medium-pad);
-  border-radius: 10px;
+  justify-content: center;
+
+  flex-wrap: nowrap;
+  flex-direction: row;
 }
 
-.interactivebar .search-button {
-  margin-right: var(--larger-pad);
-  margin-left: var(--medium-pad);
-  background-color: var(--background-bar-color);
-  border-radius: 7px;
-  height: 40px;
-  width: 80px;
+.main-content .header .user-content img {
+  width: 36px;
+  height: 36px;
+  padding-right: 20px;
 }
 
-.interactivebar .add-button {
-  margin-right: var(--larger-pad);
-  margin-left: var(--small-pad);
-  background-color: var(--background-bar-color);
-  border-radius: 7px;
-  height: 40px;
-  width: 145px;
-  font-size: 22px;
+.user-content section ul li {
+  display: flex;
+  gap: 10px;
 }
 
-.interactivebar .search-bar {
-  margin-left: var(--small-pad);
-  background-color: #d9d9d9;
+.main-content .search-bar {
+  margin-bottom: 5px;
+  width: 60vw;
+  background-color: var(--background-search-bar);
   border-radius: 7px;
-  height: 40px;
-  width: 450px;
-  color: #746868;
-  font-size: 20px;
+  padding: 0rem 3rem 0rem 0rem;
+}
+
+.main-content .search-bar .content {
+  margin-left: 10px;
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 3rem 0.5rem 0rem;
+}
+
+.main-content .search-bar .content a {
+  background-color: var(--background-search-button);
+  color: var(--text-color);
+  padding: 0.3rem;
+  border-radius: 0.3rem;
+}
+
+.main-content .search-bar .content .input-search {
+  width: 407px;
+  padding: 10px 0;
+  border-radius: 7px;
+  background: var(--background-input-search);
+  padding-left: 10px;
+  border: none;
+}
+
+.search-button {
+  height: 35px;
+}
+
+.hora-aprova:hover {
+  background-color: #6bff68;
+}
+.hora-reprova:hover {
+  background-color: #ff6872;
+}
+
+.main-content .colunName ul {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  align-items: center;
+  padding: 9px 50px;
+  background-color: var(--background-users-ul);
+  color: black;
+  margin-bottom: 10px;
+  border-radius: 3px;
+}
+
+.main-content .colunName ul li {
+}
+
+.hora-aprova {
+  border-radius: 7px;
+  background: #8dd88b;
+  border: none;
+  padding: 10px 25px;
+  color: #000;
+  font-family: Outfit;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 27.5px;
+  transition: background-color 0.9s;
+}
+
+.hora-reprova {
+  border-radius: 7px;
+  background: #d86666;
+  border: none;
+  padding: 10px 25px;
+  color: #000;
+  font-family: Outfit;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 27.5px;
+  transition: background-color 0.9s;
+}
+
+.main-content .user ul {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 2fr;
+  background-color: var(--background-user-ul);
+  color: var(--text-color);
+  margin-bottom: 10px;
+  padding: 9px 0px 9px 9px;
+  border-radius: 3px;
+}
+
+.active {
+  background-color: var(--background-active);
+  max-width: max-content;
+  padding: 4px 4px;
+  border-radius: 4px;
+}
+
+.rendered-lista {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  align-items: center;
+  padding: 9px 50px;
+  background-color: var(--background-lista);
+  color: var(--text-color);
+  margin-bottom: 10px;
+  border-radius: 3px;
+}
+
+.rendered-lista p {
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.column {
+}
+
+:root {
+  --text-color: white;
+  --bg-url: url(../assets/ball.svg);
+  --stroke-color: rgba(255, 255, 255, 0.5);
+  --surface-color: rgba(255, 255, 255, 0.05);
+  --surface-color-hover: rgba(0, 0, 0, 0.02);
+  --highlight-color: rgba(255, 255, 255, 0.2);
+  --switch-bg-url: url(../assets/ball.svg);
+}
+
+.switch {
+  position: relative;
+  width: 64px;
+  margin: 4px auto;
+  cursor: pointer;
+}
+
+.switch button {
+  width: 19px;
+  height: 19px;
+  border: 0;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  z-index: 1;
+  transform: translateY(-50%);
+  transition: left 0.4s ease;
+  min-left: 0;
+  max-left: calc(100% - 32px);
+}
+
+.light #switch button {
+  animation: slide-in 0.4s forwards;
+  left: 0;
+}
+
+.switch.moved button {
+  left: calc(100% - 35px);
+}
+
+.switch.light button {
+  margin-left: 1.5008px;
+}
+
+.switch.light span {
+  background-color: var(--background-switch-hover);
+}
+
+.switch button:hover {
+  outline: 8px solid var(--highlight-color);
+}
+
+.switch span {
+  display: block;
+  width: 50px;
+  height: 22px;
+  -webkit-backdrop-filter: blur(4px);
+  border-radius: 9999px;
+  transition: background-color 0.4s ease;
+  background-color: var(--background-light-switch);
+}
+
+@keyframes slide-back {
+  from {
+    left: 50%;
+  }
+  to {
+    left: 0;
+  }
+}
+
+.search-content {
+  display: flex;
+  gap: 20px;
+}
+
+.content {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+}
+
+.button {
+  display: flex;
+
+  gap: 30px;
 }
 
 .addinputbar {
@@ -255,9 +446,17 @@ table {
   margin-left: 10px;
 }
 
+#formularioHora {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
 .coluna1 {
   padding: 5px;
   margin-right: 5px;
+  display: flex;
+  flex-direction: column;
 }
 
 .coluna2 {
@@ -278,19 +477,23 @@ table {
 .cliente {
   display: flex;
   justify-content: space-between;
-
   height: 40px;
 }
 .cr {
   display: flex;
   justify-content: space-between;
-
   height: 40px;
 }
 
 .justificativa {
+  width: 300px;
   display: flex;
   justify-content: space-between;
+}
+#just {
+  display: flex;
+  justify-content: space-between;
+  height: 40px;
 }
 
 .content {

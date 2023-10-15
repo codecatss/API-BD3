@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles/reset.css">
+    <link rel="stylesheet" href="../styles/global.styles.css">
+    <link rel="stylesheet" href="../styles/ADM.Cliente.styles.css">
+    <link rel="shortcut icon" href="../assets/logo2rp.svg" type="image/x-icon">
+
+    <title>Clientes</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="menu">
+            <div class="logo">
+                <img src="../assets/transparent-icons/2rp.svg" alt="" srcset="">
+            </div>
+            <ul class="main-menu">
+                <li class="menu-item">
+                    <img src="../assets/transparent-icons/dashboard.svg" alt="" srcset="">
+                    <a href="#">Dashboard</a>
+                </li>
+                <li class="menu-item ">
+                    <img src="../assets/transparent-icons/user.svg" alt="" srcset="">
+                    <a href="./ADM.Usuario.html">Usuários</a>
+                </li>
+                <li class="menu-item active-page">
+                    <img src="../assets/transparent-icons/client.svg" alt="" srcset="">
+                    <a href="./ADM.Cliente.html">Clientes</a>
+                </li>
+                <li class="menu-item">
+                    <img src="../assets/transparent-icons/cr.svg" alt="" srcset="">
+                    <a href="./ADM.CR.html">CR</a>
+                </li>
+                <li class="menu-item">
+                    <img src="../assets/transparent-icons/approve.svg" alt="" srcset="">
+                    <a href="./ADM.Aprovacao.html">Aprovar Horas</a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="main-content">
+            <div class="header">
+                <h1>Gerenciamento de Cliente</h1>
+                <div class="user-content">
+                    <img src="" alt=""
+                        srcset="https://cdn1.iconfinder.com/data/icons/user-pictures/101/malecostume-512.png">
+                    <section class="account">
+                        <ul>
+                            <li class="perfil-user">John Doe <img class="seta-dropdown" src="../assets/seta.svg" alt="">
+                                <ul class="dropdown">
+                                    <li><a href="#">Alterar Senha</a></li>
+                                    <li><a href="#">Logout</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </section>
+                </div>
+            </div>
+            <div class="search-bar">
+                <div class="content">
+                    <div class="search-content">
+                        <input class="input-search" type="text" name="" id="" placeholder="Pesquisar">
+                        <a class="search-icon">
+                            <img src="../assets/lupa.svg" alt="">
+                        </a>
+                    </div>
+                    <button class="user-add">Adicionar</button>
+                </div>
+            </div>
+            <div class="colunName">
+                <ul>
+                    <li>Status</li>
+                    <li>Razão Social</li>
+                    <li>CNPJ</li>
+
+                </ul>
+            </div>
+
+            <div>
+                <ul class="list-of-itens">
+
+                </ul>
+            </div>
+
+        </div>
+
+
+    </div>
+    </div>
+
+
+    <div class="modal" id="myModal">
+        <div class="modal-container">
+            <div class="modal-content">
+                <span class="close" id="closeModal">&times;</span>
+                <form action="">
+                    <div class="rectangle-24"></div>
+                    <button class="cancelar ">
+                        cancelar
+                    </button>
+
+                    <div class="title-modal">Adicionar Cliente</div>
+
+                    <input class="input-3" name="cnpj" type="text">
+                    <input class="input-2" name="razao_social" type="text">
+                    <div class="nome-input">CNPJ</div>
+                    <div class="sigla-input">Razão Social</div>
+                    <button id="confirmarCR" class="confirmar">Confirmar</button>
+                </form>
+
+
+
+
+
+            </div>
+        </div>
+
+    </div>
+
+    <div class="modal" id="myModalUpdate">
+        <div class="modal-container">
+            <div class="modal-content">
+                <span class="close" id="closeModal">&times;</span>
+                <form action="">
+                    <div class="rectangle-24"></div>
+                    <button class="cancelar cancelarButton">
+                        cancelar
+                    </button>
+
+                    <div class="title-modal">Editar Cliente</div>
+
+                    <input class="input-2" name="razao_socialUpdate" type="text">
+                    <input class="input-3" disabled name="cnpjUpdate" type="text">
+                    <div class="sigla-input">Razão Social</div>
+                    <div class="nome-input">CNPJ</div>
+                    <button id="confirmarClienteUpdate" class="confirmar">Confirmar</button>
+                </form>
+
+
+
+
+
+            </div>
+        </div>
+
+    </div>
+
+    <script type="module" src="../scripts/ADM.Cliente.script.js"></script>
+
+</body>
+
+</html>
