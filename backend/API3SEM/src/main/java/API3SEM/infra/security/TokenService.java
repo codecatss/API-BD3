@@ -1,6 +1,6 @@
-package API3SEM.API3SEM.infra.security;
+package API3SEM.infra.security;
 
-import API3SEM.API3SEM.entities.Employee;
+import API3SEM.entities.Employee;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;

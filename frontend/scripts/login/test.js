@@ -1,5 +1,12 @@
 import acessoPorFuncao from './roles.js';
 
+function decodeJWT(token) {
+    const tokenParts = token.split('.');
+    const base64Payload = tokenParts[1];
+    const payload = JSON.parse(atob(base64Payload));
+    return payload;
+}
+
 $(document).ready(function() {
     $(".login").click(function() {
         var username = $("input[type='text']").val();
@@ -17,17 +24,18 @@ function logIn(username, password) {
         contentType: "application/json",
         success: async function(data) {
             if (data.token) {
-                try {
-                    // const decodedToken = jwt.decode(data.token, 'my-secrey-key');
-                    // console.log('JWT decodificado:', decodedToken);
-                    const decoded = jsonwebtoken.decode(data.token, 'my-secrey-key');
-                    console.log(decoded)
-                    // localStorage.setItem("jwt", data.token);
-                    // redirectToPage(roleUsuario);
-
-                    const roleUsuario = await getUserRole(username, data.token);
-                } catch (error) {
-                    console.error('Erro ao decodificar o JWT:', error);
+                const tokenMatricula = decodeJWT(data.token).sub;
+                if (tokenMatricula === matricula) {
+                    try {
+                        const roleUsuario = await getUserRole(username, data.token);
+                        localStorage.setItem("jwt", data.token);
+                        localStorage.setItem("user", data.username);
+                        redirectToPage(roleUsuario);
+                    } catch (error) {
+                        console.error('Erro ao decodificar o JWT:', error);
+                    }
+                } else {
+                    alert("A matrícula no token não corresponde à matrícula desejada.");
                 }
             } else {
                 alert("Credenciais inválidas. Tente novamente.");

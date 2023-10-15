@@ -1,6 +1,6 @@
-package API3SEM.API3SEM.services;
+package API3SEM.services;
 
-import API3SEM.API3SEM.repositories.EmployeeRepository;
+import API3SEM.repositories.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

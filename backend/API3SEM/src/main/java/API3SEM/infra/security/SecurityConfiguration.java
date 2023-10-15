@@ -1,4 +1,4 @@
-package API3SEM.API3SEM.infra.security;
+package API3SEM.infra.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -34,7 +34,7 @@ public class SecurityConfiguration {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Auth Stateless
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/auth/register").permitAll().requestMatchers(HttpMethod.POST, "/auth/validateToken").permitAll()
                         .requestMatchers(HttpMethod.GET, "/employee").hasRole("admin")
 //                        .requestMatchers(HttpMethod.GET, "/cr").hasRole("admin")
 //                        .requestMatchers(HttpMethod.POST, "/cr").hasRole("admin")
