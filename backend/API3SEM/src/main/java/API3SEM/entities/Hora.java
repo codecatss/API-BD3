@@ -2,6 +2,7 @@ package API3SEM.entities;
 
 
 import java.sql.Timestamp;
+import java.time.Duration;
 import java.util.List;
 
 import API3SEM.DTOS.HoraDTOs;
@@ -101,6 +102,9 @@ public class Hora {
         this.data_modificacao_admin = data.data_modificacao_admin();
     }
 
+    public long getDuration(){
+        return Duration.between(this.getData_hora_inicio().toInstant(), this.getData_hora_fim().toInstant()).toSeconds();
+    }
 
     public Hora(Hora hora) {
         this.id = hora.getId();
