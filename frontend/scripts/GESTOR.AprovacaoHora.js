@@ -153,12 +153,28 @@ async function carregarHorasNaLista(horas) {
             console.log(hora.id)
 
 
-            const div = document.querySelector(".modal-content")
-            const p = document.createElement("p");
+            const div = document.querySelector(".linhaUsuario")
+            const usuario = document.createElement("p");
+            const tipo = document.createElement("p");
+            const status = document.createElement("p");
+            const inicio = document.createElement("p");
+            const fim = document.createElement("p");
+            const cr = document.createElement("p");
+            const cliente = document.createElement("p");
+            const justificativa = document.createElement("p");
+            const solicitante = document.createElement("p");
+            const projeto = document.createElement("p");
+            const justificativaNegacao = document.createElement("p");
+            const matriculaGestor = document.createElement("p");
+            const dataModificacaoGestor = document.createElement("p");
+            const listaHoras = document.createElement("p");
+            const btnFechar = document.createElement("button");
 
-            p.textContent = hora.tipo;
+            usuario.textContent = hora.lancador
 
-            div.appendChild(p);
+
+
+            div.appendChild(usuario);
 
 
         });
@@ -217,15 +233,15 @@ async function atualizarHora(id, partialData) {
 const inputSearch = document.querySelector(".input-search");
 
 inputSearch.addEventListener("input", function () {
-    const searchText = inputSearch.value.toLowerCase(); 
+    const searchText = inputSearch.value.toLowerCase();
 
     const horas = document.querySelectorAll(".horaLancada");
 
     horas.forEach(function (hora) {
-        const nomeUsuario = hora.querySelector("p:nth-child(2)").textContent.toLowerCase(); 
-        const crHora = hora.querySelector("p:nth-child(7)").textContent.toLowerCase(); 
+        const nomeUsuario = hora.querySelector("p:nth-child(2)").textContent.toLowerCase();
+        const crHora = hora.querySelector("p:nth-child(7)").textContent.toLowerCase();
         const statusHora = hora.querySelector("p:nth-child(4)").textContent.toLowerCase();
-        const cliente = hora.querySelector("p:nth-child(8)").textContent.toLowerCase(); 
+        const cliente = hora.querySelector("p:nth-child(8)").textContent.toLowerCase();
 
 
         if (
@@ -235,9 +251,9 @@ inputSearch.addEventListener("input", function () {
             statusHora.includes(searchText) ||
             cliente.includes(searchText)
         ) {
-            hora.style.display = "grid"; 
+            hora.style.display = "grid";
         } else {
-            hora.style.display = "none"; 
+            hora.style.display = "none";
         }
     });
 });
@@ -339,7 +355,7 @@ btnReprovar.addEventListener("click", async function () {
 
             await carregarHorasNaLista(horasCadastradas);
 
-            document.querySelector("#justificativa").value = ""; 
+            document.querySelector("#justificativa").value = "";
 
             modal.style.display = "none";
         })

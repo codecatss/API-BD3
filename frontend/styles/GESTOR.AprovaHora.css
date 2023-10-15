@@ -15,10 +15,6 @@ html {
   color: var(--text-color);
 }
 
-p {
-  color: black;
-}
-
 .container {
   display: grid;
   grid-template-columns: 1fr 4fr;
@@ -156,6 +152,7 @@ p {
   justify-content: space-between;
   padding: 20px 20px 20px 20px;
   color: white;
+  border: 1px solid red;
 }
 .main-content .header p {
   color: white;
@@ -462,29 +459,6 @@ table {
   margin-right: 5px;
 }
 
-.tipo {
-  display: flex;
-  justify-content: space-between;
-}
-
-.cliente {
-  display: flex;
-  justify-content: space-between;
-
-  height: 40px;
-}
-.cr {
-  display: flex;
-  justify-content: space-between;
-
-  height: 40px;
-}
-
-.justificativa {
-  display: flex;
-  justify-content: space-between;
-}
-
 .content {
   display: flex;
   gap: 10px;
@@ -660,6 +634,7 @@ table {
   height: 541px;
   display: grid;
   grid-template-columns: 2fr 4fr;
+  border: 1px solid red;
 }
 
 .inputs {
@@ -813,6 +788,8 @@ table {
 
 .modal-content {
   background-color: #24242d;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
 }
 
 .hora-pendente {
@@ -909,4 +886,178 @@ table {
 
 .cancelarReprovacao {
   background-color: #d86666;
+}
+
+/* Modal Ver */
+
+.colunaUsuario {
+  display: flex;
+  flex-direction: row;
+  border: 1px solid red;
+  height: 30px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  width: 400px;
+}
+
+.colunaUsuario div {
+  border: 1px solid black;
+  padding: 10px;
+  height: 30px;
+  width: 50%;
+}
+
+/* Side Panel Styling */
+.side-panel {
+  top: 0;
+  right: 0;
+  width: 200px;
+  height: 100%;
+  padding: 20px;
+}
+
+/* Content Styling */
+.content {
+  margin-right: 220px;
+  padding: 20px;
+}
+
+.column-one,
+.column-two {
+  height: 100%;
+  width: 100%;
+  background-color: rgb(214, 214, 214);
+}
+.column-one {
+  display: grid;
+  grid-template-rows: 2fr 1fr;
+  padding: 10px;
+}
+.column-two {
+  padding: 10px;
+}
+
+.about-hora,
+.lista-acionamentos,
+.usuario,
+.cliente,
+.solicitante,
+.cr,
+.justificativa,
+.projeto {
+  background-color: #24242d;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+  border-radius: 5px 10px !important;
+}
+
+.about-hora {
+  padding: 10px;
+  margin-right: 15px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  font-family: "Inter", sans-serif;
+  font-weight: bold;
+}
+.status-hora,
+.tipo-hora,
+.inicio-hora,
+.fim-hora {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.status-hora,
+.tipo-hora {
+  gap: 5px;
+}
+
+.status-hora p {
+  padding: 6px;
+  background-color: #2e7a48;
+  color: white;
+  border-radius: 4px;
+}
+
+.tipo-hora p {
+  padding: 6px;
+  background-color: #efb435;
+  color: white;
+  border-radius: 4px;
+}
+
+.nome-usuario {
+  color: white;
+}
+
+.about-hora h2 {
+  font-size: 20px;
+}
+
+.lista-acionamentos {
+  border: 1px solid purple;
+  border-radius: 5px;
+}
+
+.infos-hora {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.infos-hora > div {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+
+  border-radius: 5px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.cliente {
+  color: white;
+}
+
+.nome-usuario,
+.nome-cliente,
+.motivo-justificativa,
+.nome-solicitante,
+.nome-cr,
+.nome-projeto {
+  font-size: 14px;
+}
+
+.sobre-aprovador {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  margin-top: 40px;
+  gap: 10px;
+}
+
+.sobre-aprovador > div {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+
+  border-radius: 5px;
+  border: 1px solid red;
+  background-color: #24242d;
+}
+
+.status-tipo {
+  display: flex;
+}
+
+.sobre-aprovador > div > h2 {
+  font-size: 16px;
+  margin-bottom: 4px;
 }
