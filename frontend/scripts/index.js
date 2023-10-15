@@ -1,3 +1,6 @@
+
+
+
 function toggleMode(liElement) {
     if (liElement.classList.contains('moved')) {
         liElement.classList.remove('moved');
