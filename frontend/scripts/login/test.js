@@ -1,11 +1,5 @@
 import acessoPorFuncao from './roles.js';
-
-function decodeJWT(token) {
-    const tokenParts = token.split('.');
-    const base64Payload = tokenParts[1];
-    const payload = JSON.parse(atob(base64Payload));
-    return payload;
-}
+import decodeJWT from "./decodeToken.js";
 
 $(document).ready(function() {
     $(".login").click(function() {
@@ -25,11 +19,12 @@ function logIn(username, password) {
         success: async function(data) {
             if (data.token) {
                 const tokenMatricula = decodeJWT(data.token).sub;
-                if (tokenMatricula === matricula) {
+                console.log(username)
+                if (tokenMatricula === username) {
                     try {
                         const roleUsuario = await getUserRole(username, data.token);
                         localStorage.setItem("jwt", data.token);
-                        localStorage.setItem("user", data.username);
+                        localStorage.setItem("username", username);
                         redirectToPage(roleUsuario);
                     } catch (error) {
                         console.error('Erro ao decodificar o JWT:', error);
@@ -71,6 +66,7 @@ function redirectToPage(role) {
     if (allowedPages && allowedPages.length > 0) {
         window.location.href = allowedPages[0];
     } else {
+        console.log(role);
         window.alert("Erro KKKKKK");
     }
 }
