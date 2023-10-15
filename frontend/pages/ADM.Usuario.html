@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="../styles/usuario/switch.css">
     <link rel="stylesheet" href="../styles/usuario/rightbar_feedback.css">
     <link rel="stylesheet" href="../styles/reset.css">
+    <link rel="stylesheet" href="../styles/global.styles.css">
     <link rel="shortcut icon" href="../assets/logo2rp.svg" type="image/x-icon">
 
     <title>Usuário</title>
@@ -56,15 +57,24 @@
                 <div class="user-content">
                     <img src="" alt=""
                         srcset="https://cdn1.iconfinder.com/data/icons/user-pictures/101/malecostume-512.png">
-                    <p>John Doe</p>
+                    <section class="account">
+                        <ul>
+                            <li class="perfil-user">John Doe <img class="seta-dropdown" src="../assets/seta.svg" alt="">
+                                <ul class="dropdown">
+                                    <li><a href="#">Alterar Senha</a></li>
+                                    <li><a href="#">Logout</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </section>
                 </div>
             </div>
             <div class="search-bar">
                 <div class="content">
-                    <div>
+                    <div class="input-container">
                         <input class="input-search" type="text" name="" id="" placeholder="Pesquisar">
                         <a class="search">
-                            <img src="../assets/transparent-icons/lupa.svg" alt="">
+                            <img src="../assets/lupa.svg" alt="">
                         </a>
 
                     </div>
@@ -77,8 +87,11 @@
                     <p>Nome</p>
                     <p>Matrícula</p>
                     <p>Função</p>
-                    <p>Habilitar/Desabilitar</p>
-                    <p>Editar</p>
+                    <!--
+
+                        <p>Habilitar/Desabilitar</p>
+                        <p>Editar</p>
+                    -->
                 </li>
                 <!--
                 <li class="user">
@@ -132,7 +145,12 @@
                     <p class="input-title">Função:</p>
                 </div>
                 <div class="column">
-                    <input class="user-input" type="text" placeholder="Função" required>
+                    <select class="user-input-select" name="funcao" id="funcaoFuncionario">
+                        <option value="colaborador">Colaborador</option>
+                        <option value="gestor">Gestor</option>
+                        <option value="admin">Administrator</option>
+                    </select>
+
                 </div>
             </div>
 
@@ -179,7 +197,11 @@
                     <p class="input-title">Função:</p>
                 </div>
                 <div class="column">
-                    <input class="user-input" type="text" placeholder="Função">
+                    <select class="user-input-select" name="funcao" id="funcaoFuncionarioEditar">
+                        <option value="colaborador">Colaborador</option>
+                        <option value="gestor">Gestor</option>
+                        <option value="admin">Administrator</option>
+                    </select>
                 </div>
             </div>
 

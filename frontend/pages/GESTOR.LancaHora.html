@@ -1,51 +1,64 @@
 <!DOCTYPE html>
-<html lang="pt br">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../styles/reset.css">
-    <link rel="stylesheet" href="../styles/lancamentoUsuario.styles.css">
+    <link rel="stylesheet" href="../styles/global.styles.css">
+
+    <link rel="stylesheet" href="../styles/GESTOR.LancaHora.css">
+
     <link rel="shortcut icon" href="../assets/logo2rp.svg" type="image/x-icon">
 
-    <title>Lançamento de horas</title>
-    <script type="module" src="../scripts/login/guardian.js"></script>
+    <title>Lançamento De Horas</title>
 </head>
 
 <body>
-    <div class="menu">
-        <div class="logo">
-            <img src="../assets/transparent-icons/2rp.svg" alt="" srcset="">
-        </div>
-        <ul class="main-menu">
-            <li class="active-page"><a href="#"><img src="../assets/iconeLancamento.svg" alt="Ícone Lançamento"><a
-                        href="#">Lançamentos</a></li>
-        </ul>
-    </div>
-    <nav class="main-content">
-
-        <header class="topnav">
-            <div>
-                <h1>Lançamento de horas</h1>
+    <div class="container">
+        <div class="menu">
+            <div class="logo">
+                <img src="../assets/transparent-icons/2rp.svg" alt="" srcset="">
             </div>
-            <section class="account">
-                <ul>
-                    <li class="perfil-user"><a href="#">Milk <span class="seta-dropdown">▼</span></a>
-                        <ul class="dropdown">
-                            <li><a href="#">Alterar Senha</a></li>
-                            <li><a href="#">Logout</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </section>
-        </header>
+            <ul class="main-menu">
+                <li class="menu-item active-page">
+                    <img src="../assets/iconeLancamento.svg" alt="" srcset="">
+                    <a href="./GESTOR.LancaHora.html">Lançar Hora</a>
+                </li>
+                <li class="menu-item ">
+                    <img src="../assets/iconeApontamento.svg" alt="" srcset="">
+                    <a href="./GESTOR.AprovaHora.html">Apontamento</a>
+                </li>
+            </ul>
+        </div>
 
-        <main>
-            <nav class="interactivebar">
-                <input type="text" name="q" placeholder="Pesquisar" class="search-bar">
-                <button type="submit" class="search-button"><img class="lupa" src="../assets/iconeLupa.svg"
-                        alt="Buscar"></button>
-            </nav>
+        <div class="main-content">
+            <div class="header">
+                <h1>Lançamento De Horas</h1>
+                <div class="user-content">
+                    <img src="" alt=""
+                        srcset="https://cdn1.iconfinder.com/data/icons/user-pictures/101/malecostume-512.png">
+                    <section class="account">
+                        <ul>
+                            <li class="perfil-user">John Doe <img class="seta-dropdown" src="../assets/seta.svg" alt="">
+                                <ul class="dropdown">
+                                    <li><a href="#">Alterar Senha</a></li>
+                                    <li><a href="#">Logout</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </section>
+                </div>
+            </div>
+            <div class="search-bar">
+                <div class="content">
+                    <div class="search-content">
+                        <input class="input-search" type="text" name="" id="" placeholder="Pesquisar">
+                    </div>
+
+
+                </div>
+            </div>
 
             <nav class="addinputbar">
                 <div class="input">
@@ -72,9 +85,10 @@
 
                                 </select>
                             </div>
-                            <div class="justificativa">
+                            <div class="justificativa" id="just">
                                 <label for="justificativa" class="custom-label">Justificativa</label>
-                                <input id="justificativaHora" type="text" name="q" class="input-bar" required>
+                                <input id="justificativaHora" type="text" name="q" placeholder="Justificativa"
+                                    class="input-bar" required>
                             </div>
                         </div>
                         <div class="coluna2">
@@ -134,15 +148,11 @@
 
                 </ul>
             </nav>
-
-        </main>
-    </nav>
+        </div>
 
 
 
-
-
-
+    </div>
 
 
 
@@ -190,11 +200,8 @@
 
 
 
-
-
     <script type="module" src="../scripts/COLAB.Lançamentio-Hora.js"></script>
-</body>
 
-</html>
+</body>
 
 </html>
