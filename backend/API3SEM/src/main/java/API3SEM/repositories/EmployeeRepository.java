@@ -11,4 +11,8 @@ public interface EmployeeRepository extends JpaRepository<Employee,String> {
 
     List<Employee> findByMatriculaNotIn(List<String> matriculas);
     //  List<Employees> findByNameAndMatricula(String name, String matricula);
+
+    boolean existsByNome(String mokedEmployee);
+
+
 }
