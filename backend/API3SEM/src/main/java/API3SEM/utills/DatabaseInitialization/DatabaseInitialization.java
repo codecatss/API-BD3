@@ -1,4 +1,4 @@
-package API3SEM.utills.seed;
+package API3SEM.utills.DatabaseInitialization;
 
 import API3SEM.entities.Employee;
 import API3SEM.entities.funcaoUsuarioEnum.FuncaoUsuarioEnum;
@@ -52,8 +52,7 @@ public class DatabaseInitialization implements CommandLineRunner {
                 Employee employee = new Employee();
     
                 employee.setNome(faker.name().firstName());
-                int index = Arrays.asList(mokedIds).indexOf(mokedId);
-                employee.setFuncao(mokedRolesEnum[index]);
+                employee.setFuncao(mokedRolesEnum[Arrays.asList(mokedIds).indexOf(mokedId)]);
                 employee.setMatricula(mokedId.toString());
                 employee.setSenha("admin123");
                 employee.setStatus_usuario(StatusEnum.ativo);
