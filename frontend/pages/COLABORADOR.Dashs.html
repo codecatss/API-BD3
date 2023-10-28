@@ -49,8 +49,8 @@
 
                     <div class="filtro-cr">
 
-                        <label for="cr" class="custom-label-filtro">CR</label>
-                        <select id="selecionarEmpresa" name="q" class="input-bar" required>
+                        <label for="cr" class="custom-label-filtro">Centro de Resultado</label>
+                        <select id="selecionarCr" name="q" class="input-bar" required>
                             <option value="" disabled selected>Selecione o CR</option>
         
                         </select>
@@ -72,46 +72,62 @@
                 </div>
                 
                 <div class="filtros-horas-status">
+                    
                     <div class="horas-aprovadas">
                         <label for="aprovadas" class="custom-label-painel-status">Minhas horas aprovadas</label>
-                        <label for="apro" class="custom-label-painel-status-value">11111</label>
+                        <label for="apro" id="label-aprovadas"class="custom-label-painel-status-value">11111</label>
                     </div>
+                    
                     <div class="horas-reprovadas">
                         <label for="reprovadas" class="custom-label-painel-status">Minhas horas reprovadas</label>
-                        <label for="repo" class="custom-label-painel-status-value">22222</label>
+                        <label for="repo" id="label-reprovadas" class="custom-label-painel-status-value">22222</label>
                     </div>
+                    
                     <div class="horas-pendentes">
                         <label for="pendentes" class="custom-label-painel-status">Minhas horas pendentes</label>
-                        <label for="pend" class="custom-label-painel-status-value">33333</label>
+                        <label for="pend" id="label-pendentes" class="custom-label-painel-status-value">33333</label>
                     </div>
+                
                 </div>
                 
                 <div class="minhas-horas">
                     <div class="titulo-status">
                         
                         <div class="titulo">
-                            <label for="horas">Minhas horas</label>
+
+                            <div class="titulo-titulo"><label for="horas">Minhas horas</label></div>
+                            
                         </div>
                         
                         <div class="status">
                             
                             <div class="status-aprovadas">
-                                <div class="status-label"><img src="../assets/green-ball.svg"><a>Aprovadas</a></div>
+                                <div class="status-label">
+                                    <img src="../assets/green-ball.svg">
+                                    <a>Aprovadas</a>
+                                </div>
                             </div>
                             
                             <div class="status-reprovadas">
-                                <div class="status-label"><img src="../assets/red-ball.svg"><a>Reprovadas</a></div>
+                                <div class="status-label">
+                                    <img src="../assets/red-ball.svg">
+                                    <a>Reprovadas</a>
+                                </div>
                             </div>
                             
                             <div class="status-pendentes">
-                                <div class="status-label"><img src="../assets/yellow-ball.svg"><a>Pendentes</a></div>
+                                <div class="status-label">
+                                    <img src="../assets/yellow-ball.svg">
+                                    <a>Pendentes</a>
+                                </div>
                             </div>
                         
                         </div>
                     </div>
                     
                     <div class="grafico">
-                        GRAFIQUINHO
+                        <div class="grafico-grafico">
+                        </div>
                     </div>
                     
                     <div class="vazio"></div>
@@ -122,7 +138,7 @@
         </main>
     </nav>
 
-    <script type="module" src="../scripts/COLAB.Lançamentio-Hora.js"></script>
+    <script type="module" src="../scripts/COLAB.Dashs.script.js"></script>
 </body>
 
 </html>

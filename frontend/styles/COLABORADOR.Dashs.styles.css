@@ -248,107 +248,19 @@
   .input-bar {
     padding-left: 7px;
     font-size: 15px;
+    background-color: #24242D;
+    color: white;
     
   }
-  
-  table {
-    border-collapse: collapse;
-    width: 100%;
-    overflow-x: auto;
-  }
-  
+    
   .input {
     display: grid;
     margin-top: 10px;
     margin-left: 10px;
   }
   
-  .coluna1 {
-    padding: 5px;
-    margin-right: 5px;
-  }
-  
-  .coluna2 {
-    padding: 5px;
-    margin-right: 5px;
-  }
-  
-  .coluna3 {
-    padding: 5px;
-    margin-right: 5px;
-  }
-  
-  .tipo {
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .cliente {
-    display: flex;
-    justify-content: space-between;
-  
-    height: 40px;
-  }
-  .cr {
-    display: flex;
-    justify-content: space-between;
-  
-    height: 40px;
-  }
-  
-  .justificativa {
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .content {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-  }
-  
-  .datainicio {
-    display: flex;
-  }
-  
-  .horainicio {
-    display: flex;
-  }
-  
-  .projeto {
-    display: flex;
-  }
-  
-  .datafim {
-    display: flex;
-  }
-  
-  .horafim {
-    display: flex;
-  }
-  
-  .solicitante {
-    display: flex;
-  }
-  
   .limpar-button {
     background-color: #d86666;
-    color: #000000;
-    font-family: "Arial", sans-serif;
-    font-size: 16px;
-    font-weight: bold;
-  }
-  
-  .adicionar-button {
-    background-color: #8dd88b;
-    color: #000000;
-    font-family: "Arial", sans-serif;
-    font-size: 16px;
-    font-weight: bold;
-  }
-  
-  .acionamento-button {
-    background-color: #63c0f4;
     color: #000000;
     font-family: "Arial", sans-serif;
     font-size: 16px;
@@ -387,46 +299,6 @@
     width: 50px;
   }
   
-  #tabelaLancamento {
-    background-color: #b3a4de;
-    color: #000000;
-    font-size: 20px;
-    padding: var(--small-pad);
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-    border-radius: 5px;
-    padding: 5px 20px;
-  }
-  
-  #listaHoras {
-    margin-top: 10px;
-    height: 300px;
-    overflow-y: auto;
-    border-radius: 13px;
-    background-color: #24242d;
-    padding: 5px;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-  }
-  
-  .horaLancada {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-    border-radius: 5px;
-    background: #d9d9d9;
-    color: #000000;
-    padding: 10px 15px;
-    font-size: 14px;
-  }
-  
-  .horaLancada:hover {
-    filter: brightness(1.2);
-  }
-  .horaLancada p {
-    align-self: center;
-  }
-  
   .botaoDesabilitado {
     filter: brightness(0.4);
     opacity: 0.7;
@@ -436,6 +308,7 @@
   #selecionarEmpresa,
   #selecionarCr {
     font-size: 14px;
+    color: white;
   }
   
   #modalSobreAviso {
@@ -692,21 +565,23 @@
 
   .custom-label-painel-status{
     font-family: "Arial";
-    font-size: 24px;
+    font-size: 150%;
     font-weight: 700;
-    line-height: 66px;
+    line-height: 100%;
     letter-spacing: 0em;
     text-align: left;
+    height: 36%;
+    width: 95%;
+    padding-top: 5%;
   }
 
   .custom-label-painel-status-value{
     font-family: "Arial";
-    font-size: 48px;
+    font-size: 300%;
     font-weight: 700;
     line-height: 66px;
-    letter-spacing: 0em;
     text-align: left;
-
+    height: 36%;
   }
 
   .horas-reprovadas{
@@ -739,7 +614,7 @@
 
   .titulo-status{
     width: 50%;
-    height: 100px;
+    height: 90%;
     border-radius: 23px;
     background-color: #24242d;
     display: flex;
@@ -752,19 +627,26 @@
     font-family: "Arial";
     font-size: 32px;
     font-weight: 700;
-    line-height: 66px;
+    line-height: 100%;
     text-align: left;
+    height: 38%;
+  }
+
+  .titulo-titulo{
+    height: 43%;
+    margin-top: 7%;
+    margin-bottom: 48%;
   }
 
   .status{
+    height: 47%;
     gap: 5px;
     display: flex;
     flex-direction: column;
   }
 
   .status-aprovadas{
-    gap: 10px;
-
+    height: 33%;
   }
 
   .status-label{
@@ -775,31 +657,45 @@
     letter-spacing: 0em;
     text-align: left;
     display: flex;
+    flex-direction: row;
     gap: 7px;
   }
 
   .status-reprovadas{
+    height: 33%;
 
   }
 
   .status-pendentes{
-
+    height: 33%;
   }
 
   .grafico{
-    border: 1px solid red;
     width: 50%;
     height: 90%;
     border-radius: 23px;
     background-color: #24242d;
     display: flex;
     padding: 15px 26px;
-    flex-direction: column;    
+    flex-direction: column;
+  }
+
+  .grafico-grafico{
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-image: conic-gradient(
+      #D86666 25%,
+      #EADD6E 25% 75%,
+      #8DD88B 75% 100%
+    );
   }
 
   .vazio{
-    border: 1px solid blueviolet;
-    width: 50%;
+    width: 30%;
     height: 90%;
     border-radius: 23px;
     background-color: #24242d;
