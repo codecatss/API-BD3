@@ -307,7 +307,7 @@
   
   #selecionarEmpresa,
   #selecionarCr {
-    font-size: 14px;
+    font-size: 100%;
     color: white;
   }
   
@@ -492,9 +492,10 @@
     flex-direction: column;
     justify-content: center;
     gap: 10px;
-    height: 90%;
-    width: 90%;
+    height: 88%;
+    width: 92%;
   }
+  
   .main-divao{
     background: #0e0e12;
     margin: 1% auto;
@@ -546,10 +547,13 @@
 
   .custom-label-filtro{
     font-family: "Arial";
-    font-size: 24px;
+    font-size: 150%;
     font-weight: 700;
-    line-height: 50px;
+    line-height: 100%;
+    letter-spacing: 0em;
     text-align: left;
+    height: 36%;
+    margin-bottom: 2%;
 
   }
 

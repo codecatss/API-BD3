@@ -89,3 +89,34 @@ function popularSelectCr(centroDeResultado) {
 popularSelectEmpresas(todosClientes)
 popularSelectCr(todosCr);
 
+function calcularProporcao(){
+    const aprovadas = document.getElementById("label-aprovadas");
+    const reprovadas = document.getElementById("label-reprovadas");
+    const pendentes = document.getElementById("label-pendentes");
+
+    const v_aprovadas = parseInt(aprovadas.textContent);
+    const v_reprovadas = parseInt(reprovadas.textContent);
+    const v_pendentes = parseInt(pendentes.textContent);
+
+
+    console.log(v_aprovadas);
+    console.log(v_reprovadas);
+    console.log(v_pendentes);
+
+    const total = v_aprovadas + v_reprovadas + v_pendentes;
+    const proporcaoAprovadas = ((v_aprovadas/total) * 100).toFixed(2);
+    const proporcaoReprovadas = ((v_reprovadas/total) * 100).toFixed(2);
+    const proporcaoPendentes = ((v_pendentes/total) * 100).toFixed(2);
+
+    console.log(total);
+    console.log(proporcaoAprovadas);
+    console.log(proporcaoReprovadas);
+    console.log(proporcaoPendentes);
+
+    const grafico = document.querySelector(".grafico-grafico");
+
+    grafico.style.backgroundImage = `conic-gradient(#D86666 ${proporcaoReprovadas}%, #EADD6E ${proporcaoReprovadas}% ${proporcaoPendentes}%, #8DD88B ${proporcaoPendentes}% 100%)`;
+
+}
+
+calcularProporcao();
