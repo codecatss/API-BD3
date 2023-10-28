@@ -15,9 +15,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 
@@ -275,7 +275,7 @@ public class HoraController {
                                     if (partialData.data_modificacao_gestor() != null) {
                                         hora.setData_modificacao_gestor(partialData.data_modificacao_gestor());
                                     } else { // Se não veio, configura como agora
-                                        hora.setData_modificacao_gestor(new Timestamp(System.currentTimeMillis()));
+                                        hora.setData_modificacao_gestor(Timestamp.valueOf(LocalDateTime.now()));
                                     }
 
                                 } else {

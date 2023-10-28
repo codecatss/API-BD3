@@ -53,7 +53,7 @@ public class VerbaManagerTest {
     }
 
     @Test
-    public void testVerbasDiurnas() {
+    public void testVerbasDiurnas() {       
 
         Hora horaDiurna = new Hora();
         horaDiurna.setTipo(TipoEnum.EXTRA.name());
@@ -154,4 +154,51 @@ public class VerbaManagerTest {
         assertEquals(VerbasEnum.ADN, verbas.get(2).getVerba());
             
     }
+    
+    @Test
+        public void testEmptyHoraList() {
+            Exception exception = assertThrows(RuntimeException.class, () -> {
+                VerbaManager.getVerbaFromHora(new ArrayList<>());
+            });
+
+            String expectedMessage = "Lista de horas vazia";
+            String actualMessage = exception.getMessage();
+            
+            assertTrue(actualMessage.contains(expectedMessage));
+        }
+
+    @Test
+        public void testVerbasWithMultipleHoras() {
+
+            Hora hora1 = new Hora();
+            hora1.setTipo(TipoEnum.EXTRA.name());
+            hora1.setData_hora_inicio(Timestamp.valueOf(LocalDateTime.of(2023, 10, 8, 8, 0, 0)));
+            hora1.setData_hora_fim(Timestamp.valueOf(LocalDateTime.of(2023, 10, 8, 12, 0, 0)));
+
+            Hora hora2 = new Hora();
+            hora2.setTipo(TipoEnum.EXTRA.name());
+            hora2.setData_hora_inicio(Timestamp.valueOf(LocalDateTime.of(2023, 10, 9, 18, 0, 0)));
+            hora2.setData_hora_fim(Timestamp.valueOf(LocalDateTime.of(2023, 10, 9, 22, 0, 0)));
+
+            List<Hora> horas = new ArrayList<>();
+            horas.add(hora1);
+            horas.add(hora2);
+            
+            ArrayList<ArrayList<VerbaHora>> verbas = VerbaManager.getVerbaFromHora(horas);
+            
+            assertEquals(2, verbas.size());
+            
+            assertEquals(2, verbas.get(1).size());
+            assertEquals(VerbasEnum.HE75, verbas.get(0).get(0).getVerba());
+            assertEquals(VerbasEnum.HE100, verbas.get(0).get(1).getVerba());
+            assertEquals(7200, verbas.get(0).get(0).getDuration().toSeconds());
+            assertEquals(7199, verbas.get(0).get(1).getDuration().toSeconds());
+
+            assertEquals(2, verbas.get(1).size());
+            assertEquals(VerbasEnum.HE75, verbas.get(1).get(0).getVerba());
+            assertEquals(VerbasEnum.HE100, verbas.get(1).get(1).getVerba());
+            assertEquals(7200, verbas.get(1).get(0).getDuration().toSeconds());
+            assertEquals(7199, verbas.get(1).get(1).getDuration().toSeconds());
+        }
+
 }
