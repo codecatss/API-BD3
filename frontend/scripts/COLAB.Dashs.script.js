@@ -1,3 +1,5 @@
+const matriculaUsuarioLogado = 4533;
+
 const obterTodosClientes = async () => {
     // Faz a requisição para a API e retorna os clientes
     try {
