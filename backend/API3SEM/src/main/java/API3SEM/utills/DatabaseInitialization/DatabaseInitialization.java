@@ -1,9 +1,11 @@
 package API3SEM.utills.DatabaseInitialization;
 
+import API3SEM.entities.CenterResult;
 import API3SEM.entities.Client;
 import API3SEM.entities.Employee;
 import API3SEM.entities.Hora;
 import API3SEM.entities.funcaoUsuarioEnum.FuncaoUsuarioEnum;
+import API3SEM.repositories.CenterResultRepository;
 import API3SEM.repositories.ClientRepository;
 import API3SEM.repositories.EmployeeRepository;
 import API3SEM.repositories.HoraRepository;
@@ -34,22 +36,35 @@ public class DatabaseInitialization implements CommandLineRunner {
     @Autowired
     private ClientRepository clientRepository;
 
+    @Autowired
+    private CenterResultRepository centerResultRepository;
+
     private static Faker faker = new Faker();
+
+    private static Random random = new Random();
 
     @Override
     public void run(String... args) throws Exception {
 
         seedMokeds(this.employeeRepository);
-        if(employeeRepository.findAll().size() > 15){
+        
+        List<Client> clietes = seedCliet(this.clientRepository);
+
+        List<Employee> employees = this.employeeRepository.findAll();
+
+        List<CenterResult> centerResults = seedCenterResults(this.centerResultRepository);
+        
+        if(employees.size() > 15){
             return;
         }
-
-
-        seedCliet(this.clientRepository);
-        
         // else{
-            seedEmployees(this.employeeRepository, this.horaRepository);
+            seedEmployees(this.employeeRepository);
+            employees = this.employeeRepository.findAll();
         // }
+
+        for (Employee employee : employees) {
+            DatabaseInitialization.seedHoras(employee, clietes, centerResults, horaRepository);
+        }
     }
     
     private static void seedMokeds(EmployeeRepository employeeRepository){
@@ -93,7 +108,7 @@ public class DatabaseInitialization implements CommandLineRunner {
         
     }
 
-    private static void seedEmployees(EmployeeRepository employeeRepository, HoraRepository horaRepository){
+    private static void seedEmployees(EmployeeRepository employeeRepository){
         
        
 
@@ -106,34 +121,68 @@ public class DatabaseInitialization implements CommandLineRunner {
             employee.setSenha(faker.number().digits(6));
             employee.setStatus_usuario(StatusEnum.ativo);
             employeeRepository.save(employee);
-            // DatabaseInitialization.seedHoras(employee, horaRepository);
         }
     }
 
-    private static void seedHoras(Employee employee, HoraRepository horaRepository){
+    private static List<CenterResult> seedCenterResults(CenterResultRepository centerResultRepository){
+        List<CenterResult> centerResults = new ArrayList<CenterResult>();
+
+        if(!centerResultRepository.findAll().isEmpty()){
+            return centerResultRepository.findAll();
+        }
         
        
-        Random random = new Random();
-        for(int i = 0; i < 10; i++){
+        List<String> siglas = new ArrayList<String>();
+        List<String> squadList = new ArrayList<String>();
+        squadList.add("TechTitans");
+        squadList.add("CodeCrushers");
+        squadList.add("ByteBusters");
+        squadList.add("DevDynamos");
+        squadList.add("HackHeroes");
+        squadList.add("PixelPioneers");
+        for (String squad : squadList) {
+            CenterResult centerResult = new CenterResult();
+            centerResult.setNome(squad);
+            centerResult.setCodigoCr(faker.number().digits(6));
+            centerResult.setStatusCr(StatusEnum.ativo);
+
+            String sigla = centerResult.getNome().substring(0, 3);
+            if(siglas.isEmpty() || siglas.contains(sigla)){
+                centerResult.setSigla(sigla.concat(faker.number().digits(1)));
+            }
+            else{
+                siglas.add(sigla);
+                centerResult.setSigla(sigla);
+            }
+            centerResults.add(centerResult);
+            centerResultRepository.save(centerResult);
+        }
+        return centerResults;
+
+    }
+
+    private static void seedHoras(Employee employee, List<Client> clientes, List<CenterResult> crs, HoraRepository horaRepository){
+        
+        int nHora = random.nextInt(10) + 1;
+        for(int i = 0; i < nHora; i++){
             Hora hora = new Hora();
-            hora.setCnpj(Integer.toString(faker.number().randomDigitNotZero()));
             int day = random.nextInt(27) + 1;
             int month = random.nextInt(11) + 1;
             int hour = random.nextInt(23) + 1; 
             int minuto = random.nextInt(59) + 1;
             int segundo = random.nextInt(59) + 1;
+            hora.setCnpj(clientes.get(random.nextInt(clientes.size())).getCnpj());
             hora.setData_hora_inicio(Timestamp.valueOf(LocalDateTime.of(2023, month, day, hour, minuto, segundo)));
             hora.setData_hora_fim(Timestamp.valueOf(hora.getData_hora_inicio().toLocalDateTime().plusHours(random.nextInt(12)).plusMinutes(random.nextInt(60)).plusSeconds(random.nextInt(60))));
             hora.setData_lancamento(Timestamp.valueOf(LocalDateTime.now()));
             hora.setData_modificacao_gestor(Timestamp.valueOf(LocalDateTime.now()));
             hora.setData_modificacao_admin(Timestamp.valueOf(LocalDateTime.now()));
             hora.setLancador(employee.getMatricula());;
-            hora.setCodcr(faker.number().digits(6));
+            hora.setCodcr(crs.get(random.nextInt(crs.size())).getCodigoCr());
             hora.setJustificativa(faker.rickAndMorty().location());
             hora.setProjeto(faker.rickAndMorty().character());
             hora.setSolicitante(faker.name().firstName());
             hora.setStatus_aprovacao(AprovacaoEnum.PENDENTE.toString());
-
             
             horaRepository.save(hora);
         }
