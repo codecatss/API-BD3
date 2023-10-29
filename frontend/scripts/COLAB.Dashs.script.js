@@ -102,12 +102,26 @@ popularSelectEmpresas(todosClientes)
 popularSelectCr(todosCr);
 
 
-const listarHoras = async () => {
+const listarHoras = async (matriculaUsuarioLogado, CrSelecionado, ClienteSelecionado) => {
     // Faz a requisição para a API e retorna as horas
     // TODO: Ver a questão dos filtros
+    let apiUrl = `http://localhost:8080/hora/${matriculaUsuarioLogado}`;
+    
+    // Adicionar os parâmetros do CR e Cliente se eles estiverem definidos
+    if (CrSelecionado) {
+        console.log(CrSelecionado);
+        apiUrl += `?codCR=${CrSelecionado}`;
+    }
+    
+    if (ClienteSelecionado) {
+        console.log(ClienteSelecionado);
+        apiUrl += CrSelecionado ? `&cnpj=${ClienteSelecionado}` : `?cnpj=${ClienteSelecionado}`;
+    }
+
     try {
-        const response = await fetch('http://localhost:8080/hora');
+        const response = await fetch(apiUrl);
         if (!response.ok) {
+            const data = [];
             throw new Error('Não foi possível obter os dados.');
         }
         const data = await response.json();
@@ -115,11 +129,12 @@ const listarHoras = async () => {
     } catch (error) {
         throw error;
     }
+    
 };
 
 
 // Guarda todas as horas em uma variável
-const horasCadastradas = await listarHoras()
+const horasCadastradas = await listarHoras(matriculaUsuarioLogado)
 
 
 function arrumarProporcaoGrafico(horas){
@@ -158,5 +173,31 @@ function preencherPainelStatus(horas){
 }
 
 
-preencherPainelStatus(horasCadastradas);
-arrumarProporcaoGrafico(horasCadastradas);
+const selectCr = document.getElementById("selecionarCr");
+const selectCliente = document.getElementById("selecionarEmpresa");
+
+
+selectCr.addEventListener("change", () => {
+    // Função para atualizar horas quando o CR é alterado
+    atualizarHoras();
+});
+
+
+selectCliente.addEventListener("change", () => {
+    // Função para atualizar horas quando o Cliente é alterado
+    atualizarHoras();
+});
+
+async function atualizarHoras() {
+    // Função para atualizar horas com os valores selecionados
+    const CrSelecionado = selectCr.value;
+    const ClienteSelecionado = selectCliente.value;
+
+    const horasCadastradas = await listarHoras(matriculaUsuarioLogado, CrSelecionado, ClienteSelecionado);
+
+    preencherPainelStatus(horasCadastradas);
+    arrumarProporcaoGrafico(horasCadastradas);
+}
+
+// Chama a função atualizarHoras inicialmente para carregar os dados com os valores iniciais
+atualizarHoras();
