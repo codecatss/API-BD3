@@ -14,5 +14,10 @@ import lombok.Setter;
 @Setter
 public class VerbaHora {
     private Duration duration;
+    private Long duracao;
     private VerbasEnum verba;
+
+    public void fixDuracao() {
+        this.duracao = duration.toMinutes();
+    }
 }

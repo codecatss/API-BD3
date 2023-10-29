@@ -21,8 +21,7 @@ public class VerbaManager {
 
     private static List<VerbaHora> verbas = new ArrayList<VerbaHora>();
 
-    public static List<VerbaHora> getVerbaFromHora(Hora hora) {
-        verbas.clear();
+    private static List<VerbaHora> getVerbas(Hora hora) {
         List<VerbaHora> verbas_temp = new ArrayList<>();
 
         if (hora.getTipo().equalsIgnoreCase(TipoEnum.SOBREAVISO.name())) {
@@ -131,9 +130,38 @@ public class VerbaManager {
         return verbasNoturnas;
     }
 
+    public static List<VerbaHora> getVerbaFromHora(Hora hora){
+        if(hora == null) throw new RuntimeException("Hora nula");
+        try {
+            verbas.clear();
+            return getVerbas(hora);
+        } catch (Exception e) {
+            throw new RuntimeException("Erro desconhecido " + e.getMessage());
+        }
+    }
+
+    public static ArrayList<ArrayList<VerbaHora>> getVerbaFromHora(List<Hora> horas) {
+        try {
+            if (horas.isEmpty()) {
+                throw new RuntimeException("Lista de horas vazia");
+            }
+            ArrayList<ArrayList<VerbaHora>> minhasVerbas = new ArrayList<ArrayList<VerbaHora>>();
+            
+            for (Hora hora : horas) {
+                verbas.clear();
+                ArrayList<VerbaHora> tempList = new ArrayList <VerbaHora>();
+                tempList.addAll(getVerbas(hora));
+                minhasVerbas.add(tempList);
+            }
+            return minhasVerbas;    
+        } catch (Exception e) {
+            throw new RuntimeException("Erro desconhecido " + e.getMessage());
+        }
+    }
+
     private static VerbaHora makeVerbaHora(VerbasEnum verba, long segundos) {
         Duration duration = Duration.ofSeconds(segundos);
-        return new VerbaHora(duration, verba);
+        return new VerbaHora(duration, duration.toMinutes(), verba);
     }
 
     private static VerbaHora toVerbaHora(Hora hora, VerbasEnum verba, long segundos) {
