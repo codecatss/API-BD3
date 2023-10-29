@@ -11,6 +11,7 @@ import API3SEM.repositories.EmployeeRepository;
 import API3SEM.repositories.HoraRepository;
 import API3SEM.utills.AprovacaoEnum;
 import API3SEM.utills.StatusEnum;
+import API3SEM.utills.TipoEnum;
 
 import com.github.javafaker.Faker;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,24 +47,20 @@ public class DatabaseInitialization implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        seedMokeds(this.employeeRepository);
         
         List<Client> clietes = seedCliet(this.clientRepository);
-
-        List<Employee> employees = this.employeeRepository.findAll();
-
-        List<CenterResult> centerResults = seedCenterResults(this.centerResultRepository);
         
-        if(employees.size() > 15){
-            return;
-        }
-        // else{
-            seedEmployees(this.employeeRepository);
-            employees = this.employeeRepository.findAll();
-        // }
+        List<Employee> employees = this.employeeRepository.findAll();
+        
+        List<CenterResult> centerResults = seedCenterResults(this.centerResultRepository);
+
+        seedMokeds(this.employeeRepository);
+
+        seedEmployees(this.employeeRepository);
+        employees = this.employeeRepository.findAll();
 
         for (Employee employee : employees) {
-            DatabaseInitialization.seedHoras(employee, clietes, centerResults, horaRepository);
+            seedHoras(employee, employeeRepository, clietes, centerResults, horaRepository);
         }
     }
     
@@ -77,11 +74,18 @@ public class DatabaseInitialization implements CommandLineRunner {
             
             if(!employeeRepository.existsByNome(mokedRole)){
     
-    
                 Employee employee = new Employee();
     
                 employee.setNome(mokedRole);
-                employee.setMatricula(faker.number().digits(6));
+
+                String matricula = faker.number().digits(6);
+                if(employeeRepository.existsByMatricula(matricula)){
+                    do{
+                        matricula = faker.number().digits(6);}
+                        while(employeeRepository.existsByMatricula(matricula));
+                }
+                employee.setMatricula(matricula);
+
                 employee.setFuncao(FuncaoUsuarioEnum.valueOf(mokedRole));
                 employee.setSenha(mokedRole.concat("123"));
                 employee.setStatus_usuario(StatusEnum.ativo);
@@ -109,18 +113,33 @@ public class DatabaseInitialization implements CommandLineRunner {
     }
 
     private static void seedEmployees(EmployeeRepository employeeRepository){
-        
-       
+        if(employeeRepository.findAll().size()<=15){
 
-        for (int i = 0; i < 15; i++) {
-            Employee employee = new Employee();
-            String name = faker.name().firstName();
-            employee.setNome(name);
-            employee.setMatricula(faker.number().digits(6));
-            employee.setFuncao(FuncaoUsuarioEnum.colaborador);
-            employee.setSenha(faker.number().digits(6));
-            employee.setStatus_usuario(StatusEnum.ativo);
-            employeeRepository.save(employee);
+            for (int i = 0; i < 15; i++) {
+                Employee employee = new Employee();
+                String name = faker.name().firstName();
+                employee.setNome(name);
+                
+                String matricula = faker.number().digits(6);
+                if(employeeRepository.existsByMatricula(matricula)){
+                    do{
+                        matricula = faker.number().digits(6);}
+                        while(employeeRepository.existsByMatricula(matricula));
+                }
+                employee.setMatricula(matricula);
+
+                if(employeeRepository.findAllByFuncao(FuncaoUsuarioEnum.gestor).size() < 3) employee.setFuncao(FuncaoUsuarioEnum.gestor);
+                else{
+                    if(employeeRepository.findAllByFuncao(FuncaoUsuarioEnum.admin).size() < 3) employee.setFuncao(FuncaoUsuarioEnum.admin);
+                    else {
+                        employee.setFuncao(FuncaoUsuarioEnum.colaborador);
+                    }
+                }
+                
+                employee.setSenha(faker.number().digits(6));
+                employee.setStatus_usuario(StatusEnum.ativo);
+                employeeRepository.save(employee);
+            }
         }
     }
 
@@ -130,8 +149,7 @@ public class DatabaseInitialization implements CommandLineRunner {
         if(!centerResultRepository.findAll().isEmpty()){
             return centerResultRepository.findAll();
         }
-        
-       
+
         List<String> siglas = new ArrayList<String>();
         List<String> squadList = new ArrayList<String>();
         squadList.add("TechTitans");
@@ -161,10 +179,20 @@ public class DatabaseInitialization implements CommandLineRunner {
 
     }
 
-    private static void seedHoras(Employee employee, List<Client> clientes, List<CenterResult> crs, HoraRepository horaRepository){
+    private static void seedHoras(Employee employee, EmployeeRepository employeeRepository, List<Client> clientes, List<CenterResult> crs, HoraRepository horaRepository){
         
+        if(employee.getFuncao().equals(FuncaoUsuarioEnum.admin)){
+            return;
+        }
         int nHora = random.nextInt(10) + 1;
+        List<Employee> gestores = new ArrayList<Employee>();
+        List<Employee> administradores = new ArrayList<Employee>();
+        for (Employee funcionario : employeeRepository.findAll()) {
+            if(funcionario.getFuncao().equals(FuncaoUsuarioEnum.gestor)) gestores.add(funcionario);
+            if(funcionario.getFuncao().equals(FuncaoUsuarioEnum.admin)) administradores.add(funcionario);
+        }
         for(int i = 0; i < nHora; i++){
+            try {
             Hora hora = new Hora();
             int day = random.nextInt(27) + 1;
             int month = random.nextInt(11) + 1;
@@ -175,7 +203,9 @@ public class DatabaseInitialization implements CommandLineRunner {
             hora.setData_hora_inicio(Timestamp.valueOf(LocalDateTime.of(2023, month, day, hour, minuto, segundo)));
             hora.setData_hora_fim(Timestamp.valueOf(hora.getData_hora_inicio().toLocalDateTime().plusHours(random.nextInt(12)).plusMinutes(random.nextInt(60)).plusSeconds(random.nextInt(60))));
             hora.setData_lancamento(Timestamp.valueOf(LocalDateTime.now()));
+            hora.setMatricula_gestor(gestores.get(random.nextInt(gestores.size())).getMatricula());
             hora.setData_modificacao_gestor(Timestamp.valueOf(LocalDateTime.now()));
+            hora.setMatricula_admin(administradores.get(random.nextInt(administradores.size())).getMatricula());
             hora.setData_modificacao_admin(Timestamp.valueOf(LocalDateTime.now()));
             hora.setLancador(employee.getMatricula());;
             hora.setCodcr(crs.get(random.nextInt(crs.size())).getCodigoCr());
@@ -183,8 +213,15 @@ public class DatabaseInitialization implements CommandLineRunner {
             hora.setProjeto(faker.rickAndMorty().character());
             hora.setSolicitante(faker.name().firstName());
             hora.setStatus_aprovacao(AprovacaoEnum.PENDENTE.toString());
+            hora.setTipo(TipoEnum.EXTRA.name());
             
-            horaRepository.save(hora);
+                horaRepository.save(hora);  
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                System.out.println(e.getCause());
+                System.out.println(e.getStackTrace());
+                return;
+            } 
         }
         
     }

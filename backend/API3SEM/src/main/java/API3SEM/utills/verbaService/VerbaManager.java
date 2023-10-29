@@ -131,11 +131,12 @@ public class VerbaManager {
     }
 
     public static List<VerbaHora> getVerbaFromHora(Hora hora){
+        if(hora == null) throw new RuntimeException("Hora nula");
         try {
             verbas.clear();
             return getVerbas(hora);
         } catch (Exception e) {
-            throw new RuntimeException("Erro desconhecido" + e.getMessage());
+            throw new RuntimeException("Erro desconhecido " + e.getMessage());
         }
     }
 
@@ -160,7 +161,7 @@ public class VerbaManager {
 
     private static VerbaHora makeVerbaHora(VerbasEnum verba, long segundos) {
         Duration duration = Duration.ofSeconds(segundos);
-        return new VerbaHora(duration, verba);
+        return new VerbaHora(duration, duration.toMinutes(), verba);
     }
 
     private static VerbaHora toVerbaHora(Hora hora, VerbasEnum verba, long segundos) {
