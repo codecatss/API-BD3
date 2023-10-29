@@ -1,4 +1,4 @@
-package API3SEM.utills.verbaService;
+package API3SEM.utills.Service;
 
 import java.time.Duration;
 

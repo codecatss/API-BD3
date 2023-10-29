@@ -60,7 +60,7 @@ public class DatabaseInitialization implements CommandLineRunner {
         employees = this.employeeRepository.findAll();
 
         for (Employee employee : employees) {
-            seedHoras(employee, employeeRepository, clietes, centerResults, horaRepository);
+            seedHoras(employee, employeeRepository, clietes, clientRepository, centerResults, horaRepository);
         }
     }
     
@@ -179,7 +179,7 @@ public class DatabaseInitialization implements CommandLineRunner {
 
     }
 
-    private static void seedHoras(Employee employee, EmployeeRepository employeeRepository, List<Client> clientes, List<CenterResult> crs, HoraRepository horaRepository){
+    private static void seedHoras(Employee employee, EmployeeRepository employeeRepository, List<Client> clientes, ClientRepository clientRepository, List<CenterResult> crs, HoraRepository horaRepository){
         
         if(employee.getFuncao().equals(FuncaoUsuarioEnum.admin)){
             return;
@@ -194,27 +194,46 @@ public class DatabaseInitialization implements CommandLineRunner {
         for(int i = 0; i < nHora; i++){
             try {
             Hora hora = new Hora();
+            
+            //set tipo aleatorio
+            TipoEnum[] tipos = {TipoEnum.EXTRA, TipoEnum.SOBREAVISO};
+            TipoEnum tipo = tipos[random.nextInt(Arrays.asList(tipos).size())];
+            hora.setTipo(tipo.toString());
+            
+            String cnpj = null;
+            do {
+                cnpj = clientes.get(random.nextInt(clientes.size())).getCnpj();
+            } while (clientRepository.findById(cnpj).get().getStatus().equals(StatusEnum.inativo.toString()));
+            hora.setCnpj(cnpj);
+            
             int day = random.nextInt(27) + 1;
             int month = random.nextInt(11) + 1;
             int hour = random.nextInt(23) + 1; 
             int minuto = random.nextInt(59) + 1;
             int segundo = random.nextInt(59) + 1;
-            
-
-            TipoEnum[] tipos = {TipoEnum.EXTRA, TipoEnum.SOBREAVISO};
-            hora.setTipo(tipos[random.nextInt(Arrays.asList(tipos).size())].toString());
-            hora.setCnpj(clientes.get(random.nextInt(clientes.size())).getCnpj());
             hora.setData_hora_inicio(Timestamp.valueOf(LocalDateTime.of(2023, month, day, hour, minuto, segundo)));
-            hora.setData_hora_fim(Timestamp.valueOf(hora.getData_hora_inicio().toLocalDateTime().plusHours(random.nextInt(12)).plusMinutes(random.nextInt(60)).plusSeconds(random.nextInt(60))));
+            
+            Timestamp fim = Timestamp.valueOf(hora.getData_hora_inicio().toLocalDateTime().plusHours(random.nextInt(12)).plusMinutes(random.nextInt(60)).plusSeconds(random.nextInt(60)));
+            hora.setData_hora_fim(fim);
+
             hora.setData_lancamento(Timestamp.valueOf(LocalDateTime.now()));
+
             hora.setMatricula_gestor(gestores.get(random.nextInt(gestores.size())).getMatricula());
+
             hora.setData_modificacao_gestor(Timestamp.valueOf(LocalDateTime.now()));
+
             hora.setMatricula_admin(administradores.get(random.nextInt(administradores.size())).getMatricula());
+
             hora.setData_modificacao_admin(Timestamp.valueOf(LocalDateTime.now()));
-            hora.setLancador(employee.getMatricula());;
+
+            hora.setLancador(employee.getMatricula());
+
             hora.setCodcr(crs.get(random.nextInt(crs.size())).getCodigoCr());
+
             hora.setJustificativa(faker.rickAndMorty().location());
+
             hora.setProjeto(faker.rickAndMorty().character());
+
             hora.setSolicitante(faker.name().firstName());
 
             //aprova automaticamente a hora pelo adm se o lancador for gestor
@@ -222,8 +241,11 @@ public class DatabaseInitialization implements CommandLineRunner {
                 hora.setStatus_aprovacao(AprovacaoEnum.APROVADO_ADMIN.toString());
             }
             else{
-                hora.setStatus_aprovacao(AprovacaoEnum.PENDENTE.toString());
+                AprovacaoEnum[] statusAprovacao = AprovacaoEnum.values();
+                AprovacaoEnum status = statusAprovacao[random.nextInt(statusAprovacao.length)];
+                hora.setStatus_aprovacao(status.toString());
             }
+            
             horaRepository.save(hora);  
             
             } catch (Exception e) {
@@ -239,12 +261,25 @@ public class DatabaseInitialization implements CommandLineRunner {
     private static List<Client> seedCliet(ClientRepository clientRepository){
         List<Client> clients = new ArrayList<Client>();
         clients = clientRepository.findAll();
+
+        int nInativos = 0;
         if(clients.isEmpty()){
-            for (int i = 0; i < 8; i++) {
+            for (int i = 0; i < 15; i++) {
+                nInativos = 0;
                 Client client = new Client();
                 client.setCnpj(faker.number().digits(14));
                 client.setRazao_social(faker.company().name());
-                client.setStatus(StatusEnum.ativo.toString());
+
+                StatusEnum[] status = StatusEnum.values();
+                for(Client cliente : clientRepository.findAll()){
+                    if(cliente.getStatus().equals(StatusEnum.inativo.name())) nInativos++;
+                }
+                if(nInativos >= 3){
+                    client.setStatus(StatusEnum.ativo.toString());
+                }
+                else{
+                    client.setStatus(status[random.nextInt(status.length)].toString());
+                }
                 clientRepository.save(client);
             }
             return clientRepository.findAll();

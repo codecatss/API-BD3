@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 import API3SEM.DTOS.IdHora;
 import API3SEM.entities.Hora;
 import API3SEM.repositories.HoraRepository;
-import API3SEM.utills.verbaService.VerbaHora;
-import API3SEM.utills.verbaService.VerbaManager;
+import API3SEM.utills.Service.VerbaHora;
+import API3SEM.utills.Service.VerbaService;
 
 import java.util.ArrayList;
 
@@ -38,7 +38,7 @@ public class VerbaController {
                     // }
                     Hora tempHora = horaRepository.findById(hora.idHora()).get();
                     ArrayList<VerbaHora> tempVerba = new ArrayList<VerbaHora>();
-                    tempVerba = (ArrayList<VerbaHora>) VerbaManager.getVerbaFromHora(tempHora);
+                    tempVerba = (ArrayList<VerbaHora>) VerbaService.getVerbaFromHora(tempHora);
                     verbas.addAll(tempVerba);
                 } catch (Exception e) {
                     ResponseEntity.badRequest().body("inner try "+e.getStackTrace());

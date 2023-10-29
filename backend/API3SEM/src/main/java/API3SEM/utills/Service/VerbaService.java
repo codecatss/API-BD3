@@ -1,6 +1,6 @@
-package API3SEM.utills.verbaService;
+package API3SEM.utills.Service;
 
-import java.sql.Timestamp; // Importe a classe correta para Timestamp
+import java.sql.Timestamp;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @Service
-public class VerbaManager {
+public class VerbaService {
 
     private static List<VerbaHora> verbas = new ArrayList<VerbaHora>();
 
