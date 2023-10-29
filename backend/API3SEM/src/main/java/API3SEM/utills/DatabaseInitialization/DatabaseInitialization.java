@@ -199,6 +199,10 @@ public class DatabaseInitialization implements CommandLineRunner {
             int hour = random.nextInt(23) + 1; 
             int minuto = random.nextInt(59) + 1;
             int segundo = random.nextInt(59) + 1;
+            
+
+            TipoEnum[] tipos = {TipoEnum.EXTRA, TipoEnum.SOBREAVISO};
+            hora.setTipo(tipos[random.nextInt(Arrays.asList(tipos).size())].toString());
             hora.setCnpj(clientes.get(random.nextInt(clientes.size())).getCnpj());
             hora.setData_hora_inicio(Timestamp.valueOf(LocalDateTime.of(2023, month, day, hour, minuto, segundo)));
             hora.setData_hora_fim(Timestamp.valueOf(hora.getData_hora_inicio().toLocalDateTime().plusHours(random.nextInt(12)).plusMinutes(random.nextInt(60)).plusSeconds(random.nextInt(60))));
@@ -212,10 +216,16 @@ public class DatabaseInitialization implements CommandLineRunner {
             hora.setJustificativa(faker.rickAndMorty().location());
             hora.setProjeto(faker.rickAndMorty().character());
             hora.setSolicitante(faker.name().firstName());
-            hora.setStatus_aprovacao(AprovacaoEnum.PENDENTE.toString());
-            hora.setTipo(TipoEnum.EXTRA.name());
+
+            //aprova automaticamente a hora pelo adm se o lancador for gestor
+            if(employee.getFuncao().equals(FuncaoUsuarioEnum.gestor)){
+                hora.setStatus_aprovacao(AprovacaoEnum.APROVADO_ADMIN.toString());
+            }
+            else{
+                hora.setStatus_aprovacao(AprovacaoEnum.PENDENTE.toString());
+            }
+            horaRepository.save(hora);  
             
-                horaRepository.save(hora);  
             } catch (Exception e) {
                 System.out.println(e.getMessage());
                 System.out.println(e.getCause());
