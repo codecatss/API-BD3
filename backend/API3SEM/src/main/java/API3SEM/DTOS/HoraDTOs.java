@@ -49,6 +49,29 @@ public record HoraDTOs(
         );
     }
 
+    public HoraDTOs(Object o) {
+        this(
+                ((Hora)o).getId(),
+                ((Hora)o).getCodcr(),
+                ((Hora)o).getLancador(),
+                ((Hora)o).getCnpj(),
+                ((Hora)o).getData_hora_inicio(),
+                ((Hora)o).getData_hora_fim(),
+                ((Hora)o).getTipo(),
+                ((Hora)o).getJustificativa(),
+                ((Hora)o).getProjeto(),
+                ((Hora)o).getSolicitante(),
+                ((Hora)o).getStatus_aprovacao(),
+                ((Hora)o).getJustificativa_negacao(),
+                ((Hora)o).getMatricula_gestor(),
+                ((Hora)o).getData_lancamento(),
+                ((Hora)o).getData_modificacao_gestor(),
+                ((Hora)o).getMatricula_admin(),
+                ((Hora)o).getData_modificacao_admin(),
+                ((Hora)o).getLista_de_acionamentos()
+        );
+    }
+
     public static record HoraRequestDTO(
             Integer id,
             String codcr,
