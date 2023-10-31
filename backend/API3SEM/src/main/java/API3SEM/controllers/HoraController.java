@@ -52,7 +52,7 @@ public class HoraController {
     }
 
     @GetMapping("/{var}/{filtro}") 
-    public ResponseEntity filtredHours(@PathVariable String var, @PathVariable String filtro){
+    public ResponseEntity<?> filtredHours(@PathVariable String var, @PathVariable String filtro){
         List<Object> response = new ArrayList<>();
         List<Hora> horas = new ArrayList<>();
         

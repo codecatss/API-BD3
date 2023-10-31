@@ -4,6 +4,8 @@ import API3SEM.entities.Hora;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.List;
 
 public interface HoraRepository extends JpaRepository<Hora, Integer> {
@@ -58,4 +60,8 @@ public interface HoraRepository extends JpaRepository<Hora, Integer> {
             "WHERE h.tipo IN ('SOBREAVISO', 'EXTRA')\n" +
             "GROUP BY h.id;\n", nativeQuery = true)
     List<Hora> findAllHoras();
+
+    @Query("SELECT h FROM hora h WHERE h.data_hora_inicio > :inicio AND h.data_hora_fim > :fim")
+    List<Hora> findHorasBetween(LocalDateTime inicio, LocalDateTime fim);
+
 }

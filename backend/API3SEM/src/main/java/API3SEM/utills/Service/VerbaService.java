@@ -8,9 +8,14 @@ import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.catalina.connector.Response;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import API3SEM.DTOS.VerbaDTO;
 import API3SEM.entities.Hora;
+import API3SEM.repositories.HoraRepository;
+import API3SEM.utills.ApiException;
 import API3SEM.utills.TipoEnum;
 import API3SEM.utills.VerbasEnum;
 import lombok.NoArgsConstructor;
@@ -18,6 +23,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Service
 public class VerbaService {
+
+    @Autowired
+    private HoraRepository horaRepository;
 
     private static List<VerbaHora> verbas = new ArrayList<VerbaHora>();
 
@@ -167,6 +175,59 @@ public class VerbaService {
     private static VerbaHora toVerbaHora(Hora hora, VerbasEnum verba, long segundos) {
 
         return makeVerbaHora(verba, Duration.between(hora.getData_hora_inicio().toInstant(), hora.getData_hora_inicio().toInstant().plusSeconds(segundos)).toSeconds());
+    }
+
+    public VerbaDTO getTotalVerbas(String strInicio, String strFim) {
+
+        LocalDateTime inicio = null;
+        LocalDateTime fim = null;
+        try {
+            inicio= Timestamp.valueOf(strInicio).toLocalDateTime();  
+            fim = Timestamp.valueOf(strFim).toLocalDateTime();
+            
+        } catch (Exception e) {
+            throw(new ApiException("Erro no parcing das datas"));
+        }
+
+
+        ArrayList<Hora> horas = new ArrayList<Hora>();
+        horas.addAll(horaRepository.findHorasBetween(inicio, fim));
+        
+        Long diurno75 = null;
+        Long diurno100 = null;
+        Long noturno75 = null;
+        Long noturno100 = null;
+        Long sobreaviso = null;
+        Long adn = null;
+
+        for (Hora hora : horas) {
+
+            List<VerbaHora> tempVerba = getVerbas(hora);
+            for (VerbaHora verba : tempVerba) {
+                if(verba.getVerba().equals(VerbasEnum.HE75)){
+                    diurno75 = diurno75 + verba.getDuracao();
+                }
+                if(verba.getVerba().equals(VerbasEnum.HE100)){
+                    diurno100 = diurno100 + verba.getDuracao();
+                }
+                if(verba.getVerba().equals(VerbasEnum.HEN75)){
+                    noturno75 = noturno75 + verba.getDuracao();
+                }
+                if(verba.getVerba().equals(VerbasEnum.HEN100)){
+                    noturno100 = noturno100 + verba.getDuracao();
+                }
+                if(verba.getVerba().equals(VerbasEnum.SOBREAVISO)){
+                    sobreaviso = sobreaviso + verba.getDuracao();
+                }
+                if(verba.getVerba().equals(VerbasEnum.ADN)){
+                    adn = adn + verba.getDuracao();
+                }
+            }
+        }
+
+        Long total = diurno75 + diurno100 + noturno75 + noturno100 + sobreaviso + adn;
+
+    return new VerbaDTO(diurno75, diurno100, noturno75, noturno100, sobreaviso, adn, total);
     }
 
 }

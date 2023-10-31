@@ -1,6 +1,5 @@
 package API3SEM.controllers;
 
-import org.hibernate.mapping.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -33,9 +32,6 @@ public class VerbaController {
             if(horas.isEmpty()) return ResponseEntity.badRequest().body("Nenhuma hora foi enviada");
             for (IdHora hora : horas) {
                 try {
-                    // if (hora.idHora() instanceof Integer) {
-                    //     return ResponseEntity.badRequest().body(VerbaManager.getVerbaFromHora(horaRepository.findById(hora.idHora()).get()) + "O id da hora deve ser um inteiro");
-                    // }
                     Hora tempHora = horaRepository.findById(hora.idHora()).get();
                     ArrayList<VerbaHora> tempVerba = new ArrayList<VerbaHora>();
                     tempVerba = (ArrayList<VerbaHora>) VerbaService.getVerbaFromHora(tempHora);
@@ -53,5 +49,14 @@ public class VerbaController {
             ResponseEntity.badRequest().body("outter try "+e.getStackTrace());
         }
         return ResponseEntity.ok().body(verbas);
-    }    
+    }
+
+    @GetMapping
+    @RequestMapping("/total")
+    public ResponseEntity<?> getTotalVerba(@RequestBody String inicio, String fim){
+        
+        VerbaService verbaService = new VerbaService();
+        return ResponseEntity.ok().body(verbaService.getTotalVerbas(inicio, fim));
+    }
+
 }
