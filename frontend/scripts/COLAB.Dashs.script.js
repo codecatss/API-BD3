@@ -53,8 +53,7 @@ function popularSelectEmpresas(clientes) {
 
     const optionPadrao = document.createElement("option");
     optionPadrao.value = "";
-    optionPadrao.textContent = "Selecione a empresa";
-    optionPadrao.disabled = true;
+    optionPadrao.textContent = "Todos os Clientes";
     optionPadrao.selected = true;
 
 
@@ -79,8 +78,7 @@ function popularSelectCr(centroDeResultado) {
 
     const optionPadrao = document.createElement("option");
     optionPadrao.value = "";
-    optionPadrao.textContent = "Selecione o CR";
-    optionPadrao.disabled = true;
+    optionPadrao.textContent = "Todos os CRs";
     optionPadrao.selected = true;
 
 
@@ -122,7 +120,7 @@ const listarHoras = async (matriculaUsuarioLogado, CrSelecionado, ClienteSelecio
         const response = await fetch(apiUrl);
         if (!response.ok) {
             const data = [];
-            throw new Error('Não foi possível obter os dados.');
+            return data;
         }
         const data = await response.json();
         return data;
