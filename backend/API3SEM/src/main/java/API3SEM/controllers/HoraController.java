@@ -420,4 +420,45 @@ public class HoraController {
 
         horaRepository.save(hour);
     }
+
+
+    @GetMapping("/{matricula}")
+    public ResponseEntity<List<HoraDTOs>> horasDoUsuario(
+            @PathVariable String matricula,
+            @RequestParam(name = "codCR", required = false) String codCR,
+            @RequestParam(name = "cnpj", required = false) String cnpj
+    ) {
+        List<HoraDTOs> horasDoUsuario;
+
+        if (codCR != null && cnpj != null) {
+            horasDoUsuario = horaRepository.findByLancadorAndCodcrAndCnpj(matricula, codCR, cnpj)
+                    .stream()
+                    .map(HoraDTOs::new)
+                    .collect(Collectors.toList());
+        } else if (codCR != null) {
+            horasDoUsuario = horaRepository.findByLancadorAndCodcr(matricula, codCR)
+                    .stream()
+                    .map(HoraDTOs::new)
+                    .collect(Collectors.toList());
+        } else if (cnpj != null) {
+            horasDoUsuario = horaRepository.findByLancadorAndCnpj(matricula, cnpj)
+                    .stream()
+                    .map(HoraDTOs::new)
+                    .collect(Collectors.toList());
+        } else {
+            horasDoUsuario = horaRepository.findByLancador(matricula)
+                    .stream()
+                    .map(HoraDTOs::new)
+                    .collect(Collectors.toList());
+        }
+
+        if (horasDoUsuario.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(horasDoUsuario);
+        }
+
+        return ResponseEntity.ok(horasDoUsuario);
+    }
+
+
+
 }

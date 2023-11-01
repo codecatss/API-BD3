@@ -67,4 +67,9 @@ public interface HoraRepository extends JpaRepository<Hora, Integer> {
     "(h.data_hora_inicio >= :inicio AND h.data_hora_inicio <= :fim) AND (h.data_hora_fim >= :inicio AND h.data_hora_fim <= :fim)")
     List<Hora> findHorasBetween(LocalDateTime inicio, LocalDateTime fim);
 
+    Collection<Object> findByLancadorAndCodcr(String matricula, String codCR);
+
+    Collection<Object> findByLancadorAndCnpj(String matricula, String cnpj);
+
+    Collection<Object> findByLancadorAndCodcrAndCnpj(String matricula, String codCR, String cnpj);
 }
