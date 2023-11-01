@@ -4,6 +4,7 @@ import API3SEM.entities.Hora;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -72,4 +73,26 @@ public interface HoraRepository extends JpaRepository<Hora, Integer> {
     Collection<Object> findByLancadorAndCnpj(String matricula, String cnpj);
 
     Collection<Object> findByLancadorAndCodcrAndCnpj(String matricula, String codCR, String cnpj);
+
+    // BD-72 -- INÍCIO
+    // Filtro por tipo de hora
+    @Query("SELECT h FROM hora h WHERE h.tipo = :tipo")
+    List<Hora> findByTipo(String tipo);
+
+    //--
+
+    // Filtro por período
+    @Query("SELECT h FROM hora h " +
+            "WHERE (h.data_hora_inicio >= :data_hora_inicio AND h.data_hora_fim <= :data_hora_fim) " +
+            "AND cast(h.data_lancamento as date) = :data_lancamento")
+    List<Hora> findByPeriodo(
+            Timestamp data_hora_inicio,
+            Timestamp data_hora_fim,
+            Timestamp data_lancamento
+    );
+
+    // Filtro por status de hora
+    List<Hora> findByStatusAprovacao(String status);
+
+    // BD-72 -- FIM
 }

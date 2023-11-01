@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -458,6 +459,54 @@ public class HoraController {
         return ResponseEntity.ok(horasDoUsuario);
     }
 
+//    Task BD-72 -- INÍCIO
+    // Filtro por tipo de hora
+    @GetMapping("/{tipo}")
+    public ResponseEntity<List<Hora>> filtrarPorTipo(@PathVariable("tipo") String tipo) {
+        List<Hora> horasFiltradas = horaRepository.findByTipo(tipo);
+        return ResponseEntity.ok(horasFiltradas);
+    }
 
+    // Filtro por período
+    @GetMapping("/filtrarPorPeriodo")
+    public ResponseEntity<List<Hora>> filtrarPorPeriodo(
+            @RequestParam Timestamp data_hora_inicio,
+            @RequestParam Timestamp data_hora_fim,
+            @RequestParam Timestamp data_lancamento
+    ) {
+        List<Hora> horasFiltradas = horaRepository.findByPeriodo(data_hora_inicio, data_hora_fim, data_lancamento);
+        return ResponseEntity.ok(horasFiltradas);
+    }
+
+    // Filtro por status da hora
+        // Todas
+    @GetMapping("/horas")
+    public ResponseEntity<List<Hora>> listarTodasAsHoras() {
+        List<Hora> horas = horaRepository.findAll();
+        return ResponseEntity.ok(horas);
+    }
+
+        // Aprovadas
+    @GetMapping("/horas/aprovadas")
+    public ResponseEntity<List<Hora>> listarHorasAprovadas() {
+        List<Hora> horasAprovadas = horaRepository.findByStatusAprovacao(AprovacaoEnum.APROVADO_ADMIN.name());
+        return ResponseEntity.ok(horasAprovadas);
+    }
+
+        // Negadas
+    @GetMapping("/horas/negadas")
+    public ResponseEntity<List<Hora>> listarHorasNegadas() {
+        List<Hora> horasNegadas = horaRepository.findByStatusAprovacao(AprovacaoEnum.NEGADO_GESTOR.name());
+        horasNegadas.addAll(horaRepository.findByStatusAprovacao(AprovacaoEnum.NEGADO_ADMIN.name()));
+        return ResponseEntity.ok(horasNegadas);
+    }
+
+        // Horas que ainda não encerraram seu ciclo de aprovação
+    @GetMapping("/horas/pendentes")
+    public ResponseEntity<List<Hora>> listarHorasPendentes() {
+        List<Hora> horasPendentes = horaRepository.findByStatusAprovacao(AprovacaoEnum.PENDENTE.name());
+        horasPendentes.addAll(horaRepository.findByStatusAprovacao(AprovacaoEnum.APROVADO_GESTOR.name()));
+        return ResponseEntity.ok(horasPendentes);
+    }
 
 }
