@@ -10,6 +10,9 @@ import org.junit.jupiter.api.Test;
 import API3SEM.entities.Hora;
 import API3SEM.utills.TipoEnum;
 import API3SEM.utills.VerbasEnum;
+import API3SEM.utills.Service.VerbaHora;
+import API3SEM.utills.Service.VerbaService;
+
 import java.time.Duration;
 
 import java.sql.Timestamp;
@@ -34,7 +37,7 @@ public class VerbaManagerTest {
         horaDiurnaSobre.setData_hora_inicio(Timestamp.valueOf(LocalDateTime.of(2023, 10, 8, 8, 0, 0)));
         horaDiurnaSobre.setData_hora_fim(Timestamp.valueOf(LocalDateTime.of(2023, 10, 8, 12, 0, 0)));
 
-        verbas = VerbaManager.getVerbaFromHora(horaDiurnaSobre);
+        verbas = VerbaService.getVerbaFromHora(horaDiurnaSobre);
         assertEquals(1, verbas.size());
 
         // Verifica se as verbas diurnas são calculadas corretamente
@@ -60,7 +63,7 @@ public class VerbaManagerTest {
         horaDiurna.setData_hora_inicio(Timestamp.valueOf(LocalDateTime.of(2023, 10, 8, 8, 0, 0)));
         horaDiurna.setData_hora_fim(Timestamp.valueOf(LocalDateTime.of(2023, 10, 8, 12, 0, 0)));
         
-        verbas = VerbaManager.getVerbaFromHora(horaDiurna);
+        verbas = VerbaService.getVerbaFromHora(horaDiurna);
 
         assertEquals(2, verbas.size());
 
@@ -79,7 +82,7 @@ public class VerbaManagerTest {
         horaDiurna.setData_hora_inicio(Timestamp.valueOf(LocalDateTime.of(2023, 10, 9, 20, 0, 0)));
         horaDiurna.setData_hora_fim(Timestamp.valueOf(LocalDateTime.of(2023, 10, 9, 22, 0, 0)));
 
-        verbas = VerbaManager.getVerbaFromHora(horaDiurna);
+        verbas = VerbaService.getVerbaFromHora(horaDiurna);
         assertEquals(VerbasEnum.HE75, verbas.get(0).getVerba());
         assertEquals(1, verbas.size());
 
@@ -96,7 +99,7 @@ public class VerbaManagerTest {
         horaNoturna.setData_hora_inicio(Timestamp.valueOf(LocalDateTime.of(2023, 10, 9, 23, 0, 0)));
         horaNoturna.setData_hora_fim(Timestamp.valueOf(LocalDateTime.of(2023, 10, 9, 23, 50, 0)));
 
-        verbas = VerbaManager.getVerbaFromHora(horaNoturna);
+        verbas = VerbaService.getVerbaFromHora(horaNoturna);
         assertEquals(2, verbas.size());
         assertEquals(VerbasEnum.HEN75, verbas.get(0).getVerba());
         assertEquals(VerbasEnum.ADN, verbas.get(1).getVerba());
@@ -114,7 +117,7 @@ public class VerbaManagerTest {
         horaNoturna.setData_hora_inicio(Timestamp.valueOf(LocalDateTime.of(2023, 10, 8, 22, 1, 0)));
         horaNoturna.setData_hora_fim(Timestamp.valueOf(LocalDateTime.of(2023, 10, 9, 2, 1, 0)));
 
-        verbas = VerbaManager.getVerbaFromHora(horaNoturna);
+        verbas = VerbaService.getVerbaFromHora(horaNoturna);
         assertEquals(3, verbas.size());
 
         assertEquals(7200, verbas.get(0).getDuration().getSeconds());
@@ -135,7 +138,7 @@ public class VerbaManagerTest {
         compoundHora.setData_hora_inicio(Timestamp.valueOf(LocalDateTime.of(2023, 10, 9, 20, 0, 0)));
         compoundHora.setData_hora_fim(Timestamp.valueOf(LocalDateTime.of(2023, 10, 10, 2, 0, 0)));
 
-        verbas = VerbaManager.getVerbaFromHora(compoundHora);
+        verbas = VerbaService.getVerbaFromHora(compoundHora);
 
         assertEquals(VerbasEnum.HE75, verbas.get(0).getVerba());
         assertEquals(VerbasEnum.HEN100, verbas.get(1).getVerba());
@@ -158,7 +161,7 @@ public class VerbaManagerTest {
     @Test
         public void testEmptyHoraList() {
             Exception exception = assertThrows(RuntimeException.class, () -> {
-                VerbaManager.getVerbaFromHora(new ArrayList<>());
+                VerbaService.getVerbaFromHora(new ArrayList<>());
             });
 
             String expectedMessage = "Lista de horas vazia";
@@ -184,7 +187,7 @@ public class VerbaManagerTest {
             horas.add(hora1);
             horas.add(hora2);
             
-            ArrayList<ArrayList<VerbaHora>> verbas = VerbaManager.getVerbaFromHora(horas);
+            ArrayList<ArrayList<VerbaHora>> verbas = VerbaService.getVerbaFromHora(horas);
             
             assertEquals(2, verbas.size());
             
