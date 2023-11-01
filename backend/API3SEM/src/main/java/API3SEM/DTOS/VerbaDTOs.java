@@ -1,6 +1,6 @@
 package API3SEM.DTOS;
 
-public record VerbaDTO(
+public record VerbaDTOs(
     Long diurno75,
     Long diurno100,
     Long noturno75,
@@ -8,4 +8,9 @@ public record VerbaDTO(
     Long sobreaviso,
     Long adn,
     Long total) {
+        
+    public record TotalHoras(
+        String inicio,
+        String fim) {
+    }
 }

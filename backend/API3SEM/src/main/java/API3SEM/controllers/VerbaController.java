@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import API3SEM.DTOS.IdHora;
+import API3SEM.DTOS.VerbaDTOs;
 import API3SEM.entities.Hora;
 import API3SEM.repositories.HoraRepository;
 import API3SEM.utills.Service.VerbaHora;
@@ -53,10 +54,10 @@ public class VerbaController {
 
     @GetMapping
     @RequestMapping("/total")
-    public ResponseEntity<?> getTotalVerba(@RequestBody String inicio, String fim){
+    public ResponseEntity<?> getTotalVerba(@RequestBody VerbaDTOs.TotalHoras totalHoras){
         
-        VerbaService verbaService = new VerbaService();
-        return ResponseEntity.ok().body(verbaService.getTotalVerbas(inicio, fim));
+        VerbaService verbaService = new VerbaService(horaRepository);
+        return ResponseEntity.ok().body(verbaService.getTotalVerbas(totalHoras));
     }
 
 }

@@ -8,24 +8,25 @@ import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import API3SEM.DTOS.VerbaDTO;
+import API3SEM.DTOS.VerbaDTOs;
 import API3SEM.entities.Hora;
 import API3SEM.repositories.HoraRepository;
 import API3SEM.utills.ApiException;
 import API3SEM.utills.TipoEnum;
 import API3SEM.utills.VerbasEnum;
-import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
 @Service
 public class VerbaService {
 
+    private final HoraRepository horaRepository;
+
     @Autowired
-    private HoraRepository horaRepository;
+    public VerbaService(HoraRepository horaRepository) {
+        this.horaRepository = horaRepository;
+    }
 
     private static List<VerbaHora> verbas = new ArrayList<VerbaHora>();
 
@@ -177,13 +178,13 @@ public class VerbaService {
         return makeVerbaHora(verba, Duration.between(hora.getData_hora_inicio().toInstant(), hora.getData_hora_inicio().toInstant().plusSeconds(segundos)).toSeconds());
     }
 
-    public VerbaDTO getTotalVerbas(String strInicio, String strFim) {
+    public VerbaDTOs getTotalVerbas(VerbaDTOs.TotalHoras totalHoras) throws ApiException {
 
         LocalDateTime inicio = null;
         LocalDateTime fim = null;
         try {
-            inicio= Timestamp.valueOf(strInicio).toLocalDateTime();  
-            fim = Timestamp.valueOf(strFim).toLocalDateTime();
+            inicio= Timestamp.valueOf(totalHoras.inicio()).toLocalDateTime();  
+            fim = Timestamp.valueOf(totalHoras.fim()).toLocalDateTime();
             
         } catch (Exception e) {
             throw(new ApiException("Erro no parcing das datas"));
@@ -193,12 +194,12 @@ public class VerbaService {
         ArrayList<Hora> horas = new ArrayList<Hora>();
         horas.addAll(horaRepository.findHorasBetween(inicio, fim));
         
-        Long diurno75 = null;
-        Long diurno100 = null;
-        Long noturno75 = null;
-        Long noturno100 = null;
-        Long sobreaviso = null;
-        Long adn = null;
+        Long diurno75 = 0L;
+        Long diurno100 = 0L;
+        Long noturno75 = 0L;
+        Long noturno100 = 0L;
+        Long sobreaviso = 0L;
+        Long adn = 0L;
 
         for (Hora hora : horas) {
 
@@ -227,7 +228,7 @@ public class VerbaService {
 
         Long total = diurno75 + diurno100 + noturno75 + noturno100 + sobreaviso + adn;
 
-    return new VerbaDTO(diurno75, diurno100, noturno75, noturno100, sobreaviso, adn, total);
+    return new VerbaDTOs(diurno75, diurno100, noturno75, noturno100, sobreaviso, adn, total);
     }
 
 }
