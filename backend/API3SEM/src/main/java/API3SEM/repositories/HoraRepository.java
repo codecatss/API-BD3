@@ -75,6 +75,7 @@ public interface HoraRepository extends JpaRepository<Hora, Integer> {
     Collection<Object> findByLancadorAndCodcrAndCnpj(String matricula, String codCR, String cnpj);
 
     // BD-72 -- INÍCIO
+
     // Filtro por tipo de hora
     @Query("SELECT h FROM hora h WHERE h.tipo = :tipo")
     List<Hora> findByTipo(String tipo);
@@ -93,6 +94,31 @@ public interface HoraRepository extends JpaRepository<Hora, Integer> {
 
     // Filtro por status de hora
     List<Hora> findByStatusAprovacao(String status);
+
+    // Horas lançadas por CR
+        // Quantidade de lançamentos por CR (hora-extra, sobreaviso, acionamentos e total)
+    @Query("SELECT cr.nome, COUNT(h.id) " +
+                  "FROM hora h " +
+                  "INNER JOIN CenterResult cr ON h.codigo_cr = cr.codigo_cr " +
+                  "WHERE h.tipo = :tipo " +
+                  "GROUP BY h.cnpj_cliente, cr.nome")
+    List<Object[]> contarLancamentosPorCR(String tipo);
+
+        // Horas brutas trabalhadas por CR (Seria legal, verificar com PO/Cliente)
+        // TODO
+
+
+    // Horas lançadas por Clientes - TODOS!:
+        // Quantidade de lançamentos por Cliente (hora-extra, sobreaviso, acionamentos e total)
+    @Query("SELECT c.razao_social, COUNT(h.id) " +
+            "FROM hora h " +
+            "INNER JOIN Client c ON h.cnpj_cliente = c.cnpj " +
+            "INNER JOIN CenterResult cr ON h.codigo_cr = cr.codigo_cr " +
+            "GROUP BY h.cnpj_cliente, c.razao_social")
+    List<Object[]> quantidadeHorasPorCliente();
+
+        // Horas brutas trabalhadas por Cliente
+        // TODO
 
     // BD-72 -- FIM
 }

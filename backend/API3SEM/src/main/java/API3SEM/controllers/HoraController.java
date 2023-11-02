@@ -509,4 +509,25 @@ public class HoraController {
         return ResponseEntity.ok(horasPendentes);
     }
 
+    // Horas lançadas por Clientes - TODOS!:
+        // Quantidade de lançamentos por CR (hora-extra, sobreaviso, acionamentos e total)
+    @GetMapping("/quantidade-lancamentos-cr")
+    public ResponseEntity<?> obterQuantidadeLancamentosCR(@RequestParam String tipo) {
+        if (!tipo.equals("hora-extra") && !tipo.equals("sobreaviso") && !tipo.equals("acionamentos") && !tipo.equals("total")) {
+            return ResponseEntity.badRequest().body("Tipo inválido. Deve ser 'hora-extra', 'sobreaviso', 'acionamentos' ou 'total'.");
+        }
+
+        List<Object[]> resultado = horaRepository.contarLancamentosPorCR(tipo);
+
+        return ResponseEntity.ok(resultado);
+    }
+
+        // Horas brutas trabalhadas por CR (Seria legal, verificar com PO/Cliente)
+        // TODO
+
+
+    // Horas lançadas por Clientes - TODOS:
+    // Quantidade de lançamentos por Cliente (hora-extra, sobreaviso, acionamentos e total)
+
+
 }
