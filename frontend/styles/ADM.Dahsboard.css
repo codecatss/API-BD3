@@ -387,6 +387,10 @@ select {
     width: 95%;
   }
 
+  .horas {
+    margin-top: 0px !important;
+  }
+
   .custom-label-painel-status-value{
     font-family: "Arial";
     font-size: 300%;
