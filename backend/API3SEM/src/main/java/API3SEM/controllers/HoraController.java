@@ -461,8 +461,8 @@ public class HoraController {
 
 //    Task BD-72 -- INÍCIO
     // Filtro por tipo de hora
-    @GetMapping("/tipo")
-    public ResponseEntity<List<Hora>> filtrarPorTipo(@RequestParam(name = "tipo", required = true) String tipo) {
+    @GetMapping("/{tipo}")
+    public ResponseEntity<List<Hora>> filtrarPorTipo(@PathVariable String tipo) {
         List<Hora> horasFiltradas = horaRepository.findByTipo(tipo);
         return ResponseEntity.ok(horasFiltradas);
     }
