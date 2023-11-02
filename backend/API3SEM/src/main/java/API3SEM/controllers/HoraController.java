@@ -466,68 +466,68 @@ public class HoraController {
         List<Hora> horasFiltradas = horaRepository.findByTipo(tipo);
         return ResponseEntity.ok(horasFiltradas);
     }
-
-    // Filtro por período
-    @GetMapping("/filtrarPorPeriodo")
-    public ResponseEntity<List<Hora>> filtrarPorPeriodo(
-            @RequestParam Timestamp data_hora_inicio,
-            @RequestParam Timestamp data_hora_fim,
-            @RequestParam Timestamp data_lancamento
-    ) {
-        List<Hora> horasFiltradas = horaRepository.findByPeriodo(data_hora_inicio, data_hora_fim, data_lancamento);
-        return ResponseEntity.ok(horasFiltradas);
-    }
-
-    // Filtro por status da hora
-        // Todas
-    @GetMapping("/horas")
-    public ResponseEntity<List<Hora>> listarTodasAsHoras() {
-        List<Hora> horas = horaRepository.findAll();
-        return ResponseEntity.ok(horas);
-    }
-
-        // Aprovadas
-    @GetMapping("/horas/aprovadas")
-    public ResponseEntity<List<Hora>> listarHorasAprovadas() {
-        List<Hora> horasAprovadas = horaRepository.findByStatusAprovacao(AprovacaoEnum.APROVADO_ADMIN.name());
-        return ResponseEntity.ok(horasAprovadas);
-    }
-
-        // Negadas
-    @GetMapping("/horas/negadas")
-    public ResponseEntity<List<Hora>> listarHorasNegadas() {
-        List<Hora> horasNegadas = horaRepository.findByStatusAprovacao(AprovacaoEnum.NEGADO_GESTOR.name());
-        horasNegadas.addAll(horaRepository.findByStatusAprovacao(AprovacaoEnum.NEGADO_ADMIN.name()));
-        return ResponseEntity.ok(horasNegadas);
-    }
-
-        // Horas que ainda não encerraram seu ciclo de aprovação
-    @GetMapping("/horas/pendentes")
-    public ResponseEntity<List<Hora>> listarHorasPendentes() {
-        List<Hora> horasPendentes = horaRepository.findByStatusAprovacao(AprovacaoEnum.PENDENTE.name());
-        horasPendentes.addAll(horaRepository.findByStatusAprovacao(AprovacaoEnum.APROVADO_GESTOR.name()));
-        return ResponseEntity.ok(horasPendentes);
-    }
-
-    // Horas lançadas por Clientes - TODOS!:
-        // Quantidade de lançamentos por CR (hora-extra, sobreaviso, acionamentos e total)
-    @GetMapping("/quantidade-lancamentos-cr")
-    public ResponseEntity<?> obterQuantidadeLancamentosCR(@RequestParam String tipo) {
-        if (!tipo.equals("hora-extra") && !tipo.equals("sobreaviso") && !tipo.equals("acionamentos") && !tipo.equals("total")) {
-            return ResponseEntity.badRequest().body("Tipo inválido. Deve ser 'hora-extra', 'sobreaviso', 'acionamentos' ou 'total'.");
-        }
-
-        List<Object[]> resultado = horaRepository.contarLancamentosPorCR(tipo);
-
-        return ResponseEntity.ok(resultado);
-    }
-
-        // Horas brutas trabalhadas por CR (Seria legal, verificar com PO/Cliente)
-        // TODO
-
-
-    // Horas lançadas por Clientes - TODOS:
-    // Quantidade de lançamentos por Cliente (hora-extra, sobreaviso, acionamentos e total)
-
+//
+//    // Filtro por período
+//    @GetMapping("/filtrarPorPeriodo")
+//    public ResponseEntity<List<Hora>> filtrarPorPeriodo(
+//            @RequestParam Timestamp data_hora_inicio,
+//            @RequestParam Timestamp data_hora_fim,
+//            @RequestParam Timestamp data_lancamento
+//    ) {
+//        List<Hora> horasFiltradas = horaRepository.findByPeriodo(data_hora_inicio, data_hora_fim, data_lancamento);
+//        return ResponseEntity.ok(horasFiltradas);
+//    }
+//
+//    // Filtro por status da hora
+//        // Todas
+//    @GetMapping("/horas")
+//    public ResponseEntity<List<Hora>> listarTodasAsHoras() {
+//        List<Hora> horas = horaRepository.findAll();
+//        return ResponseEntity.ok(horas);
+//    }
+//
+//        // Aprovadas
+//    @GetMapping("/horas/aprovadas")
+//    public ResponseEntity<List<Hora>> listarHorasAprovadas() {
+//        List<Hora> horasAprovadas = horaRepository.findByStatusAprovacao(AprovacaoEnum.APROVADO_ADMIN.name());
+//        return ResponseEntity.ok(horasAprovadas);
+//    }
+//
+//        // Negadas
+//    @GetMapping("/horas/negadas")
+//    public ResponseEntity<List<Hora>> listarHorasNegadas() {
+//        List<Hora> horasNegadas = horaRepository.findByStatusAprovacao(AprovacaoEnum.NEGADO_GESTOR.name());
+//        horasNegadas.addAll(horaRepository.findByStatusAprovacao(AprovacaoEnum.NEGADO_ADMIN.name()));
+//        return ResponseEntity.ok(horasNegadas);
+//    }
+//
+//        // Horas que ainda não encerraram seu ciclo de aprovação
+//    @GetMapping("/horas/pendentes")
+//    public ResponseEntity<List<Hora>> listarHorasPendentes() {
+//        List<Hora> horasPendentes = horaRepository.findByStatusAprovacao(AprovacaoEnum.PENDENTE.name());
+//        horasPendentes.addAll(horaRepository.findByStatusAprovacao(AprovacaoEnum.APROVADO_GESTOR.name()));
+//        return ResponseEntity.ok(horasPendentes);
+//    }
+//
+//    // Horas lançadas por Clientes - TODOS!:
+//        // Quantidade de lançamentos por CR (hora-extra, sobreaviso, acionamentos e total)
+//    @GetMapping("/quantidade-lancamentos-cr")
+//    public ResponseEntity<?> obterQuantidadeLancamentosCR(@RequestParam String tipo) {
+//        if (!tipo.equals("hora-extra") && !tipo.equals("sobreaviso") && !tipo.equals("acionamentos") && !tipo.equals("total")) {
+//            return ResponseEntity.badRequest().body("Tipo inválido. Deve ser 'hora-extra', 'sobreaviso', 'acionamentos' ou 'total'.");
+//        }
+//
+//        List<Object[]> resultado = horaRepository.contarLancamentosPorCR(tipo);
+//
+//        return ResponseEntity.ok(resultado);
+//    }
+//
+//        // Horas brutas trabalhadas por CR (Seria legal, verificar com PO/Cliente)
+//        // TODO
+//
+//
+//    // Horas lançadas por Clientes - TODOS:
+//    // Quantidade de lançamentos por Cliente (hora-extra, sobreaviso, acionamentos e total)
+//
 
 }
