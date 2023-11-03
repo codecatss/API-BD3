@@ -82,40 +82,43 @@ public interface HoraRepository extends JpaRepository<Hora, Integer> {
 
     //--
 
-//    // Filtro por período
-//    @Query("SELECT h FROM hora h " +
-//            "WHERE (h.data_hora_inicio >= :data_hora_inicio AND h.data_hora_fim <= :data_hora_fim) " +
-//            "AND cast(h.data_lancamento as date) = :data_lancamento")
-//    List<Hora> findByPeriodo(
-//            Timestamp data_hora_inicio,
-//            Timestamp data_hora_fim,
-//            Timestamp data_lancamento
-//    );
-//
-//    // Filtro por status de hora
-//    List<Hora> findByStatusAprovacao(String status);
-//
-//    // Horas lançadas por CR
-//        // Quantidade de lançamentos por CR (hora-extra, sobreaviso, acionamentos e total)
-//    @Query("SELECT cr.nome, COUNT(h.id) " +
-//                  "FROM hora h " +
-//                  "INNER JOIN CenterResult cr ON h.codigo_cr = cr.codigo_cr " +
-//                  "WHERE h.tipo = :tipo " +
-//                  "GROUP BY h.cnpj_cliente, cr.nome")
-//    List<Object[]> contarLancamentosPorCR(String tipo);
+    // Filtro por período
+    @Query("SELECT h FROM hora h " +
+            "WHERE (h.data_hora_inicio >= :data_hora_inicio AND h.data_hora_fim <= :data_hora_fim) " +
+            "AND cast(h.data_lancamento as date) = :data_lancamento")
+    List<Hora> findByPeriodo(
+            Timestamp data_hora_inicio,
+            Timestamp data_hora_fim,
+            Timestamp data_lancamento
+    );
+
+    // Filtro por status de hora
+    @Query("SELECT h FROM hora h WHERE " +
+            "(:status IS NULL OR h.status_aprovacao = :status)")
+    List<Hora> findByStatusAprovacao(String status);
+
+
+    // Horas lançadas por CR
+        // Quantidade de lançamentos por CR (hora-extra, sobreaviso, acionamentos e total)
+    @Query("SELECT cr.nome, COUNT(h.id) " +
+                  "FROM hora h " +
+                  "INNER JOIN CenterResult cr ON h.codcr = cr.codigoCr " +
+                  "WHERE h.tipo = :tipo " +
+                  "GROUP BY h.cnpj, cr.nome")
+    List<Object[]> contarLancamentosPorCR(String tipo);
 //
 //        // Horas brutas trabalhadas por CR (Seria legal, verificar com PO/Cliente)
 //        // TODO
 //
 //
-//    // Horas lançadas por Clientes - TODOS!:
-//        // Quantidade de lançamentos por Cliente (hora-extra, sobreaviso, acionamentos e total)
-//    @Query("SELECT c.razao_social, COUNT(h.id) " +
-//            "FROM hora h " +
-//            "INNER JOIN Client c ON h.cnpj_cliente = c.cnpj " +
-//            "INNER JOIN CenterResult cr ON h.codigo_cr = cr.codigo_cr " +
-//            "GROUP BY h.cnpj_cliente, c.razao_social")
-//    List<Object[]> quantidadeHorasPorCliente();
+    // Horas lançadas por Clientes - TODOS!:
+        // Quantidade de lançamentos por Cliente (hora-extra, sobreaviso, acionamentos e total)
+    @Query("SELECT c.razao_social, COUNT(h.id) " +
+            "FROM hora h " +
+            "INNER JOIN Client c ON h.cnpj = c.cnpj " +
+            "INNER JOIN CenterResult cr ON h.codcr = cr.codigoCr " +
+            "GROUP BY h.cnpj, c.razao_social")
+    List<Object[]> quantidadeHorasPorCliente();
 //
 //        // Horas brutas trabalhadas por Cliente
 //        // TODO
