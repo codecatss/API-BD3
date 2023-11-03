@@ -76,6 +76,39 @@ public interface HoraRepository extends JpaRepository<Hora, Integer> {
 
     // BD-72 -- INÍCIO
 
+    // CodCR && Tipo
+    Collection<Object> findByLancadorAndCodcrAndTipo(String matricula, String codCR, String tipo);
+
+    // CodCR && Status
+    @Query("SELECT h FROM hora h WHERE h.lancador = :matricula AND h.codcr = :codCR AND h.status_aprovacao = :statusAprovacao")
+    Collection<Object> findByLancadorAndCodcrAndStatusAprovacao(String matricula, String codCR, String statusAprovacao);
+
+    // CodCR && Tipo && Status
+    @Query("SELECT h FROM hora h WHERE h.lancador = :matricula AND h.codcr = :codCR AND h.tipo = :tipo AND h.status_aprovacao = :statusAprovacao")
+    Collection<Hora> findByLancadorAndCodcrAndTipoAndStatusAprovacao(String matricula, String codCR, String tipo, String statusAprovacao);
+
+    // Cnpj && Tipo
+    Collection<Object> findByLancadorAndCnpjAndTipo(String matricula, String cnpj, String tipo);
+
+    // Cnpj && Status
+    @Query("SELECT h FROM hora h WHERE h.lancador = :matricula AND h.cnpj = :cnpj AND h.status_aprovacao = :statusAprovacao")
+    Collection<Object> findByLancadorAndCnpjAndStatusAprovacao(String matricula, String cnpj, String statusAprovacao);
+
+    // Cnpj && Tipo && Status
+    @Query("SELECT h FROM hora h WHERE h.lancador = :matricula AND h.cnpj = :cnpj AND h.tipo = :tipo AND h.status_aprovacao = :statusAprovacao")
+    Collection<Hora> findByLancadorAndCnpjAndTipoAndStatusAprovacao(String matricula, String cnpj, String tipo, String statusAprovacao);
+
+    // CodCr && Cnpj && Tipo
+    Collection<Object> findByLancadorAndCodcrAndCnpjAndTipo(String matricula, String codCR, String cnpj, String tipo);
+
+    // CodCr && Cnpj && Status
+    @Query("SELECT h FROM hora h WHERE h.lancador = :matricula AND h.codcr = :codCR AND h.cnpj = :cnpj AND h.status_aprovacao = :statusAprovacao")
+    Collection<Object> findByLancadorAndCodcrAndCnpjAndStatusAprovacao(String matricula, String codCR, String cnpj, String statusAprovacao);
+
+    // CodCr && Cnpj && Tipo && Status
+    @Query("SELECT h FROM hora h WHERE h.lancador = :matricula AND h.codcr = :codCR AND h.cnpj = :cnpj AND h.tipo = :tipo AND h.status_aprovacao = :statusAprovacao")
+    Collection<Object> findByLancadorAndCodcrAndCnpjAndTipoAndStatusAprovacao(String matricula, String codCR, String cnpj, String tipo, String statusAprovacao);
+
     // Filtro por tipo de hora
     @Query("SELECT h FROM hora h WHERE h.tipo = :tipo")
     List<Hora> findByTipo(String tipo);
