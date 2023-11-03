@@ -3,6 +3,7 @@ package API3SEM.repositories;
 
 import API3SEM.entities.Employee;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.List;
 
@@ -14,5 +15,6 @@ public interface EmployeeRepository extends JpaRepository<Employee,String> {
 
     boolean existsByNome(String mokedEmployee);
 
+    UserDetails findByMatricula(String matricula);
 
 }
