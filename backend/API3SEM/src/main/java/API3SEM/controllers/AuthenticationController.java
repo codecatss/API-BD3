@@ -1,6 +1,10 @@
 package API3SEM.controllers;
 
 import API3SEM.DTOS.AuthenticationDTO;
+import API3SEM.DTOS.LoginResponseDTO;
+import API3SEM.entities.Employee;
+import API3SEM.infra.security.TokenService;
+import API3SEM.repositories.EmployeeRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,14 +21,23 @@ public class AuthenticationController {
 
     @Autowired
     private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private EmployeeRepository employeeRepository;
+
+
+    @Autowired
+    private TokenService tokenService;
+
     @PostMapping("/login")
 
     public ResponseEntity login(@RequestBody @Valid AuthenticationDTO data){
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.matricula(),data.senha());
-        System.out.println(usernamePassword);
         var authentication = this.authenticationManager.authenticate(usernamePassword);
-        System.out.println(ResponseEntity.ok().build());
-        return ResponseEntity.ok().build();
+
+        var token = tokenService.generateToken((Employee) authentication.getPrincipal());
+        System.out.println(token);
+        return ResponseEntity.ok(new LoginResponseDTO(token));
 
     }
 }
