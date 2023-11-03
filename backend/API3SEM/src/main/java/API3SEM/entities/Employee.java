@@ -55,12 +55,15 @@ public class Employee implements UserDetails {
         else if (this.funcao.equals(FuncaoUsuarioEnum.gestor)) return List.of(new SimpleGrantedAuthority("ROLE_GESTOR"));
         else return List.of(new SimpleGrantedAuthority("ROLE_COLABORADOR"));
 
-        };
+        }
 
     @Override
     public String getPassword() {
-        return null;
+        return senha;
     }
+
+    ;
+
 
     @Override
     public String getUsername() {
