@@ -39,6 +39,41 @@ const obterTodosCr = async () => {
 
 const todosCr = await obterTodosCr()
 
+const obterTodosTipos = async () => {
+    try {
+        const response = await fetch('http://localhost:8080/tipo');
+
+        if (!response.ok) {
+            throw new Error(`Erro na requisição: ${response.status}`);
+        }
+
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Erro na requisição:', error);
+        throw error;
+    }
+};
+
+const todosTipos = await obterTodosTipos()
+
+const obterTodosStatus = async () => {
+    try {
+        const response = await fetch('http://localhost:8080/status');
+
+        if (!response.ok) {
+            throw new Error(`Erro na requisição: ${response.status}`);
+        }
+
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Erro na requisição:', error);
+        throw error;
+    }
+};
+
+const todosStatus = await obterTodosStatus()
 
 function popularSelectEmpresas(clientes) {
     const selectEmpresa = document.getElementById("selecionarEmpresa");
@@ -92,7 +127,7 @@ popularSelectEmpresas(todosClientes)
 popularSelectCr(todosCr);
 
 
-const listarHoras = async (matriculaAdminLogado, CrSelecionado, ClienteSelecionado) => {
+const listarHoras = async (matriculaAdminLogado, CrSelecionado, ClienteSelecionado, TipoSelecionado, StatusSelecionado) => {
     let apiUrl = `http://localhost:8080/hora/${matriculaAdminLogado}`;
     
     if (CrSelecionado) {
@@ -103,6 +138,16 @@ const listarHoras = async (matriculaAdminLogado, CrSelecionado, ClienteSeleciona
     if (ClienteSelecionado) {
         console.log(ClienteSelecionado);
         apiUrl += CrSelecionado ? `&cnpj=${ClienteSelecionado}` : `?cnpj=${ClienteSelecionado}`;
+    }
+
+    if (TipoSelecionado) {
+        console.log(TipoSelecionado);
+        apiUrl += `?codCR=${TipoSelecionado}`;
+    }
+    
+    if (StatusSelecionado) {
+        console.log(StatusSelecionado);
+        apiUrl += `?cnpj=${StatusSelecionado}`;
     }
 
     try {
@@ -159,6 +204,8 @@ function preencherPainelStatus(horas){
 
 const selectCr = document.getElementById("selecionarCr");
 const selectCliente = document.getElementById("selecionarEmpresa");
+const selectTipo = document.getElementById("selecionarTipo");
+const selectStatus = document.getElementById("selecionarStatus");
 
 
 selectCr.addEventListener("change", () => {
@@ -170,11 +217,21 @@ selectCliente.addEventListener("change", () => {
     atualizarHoras();
 });
 
+selectTipo.addEventListener("change", () => {
+    atualizarHoras();
+});
+
+selectStatus.addEventListener("change", () => {
+    atualizarHoras();
+});
+
 async function atualizarHoras() {
     const CrSelecionado = selectCr.value;
     const ClienteSelecionado = selectCliente.value;
+    const TipoSelecionado = selectTipo.value;
+    const StatusSelecionado = selectStatus.value;
 
-    const horasCadastradas = await listarHoras(matriculaAdminLogado, CrSelecionado, ClienteSelecionado);
+    const horasCadastradas = await listarHoras(matriculaAdminLogado, CrSelecionado, ClienteSelecionado, TipoSelecionado, StatusSelecionado);
 
     preencherPainelStatus(horasCadastradas);
     arrumarProporcaoGrafico(horasCadastradas);
