@@ -1,5 +1,7 @@
 :root {
     --text-color: #ffffff;
+    --tabBackground: #544D66;
+    --tabDisable: #464154;
     --background-nav-color: #0e0e12;
     --background-bar-color: #b3a4de;
     --gradient-navbar: linear-gradient(to bottom, #0b0b0e, #251440, #0b0b0e);
@@ -486,18 +488,47 @@
     align-self: center;
   }
 
-  .maaain{
+  .dataMain{
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: flex-start;
     gap: 10px;
     height: 88%;
     width: 92%;
   }
+
+  .tabOption{
+    float: left;
+    background-color: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    gap: 10px;
+    padding-bottom: 0%;
+    
+  }
   
-  .main-divao{
-    background: #0e0e12;
+  .tabOption button{
+    color: var(--text-color);
+    background-color: var(--tabDisable);
+    outline: none;
+    border-radius: 7px 7px 0px 0px; 
+    font-weight: bold;
+    margin: 7px 14px 0px 14px;
+    padding-bottom: 0%;
+margin-bottom: 0%;
+  }
+
+  .tabOption button.ativo{
+    background-color: var(--tabBackground);
+  }
+  
+  .tabContent{
+    background-color: var(--tabBackground);
+
     margin: 1% auto;
+    margin-top: 0%;
     padding: 10px;
     border: 25px solid var(--background-modal-content);
     border-radius: 5px;
@@ -505,6 +536,7 @@
     width: 801px;
     height: 80%;
     width: 90%;
+    display: none;
   }
 
   .filtros-cr-cliente{

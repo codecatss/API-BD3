@@ -150,7 +150,8 @@ function arrumarProporcaoGrafico(horas){
 
     const grafico = document.querySelector(".grafico-grafico");
 
-    grafico.style.backgroundImage = `conic-gradient(#D86666 ${p1}%, #EADD6E ${p1}% ${p2}%, #8DD88B ${p2}% 100%)`;
+
+    grafico.style.backgroundImage = `conic-gradient(#D86666 0% ${p1}%, #EADD6E ${p1}% ${p2}%, #8DD88B ${p2}% 100%)`;
 
 }
 
@@ -163,7 +164,7 @@ function preencherPainelStatus(horas){
 
     const horasAprovadas = horas.filter(hora => hora.status_aprovacao == "APROVADO_ADMIN");
     const horasReprovadas = horas.filter(hora => hora.status_aprovacao == "NEGADO_ADMIN" || hora.status_aprovacao == "NEGADO_GESTOR");
-    const horasPendentes = horas.filter(hora => hora.status_aprovacao == "PENDENTE" || hora.status_aprovacao == "APROVADO_GESTOR");
+    const horasPendentes = horas.filter(hora => hora.status_aprovacao == "PENDENTE");
 
     aprovadas.textContent = horasAprovadas.length;
     reprovadas.textContent = horasReprovadas.length;
@@ -199,3 +200,22 @@ async function atualizarHoras() {
 
 // Chama a função atualizarHoras inicialmente para carregar os dados com os valores iniciais
 atualizarHoras();
+abrirTab();
+
+function abrirTab() {
+    const minhashoras = document.getElementById("minhas-horas");
+    const meuDash = document.getElementById("meuDash");
+
+    const minhasequipes = document.getElementById("minhas-equipes");
+    const dashEquipes = document.getElementById("minhasEquipes");
+
+    minhashoras.addEventListener('click', function() {
+        meuDash.style.display = "block";
+        dashEquipes.style.display = "none";
+    });
+
+    minhasequipes.addEventListener('click', function() {
+        dashEquipes.style.display = "block";
+        meuDash.style.display = "none";
+    });
+}
