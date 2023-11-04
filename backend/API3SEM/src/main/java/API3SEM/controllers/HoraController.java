@@ -58,6 +58,19 @@ public class HoraController {
         List<Hora> horas = new ArrayList<>();
         
         List<Hora> horasFromRepository = null;
+
+        if(filtro.equals("gestor")){
+            if(horaRepository.existsByGestor(var)){
+                horasFromRepository = horaRepository.findByMatricula_gestor(var);
+                for (Hora hora : horasFromRepository) {
+                    horas.add(hora);
+                }
+                return ResponseEntity.ok().body(horasFromRepository);
+            }
+            else{
+                throw new ApiException("O gestor fornecido não esta na base de dados");
+            }
+        }
         if (filtro.equals("matricula")||filtro.equals("codigo_cr")||filtro.equals("cliente")) {
 
             if (filtro.equals("matricula")) {

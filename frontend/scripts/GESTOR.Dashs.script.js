@@ -130,9 +130,30 @@ const listarHoras = async (matriculaUsuarioLogado, CrSelecionado, ClienteSelecio
     
 };
 
+const listarHorasCr = async () => {
+    // Faz a requisição para a API e retorna as horas
+    // TODO: Ver a questão dos filtros
+    let apiUrl = `http://localhost:8080/hora/todas`;
+
+    try {
+        const response = await fetch(apiUrl);
+        if (!response.ok) {
+            const data = [];
+            return data;
+        }
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        throw error;
+    }
+    
+};
+
 
 // Guarda todas as horas em uma variável
 const horasCadastradas = await listarHoras(matriculaUsuarioLogado)
+
+const horasPorCr = await listarHorasCr()
 
 
 function arrumarProporcaoGrafico(horas){
@@ -161,6 +182,21 @@ function preencherPainelStatus(horas){
     const aprovadas = document.getElementById("label-aprovadas");
     const reprovadas = document.getElementById("label-reprovadas");
     const pendentes = document.getElementById("label-pendentes");
+
+    const horasAprovadas = horas.filter(hora => hora.status_aprovacao == "APROVADO_ADMIN");
+    const horasReprovadas = horas.filter(hora => hora.status_aprovacao == "NEGADO_ADMIN" || hora.status_aprovacao == "NEGADO_GESTOR");
+    const horasPendentes = horas.filter(hora => hora.status_aprovacao == "PENDENTE");
+
+    aprovadas.textContent = horasAprovadas.length;
+    reprovadas.textContent = horasReprovadas.length;
+    pendentes.textContent = horasPendentes.length;
+}
+
+function preencherTabCr(horas){
+    // Preenche os paineis de status com a quantidade de horas aprovadas, reprovadas e pendentes dentro de uma lista de horas
+    const aprovadas = document.getElementById("label-aprovadasCr");
+    const reprovadas = document.getElementById("label-reprovadasCr");
+    const pendentes = document.getElementById("label-pendentesCr");
 
     const horasAprovadas = horas.filter(hora => hora.status_aprovacao == "APROVADO_ADMIN");
     const horasReprovadas = horas.filter(hora => hora.status_aprovacao == "NEGADO_ADMIN" || hora.status_aprovacao == "NEGADO_GESTOR");
@@ -214,6 +250,7 @@ function abrirTab() {
         dashEquipes.style.display = "none";
         minhasequipes.style.backgroundColor = "#332f3d";
         minhashoras.style.backgroundColor = "#544D66";
+        // preencherTabCr(horasPorCr);
     });
 
     minhasequipes.addEventListener('click', function() {
@@ -221,5 +258,6 @@ function abrirTab() {
         meuDash.style.display = "none";
         minhashoras.style.backgroundColor = "#332f3d";
         minhasequipes.style.backgroundColor = "#544D66";
+        preencherTabCr(listarHorasCr());
     });
 }
