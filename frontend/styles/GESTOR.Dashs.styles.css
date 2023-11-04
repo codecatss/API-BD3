@@ -1,7 +1,7 @@
 :root {
     --text-color: #ffffff;
     --tabBackground: #544D66;
-    --tabDisable: #464154;
+    --tabDisable: #332f3d;
     --background-nav-color: #0e0e12;
     --background-bar-color: #b3a4de;
     --gradient-navbar: linear-gradient(to bottom, #0b0b0e, #251440, #0b0b0e);
@@ -517,7 +517,7 @@
     font-weight: bold;
     margin: 7px 14px 0px 14px;
     padding-bottom: 0%;
-margin-bottom: 0%;
+    margin-bottom: 0%;
   }
 
   .tabOption button.ativo{
@@ -537,6 +537,10 @@ margin-bottom: 0%;
     height: 80%;
     width: 90%;
     display: none;
+  }
+
+  .tabContent.ativo{
+    display: block;
   }
 
   .filtros-cr-cliente{

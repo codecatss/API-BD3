@@ -212,10 +212,14 @@ function abrirTab() {
     minhashoras.addEventListener('click', function() {
         meuDash.style.display = "block";
         dashEquipes.style.display = "none";
+        minhasequipes.style.backgroundColor = "#332f3d";
+        minhashoras.style.backgroundColor = "#544D66";
     });
 
     minhasequipes.addEventListener('click', function() {
         dashEquipes.style.display = "block";
         meuDash.style.display = "none";
+        minhashoras.style.backgroundColor = "#332f3d";
+        minhasequipes.style.backgroundColor = "#544D66";
     });
 }
