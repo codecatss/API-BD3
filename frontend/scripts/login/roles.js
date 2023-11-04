@@ -5,4 +5,7 @@ const acessoPorFuncao = {
     "colaborador": ["COLABORADOR.Hora.html"]
 };
 
+acessoPorFuncao["admin"] = [...acessoPorFuncao["admin"], ...acessoPorFuncao["gestor"], ...acessoPorFuncao["colaborador"]];
+acessoPorFuncao["gestor"] = [...acessoPorFuncao["gestor"], ...acessoPorFuncao["colaborador"]];
+
 export default acessoPorFuncao;

@@ -63,6 +63,6 @@ function redirectToPage(role) {
     if (allowedPages && allowedPages.length > 0) {
         window.location.href = allowedPages[0];
     } else {
-        window.alert("Erro KKKKKK");
+        window.alert("Erro ao redirecionar");
     }
 }
