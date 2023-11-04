@@ -4,7 +4,8 @@ $(document).ready(function() {
     $(".login").click(function() {
         var username = $("input[type='text']").val();
         var password = $("input[type='password']").val();
-        logIn(username, password);
+        // logIn(username, password);
+        window.alert("Login efetuado!");
     });
 });
 
@@ -18,14 +19,11 @@ function logIn(username, password) {
         success: async function(data) {
             if (data.token) {
                 try {
-                    // const decodedToken = jwt.decode(data.token, 'my-secrey-key');
-                    // console.log('JWT decodificado:', decodedToken);
-                    const decoded = jsonwebtoken.decode(data.token, 'my-secrey-key');
-                    console.log(decoded)
-                    // localStorage.setItem("jwt", data.token);
-                    // redirectToPage(roleUsuario);
-
-                    const roleUsuario = await getUserRole(username, data.token);
+                    const roleUsuario = await getUserRoleAndSetParams(username, data.token);
+                    localStorage.setItem("jwt", data.token);
+                    if (localStorage.getItem(status_usuario === "ativo")) {
+                        redirectToPage(roleUsuario);
+                    }
                 } catch (error) {
                     console.error('Erro ao decodificar o JWT:', error);
                 }
@@ -39,7 +37,7 @@ function logIn(username, password) {
     });
 }
 
-async function getUserRole(username, token) {
+async function getUserRoleAndSetParams(username, token) {
     try {
         const response = await $.ajax({
             url: `http://localhost:8080/employee/${username}`,
@@ -50,7 +48,10 @@ async function getUserRole(username, token) {
             dataType: "json"
         });
         const roleUsuario = response.funcao;
+        localStorage.setItem("matricula", response.matricula);
+        localStorage.setItem("nome", response.nome);
         localStorage.setItem("role", roleUsuario);
+        localStorage.setItem("status_usuario", response.status_usuario);
         return roleUsuario;
     } catch (error) {
         console.error("Erro ao obter a função do usuário:", error);
