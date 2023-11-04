@@ -4,8 +4,7 @@ $(document).ready(function() {
     $(".login").click(function() {
         var username = $("input[type='text']").val();
         var password = $("input[type='password']").val();
-        // logIn(username, password);
-        window.alert("Login efetuado!");
+        logIn(username, password);
     });
 });
 
