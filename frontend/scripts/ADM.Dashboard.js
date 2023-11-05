@@ -40,37 +40,13 @@ const obterTodosCr = async () => {
 const todosCr = await obterTodosCr()
 
 const obterTodosTipos = async () => {
-    try {
-        const response = await fetch('http://localhost:8080/tipo');
-
-        if (!response.ok) {
-            throw new Error(`Erro na requisição: ${response.status}`);
-        }
-
-        const data = await response.json();
-        return data;
-    } catch (error) {
-        console.error('Erro na requisição:', error);
-        throw error;
-    }
+    return ["EXTRA", "SOBREAVISO"]; 
 };
 
 const todosTipos = await obterTodosTipos()
 
 const obterTodosStatus = async () => {
-    try {
-        const response = await fetch('http://localhost:8080/status');
-
-        if (!response.ok) {
-            throw new Error(`Erro na requisição: ${response.status}`);
-        }
-
-        const data = await response.json();
-        return data;
-    } catch (error) {
-        console.error('Erro na requisição:', error);
-        throw error;
-    }
+    return ["APROVADO_GESTOR", "NEGADO_GESTOR", "APROVADO_ADMIN", "NEGADO_ADMIN", "PENDENTE"];
 };
 
 const todosStatus = await obterTodosStatus()
@@ -123,12 +99,57 @@ function popularSelectCr(centroDeResultado) {
 }
 
 
+function popularSelectTipos(tipos) {
+    const selectTipo = document.getElementById("selecionarTipo");
+
+    selectTipo.innerHTML = "";
+
+    const optionPadrao = document.createElement("option");
+    optionPadrao.value = "";
+    optionPadrao.textContent = "Todos os Tipos";
+    optionPadrao.selected = true;
+
+
+    selectTipo.appendChild(optionPadrao);
+
+
+    clientes.forEach((tipo) => {
+        const option = document.createElement("option");
+        option.value = tipo;
+        option.textContent = tipo;
+        selectTipo.appendChild(option);
+    });
+}
+
+function popularSelectStatus(status) {
+    const selecionarStatus = document.getElementById("selecionarStatus");
+
+    selecionarStatus.innerHTML = "";
+
+    const optionPadrao = document.createElement("option");
+    optionPadrao.value = "";
+    optionPadrao.textContent = "Todos os Status";
+    optionPadrao.selected = true;
+
+
+    selecionarStatus.appendChild(optionPadrao);
+
+
+    status.forEach((stat) => {
+        const option = document.createElement("option");
+        option.value = stat;
+        option.textContent = stat;
+        selecionarStatus.appendChild(option);
+    });
+}
+
 popularSelectEmpresas(todosClientes)
 popularSelectCr(todosCr);
-
+popularSelectTipos(todosTipos);
+popularSelectStatus(todosStatus);
 
 const listarHoras = async (matriculaAdminLogado, CrSelecionado, ClienteSelecionado, TipoSelecionado, StatusSelecionado) => {
-    let apiUrl = `http://localhost:8080/hora/${matriculaAdminLogado}`;
+    let apiUrl = `http://localhost:8080/hora/admin/${matriculaAdminLogado}`;
     
     if (CrSelecionado) {
         console.log(CrSelecionado);
@@ -142,12 +163,12 @@ const listarHoras = async (matriculaAdminLogado, CrSelecionado, ClienteSeleciona
 
     if (TipoSelecionado) {
         console.log(TipoSelecionado);
-        apiUrl += `?codCR=${TipoSelecionado}`;
+        apiUrl += CrSelecionado ? `&tipo=${ClienteSelecionado}` : `?tipo=${ClienteSelecionado}`;
     }
     
     if (StatusSelecionado) {
         console.log(StatusSelecionado);
-        apiUrl += `?cnpj=${StatusSelecionado}`;
+        apiUrl += CrSelecionado ? `&status_aprovacao=${StatusSelecionado}` : `?status_aprovacao=${StatusSelecionado}`;
     }
 
     try {
