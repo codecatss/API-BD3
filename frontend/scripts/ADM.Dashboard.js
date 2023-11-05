@@ -113,7 +113,7 @@ function popularSelectTipos(tipos) {
     selectTipo.appendChild(optionPadrao);
 
 
-    clientes.forEach((tipo) => {
+    tipos.forEach((tipo) => {
         const option = document.createElement("option");
         option.value = tipo;
         option.textContent = tipo;
