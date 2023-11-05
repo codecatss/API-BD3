@@ -395,7 +395,7 @@ select {
     font-family: "Arial";
     font-size: 300%;
     font-weight: 700;
-    line-height: 66px;
+    line-height: 4px;
     text-align: left;
     height: 36%;
   }
