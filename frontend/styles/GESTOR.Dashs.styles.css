@@ -106,7 +106,39 @@
   .active-page:hover {
     background: linear-gradient(to right, #251440, #6158d2);
   }
-  .main-content {
+
+  nav{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 75vh;
+    height: 100%;
+    background: var(--background-nav-color);
+    padding: 30px 0;
+  }
+
+  header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--gradient-navbar);
+    height: 20%;
+    width: 100%;
+    padding: 0 2rem;
+  }
+
+  main {
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+
+  .content {
     background: var(--background-nav-color);
     flex-grow: 1;
     padding-left: var(--default-pad);
@@ -167,11 +199,6 @@
   
   .account .perfil-user a .seta-dropdown {
     font-size: 16px;
-  }
-  
-  main {
-    display: flex;
-    flex-direction: column;
   }
   
   .interactivebar {
@@ -494,7 +521,7 @@
     justify-content: center;
     align-items: flex-start;
     gap: 10px;
-    height: 88%;
+    height: 80vh;
     width: 92%;
   }
 
@@ -524,6 +551,10 @@
     background-color: var(--tabBackground);
   }
   
+  .tabArea{
+    background-color: var(--tabBackground);
+  }
+
   .tabContent{
     background-color: var(--tabBackground);
 

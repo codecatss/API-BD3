@@ -142,6 +142,7 @@ const listarHorasCr = async () => {
             return data;
         }
         const data = await response.json();
+        alert(data.length);
         return data;
     } catch (error) {
         throw error;
@@ -151,12 +152,10 @@ const listarHorasCr = async () => {
 
 
 // Guarda todas as horas em uma variável
-const horasCadastradas = await listarHoras(matriculaUsuarioLogado)
-
-const horasPorCr = await listarHorasCr()
+const horasCadastradas = await listarHoras(matriculaUsuarioLogado);
 
 
-function arrumarProporcaoGrafico(horas){
+function seedGraficoUsuario(horas){
     // Calcula a proporção de horas aprovadas, reprovadas e pendentes dentro de uma lista de horas e preenche o gráfico de forma correta
     const horasAprovadas = horas.filter(hora => hora.status_aprovacao == "APROVADO_ADMIN");
     const horasReprovadas = horas.filter(hora => hora.status_aprovacao == "NEGADO_ADMIN" || hora.status_aprovacao == "NEGADO_GESTOR");
@@ -176,12 +175,34 @@ function arrumarProporcaoGrafico(horas){
 
 }
 
+function seedGraficoCr(horas){
+    // Calcula a proporção de horas aprovadas, reprovadas e pendentes dentro de uma lista de horas e preenche o gráfico de forma correta
+    const horasAprovadas = horas.filter(hora => hora.status_aprovacao == "APROVADO_ADMIN");
+    const horasReprovadas = horas.filter(hora => hora.status_aprovacao == "NEGADO_ADMIN" || hora.status_aprovacao == "NEGADO_GESTOR");
+    const horasPendentes = horas.filter(hora => hora.status_aprovacao == "PENDENTE" || hora.status_aprovacao == "APROVADO_GESTOR");
 
-function preencherPainelStatus(horas){
+    const total = horasAprovadas.length + horasReprovadas.length + horasPendentes.length;
+    const proporcaoReprovadas = ((horasReprovadas.length/total) * 100).toFixed(2);
+    const proporcaoPendentes = ((horasPendentes.length/total) * 100).toFixed(2);
+
+    const p1 = parseFloat(proporcaoReprovadas);
+    const p2 = parseFloat(proporcaoReprovadas) + parseFloat(proporcaoPendentes);
+
+    const grafico = document.getElementById("graficoCr");
+
+
+    grafico.style.backgroundImage = `conic-gradient(#D86666 0% ${p1}%, #EADD6E ${p1}% ${p2}%, #8DD88B ${p2}% 100%)`;
+
+}
+
+
+function preencherTabUsuario(horas){
     // Preenche os paineis de status com a quantidade de horas aprovadas, reprovadas e pendentes dentro de uma lista de horas
     const aprovadas = document.getElementById("label-aprovadas");
     const reprovadas = document.getElementById("label-reprovadas");
     const pendentes = document.getElementById("label-pendentes");
+
+    horas = horas.filter(hora => hora.lancador == matriculaUsuarioLogado);
 
     const horasAprovadas = horas.filter(hora => hora.status_aprovacao == "APROVADO_ADMIN");
     const horasReprovadas = horas.filter(hora => hora.status_aprovacao == "NEGADO_ADMIN" || hora.status_aprovacao == "NEGADO_GESTOR");
@@ -230,34 +251,62 @@ async function atualizarHoras() {
 
     const horasCadastradas = await listarHoras(matriculaUsuarioLogado, CrSelecionado, ClienteSelecionado);
 
-    preencherPainelStatus(horasCadastradas);
-    arrumarProporcaoGrafico(horasCadastradas);
+    preencherTabUsuario(horasCadastradas);
+    seedGraficoUsuario(horasCadastradas);
+}
+
+async function atualizarHorasCr() {
+
+    const horasCadastradas = await listarHorasCr();
+
+    preencherTabCr(horasCadastradas);
+    seedGraficoCr(horasCadastradas);
 }
 
 // Chama a função atualizarHoras inicialmente para carregar os dados com os valores iniciais
 atualizarHoras();
-abrirTab();
+inverteValor();
 
-function abrirTab() {
+let estadoMinhasHoras = true;
+let estadoMinhasEquipes = false;
+
+const dashEquipes = document.getElementById("minhasEquipes");
+const meuDash = document.getElementById("meuDash");
+
+function inverteValor() {
     const minhashoras = document.getElementById("minhas-horas");
-    const meuDash = document.getElementById("meuDash");
-
+    
     const minhasequipes = document.getElementById("minhas-equipes");
-    const dashEquipes = document.getElementById("minhasEquipes");
-
+    
     minhashoras.addEventListener('click', function() {
-        meuDash.style.display = "block";
-        dashEquipes.style.display = "none";
+        abrirTab();
         minhasequipes.style.backgroundColor = "#332f3d";
         minhashoras.style.backgroundColor = "#544D66";
-        // preencherTabCr(horasPorCr);
+        estadoMinhasHoras = true;
+        estadoMinhasEquipes = false;
+        atualizarHoras();
+        abrirTab(); 
     });
-
+    
     minhasequipes.addEventListener('click', function() {
-        dashEquipes.style.display = "block";
-        meuDash.style.display = "none";
+        abrirTab();
         minhashoras.style.backgroundColor = "#332f3d";
         minhasequipes.style.backgroundColor = "#544D66";
-        preencherTabCr(listarHorasCr());
+        estadoMinhasHoras = false;
+        estadoMinhasEquipes = true;
+        atualizarHorasCr();
+        abrirTab(); 
+
     });
+}
+
+function abrirTab(){
+    if(estadoMinhasHoras){
+        meuDash.style.display = "block";
+        dashEquipes.style.display = "none";
+    }
+    if (estadoMinhasEquipes){
+        dashEquipes.style.display = "block";
+        meuDash.style.display = "none";
+    }
 }
