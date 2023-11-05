@@ -142,7 +142,7 @@ const listarHorasCr = async () => {
             return data;
         }
         const data = await response.json();
-        alert(data.length);
+        // alert(data.length);
         return data;
     } catch (error) {
         throw error;
@@ -177,7 +177,7 @@ function seedGraficoUsuario(horas){
 
 function seedGraficoCr(horas){
     // Calcula a proporção de horas aprovadas, reprovadas e pendentes dentro de uma lista de horas e preenche o gráfico de forma correta
-    const horasAprovadas = horas.filter(hora => hora.status_aprovacao == "APROVADO_ADMIN");
+    const horasAprovadas = horas.filter(hora => hora.status_aprovacao == "APROVADO_ADMIN" || hora.status_aprovacao == "APROVADO_GESTOR");
     const horasReprovadas = horas.filter(hora => hora.status_aprovacao == "NEGADO_ADMIN" || hora.status_aprovacao == "NEGADO_GESTOR");
     const horasPendentes = horas.filter(hora => hora.status_aprovacao == "PENDENTE" || hora.status_aprovacao == "APROVADO_GESTOR");
 
@@ -235,13 +235,17 @@ const selectCliente = document.getElementById("selecionarEmpresa");
 
 selectCr.addEventListener("change", () => {
     // Função para atualizar horas quando o CR é alterado
-    atualizarHoras();
+    console.log(selectCr.value);
+    atualizarHoras();        
+    atualizarHorasCr();
+
 });
 
 
 selectCliente.addEventListener("change", () => {
     // Função para atualizar horas quando o Cliente é alterado
     atualizarHoras();
+    atualizarHorasCr();
 });
 
 async function atualizarHoras() {
@@ -258,9 +262,24 @@ async function atualizarHoras() {
 async function atualizarHorasCr() {
 
     const horasCadastradas = await listarHorasCr();
+    if(selectCr.value == "" && selectCliente.value == ""){
+        preencherTabCr(horasCadastradas);
+        seedGraficoCr(horasCadastradas);
+    }
+    else{
+        console.log("Mudou");
+        const filtoCr = horasCadastradas.filter(horasCadastradas => horasCadastradas.codcr == selectCr.value);
+        if(selectCliente.value == ""){
+            preencherTabCr(filtoCr);
+            seedGraficoCr(filtoCr);  
+        }
+        else{
+            const filtoCliente = filtoCr.filter(filtoCr => filtoCr.cnpj == selectCliente.value);
+            preencherTabCr(filtoCliente);
+            seedGraficoCr(filtoCliente);
+        }
+    }
 
-    preencherTabCr(horasCadastradas);
-    seedGraficoCr(horasCadastradas);
 }
 
 // Chama a função atualizarHoras inicialmente para carregar os dados com os valores iniciais
