@@ -1,4 +1,6 @@
-const matriculaAdminLogado = 6987;
+const matriculaAdminLogado = 700833;
+let tipoChanged = false;
+let statusChanged = false;
 
 const obterTodosClientes = async () => {
     try {
@@ -39,17 +41,23 @@ const obterTodosCr = async () => {
 
 const todosCr = await obterTodosCr()
 
-const obterTodosTipos = async () => {
-    return ["EXTRA", "SOBREAVISO"]; 
+const obterTodosTipos = async (data) => {
+    const tipos = data.map(hora => hora.tipo);
+    const tiposUnicos = [...new Set(tipos)];
+
+    return tiposUnicos
 };
 
-const todosTipos = await obterTodosTipos()
+// const todosTipos = await obterTodosTipos()
 
-const obterTodosStatus = async () => {
-    return ["APROVADO_GESTOR", "NEGADO_GESTOR", "APROVADO_ADMIN", "NEGADO_ADMIN", "PENDENTE"];
+const obterTodosStatus = async (data) => {
+    const status_aprovacao = data.map(hora => hora.status_aprovacao);
+    const statusAprovacaoUnicos = [...new Set(status_aprovacao)];
+
+    return statusAprovacaoUnicos;
 };
 
-const todosStatus = await obterTodosStatus()
+// const todosStatus = await obterTodosStatus()
 
 function popularSelectEmpresas(clientes) {
     const selectEmpresa = document.getElementById("selecionarEmpresa");
@@ -145,8 +153,8 @@ function popularSelectStatus(status) {
 
 popularSelectEmpresas(todosClientes)
 popularSelectCr(todosCr);
-popularSelectTipos(todosTipos);
-popularSelectStatus(todosStatus);
+// popularSelectTipos(todosTipos);
+// popularSelectStatus(todosStatus);
 
 const listarHoras = async (matriculaAdminLogado, CrSelecionado, ClienteSelecionado, TipoSelecionado, StatusSelecionado) => {
     let apiUrl = `http://localhost:8080/hora/admin/${matriculaAdminLogado}`;
@@ -163,13 +171,15 @@ const listarHoras = async (matriculaAdminLogado, CrSelecionado, ClienteSeleciona
 
     if (TipoSelecionado) {
         console.log(TipoSelecionado);
-        apiUrl += CrSelecionado ? `&tipo=${ClienteSelecionado}` : `?tipo=${ClienteSelecionado}`;
+        apiUrl += CrSelecionado ? `&tipo=${TipoSelecionado}` : `?tipo=${TipoSelecionado}`;
     }
     
     if (StatusSelecionado) {
         console.log(StatusSelecionado);
         apiUrl += CrSelecionado ? `&status_aprovacao=${StatusSelecionado}` : `?status_aprovacao=${StatusSelecionado}`;
     }
+
+    console.log(apiUrl);
 
     try {
         const response = await fetch(apiUrl);
@@ -230,23 +240,27 @@ const selectStatus = document.getElementById("selecionarStatus");
 
 
 selectCr.addEventListener("change", () => {
-    atualizarHoras();
+    tipoChanged = true;
+    statusChanged = true;
+    atualizarHoras(true);
 });
 
 
 selectCliente.addEventListener("change", () => {
-    atualizarHoras();
+    tipoChanged = true;
+    statusChanged = true;
+    atualizarHoras(true);
 });
 
 selectTipo.addEventListener("change", () => {
-    atualizarHoras();
+    atualizarHoras(false);
 });
 
 selectStatus.addEventListener("change", () => {
-    atualizarHoras();
+    atualizarHoras(false);
 });
 
-async function atualizarHoras() {
+async function atualizarHoras(funcaoAdicional = false) {
     const CrSelecionado = selectCr.value;
     const ClienteSelecionado = selectCliente.value;
     const TipoSelecionado = selectTipo.value;
@@ -254,8 +268,17 @@ async function atualizarHoras() {
 
     const horasCadastradas = await listarHoras(matriculaAdminLogado, CrSelecionado, ClienteSelecionado, TipoSelecionado, StatusSelecionado);
 
+    const tipos = await obterTodosTipos(horasCadastradas);
+    const status = await obterTodosStatus(horasCadastradas);
+    if (funcaoAdicional) {
+        popularSelectStatus(status);
+        popularSelectTipos(tipos);
+    }
+
     preencherPainelStatus(horasCadastradas);
     arrumarProporcaoGrafico(horasCadastradas);
 }
 
-atualizarHoras();
+
+
+atualizarHoras(true);
