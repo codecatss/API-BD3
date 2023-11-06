@@ -72,4 +72,12 @@ public interface HoraRepository extends JpaRepository<Hora, Integer> {
     Collection<Object> findByLancadorAndCnpj(String matricula, String cnpj);
 
     Collection<Object> findByLancadorAndCodcrAndCnpj(String matricula, String codCR, String cnpj);
+
+    @Query("SELECT h FROM hora h " +
+    "WHERE " +
+    "h.matricula_gestor = :var")
+    List<Hora> findByMatricula_gestor(String var);
+
+    @Query(value = "SELECT count(h) > 0 FROM hora h WHERE h.funcao = :var", nativeQuery = true)
+    boolean existsByGestor(String var);
 }
