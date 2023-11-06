@@ -5,6 +5,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -178,16 +179,18 @@ public class VerbaService {
         return makeVerbaHora(verba, Duration.between(hora.getData_hora_inicio().toInstant(), hora.getData_hora_inicio().toInstant().plusSeconds(segundos)).toSeconds());
     }
 
-    public VerbaDTOs getTotalVerbas(VerbaDTOs.TotalHoras totalHoras) throws ApiException {
+    public VerbaDTOs 
+    getTotalVerbas(VerbaDTOs.TotalHoras totalHoras) throws ApiException {
 
         LocalDateTime inicio = null;
         LocalDateTime fim = null;
         try {
-            inicio= Timestamp.valueOf(totalHoras.inicio()).toLocalDateTime();  
-            fim = Timestamp.valueOf(totalHoras.fim()).toLocalDateTime();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            inicio = LocalDateTime.parse(totalHoras.inicio(), formatter);
             
+            fim = LocalDateTime.parse(totalHoras.fim(), formatter);
         } catch (Exception e) {
-            throw(new ApiException("Erro no parcing das datas"));
+            throw(new ApiException("Erro no parcing das datas\n"+e.getMessage()));
         }
 
 

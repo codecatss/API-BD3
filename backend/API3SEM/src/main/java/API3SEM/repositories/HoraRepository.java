@@ -157,4 +157,11 @@ public interface HoraRepository extends JpaRepository<Hora, Integer> {
 //        // TODO
 //
 //    // BD-72 -- FIM
+    @Query("SELECT h FROM hora h " +
+    "WHERE " +
+    "h.matricula_gestor = :var")
+    List<Hora> findByMatricula_gestor(String var);
+
+    @Query(value = "SELECT count(h) > 0 FROM hora h WHERE h.funcao = :var", nativeQuery = true)
+    boolean existsByGestor(String var);
 }

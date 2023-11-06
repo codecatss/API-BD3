@@ -218,7 +218,7 @@ public class DatabaseInitialization implements CommandLineRunner {
 
             hora.setData_lancamento(Timestamp.valueOf(LocalDateTime.now()));
 
-            hora.setMatricula_gestor(gestores.get(random.nextInt(gestores.size())).getMatricula());
+            // hora.setMatricula_gestor(gestores.get(random.nextInt(gestores.size())).getMatricula());
 
             hora.setData_modificacao_gestor(Timestamp.valueOf(LocalDateTime.now()));
 
