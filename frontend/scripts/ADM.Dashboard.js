@@ -1,6 +1,4 @@
-const matriculaAdminLogado = 700833;
-let tipoChanged = false;
-let statusChanged = false;
+const matriculaAdminLogado = 6987;
 
 const obterTodosClientes = async () => {
     try {
@@ -153,8 +151,6 @@ function popularSelectStatus(status) {
 
 popularSelectEmpresas(todosClientes)
 popularSelectCr(todosCr);
-// popularSelectTipos(todosTipos);
-// popularSelectStatus(todosStatus);
 
 const listarHoras = async (matriculaAdminLogado, CrSelecionado, ClienteSelecionado, TipoSelecionado, StatusSelecionado) => {
     let apiUrl = `http://localhost:8080/hora/admin/${matriculaAdminLogado}`;
@@ -178,8 +174,6 @@ const listarHoras = async (matriculaAdminLogado, CrSelecionado, ClienteSeleciona
         console.log(StatusSelecionado);
         apiUrl += CrSelecionado ? `&status_aprovacao=${StatusSelecionado}` : `?status_aprovacao=${StatusSelecionado}`;
     }
-
-    console.log(apiUrl);
 
     try {
         const response = await fetch(apiUrl);
@@ -240,15 +234,11 @@ const selectStatus = document.getElementById("selecionarStatus");
 
 
 selectCr.addEventListener("change", () => {
-    tipoChanged = true;
-    statusChanged = true;
     atualizarHoras(true);
 });
 
 
 selectCliente.addEventListener("change", () => {
-    tipoChanged = true;
-    statusChanged = true;
     atualizarHoras(true);
 });
 
