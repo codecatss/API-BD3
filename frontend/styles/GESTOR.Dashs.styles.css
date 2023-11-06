@@ -22,6 +22,10 @@
     font-family: Outfit, sans-serif;
     color: var(--text-color);
     display: flex;
+    background-color:var(--background-nav-color);
+  }
+
+  #minhas-equipes, #minhas-horas{
   }
   
   button {
@@ -534,6 +538,8 @@
     justify-content: left;
     width: 100%;
     top: 0;
+    font-size: 25px;
+
     
   }
   
@@ -543,6 +549,8 @@
     outline: none;
     border-radius: 7px 7px 0px 0px; 
     font-weight: bold;
+    font-size: 25px;
+    padding: 10px;
   }
 
   .tabOption div{
@@ -576,6 +584,8 @@
     display: block;
   }
 
+
+
   .filtros-cr-cliente{
     height: 17%;
     display: flex;
@@ -584,6 +594,7 @@
     padding-bottom: 0%;
     gap: 32px;
     margin-bottom: 1%;
+    padding-top: 20px;
   }
 
 .filtros-horas-status{
@@ -784,4 +795,16 @@
     display: flex;
     padding: 15px 26px;
     flex-direction: column;
+  }
+
+
+  .custom-label-painel-status-value{
+    display: flex;
+    justify-content: center;
+    padding-bottom: 20px;
+  }
+
+  .custom-label-painel-status{
+    text-align: left;
+    margin-left: 20px;
   }
