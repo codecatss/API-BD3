@@ -15,11 +15,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
-
 
 
 @RestController
@@ -52,7 +51,7 @@ public class HoraController {
     }
 
     @GetMapping("/{var}/{filtro}") 
-    public ResponseEntity filtredHours(@PathVariable String var, @PathVariable String filtro){
+    public ResponseEntity<?> filtredHours(@PathVariable String var, @PathVariable String filtro){
         List<Object> response = new ArrayList<>();
         List<Hora> horas = new ArrayList<>();
         
@@ -275,7 +274,7 @@ public class HoraController {
                                     if (partialData.data_modificacao_gestor() != null) {
                                         hora.setData_modificacao_gestor(partialData.data_modificacao_gestor());
                                     } else { // Se não veio, configura como agora
-                                        hora.setData_modificacao_gestor(new Timestamp(System.currentTimeMillis()));
+                                        hora.setData_modificacao_gestor(Timestamp.valueOf(LocalDateTime.now()));
                                     }
 
                                 } else {
@@ -420,4 +419,45 @@ public class HoraController {
 
         horaRepository.save(hour);
     }
+
+
+    @GetMapping("/{matricula}")
+    public ResponseEntity<List<HoraDTOs>> horasDoUsuario(
+            @PathVariable String matricula,
+            @RequestParam(name = "codCR", required = false) String codCR,
+            @RequestParam(name = "cnpj", required = false) String cnpj
+    ) {
+        List<HoraDTOs> horasDoUsuario;
+
+        if (codCR != null && cnpj != null) {
+            horasDoUsuario = horaRepository.findByLancadorAndCodcrAndCnpj(matricula, codCR, cnpj)
+                    .stream()
+                    .map(HoraDTOs::new)
+                    .collect(Collectors.toList());
+        } else if (codCR != null) {
+            horasDoUsuario = horaRepository.findByLancadorAndCodcr(matricula, codCR)
+                    .stream()
+                    .map(HoraDTOs::new)
+                    .collect(Collectors.toList());
+        } else if (cnpj != null) {
+            horasDoUsuario = horaRepository.findByLancadorAndCnpj(matricula, cnpj)
+                    .stream()
+                    .map(HoraDTOs::new)
+                    .collect(Collectors.toList());
+        } else {
+            horasDoUsuario = horaRepository.findByLancador(matricula)
+                    .stream()
+                    .map(HoraDTOs::new)
+                    .collect(Collectors.toList());
+        }
+
+        if (horasDoUsuario.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(horasDoUsuario);
+        }
+
+        return ResponseEntity.ok(horasDoUsuario);
+    }
+
+
+
 }
