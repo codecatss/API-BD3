@@ -24,9 +24,6 @@
     display: flex;
     background-color:var(--background-nav-color);
   }
-
-  #minhas-equipes, #minhas-horas{
-  }
   
   button {
     border: none;

@@ -39,9 +39,27 @@ const obterTodosCr = async () => {
     }
 };
 
+const obterCrDoUsuario = async (matriculaUsuarioLogado) => {
+    // Faz a requisição para a API e retorna os CRs
+    try {
+        const response = await fetch(`http://localhost:8080/cr/user/${matriculaUsuarioLogado}`);
+
+        if (!response.ok) {
+            throw new Error(`Erro na requisição: ${response.status}`);
+        }
+
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Erro na requisição:', error);
+        throw error;
+    }
+};
+
 
 // Guarda todos os CRs em uma variável
 const todosCr = await obterTodosCr()
+const CrListDoUsuario = await obterCrDoUsuario(matriculaUsuarioLogado)
 
 
 function popularSelectEmpresas(clientes) {
@@ -97,7 +115,7 @@ function popularSelectCr(centroDeResultado) {
 // Chama a função para popular o select de Cliente e passa a lista de clientes todosClientes
 popularSelectEmpresas(todosClientes)
 // Chama a função para popular o select de CR e passa a lista de CRs todosCr
-popularSelectCr(todosCr);
+popularSelectCr(CrListDoUsuario);
 
 
 const listarHoras = async (matriculaUsuarioLogado, CrSelecionado, ClienteSelecionado) => {
