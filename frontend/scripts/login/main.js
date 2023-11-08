@@ -1,7 +1,7 @@
 import acessoPorFuncao from './roles.js';
 
-$(document).ready(function() {
-    $(".login").click(function() {
+$(document).ready(function () {
+    $(".login").click(function () {
         var username = $("input[type='text']").val();
         var password = $("input[type='password']").val();
         logIn(username, password);
@@ -15,7 +15,7 @@ function logIn(username, password) {
         dataType: "json",
         data: JSON.stringify({ matricula: username, senha: password }),
         contentType: "application/json",
-        success: async function(data) {
+        success: async function (data) {
             if (data.token) {
                 try {
                     const roleUsuario = await getUserRoleAndSetParams(username, data.token);
@@ -30,7 +30,7 @@ function logIn(username, password) {
                 alert("Credenciais inválidas. Tente novamente.");
             }
         },
-        error: function(error) {
+        error: function (error) {
             console.error("Erro ao fazer login:", error);
         }
     });
@@ -50,7 +50,7 @@ async function getUserRoleAndSetParams(username, token) {
         localStorage.setItem("matricula", response.matricula);
         localStorage.setItem("nome", response.nome);
         localStorage.setItem("role", roleUsuario);
-        localStorage.setItem("status_usuario", response.status_usuario);
+
         return roleUsuario;
     } catch (error) {
         console.error("Erro ao obter a função do usuário:", error);
