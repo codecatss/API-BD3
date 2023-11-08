@@ -5,6 +5,7 @@ package API3SEM.controllers;
 import API3SEM.entities.Member;
 import API3SEM.utills.ApiException;
 import API3SEM.utills.StatusEnum;
+import API3SEM.utills.Service.UserCr;
 import API3SEM.repositories.MemberRepository;
 import API3SEM.repositories.EmployeeRepository;
 import API3SEM.repositories.IntegranteRepository;
@@ -244,11 +245,10 @@ public class CenterResultController {
 
     @GetMapping("/user/{Userid}")
     public ResponseEntity<?> getCrListByUsarId(@PathVariable String Userid) {
-        List<Integrante> listIntegrantes = new ArrayList<Integrante>();
-        listIntegrantes = integranteRepository.findByIntegrantePkMatricula(Userid);
-        List<ResultCenterDTOs> crList = new ArrayList<ResultCenterDTOs>();
-        for (Integrante integrante : listIntegrantes) {
-            crList.add(new ResultCenterDTOs(repository.findById(integrante.getIntegrantePk().getCodCr()).get()));
+        UserCr userCr = new UserCr(repository, integranteRepository);
+        List<ResultCenterDTOs> crList = userCr.getCrListByUsarId(Userid);
+        if(crList.isEmpty()){
+            return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(crList);
 

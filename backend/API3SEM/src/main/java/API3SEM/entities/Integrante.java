@@ -3,7 +3,6 @@ package API3SEM.entities;
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.AttributeOverrides;
 import jakarta.persistence.Column;
-import jakarta.persistence.Embeddable;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -21,8 +20,13 @@ import lombok.Setter;
 @Entity
 public class Integrante {
 
+    public Integrante(boolean gestor, String matricula, String codCr) {
+        this.gestor = gestor;
+        this.integrantePk = new IntegrantePk(matricula, codCr);
+    }
+
     @Column(name = "gestor", nullable = false)
-    String gestor;
+    Boolean gestor;
 
     @EmbeddedId
     @AttributeOverrides({
