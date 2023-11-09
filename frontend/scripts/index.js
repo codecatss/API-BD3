@@ -12,6 +12,7 @@ function toggleMode(liElement) {
 }
 
 
+
 function enableCenterResult(codigoCr, liElement) {
     const apiUrl = `http://localhost:8080/cr/enable/${codigoCr}`;
 

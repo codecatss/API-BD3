@@ -7,7 +7,15 @@ function toggleMode(liElement) {
         liElement.classList.add('moved');
     }
 }
-
+async function checkJWTToken() {
+    const token = localStorage.getItem('jwt');
+    console.log(token, "token");
+    if (!token) {
+        window.location.href = '../pages/login.html';
+        console.log("Não tem token");
+    }
+}
+checkJWTToken()
 
 function enableClient(cnpj, liElement) {
     const apiUrl = `http://localhost:8080/clients/enable/${cnpj}`;
