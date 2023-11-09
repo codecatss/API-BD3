@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles/reset.css">
+    <link rel="stylesheet" href="../styles/global.styles.css">
+
+    <link rel="stylesheet" href="../styles/ADM.Dahsboard.css">
+
+    <link rel="shortcut icon" href="../assets/logo2rp.svg" type="image/x-icon">
+
+    <title>Dashboard</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="menu">
+            <div class="logo">
+                <img src="../assets/transparent-icons/2rp.svg" alt="" srcset="">
+            </div>
+            <ul class="main-menu">
+                <li class="menu-item active-page">
+                    <img src="../assets/transparent-icons/dashboard.svg" alt="" srcset="">
+                    <a href="./ADM.Dashboard.html">Dashboard</a>
+                </li>
+                <li class="menu-item ">
+                    <img src="../assets/transparent-icons/user.svg" alt="" srcset="">
+                    <a href="./ADM.Usuario.html">Usuários</a>
+                </li>
+                <li class="menu-item">
+                    <img src="../assets/transparent-icons/client.svg" alt="" srcset="">
+                    <a href="./ADM.Cliente.html">Clientes</a>
+                </li>
+                <li class="menu-item">
+                    <img src="../assets/transparent-icons/cr.svg" alt="" srcset="">
+                    <a href="./ADM.CR.html">CR</a>
+                </li>
+                <li class="menu-item">
+                    <img src="../assets/transparent-icons/approve.svg" alt="" srcset="">
+                    <a href="./ADM.Aprovacao.html">Aprovar Horas</a>
+                </li>
+                <li class="menu-item">
+                    <img src="../assets/transparent-icons/parameterization.svg" alt="" srcset="">
+                    <a>Relatórios</a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="main-content">
+            <div class="header">
+                <h1>Dashboard</h1>
+                <div class="user-content">
+                    <img src="" alt=""
+                        srcset="https://cdn1.iconfinder.com/data/icons/user-pictures/101/malecostume-512.png">
+                    <section class="account">
+                        <ul>
+                            <li class="perfil-user">John Doe <img class="seta-dropdown" src="../assets/seta.svg" alt="">
+                                <ul class="dropdown">
+                                    <li><a href="#">Alterar Senha</a></li>
+                                    <li><a href="#">Logout</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </section>
+                </div>
+            </div>
+            <div class="filter-column">
+                <div class="crfiltro">
+                    <div class="content">
+                        <label for="cr">CR</label>
+                        <select id="selecionarCr" style="width: 410px;">
+                        </select>
+                    </div>
+                </div>
+
+                <div class="clientefiltro">
+                        <label for="cliente">Cliente</label>
+                        <select id="selecionarEmpresa" style="width: 410px;">
+                        </select>
+                </div>
+            </div>
+
+            <div class="filter-column2">
+                <div class="tipofiltro">
+                    <div class="content">
+
+                        <label for="tipo">Tipo da hora</label>
+                        <select id="selecionarTipo" style="width: 410px;"></select>
+
+                    </div>
+                </div>
+
+                <div class="statusfiltro">
+                    <div class="content">
+                        <label for="status">Status da hora</label>
+                        <select id="selecionarStatus" style="width: 410px;"></select>
+                    </div>
+                </div>
+            </div> 
+            <div class="painel-column">
+                <div class="apr-painel">
+                    <div class="content">
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="display-horas">
+                    
+                <div class="horas-aprovadas">
+                    <label for="aprovadas" class="custom-label-painel-status horas">Horas aprovadas</label>
+                    <label for="apro" id="label-aprovadas"class="custom-label-painel-status-value"></label>
+                </div>
+                
+                <div class="horas-reprovadas">
+                    <label for="reprovadas" class="custom-label-painel-status horas">Horas reprovadas</label>
+                    <label for="repo" id="label-reprovadas" class="custom-label-painel-status-value"></label>
+                </div>
+                
+                <div class="horas-pendentes">
+                    <label for="pendentes" class="custom-label-painel-status horas">Horas pendentes</label>
+                    <label for="pend" id="label-pendentes" class="custom-label-painel-status-value"></label>
+                </div>
+            
+            </div>
+            <div class="minhas-horas">
+                <div class="titulo-status">
+                    
+                    <div class="titulo">
+
+                        <div class="titulo-titulo"><label for="horas">Minhas horas</label></div>
+                        
+                    </div>
+                    
+                    <div class="status">
+                        
+                        <div class="status-aprovadas">
+                            <div class="status-label">
+                                <img src="../assets/green-ball.svg">
+                                <a>Aprovadas</a>
+                            </div>
+                        </div>
+                        
+                        <div class="status-reprovadas">
+                            <div class="status-label">
+                                <img src="../assets/red-ball.svg">
+                                <a>Reprovadas</a>
+                            </div>
+                        </div>
+                        
+                        <div class="status-pendentes">
+                            <div class="status-label">
+                                <img src="../assets/yellow-ball.svg">
+                                <a>Pendentes</a>
+                            </div>
+                        </div>
+                    
+                    </div>
+                </div>
+                
+                <div class="grafico">
+                    <div class="grafico-grafico">
+                    </div>
+                </div>
+                
+                <div class="vazio"></div>
+            </div>
+      
+        </div>   
+    </div>
+
+            <script type="module" src="../scripts/ADM.Dashboard.js"></script>
+
+</body>
+
+</html>

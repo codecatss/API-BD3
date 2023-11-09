@@ -1,4 +1,4 @@
-package API3SEM.utills.verbaService;
+package API3SEM.utills.Service;
 
 import java.time.Duration;
 
@@ -14,5 +14,10 @@ import lombok.Setter;
 @Setter
 public class VerbaHora {
     private Duration duration;
+    private Long duracao;
     private VerbasEnum verba;
+
+    public void fixDuracao() {
+        this.duracao = duration.toMinutes();
+    }
 }

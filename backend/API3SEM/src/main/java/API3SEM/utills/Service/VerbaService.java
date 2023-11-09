@@ -1,28 +1,37 @@
-package API3SEM.utills.verbaService;
+package API3SEM.utills.Service;
 
-import java.sql.Timestamp; // Importe a classe correta para Timestamp
+import java.sql.Timestamp;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import API3SEM.DTOS.VerbaDTOs;
 import API3SEM.entities.Hora;
+import API3SEM.repositories.HoraRepository;
+import API3SEM.utills.ApiException;
 import API3SEM.utills.TipoEnum;
 import API3SEM.utills.VerbasEnum;
-import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
 @Service
-public class VerbaManager {
+public class VerbaService {
+
+    private final HoraRepository horaRepository;
+
+    @Autowired
+    public VerbaService(HoraRepository horaRepository) {
+        this.horaRepository = horaRepository;
+    }
 
     private static List<VerbaHora> verbas = new ArrayList<VerbaHora>();
 
-    public static List<VerbaHora> getVerbaFromHora(Hora hora) {
-        verbas.clear();
+    private static List<VerbaHora> getVerbas(Hora hora) {
         List<VerbaHora> verbas_temp = new ArrayList<>();
 
         if (hora.getTipo().equalsIgnoreCase(TipoEnum.SOBREAVISO.name())) {
@@ -131,14 +140,98 @@ public class VerbaManager {
         return verbasNoturnas;
     }
 
+    public static List<VerbaHora> getVerbaFromHora(Hora hora){
+        if(hora == null) throw new RuntimeException("Hora nula");
+        try {
+            verbas.clear();
+            return getVerbas(hora);
+        } catch (Exception e) {
+            throw new RuntimeException("Erro desconhecido " + e.getMessage());
+        }
+    }
+
+    public static ArrayList<ArrayList<VerbaHora>> getVerbaFromHora(List<Hora> horas) {
+        try {
+            if (horas.isEmpty()) {
+                throw new RuntimeException("Lista de horas vazia");
+            }
+            ArrayList<ArrayList<VerbaHora>> minhasVerbas = new ArrayList<ArrayList<VerbaHora>>();
+            
+            for (Hora hora : horas) {
+                verbas.clear();
+                ArrayList<VerbaHora> tempList = new ArrayList <VerbaHora>();
+                tempList.addAll(getVerbas(hora));
+                minhasVerbas.add(tempList);
+            }
+            return minhasVerbas;    
+        } catch (Exception e) {
+            throw new RuntimeException("Erro desconhecido " + e.getMessage());
+        }
+    }
+
     private static VerbaHora makeVerbaHora(VerbasEnum verba, long segundos) {
         Duration duration = Duration.ofSeconds(segundos);
-        return new VerbaHora(duration, verba);
+        return new VerbaHora(duration, duration.toMinutes(), verba);
     }
 
     private static VerbaHora toVerbaHora(Hora hora, VerbasEnum verba, long segundos) {
 
         return makeVerbaHora(verba, Duration.between(hora.getData_hora_inicio().toInstant(), hora.getData_hora_inicio().toInstant().plusSeconds(segundos)).toSeconds());
+    }
+
+    public VerbaDTOs 
+    getTotalVerbas(VerbaDTOs.TotalHoras totalHoras) throws ApiException {
+
+        LocalDateTime inicio = null;
+        LocalDateTime fim = null;
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            inicio = LocalDateTime.parse(totalHoras.inicio(), formatter);
+            
+            fim = LocalDateTime.parse(totalHoras.fim(), formatter);
+        } catch (Exception e) {
+            throw(new ApiException("Erro no parcing das datas\n"+e.getMessage()));
+        }
+
+
+        ArrayList<Hora> horas = new ArrayList<Hora>();
+        horas.addAll(horaRepository.findHorasBetween(inicio, fim));
+        
+        Long diurno75 = 0L;
+        Long diurno100 = 0L;
+        Long noturno75 = 0L;
+        Long noturno100 = 0L;
+        Long sobreaviso = 0L;
+        Long adn = 0L;
+
+        for (Hora hora : horas) {
+
+            List<VerbaHora> tempVerba = getVerbas(hora);
+            for (VerbaHora verba : tempVerba) {
+                if(verba.getVerba().equals(VerbasEnum.HE75)){
+                    diurno75 = diurno75 + verba.getDuracao();
+                }
+                if(verba.getVerba().equals(VerbasEnum.HE100)){
+                    diurno100 = diurno100 + verba.getDuracao();
+                }
+                if(verba.getVerba().equals(VerbasEnum.HEN75)){
+                    noturno75 = noturno75 + verba.getDuracao();
+                }
+                if(verba.getVerba().equals(VerbasEnum.HEN100)){
+                    noturno100 = noturno100 + verba.getDuracao();
+                }
+                if(verba.getVerba().equals(VerbasEnum.SOBREAVISO)){
+                    sobreaviso = sobreaviso + verba.getDuracao();
+                }
+                if(verba.getVerba().equals(VerbasEnum.ADN)){
+                    adn = adn + verba.getDuracao();
+                }
+            }
+        }
+
+        Long total = diurno75 + diurno100 + noturno75 + noturno100 + sobreaviso + adn;
+
+    return new VerbaDTOs(diurno75, diurno100, noturno75, noturno100, sobreaviso, adn, total);
     }
 
 }
