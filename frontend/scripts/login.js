@@ -3,6 +3,8 @@ const inputPassword = document.getElementById("inputPassword");
 const buttonLogin = document.getElementById("buttonLogin");
 
 
+
+
 async function getEmployee(matricula) {
     return fetch("http://localhost:8080/employee/" + matricula, {
         method: 'GET',
@@ -21,12 +23,27 @@ async function getEmployee(matricula) {
         });
 }
 
+
+async function verificaLogin() {
+    const token = localStorage.getItem("jwt");
+    const data = JSON.parse(localStorage.getItem("funcao"));
+    console.log("token existe")
+    if (token) {
+        if (data == "admin") {
+            window.location.href = "http://127.0.0.1:5500/frontend/pages/ADM.Dashboard.html"
+            console.log("admin")
+        } else if (data == "gestor") {
+            window.location.href = "http://127.0.0.1:5500/frontend/pages/GESTOR.Dashs.html"
+        } else if (data.funcao == "colaborador") {
+            window.location.href = "http://127.0.0.1:5500/frontend/pages/COLABORADOR.Dashs.html"
+        }
+    } else {
+        console.log("token não existe")
+    }
+}
+
+
 async function direcionar(data) {
-
-
-
-
-
     if (data.funcao == "admin") {
         window.location.href = "http://127.0.0.1:5500/frontend/pages/ADM.Dashboard.html"
 
@@ -40,7 +57,7 @@ async function direcionar(data) {
 async function login() {
 
     buttonLogin.addEventListener("click", async function () {
-        console.log(inputLogin.value)
+
         const data = await getEmployee(inputLogin.value);
         if (data.status_usuario == "inativo") {
             alert("Usuário desativado, por favor entre em contato com o administrador")
@@ -67,7 +84,7 @@ async function login() {
 }
 
 
-
+verificaLogin()
 login()
 
 
