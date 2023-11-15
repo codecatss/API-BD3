@@ -126,6 +126,22 @@ public class HoraController {
         return ResponseEntity.ok(response);
     }
 
+
+    @GetMapping("/hora/{matricula}")
+    public ResponseEntity<List<HoraDTOs>> horasDoUsuario(@PathVariable String matricula) {
+        List<HoraDTOs> horasDoUsuario = horaRepository.findByLancador(matricula)
+                .stream()
+                .map(HoraDTOs::new)
+                .collect(Collectors.toList());
+
+        if (horasDoUsuario.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(horasDoUsuario);
+        }
+
+        return ResponseEntity.ok(horasDoUsuario);
+    }
+
+
     @GetMapping("/todas")
     public ResponseEntity<List<Hora>> listarTodasHoras(
 
