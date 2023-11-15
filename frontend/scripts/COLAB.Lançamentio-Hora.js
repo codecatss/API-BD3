@@ -65,10 +65,27 @@ const obterTodosCr = async () => {
     }
 };
 
-const todosCr = await obterTodosCr()
+
+const matricula = localStorage.getItem("matricula")
+console.log(matricula)
+const matriculaa = Number(matricula)
+console.log(matriculaa)
 
 
+async function getCrListByUserId(userId) {
+    const response = await fetch(`http://localhost:8080/cr/user/${userId}`);
 
+    if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const crList = await response.json();
+    console.log(crList);
+    return crList;
+}
+
+
+const todes = await getCrListByUserId(matricula);
 
 
 function popularSelectEmpresas(clientes) {
@@ -122,7 +139,7 @@ function popularSelectCr(centroDeResultado) {
 
 
 popularSelectEmpresas(todosClientes)
-popularSelectCr(todosCr);
+popularSelectCr(todes);
 
 
 
