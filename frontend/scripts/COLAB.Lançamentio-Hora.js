@@ -220,11 +220,12 @@ async function lancamentoHoraExtra(dadosParaEnviar) {
 
 const listarHoras = async () => {
     try {
-        const response = await fetch('http://localhost:8080/hora');
+        const response = await fetch('http://localhost:8080/hora' + `/${matricula}`);
         if (!response.ok) {
             throw new Error('Não foi possível obter os dados.');
         }
         const data = await response.json();
+        console.log(data)
         return data;
     } catch (error) {
         throw error;
@@ -247,7 +248,7 @@ async function carregarHorasNaLista(horas) {
     horas.forEach((hora) => {
 
         const razaoSocial = todosClientes.find(item => hora.cnpj === item.cnpj)?.razao_social || null;
-        const centroResultado = todosCr.find(item => hora.codcr === item.codigoCr)?.nome || null;
+        const centroResultado = todes.find(item => hora.codcr === item.codigoCr)?.nome || null;
 
 
 
@@ -457,7 +458,7 @@ botaoConfirmarSobreaviso.addEventListener("click", async function (event) {
 
     const dataHoraSobreaviso = {
         codcr: sobreaviso.codcr,
-        lancador: "4533",
+        lancador: localStorage.getItem("matricula"),
         cnpj: sobreaviso.cnpj,
         data_hora_inicio: `${dataInicio}T${horaInicio}:00Z`,
         data_hora_fim: `${dataFim}T${horaFim}:00Z`,
