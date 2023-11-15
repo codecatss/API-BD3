@@ -17,6 +17,11 @@ const obterTodosClientes = async () => {
 };
 
 
+
+
+
+
+
 const todosClientes = await obterTodosClientes()
 
 
@@ -154,12 +159,12 @@ popularSelectCr(todosCr);
 
 const listarHoras = async (matriculaAdminLogado, CrSelecionado, ClienteSelecionado, TipoSelecionado, StatusSelecionado) => {
     let apiUrl = `http://localhost:8080/hora/admin/${matriculaAdminLogado}`;
-    
+
     if (CrSelecionado) {
         console.log(CrSelecionado);
         apiUrl += `?codCR=${CrSelecionado}`;
     }
-    
+
     if (ClienteSelecionado) {
         console.log(ClienteSelecionado);
         apiUrl += CrSelecionado ? `&cnpj=${ClienteSelecionado}` : `?cnpj=${ClienteSelecionado}`;
@@ -169,7 +174,7 @@ const listarHoras = async (matriculaAdminLogado, CrSelecionado, ClienteSeleciona
         console.log(TipoSelecionado);
         apiUrl += CrSelecionado ? `&tipo=${TipoSelecionado}` : `?tipo=${TipoSelecionado}`;
     }
-    
+
     if (StatusSelecionado) {
         console.log(StatusSelecionado);
         apiUrl += CrSelecionado ? `&status_aprovacao=${StatusSelecionado}` : `?status_aprovacao=${StatusSelecionado}`;
@@ -186,21 +191,21 @@ const listarHoras = async (matriculaAdminLogado, CrSelecionado, ClienteSeleciona
     } catch (error) {
         throw error;
     }
-    
+
 };
 
 
 const horasCadastradas = await listarHoras(matriculaAdminLogado)
 
 
-function arrumarProporcaoGrafico(horas){
+function arrumarProporcaoGrafico(horas) {
     const horasAprovadas = horas.filter(hora => hora.status_aprovacao == "APROVADO_ADMIN");
     const horasReprovadas = horas.filter(hora => hora.status_aprovacao == "NEGADO_ADMIN" || hora.status_aprovacao == "NEGADO_GESTOR");
     const horasPendentes = horas.filter(hora => hora.status_aprovacao == "PENDENTE" || hora.status_aprovacao == "APROVADO_GESTOR");
 
     const total = horasAprovadas.length + horasReprovadas.length + horasPendentes.length;
-    const proporcaoReprovadas = ((horasReprovadas.length/total) * 100).toFixed(2);
-    const proporcaoPendentes = ((horasPendentes.length/total) * 100).toFixed(2);
+    const proporcaoReprovadas = ((horasReprovadas.length / total) * 100).toFixed(2);
+    const proporcaoPendentes = ((horasPendentes.length / total) * 100).toFixed(2);
 
     const p1 = parseFloat(proporcaoReprovadas);
     const p2 = parseFloat(proporcaoReprovadas) + parseFloat(proporcaoPendentes);
@@ -212,7 +217,7 @@ function arrumarProporcaoGrafico(horas){
 }
 
 
-function preencherPainelStatus(horas){
+function preencherPainelStatus(horas) {
     const aprovadas = document.getElementById("label-aprovadas");
     const reprovadas = document.getElementById("label-reprovadas");
     const pendentes = document.getElementById("label-pendentes");

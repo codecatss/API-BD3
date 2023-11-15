@@ -37,8 +37,6 @@ async function verificaLogin() {
         } else if (data.funcao == "colaborador") {
             window.location.href = "http://127.0.0.1:5500/frontend/pages/COLABORADOR.Dashs.html"
         }
-    } else {
-        console.log("token não existe")
     }
 }
 
@@ -59,6 +57,7 @@ async function login() {
     buttonLogin.addEventListener("click", async function () {
 
         const data = await getEmployee(inputLogin.value);
+        console.log(data)
         if (data.status_usuario == "inativo") {
             alert("Usuário desativado, por favor entre em contato com o administrador")
             return
