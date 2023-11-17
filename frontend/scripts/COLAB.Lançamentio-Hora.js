@@ -10,7 +10,10 @@ const solicitanteHoraInput = document.getElementById("solicitanteHora");
 const selecionarCRInput = document.getElementById("selecionarCr")
 const botaoConfirmar = document.getElementById("adicionarBotao");
 
-
+const usuarioLogado = localStorage.getItem("nome");
+const perfilUser = document.querySelector(".usuarioLogado");
+perfilUser.textContent = usuarioLogado;
+console.log(usuarioLogado)
 
 const horaSobreaviso = []
 
@@ -46,6 +49,15 @@ const obterTodosClientes = async () => {
 };
 
 const todosClientes = await obterTodosClientes()
+
+
+const loggout = document.getElementById("loggout");
+loggout.addEventListener("click", function () {
+    localStorage.clear();
+    window.location.href = "http://localhost:5500"
+});
+
+
 
 
 
@@ -167,7 +179,7 @@ function lancamentoHora() {
 
     const dataHora = {
         codcr: selecionarCR,
-        lancador: "4533",
+        lancador: localStorage.getItem("matricula"),
         cnpj: selecionarEmpresa,
         data_hora_inicio: dataHoraInicioUTC.toISOString(),
         data_hora_fim: dataHoraFimUTC.toISOString(),
