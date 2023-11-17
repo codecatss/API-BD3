@@ -62,11 +62,11 @@ async function login() {
             alert("Usuário desativado, por favor entre em contato com o administrador")
             return
         } else {
-            localStorage.setItem("jwt", JSON.stringify("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"));
-            localStorage.setItem("matricula", JSON.stringify(data.matricula));
-            localStorage.setItem("nome", JSON.stringify(data.nome));
-            localStorage.setItem("funcao", JSON.stringify(data.funcao));
-            localStorage.setItem("status_usuario", JSON.stringify(data.status_usuario));
+            localStorage.setItem("jwt", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c");
+            localStorage.setItem("matricula", data.matricula);
+            localStorage.setItem("nome", data.nome);
+            localStorage.setItem("funcao", data.funcao);
+            localStorage.setItem("status_usuario", data.status_usuario);
 
             direcionar(data);
         }
