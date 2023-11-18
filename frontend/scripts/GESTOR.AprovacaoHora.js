@@ -1,5 +1,19 @@
 
 
+
+const usuarioLogado = localStorage.getItem("nome");
+const perfilUser = document.querySelector(".usuarioLogado");
+perfilUser.textContent = usuarioLogado;
+console.log(usuarioLogado)
+const loggout = document.getElementById("loggout");
+loggout.addEventListener("click", function () {
+    localStorage.clear();
+    window.location.href = "http://localhost:5500/index.html"
+
+});
+
+
+
 const listarHoras = async () => {
     try {
         const response = await fetch('http://localhost:8080/hora/pendentes');
@@ -152,29 +166,45 @@ async function carregarHorasNaLista(horas) {
             modal.style.display = "block";
             console.log(hora.id)
 
+            const usuariollancador = todosUsuarios.find(item => hora.lancador === item.matricula)?.nome || null;
+            const cienteLancado = todosClientes.find(item => hora.cnpj === item.cnpj)?.razao_social || null;
+            console.log(usuariollancador)
 
-            const div = document.querySelector(".linhaUsuario")
-            const usuario = document.createElement("p");
-            const tipo = document.createElement("p");
-            const status = document.createElement("p");
-            const inicio = document.createElement("p");
-            const fim = document.createElement("p");
-            const cr = document.createElement("p");
-            const cliente = document.createElement("p");
-            const justificativa = document.createElement("p");
-            const solicitante = document.createElement("p");
-            const projeto = document.createElement("p");
-            const justificativaNegacao = document.createElement("p");
-            const matriculaGestor = document.createElement("p");
-            const dataModificacaoGestor = document.createElement("p");
-            const listaHoras = document.createElement("p");
-            const btnFechar = document.createElement("button");
+            const usuario = document.querySelector(".nome-usuario");
+            const tipo = document.querySelector("p");
+            const status = document.querySelector("p");
+            const inicio = document.querySelector("p");
+            const fim = document.querySelector("p");
+            const cr = document.querySelector(".nome-cr");
+            const cliente = document.querySelector("p");
+            const justificativa = document.querySelector("p");
+            const solicitante = document.querySelector(".nome-solicitante");
+            const projeto = document.querySelector("p");
+            const justificativaNegacao = document.querySelector("p");
+            const matriculaGestor = document.querySelector("p");
+            const dataModificacaoGestor = document.querySelector("p");
+            const listaHoras = document.querySelector("p");
+            const btnFechar = document.querySelector("button");
 
-            usuario.textContent = hora.lancador
+            usuario.textContent = usuariollancador
+            tipo.textContent = hora.tipo
+            status.textContent = hora.status_aprovacao
+            inicio.textContent = hora.data_hora_inicio
+            fim.textContent = hora.data_hora_fim
+            cr.textContent = hora.codcr
+            cliente.textContent = cienteLancado
+            justificativa.textContent = hora.justificativa
+            solicitante.textContent = hora.solicitante
+            projeto.textContent = hora.projeto
+            justificativaNegacao.textContent = hora.justificativa_negacao
+            matriculaGestor.textContent = hora.matricula_gestor
+            dataModificacaoGestor.textContent = hora.data_modificacao_gestor
+            listaHoras.textContent = hora.lista_horas
+            btnFechar.textContent = "FECHAR";
 
 
 
-            div.appendChild(usuario);
+
 
 
         });
@@ -182,6 +212,10 @@ async function carregarHorasNaLista(horas) {
         window.addEventListener('click', function (event) {
             if (event.target === modalSobreAviso) {
                 modalSobreAviso.style.display = 'none';
+
+
+
+
             }
         });
 
