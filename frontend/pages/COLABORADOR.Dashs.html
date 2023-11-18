@@ -17,7 +17,7 @@
             <img src="../assets/transparent-icons/2rp.svg" alt="" srcset="">
         </div>
         <ul class="main-menu">
-            <li class="menu-item"><img src="../assets/transparent-icons/dashboard.svg" alt="Ícone Dashboard" >
+            <li class="menu-item"><img src="../assets/transparent-icons/dashboard.svg" alt="Ícone Dashboard">
                 <a href="../pages/COLABORADOR.Dashs.html">Dashboard</a>
             </li>
             <li class="menu-item"><a href="#"><img src="../assets/iconeLancamento.svg" alt="Ícone Lançamento"><a
@@ -32,10 +32,11 @@
             </div>
             <section class="account">
                 <ul>
-                    <li class="perfil-user"><a href="#">Milk <span class="seta-dropdown">▼</span></a>
+                    <li class="perfil-user"><a class="usuarioLogado" href="#">Milk <span
+                                class="seta-dropdown">▼</span></a>
                         <ul class="dropdown">
                             <li><a href="#">Alterar Senha</a></li>
-                            <li><a href="#">Logout</a></li>
+                            <li><a href="#" id="loggout">Logout</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -44,7 +45,7 @@
 
         <main class="maaain">
             <div class="main-divao">
-                <div class="filtros-cr-cliente">   
+                <div class="filtros-cr-cliente">
 
 
                     <div class="filtro-cr">
@@ -54,7 +55,7 @@
 
 
                     </div>
-                    
+
                     <div class="filtro-cliente">
                         <label for="cliente" class="custom-label-filtro">Cliente</label>
                         <select id="selecionarEmpresa" name="q" class="input-bar" required></select>
@@ -64,66 +65,66 @@
 
 
                 </div>
-                
+
                 <div class="filtros-horas-status">
-                    
+
                     <div class="horas-aprovadas">
                         <label for="aprovadas" class="custom-label-painel-status">Minhas horas aprovadas</label>
-                        <label for="apro" id="label-aprovadas"class="custom-label-painel-status-value"></label>
+                        <label for="apro" id="label-aprovadas" class="custom-label-painel-status-value"></label>
                     </div>
-                    
+
                     <div class="horas-reprovadas">
                         <label for="reprovadas" class="custom-label-painel-status">Minhas horas reprovadas</label>
                         <label for="repo" id="label-reprovadas" class="custom-label-painel-status-value"></label>
                     </div>
-                    
+
                     <div class="horas-pendentes">
                         <label for="pendentes" class="custom-label-painel-status">Minhas horas pendentes</label>
                         <label for="pend" id="label-pendentes" class="custom-label-painel-status-value"></label>
                     </div>
-                
+
                 </div>
-                
+
                 <div class="minhas-horas">
                     <div class="titulo-status">
-                        
+
                         <div class="titulo">
 
                             <div class="titulo-titulo"><label for="horas">Minhas horas</label></div>
-                            
+
                         </div>
-                        
+
                         <div class="status">
-                            
+
                             <div class="status-aprovadas">
                                 <div class="status-label">
                                     <img src="../assets/green-ball.svg">
                                     <a>Aprovadas</a>
                                 </div>
                             </div>
-                            
+
                             <div class="status-reprovadas">
                                 <div class="status-label">
                                     <img src="../assets/red-ball.svg">
                                     <a>Reprovadas</a>
                                 </div>
                             </div>
-                            
+
                             <div class="status-pendentes">
                                 <div class="status-label">
                                     <img src="../assets/yellow-ball.svg">
                                     <a>Pendentes</a>
                                 </div>
                             </div>
-                        
+
                         </div>
                     </div>
-                    
+
                     <div class="grafico">
                         <div class="grafico-grafico">
                         </div>
                     </div>
-                    
+
                     <div class="vazio"></div>
                 </div>
 
