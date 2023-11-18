@@ -54,7 +54,7 @@ const todosClientes = await obterTodosClientes()
 const loggout = document.getElementById("loggout");
 loggout.addEventListener("click", function () {
     localStorage.clear();
-    window.location.href = "http://localhost:5500"
+    window.location.href = "http://localhost:5500/index.html"
 });
 
 
