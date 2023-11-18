@@ -1,5 +1,19 @@
 const matriculaUsuarioLogado = localStorage.getItem("matricula");
 
+
+const usuarioLogado = localStorage.getItem("nome");
+const perfilUser = document.querySelector(".usuarioLogado");
+perfilUser.textContent = usuarioLogado;
+console.log(usuarioLogado)
+const loggout = document.getElementById("loggout");
+loggout.addEventListener("click", function () {
+    localStorage.clear();
+    window.location.href = "http://localhost:5500/index.html"
+
+});
+
+
+
 const obterTodosClientes = async () => {
     // Faz a requisição para a API e retorna os clientes
     try {
