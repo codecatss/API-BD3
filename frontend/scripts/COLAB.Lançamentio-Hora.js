@@ -14,6 +14,15 @@ const usuarioLogado = localStorage.getItem("nome");
 const perfilUser = document.querySelector(".usuarioLogado");
 perfilUser.textContent = usuarioLogado;
 console.log(usuarioLogado)
+const loggout = document.getElementById("loggout");
+loggout.addEventListener("click", function () {
+    localStorage.clear();
+    window.location.href = "http://localhost:5500/index.html"
+
+});
+
+
+
 
 const horaSobreaviso = []
 
@@ -50,12 +59,6 @@ const obterTodosClientes = async () => {
 
 const todosClientes = await obterTodosClientes()
 
-
-const loggout = document.getElementById("loggout");
-loggout.addEventListener("click", function () {
-    localStorage.clear();
-    window.location.href = "http://localhost:5500"
-});
 
 
 
