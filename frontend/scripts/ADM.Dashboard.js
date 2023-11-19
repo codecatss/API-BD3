@@ -177,7 +177,7 @@ const listarHoras = async (matriculaAdminLogado, CrSelecionado, ClienteSeleciona
 
     if (StatusSelecionado) {
         console.log(StatusSelecionado);
-        apiUrl += CrSelecionado || ClienteSelecionado || TipoSelecionado? `&status_aprovacao=${StatusSelecionado}` : `?status_aprovacao=${StatusSelecionado}`;
+        apiUrl += CrSelecionado || ClienteSelecionado || TipoSelecionado ? `&status_aprovacao=${StatusSelecionado}` : `?status_aprovacao=${StatusSelecionado}`;
     }
 
     try {
@@ -277,3 +277,4 @@ async function atualizarHoras(funcaoAdicional = false) {
 
 
 atualizarHoras(true);
+

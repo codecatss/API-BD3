@@ -523,3 +523,25 @@ select {
   padding: 15px;
   border-radius: 10px;
 }
+
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 999;
+}
+
+.modal-content {
+  background: #0e0e12;
+  margin: 5% auto;
+  padding: 20px;
+  border: 25px solid var(--background-modal-content);
+  border-radius: 5px;
+  position: relative;
+  width: 801px;
+  height: 541px;
+}
