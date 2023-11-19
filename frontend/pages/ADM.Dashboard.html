@@ -177,7 +177,65 @@
         </div>
     </div>
 
+
+
+
+
+    <div class="modal" id="modalExportar">
+        <div class="modal-content">
+            <h1>Exportar Relatório CSV</h1>
+            <p>Selecione quais informações gostaria de extrair:</p>
+            <input id="data-inicioRelatorio" type="date" required>
+            <input id="data-fimRelatorio" type="date" required>
+
+            <select name="usuario" id="selecionarUsuarioRelatorio">
+                <option value="todosOsCr" selected>Todos Usuarios</option>
+            </select>
+            <select name="cr" id="selecionarCrRelatorio">
+                <option value="todosOsCr" selected>Todos Centro De Resultados</option>
+            </select>
+
+            
+            <select name="cliente" id="selecionarClienteRelatorio">
+                <option value="todosOsClientes" selected>Todos Clientes</option>
+            </select>
+
+
+
+            <select name="tipo" id="selecionarTipoHoraRelatorio">
+                <option value="todosOsTipos" selected>Todos Tipos</option>
+                <option value="SOBREAVISO">Sobreaviso</option>
+                <option value="EXTRA">Hora-Extra</option>
+            </select>
+
+
+            <select name="statusHora" id="selecionarStatusRelatorio">
+                <option value="todosOsTipos" selected>Todos Status</option>
+                <option value="APROVADO_GESTOR">Aprovado Gestor</option>
+                <option value="NEGADO_GESTOR">Negado Gestor</option>
+                <option value="PENDENTE">Pendente</option>
+                <option value="APROVADO_ADMIN">Aprovado Admin</option>
+                <option value="NEGADO_ADMIN">Negado Admin</option>
+
+
+            </select>
+
+            <button id="exportarRelatorio">Exportar</button>
+
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
     <script type="module" src="../scripts/ADM.Dashboard.js"></script>
+    <script type="module" src="../scripts/ADM.Dashboard.Exportar.js"></script>
 
 </body>
 
