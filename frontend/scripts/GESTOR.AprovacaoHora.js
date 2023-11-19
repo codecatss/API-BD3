@@ -165,7 +165,7 @@ async function carregarHorasNaLista(horas) {
             const modal = document.getElementById("modalSobreAviso");
             modal.style.display = "block";
             console.log(hora.id)
-
+            console.log(hora)
             const usuariollancador = todosUsuarios.find(item => hora.lancador === item.matricula)?.nome || null;
             const cienteLancado = todosClientes.find(item => hora.cnpj === item.cnpj)?.razao_social || null;
             console.log(usuariollancador)
@@ -173,22 +173,23 @@ async function carregarHorasNaLista(horas) {
             const usuario = document.querySelector(".nome-usuario");
             const tipo = document.querySelector("p");
             const status = document.querySelector("p");
-            const inicio = document.querySelector("p");
-            const fim = document.querySelector("p");
+            const inicio = document.querySelector(".hora-inicio");
+            const fim = document.querySelector(".hora-fim");
             const cr = document.querySelector(".nome-cr");
-            const cliente = document.querySelector("p");
-            const justificativa = document.querySelector("p");
+            const cliente = document.querySelector(".nome-cliente");
+            const justificativa = document.querySelector(".motivo-justificativa");
             const solicitante = document.querySelector(".nome-solicitante");
-            const projeto = document.querySelector("p");
-            const justificativaNegacao = document.querySelector("p");
-            const matriculaGestor = document.querySelector("p");
-            const dataModificacaoGestor = document.querySelector("p");
-            const listaHoras = document.querySelector("p");
+            const projeto = document.querySelector(".nome-projeto");
+            const justificativaNegacao = document.querySelector(".motivo-justificativa-gestor");
+            const matriculaGestor = document.querySelector(".nome-aprovador");
+            const dataModificacaoGestor = document.querySelector(".aprovacao-data");
+            const listaHoras = document.querySelector(".acionamentos");
             const btnFechar = document.querySelector("button");
 
             usuario.textContent = usuariollancador
             tipo.textContent = hora.tipo
             status.textContent = hora.status_aprovacao
+            console.log(hora.data_hora_inicio)
             inicio.textContent = hora.data_hora_inicio
             fim.textContent = hora.data_hora_fim
             cr.textContent = hora.codcr
@@ -196,10 +197,48 @@ async function carregarHorasNaLista(horas) {
             justificativa.textContent = hora.justificativa
             solicitante.textContent = hora.solicitante
             projeto.textContent = hora.projeto
-            justificativaNegacao.textContent = hora.justificativa_negacao
+            justificativaNegacao.textContent = hora.statusHora == "NEGADO_GESTOR" ? hora.justificativa_negacao : "Hora não foi negada.";
+
+            console.log(hora.lista_de_acionamentos)
+            if (hora.tipo == "SOBREAVISO") {
+                if (hora.lista_de_acionamentos.length > 0) {
+                    hora.lista_de_acionamentos.forEach((acionamento) => {
+                        const lista = document.querySelector(".acionamentos");
+                        const li = document.createElement("li");
+                        li.textContent = acionamento;
+                        lista.appendChild(li);
+                    }
+                    )
+                } else if (hora.lista_de_acionamentos.length == 0) {
+                    listaHoras.textContent = "Não houve acionamento.";
+
+                }
+            } else {
+                listaHoras.textContent = "Hora-extra não possui acionamento";
+            }
+
+
+
+
             matriculaGestor.textContent = hora.matricula_gestor
-            dataModificacaoGestor.textContent = hora.data_modificacao_gestor
-            listaHoras.textContent = hora.lista_horas
+            function dataFormatada(pElement, dataString) {
+                let data = new Date(dataString);
+                let dia = data.getDate().toString().padStart(2, '0');
+                let mes = (data.getMonth() + 1).toString().padStart(2, '0');
+                let ano = data.getFullYear();
+                let horaFormatada = data.getHours().toString().padStart(2, '0');
+                let minuto = data.getMinutes().toString().padStart(2, '0');
+                let segundo = data.getSeconds().toString().padStart(2, '0');
+
+                pElement.textContent = `${dia}/${mes}/${ano} ${horaFormatada}:${minuto}:${segundo}`;
+            }
+
+            dataFormatada(inicio, hora.data_hora_inicio);
+
+            dataFormatada(fim, hora.data_hora_fim);
+            
+            dataFormatada(dataModificacaoGestor, hora.data_modificacao_gestor);
+            
             btnFechar.textContent = "FECHAR";
 
 
@@ -207,7 +246,7 @@ async function carregarHorasNaLista(horas) {
 
 
 
-        });
+            });
 
         window.addEventListener('click', function (event) {
             if (event.target === modalSobreAviso) {
