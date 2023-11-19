@@ -412,8 +412,11 @@ public class HoraController {
         hour.setData_hora_fim(hourRange.get(1));
         if(hora.tipo().contains("ex")){
             hour.setTipo(TipoEnum.EXTRA.name());
-        }else {
+        } else if(hora.tipo().contains("sob")){
             hour.setTipo(TipoEnum.SOBREAVISO.name());
+        }
+        else {
+            hour.setTipo(TipoEnum.ACIONAMENTO.name());
         }
         hour.setJustificativa(hora.justificativa());
         hour.setProjeto(hora.projeto());
