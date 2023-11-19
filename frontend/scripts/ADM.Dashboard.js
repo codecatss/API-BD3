@@ -158,7 +158,7 @@ popularSelectEmpresas(todosClientes)
 popularSelectCr(todosCr);
 
 const listarHoras = async (matriculaAdminLogado, CrSelecionado, ClienteSelecionado, TipoSelecionado, StatusSelecionado) => {
-    let apiUrl = `http://localhost:8080/hora/admin/${matriculaAdminLogado}`;
+    let apiUrl = `http://localhost:8080/hora/admin`;
 
     if (CrSelecionado) {
         console.log(CrSelecionado);
@@ -172,12 +172,12 @@ const listarHoras = async (matriculaAdminLogado, CrSelecionado, ClienteSeleciona
 
     if (TipoSelecionado) {
         console.log(TipoSelecionado);
-        apiUrl += CrSelecionado ? `&tipo=${TipoSelecionado}` : `?tipo=${TipoSelecionado}`;
+        apiUrl += CrSelecionado || ClienteSelecionado ? `&tipo=${TipoSelecionado}` : `?tipo=${TipoSelecionado}`;
     }
 
     if (StatusSelecionado) {
         console.log(StatusSelecionado);
-        apiUrl += CrSelecionado ? `&status_aprovacao=${StatusSelecionado}` : `?status_aprovacao=${StatusSelecionado}`;
+        apiUrl += CrSelecionado || ClienteSelecionado || TipoSelecionado? `&status_aprovacao=${StatusSelecionado}` : `?status_aprovacao=${StatusSelecionado}`;
     }
 
     try {
