@@ -495,9 +495,8 @@ public class HoraController {
 //    Task BD-72 -- INÍCIO
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @GetMapping("/admin/{matricula}")
+    @GetMapping("/admin")
     public ResponseEntity<List<HoraDTOs>> horasDoUsuario(
-            @PathVariable String matricula,
             @RequestParam(name = "codCR", required = false) String Codcr,
             @RequestParam(name = "cnpj", required = false) String cnpj,
             @RequestParam(name = "tipo", required = false) String tipo,
@@ -506,75 +505,90 @@ public class HoraController {
         List<HoraDTOs> horasDoUsuario;
 
         if (Codcr != null && cnpj != null) {
-            horasDoUsuario = horaRepository.findByLancadorAndCodcrAndCnpj(matricula, Codcr, cnpj)
+            horasDoUsuario = horaRepository.findByCodCrAndCnpj(Codcr, cnpj)
                     .stream()
                     .map(HoraDTOs::new)
                     .collect(Collectors.toList());
             if (tipo != null && status_aprovacao != null) {
-                    horasDoUsuario = horaRepository.findByLancadorAndCodcrAndCnpjAndTipoAndStatusAprovacao(matricula, Codcr, cnpj, tipo, status_aprovacao)
+                    horasDoUsuario = horaRepository.findByCodCrAndCnpjAndTipoAndStatusAprovacao(Codcr, cnpj, tipo, status_aprovacao)
                         .stream()
                         .map(HoraDTOs::new)
                         .collect(Collectors.toList());
             } else if (tipo != null) {
-                horasDoUsuario = horaRepository.findByLancadorAndCodcrAndCnpjAndTipo(matricula, Codcr, cnpj, tipo)
+                horasDoUsuario = horaRepository.findByCodCrAndCnpjAndTipo(Codcr, cnpj, tipo)
                         .stream()
                         .map(HoraDTOs::new)
                         .collect(Collectors.toList());
             } else if (status_aprovacao != null) {
-                horasDoUsuario = horaRepository.findByLancadorAndCodcrAndCnpjAndStatusAprovacao(matricula, Codcr, cnpj, status_aprovacao)
+                horasDoUsuario = horaRepository.findByCodCrAndCnpjAndStatusAprovacao(Codcr, cnpj, status_aprovacao)
                         .stream()
                         .map(HoraDTOs::new)
                         .collect(Collectors.toList());
             }
         } else if (Codcr != null) {
-            horasDoUsuario = horaRepository.findByLancadorAndCodcr(matricula, Codcr)
+            horasDoUsuario = horaRepository.findByCodcr(Codcr)
                     .stream()
                     .map(HoraDTOs::new)
                     .collect(Collectors.toList());
             if (tipo != null && status_aprovacao != null) {
-                horasDoUsuario = horaRepository.findByLancadorAndCodcrAndTipoAndStatusAprovacao(matricula, Codcr, tipo, status_aprovacao)
+                horasDoUsuario = horaRepository.findByCodCrAndTipoAndStatusAprovacao(Codcr, tipo, status_aprovacao)
                         .stream()
                         .map(HoraDTOs::new)
                         .collect(Collectors.toList());
             } else if (tipo != null) {
-                horasDoUsuario = horaRepository.findByLancadorAndCodcrAndTipo(matricula, Codcr, tipo)
+                horasDoUsuario = horaRepository.findByCodCrAndTipo(Codcr, tipo)
                         .stream()
                         .map(HoraDTOs::new)
                         .collect(Collectors.toList());
             } else if (status_aprovacao != null ){
-                horasDoUsuario = horaRepository.findByLancadorAndCodcrAndStatusAprovacao(matricula, Codcr, status_aprovacao)
+                horasDoUsuario = horaRepository.findByCodCrAndStatusAprovacao(Codcr, status_aprovacao)
                         .stream()
                         .map(HoraDTOs::new)
                         .collect(Collectors.toList());
             }
         } else if (cnpj != null) {
-            horasDoUsuario = horaRepository.findByLancadorAndCnpj(matricula, cnpj)
+            horasDoUsuario = horaRepository.findByCnpj(cnpj)
                     .stream()
                     .map(HoraDTOs::new)
                     .collect(Collectors.toList());
             if (tipo != null && status_aprovacao != null) {
-                horasDoUsuario = horaRepository.findByLancadorAndCnpjAndTipoAndStatusAprovacao(matricula, cnpj, tipo, status_aprovacao)
+                horasDoUsuario = horaRepository.findByCnpjAndTipoAndStatusAprovacao(cnpj, tipo, status_aprovacao)
                         .stream()
                         .map(HoraDTOs::new)
                         .collect(Collectors.toList());
             } else if (tipo != null) {
-                horasDoUsuario = horaRepository.findByLancadorAndCnpjAndTipo(matricula, cnpj, tipo)
+                horasDoUsuario = horaRepository.findByCnpjAndTipo(cnpj, tipo)
                         .stream()
                         .map(HoraDTOs::new)
                         .collect(Collectors.toList());
             } else if (status_aprovacao != null) {
-                horasDoUsuario = horaRepository.findByLancadorAndCnpjAndStatusAprovacao(matricula, cnpj, status_aprovacao)
+                horasDoUsuario = horaRepository.findByCnpjAndStatusAprovacao(cnpj, status_aprovacao)
                         .stream()
                         .map(HoraDTOs::new)
                         .collect(Collectors.toList());
             }
+        } else if(tipo != null) {
+            horasDoUsuario = horaRepository.findByTipo(tipo)
+                    .stream()
+                    .map(HoraDTOs::new)
+                    .collect(Collectors.toList());
+            if (status_aprovacao != null) {
+                horasDoUsuario = horaRepository.findByTipoAndStatusAprovacao(tipo, status_aprovacao)
+                        .stream()
+                        .map(HoraDTOs::new)
+                        .collect(Collectors.toList());
+            }
+        } else if (status_aprovacao != null) {
+            horasDoUsuario = horaRepository.findByStatusAprovacao(status_aprovacao)
+                    .stream()
+                    .map(HoraDTOs::new)
+                    .collect(Collectors.toList());
         } else {
-            horasDoUsuario = horaRepository.findByLancador(matricula)
+            horasDoUsuario = horaRepository.findAll()
                     .stream()
                     .map(HoraDTOs::new)
                     .collect(Collectors.toList());
         }
-
         if (horasDoUsuario.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(horasDoUsuario);
         }
@@ -643,13 +657,4 @@ public class HoraController {
 
         return ResponseEntity.ok(resultado);
     }
-//
-//        // Horas brutas trabalhadas por CR (Seria legal, verificar com PO/Cliente)
-//        // TODO
-//
-//
-//    // Horas lançadas por Clientes - TODOS:
-//    // Quantidade de lançamentos por Cliente (hora-extra, sobreaviso, acionamentos e total)
-//
-
 }
