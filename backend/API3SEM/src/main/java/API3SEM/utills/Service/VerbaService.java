@@ -169,14 +169,14 @@ public class VerbaService {
         }
     }
 
-    private static VerbaHora makeVerbaHora(VerbasEnum verba, long segundos) {
+    private static VerbaHora makeVerbaHora(Integer idHoraMae, VerbasEnum verba, long segundos) {
         Duration duration = Duration.ofSeconds(segundos);
-        return new VerbaHora(duration, duration.toMinutes(), verba);
+        return new VerbaHora(idHoraMae, duration, duration.toMinutes(), verba);
     }
 
     private static VerbaHora toVerbaHora(Hora hora, VerbasEnum verba, long segundos) {
 
-        return makeVerbaHora(verba, Duration.between(hora.getData_hora_inicio().toInstant(), hora.getData_hora_inicio().toInstant().plusSeconds(segundos)).toSeconds());
+        return makeVerbaHora(hora.getId(), verba, Duration.between(hora.getData_hora_inicio().toInstant(), hora.getData_hora_inicio().toInstant().plusSeconds(segundos)).toSeconds());
     }
 
     public VerbaDTOs 

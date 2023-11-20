@@ -13,6 +13,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class VerbaHora {
+    Integer idHoraMae;
     private Duration duration;
     private Long duracao;
     private VerbasEnum verba;
