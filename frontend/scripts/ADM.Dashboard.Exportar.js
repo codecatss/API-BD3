@@ -143,6 +143,15 @@ buttonExport.addEventListener("click", async () => {
     const selectTipo = document.getElementById("selecionarTipoHoraRelatorio")
     const selectStatus = document.getElementById("selecionarStatusRelatorio")
 
+    const codigosVerba = {
+        "HE75": "1601",
+        "HE100": "1602",
+        "HEN75": "3000",
+        "HEN100": "3001",
+        "ADN": "1809",
+        "SOBREAVISO": "3016"
+    };
+
     buttonExportarRelatorio.addEventListener("click", async () => {
 
 
@@ -182,13 +191,30 @@ buttonExport.addEventListener("click", async () => {
 
         const novaLista = listaTratada.map((item) => {
             horasFiltradasData.forEach(hora => {
-
                 if (hora.id === item.idHoraMae) {
-                    console.log("to aqui")
+                    let codVerba = item.codVerba;
+                    if (item.verba === "HE75") {
+                        codVerba = "1601";
+                    }
+                    if (item.verba === "HE100") {
+                        codVerba = "1602";
+                    }
+                    if (item.verba === "HEN75") {
+                        codVerba = "3000";
+                    }
+                    if (item.verba === "HEN100") {
+                        codVerba = "3001";
+                    }
+                    if (item.verba === "ADN") {
+                        codVerba = "1809";
+                    }
+                    if (item.verba === "SOBREAVISO") {
+                        codVerba = "3016";
+                    }
                     const horaTratada = {
-
                         idHora: item.idHoraMae,
                         verba: item.verba,
+                        codVerba: codVerba,
                         duracao: item.duracao,
                         codcr: hora.codcr,
                         matricula: hora.lancador
@@ -222,9 +248,9 @@ buttonExport.addEventListener("click", async () => {
 
 
         // Criação do conteúdo CSV
-        let csvContent = 'matricula;verba;duracao;codigo Cr\n';
+        let csvContent = 'matricula;verba;codigo Verba;duracao;codigo Cr\n';
         verbasAgrupadas.forEach(item => {
-            csvContent += `${item.matricula};${item.verba};${item.duracao};${item.codcr}\n`;
+            csvContent += `${item.matricula};${item.verba};${item.codVerba};${item.duracao};${item.codcr}\n`;
         });
 
         // Download do arquivo CSV
