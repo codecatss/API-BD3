@@ -83,6 +83,7 @@ public class VerbaService {
                 Integer duracao = 0;
                 
                 Hora newHora = new Hora();
+                newHora.setId(hora.getId());
                 newHora.setData_hora_inicio(Timestamp.from(starteNewHora));
                 
                 if(hora.getData_hora_fim().after(Timestamp.valueOf(FimDiurno))){
