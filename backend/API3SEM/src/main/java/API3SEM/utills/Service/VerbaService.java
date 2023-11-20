@@ -172,7 +172,7 @@ public class VerbaService {
 
     private static VerbaHora makeVerbaHora(Integer idHoraMae, VerbasEnum verba, long segundos) {
         Duration duration = Duration.ofSeconds(segundos);
-        return new VerbaHora(idHoraMae, duration, duration.toMinutes(), verba);
+        return new VerbaHora(idHoraMae, duration, duration.toMinutes(), verba.name());
     }
 
     private static VerbaHora toVerbaHora(Hora hora, VerbasEnum verba, long segundos) {
