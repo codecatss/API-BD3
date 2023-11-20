@@ -1,7 +1,7 @@
 
-const horas = []
+let horas = []
 
-
+let listaVerbas = []
 
 function popularOption(lista, valor, nome, paiHTML) {
     const select = document.getElementById(paiHTML);
@@ -82,6 +82,33 @@ const todasAsHoras = async () => {
     }
 };
 
+
+
+
+
+async function fetchVerbas(listaDeObjetos) {
+    try {
+        const response = await fetch('http://localhost:8080/verba/getVerbas', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(listaDeObjetos),
+        });
+
+        if (!response.ok) {
+            throw new Error(`Erro na requisição: ${response.status}`);
+        }
+
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Erro:', error);
+        throw error;
+    }
+}
+
+
 const todosClientes = await obterTodosClientes()
 const todosCr = await obterTodosCr()
 const todosUsuarios = await obterTodosUsuarios()
@@ -103,7 +130,7 @@ window.addEventListener('click', function (event) {
 
 const buttonExport = document.getElementById("buttonExport");
 
-buttonExport.addEventListener("click", () => {
+buttonExport.addEventListener("click", async () => {
     modalSobreAviso.style.display = 'block';
 
 
@@ -116,16 +143,20 @@ buttonExport.addEventListener("click", () => {
     const selectTipo = document.getElementById("selecionarTipoHoraRelatorio")
     const selectStatus = document.getElementById("selecionarStatusRelatorio")
 
-    buttonExportarRelatorio.addEventListener("click", () => {
-        console.log("olaaaaa")
+    buttonExportarRelatorio.addEventListener("click", async () => {
+
+
         let horasFiltradasData = todasHoras.filter(hora => hora.data_hora_inicio >= dataInicial.value && hora.data_hora_fim <= dataFinal.value);
+        console.log(horasFiltradasData)
         if (usuarioRelatorio.value !== "todosOsUsuarios") {
             horasFiltradasData = horasFiltradasData.filter(hora => hora.lancador === usuarioRelatorio.value);
+            console.log(horasFiltradasData)
         }
         if (selectCr.value !== "todosOsCr") {
             horasFiltradasData = horasFiltradasData.filter(hora => hora.codcr === selectCr.value);
         }
         if (selectCliente.value !== "todosOsClientes") {
+            console.log(selectCliente.value)
             horasFiltradasData = horasFiltradasData.filter(hora => hora.cnpj === selectCliente.value);
         }
         if (selectTipo.value !== "todosOsTipos") {
@@ -134,7 +165,35 @@ buttonExport.addEventListener("click", () => {
         if (selectStatus.value !== "todosOsStatus") {
             horasFiltradasData = horasFiltradasData.filter(hora => hora.status_aprovacao === selectStatus.value);
         }
-        console.log(horasFiltradasData)
+
+        console.log("essa é a lista de horas filtradas", horasFiltradasData)
+
+        horasFiltradasData.forEach(hora => {
+
+            const idHora = {
+                idHora: hora.id
+            }
+            horas.push(idHora)
+        })
+
+
+
+        const listaTratada = await fetchVerbas(horas)
+
+        console.log("essa é a lista tratada", listaTratada)
+        horas = []
+
+        const csvContent = 'ID HORA\n' + listaTratada.map(item => item.id).join('\n');
+
+        // Download do arquivo CSV
+        const downloadLink = document.createElement('a');
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        downloadLink.href = url;
+        downloadLink.setAttribute('download', 'verbas.csv');
+        downloadLink.click();
+
+
     });
 
 
