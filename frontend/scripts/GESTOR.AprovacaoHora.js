@@ -1,6 +1,6 @@
 
 
-
+const filterSelected = document.getElementById("filterSelected");
 const usuarioLogado = localStorage.getItem("nome");
 const perfilUser = document.querySelector(".usuarioLogado");
 perfilUser.textContent = usuarioLogado;
@@ -87,7 +87,7 @@ const obterTodosUsuarios = async () => {
 };
 
 const todosUsuarios = await obterTodosUsuarios()
-console.log(todosUsuarios)
+
 
 
 
@@ -103,7 +103,7 @@ async function carregarHorasNaLista(horas) {
         const razaoSocial = todosClientes.find(item => hora.cnpj === item.cnpj)?.razao_social || null;
         const centroResultado = todosCr.find(item => hora.codcr === item.codigoCr)?.nome || null;
         const usuario = todosUsuarios.find(item => hora.lancador === item.matricula)?.nome || null;
-        console.log(usuario)
+
 
 
 
@@ -236,9 +236,9 @@ async function carregarHorasNaLista(horas) {
             dataFormatada(inicio, hora.data_hora_inicio);
 
             dataFormatada(fim, hora.data_hora_fim);
-            
+
             dataFormatada(dataModificacaoGestor, hora.data_modificacao_gestor);
-            
+
             btnFechar.textContent = "FECHAR";
 
 
@@ -246,7 +246,7 @@ async function carregarHorasNaLista(horas) {
 
 
 
-            });
+        });
 
         window.addEventListener('click', function (event) {
             if (event.target === modalSobreAviso) {
@@ -448,5 +448,21 @@ btnReprovar.addEventListener("click", async function () {
         alert("Precisa selecionar apenas uma hora para reprovar.");
     }
 
+
+});
+
+
+
+filterSelected.addEventListener("change", async function () {
+    if (filterSelected.value == "todas") {
+        const horasCadastradas = await listarHoras();
+        await carregarHorasNaLista(horasCadastradas);
+    }
+    else {
+        const horasCadastradas = await listarHoras();
+        const horasFiltradas = horasCadastradas.filter((hora) => hora.status_aprovacao == filterSelected.value);
+        await carregarHorasNaLista(horasFiltradas);
+
+    }
 
 });

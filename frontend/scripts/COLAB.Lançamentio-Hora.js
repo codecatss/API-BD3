@@ -9,7 +9,7 @@ const horaFimInput = document.getElementById("horaFim");
 const solicitanteHoraInput = document.getElementById("solicitanteHora");
 const selecionarCRInput = document.getElementById("selecionarCr")
 const botaoConfirmar = document.getElementById("adicionarBotao");
-
+const filterSelected = document.getElementById("filterSelected");
 const usuarioLogado = localStorage.getItem("nome");
 const perfilUser = document.querySelector(".usuarioLogado");
 perfilUser.textContent = usuarioLogado;
@@ -17,7 +17,8 @@ console.log(usuarioLogado)
 const loggout = document.getElementById("loggout");
 loggout.addEventListener("click", function () {
     localStorage.clear();
-    window.location.href = "http://localhost:5500/index.html"
+    window.location.href = "../../index.html"
+
 
 });
 
@@ -95,7 +96,7 @@ async function getCrListByUserId(userId) {
     }
 
     const crList = await response.json();
-    console.log(crList);
+
     return crList;
 }
 
@@ -475,7 +476,7 @@ botaoConfirmarSobreaviso.addEventListener("click", async function (event) {
         codcr: sobreaviso.codcr,
         lancador: localStorage.getItem("matricula"),
         cnpj: sobreaviso.cnpj,
-        data_hora_inicio: `${dataInicio}T${horaInicio}:00Z`,    
+        data_hora_inicio: `${dataInicio}T${horaInicio}:00Z`,
         data_hora_fim: `${dataFim}T${horaFim}:00Z`,
         tipo: "ACIONAMENTO",
         justificativa: sobreaviso.justificativa,

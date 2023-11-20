@@ -8,7 +8,7 @@ console.log(usuarioLogado)
 const loggout = document.getElementById("loggout");
 loggout.addEventListener("click", function () {
     localStorage.clear();
-    window.location.href = "http://localhost:5500/index.html"
+    window.location.href = "../../index.html"
 
 });
 

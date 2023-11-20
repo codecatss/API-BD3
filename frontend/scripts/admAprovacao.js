@@ -1,5 +1,19 @@
 
 
+
+
+const filterSelected = document.getElementById("filterSelected");
+const usuarioLogado = localStorage.getItem("nome");
+const perfilUser = document.querySelector(".usuarioLogado");
+perfilUser.textContent = usuarioLogado;
+console.log(usuarioLogado)
+const loggout = document.getElementById("loggout");
+loggout.addEventListener("click", function () {
+    localStorage.clear();
+    window.location.href = "http://localhost:5500/index.html"
+
+});
+
 const listarHoras = async () => {
     try {
         const response = await fetch('http://localhost:8080/hora/pendentesAdmin');
@@ -120,7 +134,7 @@ async function carregarHorasNaLista(horas) {
             statusHora.textContent = "NEGADO";
             statusHora.classList.add("hora-negada");
         } else if (hora.status_aprovacao == "APROVADO_GESTOR") {
-            statusHora.textContent = "APROVADO";
+            statusHora.textContent = "APROVADO Gestor";
             statusHora.classList.add("hora-aprovada");
         }
 
@@ -358,6 +372,26 @@ btnReprovar.addEventListener("click", async function () {
     } else if (horasSelecionadas.length >= 2) {
 
         alert("Precisa selecionar apenas uma hora para reprovar.");
+    }
+
+
+});
+
+
+
+filterSelected.addEventListener("change", async function () {
+    if (filterSelected.value === "todas") {
+        const horasCadastradas = await listarHoras();
+        await carregarHorasNaLista(horasCadastradas);
+
+    }
+    if (filterSelected.value === "APROVADO_GESTOR") {
+        const horasCadastradas = await listarHoras();
+        const horasPendentes = horasCadastradas.filter(function (hora) {
+            return hora.status_aprovacao === "NEGADO_GESTOR";
+        });
+
+        await carregarHorasNaLista(horasPendentes);
     }
 
 
