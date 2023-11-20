@@ -183,6 +183,15 @@ buttonExport.addEventListener("click", async () => {
         console.log("essa é a lista tratada", listaTratada)
         horas = []
 
+        const csvContent = 'ID HORA\n' + listaTratada.map(item => item.id).join('\n');
+
+        // Download do arquivo CSV
+        const downloadLink = document.createElement('a');
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        downloadLink.href = url;
+        downloadLink.setAttribute('download', 'verbas.csv');
+        downloadLink.click();
 
 
     });
