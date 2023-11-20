@@ -222,9 +222,9 @@ buttonExport.addEventListener("click", async () => {
 
 
         // Criação do conteúdo CSV
-        let csvContent = 'idHoraMae;duration;duracao;verba\n';
-        listaTratada.forEach(item => {
-            csvContent += `${item.idHoraMae};${item.duration};${item.duracao};${item.verba}\n`;
+        let csvContent = 'matricula;verba;duracao;codigo Cr\n';
+        verbasAgrupadas.forEach(item => {
+            csvContent += `${item.matricula};${item.verba};${item.duracao};${item.codcr}\n`;
         });
 
         // Download do arquivo CSV
