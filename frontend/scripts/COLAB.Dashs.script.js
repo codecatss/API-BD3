@@ -1,4 +1,17 @@
-const matriculaUsuarioLogado = 4533;
+const matriculaUsuarioLogado = localStorage.getItem("matricula");
+
+
+const usuarioLogado = localStorage.getItem("nome");
+const perfilUser = document.querySelector(".usuarioLogado");
+perfilUser.textContent = usuarioLogado;
+console.log(usuarioLogado)
+const loggout = document.getElementById("loggout");
+loggout.addEventListener("click", function () {
+    localStorage.clear();
+    window.location.href = "http://localhost:5500/index.html"
+
+});
+
 
 const obterTodosClientes = async () => {
     // Faz a requisição para a API e retorna os clientes
@@ -39,9 +52,27 @@ const obterTodosCr = async () => {
     }
 };
 
+const obterCrDoUsuario = async (matriculaUsuarioLogado) => {
+    // Faz a requisição para a API e retorna os CRs
+    try {
+        const response = await fetch(`http://localhost:8080/cr/user/${matriculaUsuarioLogado}`);
+
+        if (!response.ok) {
+            throw new Error(`Erro na requisição: ${response.status}`);
+        }
+
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Erro na requisição:', error);
+        throw error;
+    }
+};
+
 
 // Guarda todos os CRs em uma variável
 const todosCr = await obterTodosCr()
+const CrListDoUsuario = await obterCrDoUsuario(matriculaUsuarioLogado)
 
 
 function popularSelectEmpresas(clientes) {
@@ -97,20 +128,20 @@ function popularSelectCr(centroDeResultado) {
 // Chama a função para popular o select de Cliente e passa a lista de clientes todosClientes
 popularSelectEmpresas(todosClientes)
 // Chama a função para popular o select de CR e passa a lista de CRs todosCr
-popularSelectCr(todosCr);
+popularSelectCr(CrListDoUsuario);
 
 
 const listarHoras = async (matriculaUsuarioLogado, CrSelecionado, ClienteSelecionado) => {
     // Faz a requisição para a API e retorna as horas
     // TODO: Ver a questão dos filtros
     let apiUrl = `http://localhost:8080/hora/${matriculaUsuarioLogado}`;
-    
+
     // Adicionar os parâmetros do CR e Cliente se eles estiverem definidos
     if (CrSelecionado) {
         console.log(CrSelecionado);
         apiUrl += `?codCR=${CrSelecionado}`;
     }
-    
+
     if (ClienteSelecionado) {
         console.log(ClienteSelecionado);
         apiUrl += CrSelecionado ? `&cnpj=${ClienteSelecionado}` : `?cnpj=${ClienteSelecionado}`;
@@ -127,7 +158,7 @@ const listarHoras = async (matriculaUsuarioLogado, CrSelecionado, ClienteSelecio
     } catch (error) {
         throw error;
     }
-    
+
 };
 
 
@@ -135,15 +166,15 @@ const listarHoras = async (matriculaUsuarioLogado, CrSelecionado, ClienteSelecio
 const horasCadastradas = await listarHoras(matriculaUsuarioLogado)
 
 
-function arrumarProporcaoGrafico(horas){
+function arrumarProporcaoGrafico(horas) {
     // Calcula a proporção de horas aprovadas, reprovadas e pendentes dentro de uma lista de horas e preenche o gráfico de forma correta
     const horasAprovadas = horas.filter(hora => hora.status_aprovacao == "APROVADO_ADMIN");
     const horasReprovadas = horas.filter(hora => hora.status_aprovacao == "NEGADO_ADMIN" || hora.status_aprovacao == "NEGADO_GESTOR");
     const horasPendentes = horas.filter(hora => hora.status_aprovacao == "PENDENTE" || hora.status_aprovacao == "APROVADO_GESTOR");
 
     const total = horasAprovadas.length + horasReprovadas.length + horasPendentes.length;
-    const proporcaoReprovadas = ((horasReprovadas.length/total) * 100).toFixed(2);
-    const proporcaoPendentes = ((horasPendentes.length/total) * 100).toFixed(2);
+    const proporcaoReprovadas = ((horasReprovadas.length / total) * 100).toFixed(2);
+    const proporcaoPendentes = ((horasPendentes.length / total) * 100).toFixed(2);
 
     const p1 = parseFloat(proporcaoReprovadas);
     const p2 = parseFloat(proporcaoReprovadas) + parseFloat(proporcaoPendentes);
@@ -155,7 +186,7 @@ function arrumarProporcaoGrafico(horas){
 }
 
 
-function preencherPainelStatus(horas){
+function preencherPainelStatus(horas) {
     // Preenche os paineis de status com a quantidade de horas aprovadas, reprovadas e pendentes dentro de uma lista de horas
     const aprovadas = document.getElementById("label-aprovadas");
     const reprovadas = document.getElementById("label-reprovadas");

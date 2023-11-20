@@ -808,3 +808,37 @@ table {
 .horaLiSobreaviso p {
   align-self: center;
 }
+
+.hora-pendente {
+  width: 90px;
+  background-color: #efb435;
+  text-align: center;
+  padding: 4px 3px;
+  border-radius: 7px;
+}
+
+.hora-negada {
+  width: 90px;
+  background-color: #af2424;
+  text-align: center;
+  padding: 4px 3px;
+  border-radius: 7px;
+  color: white;
+}
+
+.hora-aprovada {
+  width: 90px;
+  background-color: #2e7a48;
+  text-align: center;
+  padding: 4px 3px;
+  border-radius: 7px;
+  color: white;
+}
+
+.horaSobreaviso {
+  background-color: bisque;
+}
+
+.horaExtra{
+  background-color: #cecef5;
+}

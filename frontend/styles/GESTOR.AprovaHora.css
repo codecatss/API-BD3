@@ -24,7 +24,6 @@ html {
 .logo {
   width: 155px;
   height: 100px;
-
 }
 
 .lupa {
@@ -152,7 +151,6 @@ html {
   justify-content: space-between;
   padding: 20px 20px 20px 20px;
   color: white;
-
 }
 .main-content .header p {
   color: white;
@@ -634,7 +632,6 @@ table {
   height: 541px;
   display: grid;
   grid-template-columns: 2fr 4fr;
-
 }
 
 .inputs {
@@ -759,7 +756,6 @@ table {
   margin-top: 10px;
   overflow-y: auto;
   height: 440px;
-
 }
 
 .horaLiSobreaviso {
@@ -795,14 +791,6 @@ table {
 .hora-pendente {
   width: 90px;
   background-color: #efb435;
-  text-align: center;
-  padding: 4px 3px;
-  border-radius: 7px;
-}
-
-.hora-negada {
-  width: 90px;
-  background-color: #d86666;
   text-align: center;
   padding: 4px 3px;
   border-radius: 7px;

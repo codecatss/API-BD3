@@ -197,7 +197,7 @@
 <span id="equipe">
 
 ## :busts_in_silhouette: Equipe
-![4](https://github.com/codecatss/API-BD3/assets/108769169/6c0cdc84-bcaf-4106-8886-3f2fd56f7cc0)
+![Equipe](https://github.com/codecatss/API-BD3/assets/108769169/9f3ff1d9-0010-43ce-b158-f5a996b79a29)
 
 
 |    Função     | Nome    |    LinkedIn & GitHub      |
@@ -205,7 +205,6 @@
 | Scrum Master | Larissa Reis        |     [![Linkedin Badge](https://img.shields.io/badge/Linkedin-blue?style=flat-square&logo=Linkedin&logoColor=white)](https://www.linkedin.com/in/larissa-reis-693568250/) [![GitHub Badge](https://img.shields.io/badge/GitHub-111217?style=flat-square&logo=github&logoColor=white)](https://github.com/larissa-fernanda)              |
 | Product Owner | Laroy Prado      |     [![Linkedin Badge](https://img.shields.io/badge/Linkedin-blue?style=flat-square&logo=Linkedin&logoColor=white)](https://www.linkedin.com/in/laroyprado/) [![GitHub Badge](https://img.shields.io/badge/GitHub-111217?style=flat-square&logo=github&logoColor=white)](https://github.com/laroyprado)              |
 | Developer| Christopher Silva         |     [![Linkedin Badge](https://img.shields.io/badge/Linkedin-blue?style=flat-square&logo=Linkedin&logoColor=white)](https://www.linkedin.com/in/christophercs) [![GitHub Badge](https://img.shields.io/badge/GitHub-111217?style=flat-square&logo=github&logoColor=white)](https://github.com/chriskryon) |
-| Developer| Markus Gomes        |     [![Linkedin Badge](https://img.shields.io/badge/Linkedin-blue?style=flat-square&logo=Linkedin&logoColor=white)](https://www.linkedin.com/in/markus-gomes-013b76250) [![GitHub Badge](https://img.shields.io/badge/GitHub-111217?style=flat-square&logo=github&logoColor=white)](https://github.com/markusgomes)              |
 | Developer | Nicole Souza           |     [![Linkedin Badge](https://img.shields.io/badge/Linkedin-blue?style=flat-square&logo=Linkedin&logoColor=white)](https://www.linkedin.com/in/nicolem-souza/) [![GitHub Badge](https://img.shields.io/badge/GitHub-111217?style=flat-square&logo=github&logoColor=white)](https://github.com/NicSouza)              |
 | Developer | Willian Danko      |     [![Linkedin Badge](https://img.shields.io/badge/Linkedin-blue?style=flat-square&logo=Linkedin&logoColor=white)](https://www.linkedin.com/in/willian-danko-leite-caboski-5410741b4) [![GitHub Badge](https://img.shields.io/badge/GitHub-111217?style=flat-square&logo=github&logoColor=white)](https://github.com/DankoCaboski)
 

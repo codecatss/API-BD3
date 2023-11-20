@@ -15,4 +15,13 @@ public enum VerbasEnum {
     SOBREAVISO("3016");
 
     private String nome;
+
+    public static Object valueByNome(String verba) {
+        for (VerbasEnum v : VerbasEnum.values()) {
+            if (v.name().equals(verba)) {
+                return v;
+            }
+        }
+        return null;
+    }
 }

@@ -9,6 +9,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
+import org.springframework.data.jpa.repository.Query;
+
 
 public interface HoraRepository extends JpaRepository<Hora, Integer> {
 
@@ -164,4 +166,57 @@ public interface HoraRepository extends JpaRepository<Hora, Integer> {
 
     @Query(value = "SELECT count(h) > 0 FROM hora h WHERE h.funcao = :var", nativeQuery = true)
     boolean existsByGestor(String var);
+
+    @Query("SELECT h FROM hora h " +
+    "WHERE " +
+    "h.codcr = :CodCr and h.cnpj = :Cnpj")
+    List<Hora> findByCodCrAndCnpj(String CodCr, String Cnpj);
+
+    @Query("SELECT h FROM hora h " +
+    "WHERE " +
+    "h.codcr = :CodCr and h.cnpj = :Cnpj and h.tipo = :Tipo")
+    List<Hora> findByCodCrAndCnpjAndTipo(String CodCr, String Cnpj, String Tipo);
+
+    @Query("SELECT h FROM hora h " +
+    "WHERE " +
+    "h.codcr = :CodCr and h.cnpj = :Cnpj and h.status_aprovacao = :StatusAprovacao")
+    List<Hora> findByCodCrAndCnpjAndStatusAprovacao(String CodCr, String Cnpj, String StatusAprovacao);
+
+    @Query("SELECT h FROM hora h " +
+    "WHERE " +
+    "h.codcr = :CodCr and h.tipo = :Tipo and h.status_aprovacao = :StatusAprovacao")
+    List<Hora> findByCodCrAndTipoAndStatusAprovacao(String CodCr, String Tipo, String StatusAprovacao);
+
+    @Query("SELECT h FROM hora h " +
+    "WHERE " +
+    "h.cnpj = :Cnpj and h.tipo = :Tipo and h.status_aprovacao = :StatusAprovacao")
+    List<Hora> findByCnpjAndTipoAndStatusAprovacao(String Cnpj, String Tipo, String StatusAprovacao);
+
+    @Query("SELECT h FROM hora h " +
+    "WHERE " +
+    "h.codcr = :CodCr and h.tipo = :Tipo")
+    List<Hora> findByCodCrAndTipo(String CodCr, String Tipo);
+
+    @Query("SELECT h FROM hora h " +
+    "WHERE " +
+    "h.cnpj = :Cnpj and h.tipo = :Tipo")
+    List<Hora> findByCnpjAndTipo(String Cnpj, String Tipo);
+
+    @Query("SELECT h FROM hora h " +
+    "WHERE " +
+    "h.codcr = :CodCr and h.status_aprovacao = :StatusAprovacao")
+    List<Hora> findByCodCrAndStatusAprovacao(String CodCr, String StatusAprovacao);
+
+    @Query("SELECT h FROM hora h " +
+    "WHERE " +
+    "h.cnpj = :Cnpj and h.status_aprovacao = :StatusAprovacao")
+    List<Hora> findByCnpjAndStatusAprovacao(String Cnpj, String StatusAprovacao);
+
+    @Query("SELECT h FROM hora h " +
+    "WHERE " +
+    "h.tipo = :Tipo and h.status_aprovacao = :StatusAprovacao")
+    List<Hora> findByTipoAndStatusAprovacao(String Tipo, String StatusAprovacao);
+
+    @Query("SELECT h FROM hora h WHERE h.codcr = :CodCr and h.cnpj = :Cnpj and h.tipo = :Tipo and h.status_aprovacao = :StatusAprovacao")
+    List<Hora> findByCodCrAndCnpjAndTipoAndStatusAprovacao(String CodCr, String Cnpj, String Tipo, String StatusAprovacao);
 }

@@ -5,10 +5,12 @@ package API3SEM.controllers;
 import API3SEM.entities.Member;
 import API3SEM.utills.ApiException;
 import API3SEM.utills.StatusEnum;
+import API3SEM.utills.Service.UserCr;
 import API3SEM.repositories.MemberRepository;
 import API3SEM.repositories.EmployeeRepository;
-
+import API3SEM.repositories.IntegranteRepository;
 import API3SEM.entities.CenterResult;
+import API3SEM.DTOS.IntegranteDTO;
 import API3SEM.DTOS.MemberDTOs;
 import API3SEM.repositories.CenterResultRepository;
 import API3SEM.DTOS.ResultCenterDTOs;
@@ -18,6 +20,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import API3SEM.entities.Employee;
+import API3SEM.entities.Integrante;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,9 +29,13 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("cr")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class CenterResultController {
     @Autowired
     private CenterResultRepository repository;
+
+    @Autowired
+    private IntegranteRepository integranteRepository;
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping
@@ -212,7 +220,6 @@ public class CenterResultController {
     @Autowired
     private EmployeeRepository employeeRepositoryGETUnique;
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/{codigoCr}/employeeNotInCr")
     public List<Employee> getEmployeesNotInCenterResult(@PathVariable String codigoCr) {
         CenterResult centerResult = repository.findById(codigoCr)
@@ -234,6 +241,17 @@ public class CenterResultController {
                 .collect(Collectors.toList());
 
         return employeesNotInCr;
+    }
+
+    @GetMapping("/user/{Userid}")
+    public ResponseEntity<?> getCrListByUsarId(@PathVariable String Userid) {
+        UserCr userCr = new UserCr(repository, integranteRepository);
+        List<ResultCenterDTOs> crList = userCr.getCrListByUsarId(Userid);
+        if(crList.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(crList);
+
     }
 
 }

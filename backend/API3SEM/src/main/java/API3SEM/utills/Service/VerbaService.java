@@ -83,6 +83,7 @@ public class VerbaService {
                 Integer duracao = 0;
                 
                 Hora newHora = new Hora();
+                newHora.setId(hora.getId());
                 newHora.setData_hora_inicio(Timestamp.from(starteNewHora));
                 
                 if(hora.getData_hora_fim().after(Timestamp.valueOf(FimDiurno))){
@@ -108,6 +109,7 @@ public class VerbaService {
         }
 
         Hora newHora = new Hora();
+        newHora.setId(hora.getId());
 
         if(hora.getData_hora_inicio().before(Timestamp.valueOf(FimDiurno))){
             newHora.setData_hora_inicio(Timestamp.valueOf(FimDiurno));
@@ -169,14 +171,14 @@ public class VerbaService {
         }
     }
 
-    private static VerbaHora makeVerbaHora(VerbasEnum verba, long segundos) {
+    private static VerbaHora makeVerbaHora(Integer idHoraMae, VerbasEnum verba, long segundos) {
         Duration duration = Duration.ofSeconds(segundos);
-        return new VerbaHora(duration, duration.toMinutes(), verba);
+        return new VerbaHora(idHoraMae, duration, duration.toMinutes(), verba.name());
     }
 
     private static VerbaHora toVerbaHora(Hora hora, VerbasEnum verba, long segundos) {
 
-        return makeVerbaHora(verba, Duration.between(hora.getData_hora_inicio().toInstant(), hora.getData_hora_inicio().toInstant().plusSeconds(segundos)).toSeconds());
+        return makeVerbaHora(hora.getId(), verba, Duration.between(hora.getData_hora_inicio().toInstant(), hora.getData_hora_inicio().toInstant().plusSeconds(segundos)).toSeconds());
     }
 
     public VerbaDTOs 

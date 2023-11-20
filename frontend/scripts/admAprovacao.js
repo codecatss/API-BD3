@@ -7,6 +7,7 @@ const listarHoras = async () => {
             throw new Error('Não foi possível obter os dados.');
         }
         const data = await response.json();
+        console.log(data);
         return data;
     } catch (error) {
         throw error;
@@ -89,7 +90,7 @@ async function carregarHorasNaLista(horas) {
         const razaoSocial = todosClientes.find(item => hora.cnpj === item.cnpj)?.razao_social || null;
         const centroResultado = todosCr.find(item => hora.codcr === item.codigoCr)?.nome || null;
         const usuario = todosUsuarios.find(item => hora.lancador === item.matricula)?.nome || null;
-        console.log(usuario)
+
 
 
 
@@ -217,15 +218,15 @@ async function atualizarHora(id, partialData) {
 const inputSearch = document.querySelector(".input-search");
 
 inputSearch.addEventListener("input", function () {
-    const searchText = inputSearch.value.toLowerCase(); 
+    const searchText = inputSearch.value.toLowerCase();
 
     const horas = document.querySelectorAll(".horaLancada");
 
     horas.forEach(function (hora) {
-        const nomeUsuario = hora.querySelector("p:nth-child(2)").textContent.toLowerCase(); 
-        const crHora = hora.querySelector("p:nth-child(7)").textContent.toLowerCase(); 
+        const nomeUsuario = hora.querySelector("p:nth-child(2)").textContent.toLowerCase();
+        const crHora = hora.querySelector("p:nth-child(7)").textContent.toLowerCase();
         const statusHora = hora.querySelector("p:nth-child(4)").textContent.toLowerCase();
-        const cliente = hora.querySelector("p:nth-child(8)").textContent.toLowerCase(); 
+        const cliente = hora.querySelector("p:nth-child(8)").textContent.toLowerCase();
 
 
         if (
@@ -235,9 +236,9 @@ inputSearch.addEventListener("input", function () {
             statusHora.includes(searchText) ||
             cliente.includes(searchText)
         ) {
-            hora.style.display = "grid"; 
+            hora.style.display = "grid";
         } else {
-            hora.style.display = "none"; 
+            hora.style.display = "none";
         }
     });
 });
@@ -274,7 +275,7 @@ btnAprovar.addEventListener("click", async function () {
         const promises = horasSelecionadas.map(async function (idHora) {
             console.log(idHora);
             await atualizarHora(idHora, {
-            status_aprovacao: "APROVADO_ADMIN",
+                status_aprovacao: "APROVADO_ADMIN",
                 matricula_admin: 6987,
                 data_modificacao_admin: new Date(),
             });
@@ -339,7 +340,7 @@ btnReprovar.addEventListener("click", async function () {
 
             await carregarHorasNaLista(horasCadastradas);
 
-            document.querySelector("#justificativa").value = ""; 
+            document.querySelector("#justificativa").value = "";
 
             modal.style.display = "none";
         })

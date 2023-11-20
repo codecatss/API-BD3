@@ -1,17 +1,22 @@
 package API3SEM.utills.DatabaseInitialization;
 
+import API3SEM.DTOS.ResultCenterDTOs;
 import API3SEM.entities.CenterResult;
 import API3SEM.entities.Client;
 import API3SEM.entities.Employee;
 import API3SEM.entities.Hora;
+import API3SEM.entities.Integrante;
+import API3SEM.entities.IntegrantePk;
 import API3SEM.entities.funcaoUsuarioEnum.FuncaoUsuarioEnum;
 import API3SEM.repositories.CenterResultRepository;
 import API3SEM.repositories.ClientRepository;
 import API3SEM.repositories.EmployeeRepository;
 import API3SEM.repositories.HoraRepository;
+import API3SEM.repositories.IntegranteRepository;
 import API3SEM.utills.AprovacaoEnum;
 import API3SEM.utills.StatusEnum;
 import API3SEM.utills.TipoEnum;
+import API3SEM.utills.Service.UserCr;
 
 import com.github.javafaker.Faker;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +35,9 @@ public class DatabaseInitialization implements CommandLineRunner {
 
     @Autowired
     private EmployeeRepository employeeRepository;
+
+    @Autowired
+    private IntegranteRepository integranteRepository;
 
     @Autowired
     private HoraRepository horaRepository;
@@ -59,8 +67,10 @@ public class DatabaseInitialization implements CommandLineRunner {
         seedEmployees(this.employeeRepository);
         employees = this.employeeRepository.findAll();
 
+        seedIntegrantes(this.centerResultRepository, this.employeeRepository, this.integranteRepository);
+
         for (Employee employee : employees) {
-            seedHoras(employee, employeeRepository, clietes, clientRepository, centerResults, horaRepository);
+            seedHoras(employee, employeeRepository, clietes, clientRepository, horaRepository, integranteRepository, centerResultRepository);
         }
     }
     
@@ -179,7 +189,26 @@ public class DatabaseInitialization implements CommandLineRunner {
 
     }
 
-    private static void seedHoras(Employee employee, EmployeeRepository employeeRepository, List<Client> clientes, ClientRepository clientRepository, List<CenterResult> crs, HoraRepository horaRepository){
+    private static void seedIntegrantes(CenterResultRepository centerResultRepository, EmployeeRepository employeeRepository, IntegranteRepository integranteRepository){
+        List<CenterResult> centerResults = centerResultRepository.findAll();
+        List<Employee> employees = employeeRepository.findAll();
+        for (CenterResult centerResult : centerResults) {
+            for (int i = 0; i < 5; i++) {
+                Employee employee = employees.get(random.nextInt(employees.size()));
+                if(integranteRepository.findByIntegrantePkMatricula(employee.getMatricula()).isEmpty()){
+                    boolean gestor = false;
+                    if(employee.getFuncao().equals(FuncaoUsuarioEnum.gestor)) gestor = true;
+
+                    if (employee.getMatricula() != null && centerResult.getCodigoCr() != null) {
+                        IntegrantePk integrantePk = new IntegrantePk(employee.getMatricula(), centerResult.getCodigoCr());
+                        integranteRepository.save(new Integrante(gestor, integrantePk.getMatricula(), integrantePk.getCodCr()));
+                    }
+                }
+            }
+        }
+    }
+
+    private static void seedHoras(Employee employee, EmployeeRepository employeeRepository, List<Client> clientes, ClientRepository clientRepository, HoraRepository horaRepository, IntegranteRepository integranteRepository, CenterResultRepository centerResultRepository){
         
         if(employee.getFuncao().equals(FuncaoUsuarioEnum.admin)){
             return;
@@ -191,6 +220,9 @@ public class DatabaseInitialization implements CommandLineRunner {
             if(funcionario.getFuncao().equals(FuncaoUsuarioEnum.gestor)) gestores.add(funcionario);
             if(funcionario.getFuncao().equals(FuncaoUsuarioEnum.admin)) administradores.add(funcionario);
         }
+
+        UserCr userCr = new UserCr(centerResultRepository, integranteRepository);
+
         for(int i = 0; i < nHora; i++){
             try {
             Hora hora = new Hora();
@@ -228,7 +260,13 @@ public class DatabaseInitialization implements CommandLineRunner {
 
             hora.setLancador(employee.getMatricula());
 
-            hora.setCodcr(crs.get(random.nextInt(crs.size())).getCodigoCr());
+            List<String> codCr = new ArrayList<String>();
+
+            for (ResultCenterDTOs cr : userCr.getCrListByUsarId(employee.getMatricula())) {
+                codCr.add(cr.codigoCr());
+            }
+
+            hora.setCodcr(codCr.get(random.nextInt(codCr.size())));
 
             hora.setJustificativa(faker.rickAndMorty().location());
 

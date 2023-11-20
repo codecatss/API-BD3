@@ -1,21 +1,19 @@
 package API3SEM.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import API3SEM.DTOS.IdHora;
 import API3SEM.DTOS.VerbaDTOs;
 import API3SEM.entities.Hora;
 import API3SEM.repositories.HoraRepository;
 import API3SEM.utills.Service.VerbaHora;
 import API3SEM.utills.Service.VerbaService;
-
 import java.util.ArrayList;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -25,7 +23,7 @@ public class VerbaController {
     @Autowired
     HoraRepository horaRepository;
 
-    @GetMapping
+    @PostMapping("/getVerbas")
     public ResponseEntity<?> getVerbas(@RequestBody ArrayList<IdHora> horas) {
         
         ArrayList<VerbaHora> verbas = new ArrayList<>();
@@ -52,7 +50,7 @@ public class VerbaController {
         return ResponseEntity.ok().body(verbas);
     }
 
-    @GetMapping
+    @PostMapping
     @RequestMapping("/total")
     public ResponseEntity<?> getTotalVerba(@RequestBody VerbaDTOs.TotalHoras totalHoras){
         
