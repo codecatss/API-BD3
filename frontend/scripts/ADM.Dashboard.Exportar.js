@@ -177,13 +177,55 @@ buttonExport.addEventListener("click", async () => {
         })
 
 
-
+        const horasComMatricula = []
         const listaTratada = await fetchVerbas(horas)
 
-        console.log("essa é a lista tratada", listaTratada)
-        horas = []
+        const novaLista = listaTratada.map((item) => {
+            horasFiltradasData.forEach(hora => {
 
-        const csvContent = 'ID HORA\n' + listaTratada.map(item => item.id).join('\n');
+                if (hora.id === item.idHoraMae) {
+                    console.log("to aqui")
+                    const horaTratada = {
+
+                        idHora: item.idHoraMae,
+                        verba: item.verba,
+                        duracao: item.duracao,
+                        codcr: hora.codcr,
+                        matricula: hora.lancador
+                    }
+                    horasComMatricula.push(horaTratada)
+                }
+            })
+        })
+
+        console.log(horasComMatricula)
+
+        function agruparVerbas(lista) {
+            const agrupado = {};
+
+            lista.forEach((item) => {
+                const chave = `${item.matricula}_${item.verba}`;
+
+                if (!agrupado[chave]) {
+                    agrupado[chave] = { ...item };
+                } else {
+                    agrupado[chave].duracao += item.duracao;
+                }
+            });
+
+            return Object.values(agrupado);
+        }
+
+        const objetos = horasComMatricula;
+        const verbasAgrupadas = agruparVerbas(objetos);
+        console.log(verbasAgrupadas);
+
+
+        // Criação do conteúdo CSV
+        let csvContent = 'idHoraMae;duration;duracao;verba\n';
+        listaTratada.forEach(item => {
+            csvContent += `${item.idHoraMae};${item.duration};${item.duracao};${item.verba}\n`;
+        });
 
         // Download do arquivo CSV
         const downloadLink = document.createElement('a');
@@ -200,3 +242,6 @@ buttonExport.addEventListener("click", async () => {
 
 
 });
+
+
+
