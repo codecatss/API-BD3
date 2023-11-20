@@ -30,12 +30,12 @@ async function verificaLogin() {
     console.log("token existe")
     if (token) {
         if (data == "admin") {
-            window.location.href = "http://127.0.0.1:5500/frontend/pages/ADM.Dashboard.html"
+            window.location.href = "../frontend/pages/ADM.Dashboard.html"
             console.log("admin")
         } else if (data == "gestor") {
-            window.location.href = "http://127.0.0.1:5500/frontend/pages/GESTOR.Dashs.html"
+            window.location.href = "../frontend/pages/GESTOR.Dashs.html"
         } else if (data.funcao == "colaborador") {
-            window.location.href = "http://127.0.0.1:5500/frontend/pages/COLABORADOR.Dashs.html"
+            window.location.href = "../frontend/pages/COLABORADOR.Dashs.html"
         }
     }
 }
@@ -43,12 +43,12 @@ async function verificaLogin() {
 
 async function direcionar(data) {
     if (data.funcao == "admin") {
-        window.location.href = "http://127.0.0.1:5500/frontend/pages/ADM.Dashboard.html"
+        window.location.href = "../frontend/pages/ADM.Dashboard.html"
 
     } else if (data.funcao == "gestor") {
-        window.location.href = "http://127.0.0.1:5500/frontend/pages/GESTOR.Dashs.html"
+        window.location.href = "../frontend/pages/GESTOR.Dashs.html"
     } else if (data.funcao == "colaborador") {
-        window.location.href = "http://127.0.0.1:5500/frontend/pages/COLABORADOR.Dashs.html"
+        window.location.href = "../frontend/pages/COLABORADOR.Dashs.html"
     }
 }
 
