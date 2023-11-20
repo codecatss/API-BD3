@@ -3,12 +3,12 @@ const horas = []
 
 
 
-function popularOption(lista, valor, paiHTML) {
+function popularOption(lista, valor, nome, paiHTML) {
     const select = document.getElementById(paiHTML);
     lista.forEach((item) => {
         const option = document.createElement("option");
         option.value = item[valor];
-        option.textContent = item[valor];
+        option.textContent = item[nome];
         select.appendChild(option);
     });
 }
@@ -86,11 +86,11 @@ const todosClientes = await obterTodosClientes()
 const todosCr = await obterTodosCr()
 const todosUsuarios = await obterTodosUsuarios()
 const todasHoras = await todasAsHoras();
+console.log(todosCr[1])
 
-
-popularOption(todosUsuarios, "nome", "selecionarUsuarioRelatorio")
-popularOption(todosCr, "nome", "selecionarCrRelatorio")
-popularOption(todosClientes, "razao_social", "selecionarClienteRelatorio")
+popularOption(todosUsuarios, "matricula", "nome", "selecionarUsuarioRelatorio")
+popularOption(todosCr, "codigoCr", "nome", "selecionarCrRelatorio")
+popularOption(todosClientes, "cnpj", "razao_social", "selecionarClienteRelatorio")
 
 
 const modalSobreAviso = document.getElementById("modalExportar");
@@ -117,13 +117,25 @@ buttonExport.addEventListener("click", () => {
     const selectStatus = document.getElementById("selecionarStatusRelatorio")
 
     buttonExportarRelatorio.addEventListener("click", () => {
-        todasHoras.array.forEach(hora => {
-            if (usuarioRelatorio == hora.lancador) {
-                horas.push(hora)
-            }
-        });
-
-    })
+        console.log("olaaaaa")
+        let horasFiltradasData = todasHoras.filter(hora => hora.data_hora_inicio >= dataInicial.value && hora.data_hora_fim <= dataFinal.value);
+        if (usuarioRelatorio.value !== "todosOsUsuarios") {
+            horasFiltradasData = horasFiltradasData.filter(hora => hora.lancador === usuarioRelatorio.value);
+        }
+        if (selectCr.value !== "todosOsCr") {
+            horasFiltradasData = horasFiltradasData.filter(hora => hora.codcr === selectCr.value);
+        }
+        if (selectCliente.value !== "todosOsClientes") {
+            horasFiltradasData = horasFiltradasData.filter(hora => hora.cnpj === selectCliente.value);
+        }
+        if (selectTipo.value !== "todosOsTipos") {
+            horasFiltradasData = horasFiltradasData.filter(hora => hora.tipo === selectTipo.value);
+        }
+        if (selectStatus.value !== "todosOsStatus") {
+            horasFiltradasData = horasFiltradasData.filter(hora => hora.status_aprovacao === selectStatus.value);
+        }
+        console.log(horasFiltradasData)
+    });
 
 
 
