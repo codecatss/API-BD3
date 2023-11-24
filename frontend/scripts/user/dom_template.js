@@ -1,5 +1,19 @@
 import { criarNovoUsuario, obterListaDeFuncionarios, atualizarUsuario } from './api_consumer.js';
 
+const matriculaUsuarioLogado = localStorage.getItem("matricula");
+
+
+const usuarioLogado = localStorage.getItem("nome");
+const perfilUser = document.querySelector(".usuarioLogado");
+perfilUser.textContent = usuarioLogado;
+console.log(usuarioLogado)
+const loggout = document.getElementById("loggout");
+loggout.addEventListener("click", function () {
+    localStorage.clear();
+    window.location.href = "../../index.html"
+
+});
+
 function salvarUsuarioNoLocalStorage(usuario) {
     const usuariosArmazenados = JSON.parse(localStorage.getItem("usuarios")) || [];
 

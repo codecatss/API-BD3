@@ -1,4 +1,16 @@
-const matriculaAdminLogado = 4533;
+const matriculaUsuarioLogado = localStorage.getItem("matricula");
+
+
+const usuarioLogado = localStorage.getItem("nome");
+const perfilUser = document.querySelector(".usuarioLogado");
+perfilUser.textContent = usuarioLogado;
+console.log(usuarioLogado)
+const loggout = document.getElementById("loggout");
+loggout.addEventListener("click", function () {
+    localStorage.clear();
+    window.location.href = "../../index.html"
+
+});
 
 const obterTodosClientes = async () => {
     try {
@@ -157,7 +169,7 @@ function popularSelectStatus(status) {
 popularSelectEmpresas(todosClientes)
 popularSelectCr(todosCr);
 
-const listarHoras = async (matriculaAdminLogado, CrSelecionado, ClienteSelecionado, TipoSelecionado, StatusSelecionado) => {
+const listarHoras = async (matriculaUsuarioLogado, CrSelecionado, ClienteSelecionado, TipoSelecionado, StatusSelecionado) => {
     let apiUrl = `http://localhost:8080/hora/admin`;
 
     if (CrSelecionado) {
@@ -195,7 +207,7 @@ const listarHoras = async (matriculaAdminLogado, CrSelecionado, ClienteSeleciona
 };
 
 
-const horasCadastradas = await listarHoras(matriculaAdminLogado)
+const horasCadastradas = await listarHoras(matriculaUsuarioLogado)
 
 
 function arrumarProporcaoGrafico(horas) {
@@ -261,7 +273,7 @@ async function atualizarHoras(funcaoAdicional = false) {
     const TipoSelecionado = selectTipo.value;
     const StatusSelecionado = selectStatus.value;
 
-    const horasCadastradas = await listarHoras(matriculaAdminLogado, CrSelecionado, ClienteSelecionado, TipoSelecionado, StatusSelecionado);
+    const horasCadastradas = await listarHoras(matriculaUsuarioLogado, CrSelecionado, ClienteSelecionado, TipoSelecionado, StatusSelecionado);
 
     const tipos = await obterTodosTipos(horasCadastradas);
     const status = await obterTodosStatus(horasCadastradas);
