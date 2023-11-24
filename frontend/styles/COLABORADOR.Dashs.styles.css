@@ -610,7 +610,7 @@
 
   .minhas-horas{
     height: 56%;
-    border-radius: 23px;
+    /* border-radius: 23px; */
     background-color: #24242d;
     display: flex;
     padding: 15px 26px;
@@ -674,29 +674,29 @@
     height: 33%;
   }
 
-  .grafico{
-    width: 50%;
-    height: 90%;
-    border-radius: 23px;
-    background-color: #24242d;
-    display: flex;
-    justify-content: center;
-    padding: 15px 26px;
-    flex-direction: column;
-  }
+.grafico {
+  width: 50%;
+  height: 100%;
+  border-radius: var(--defaultBorderRadius);
+  background-color: #24242d;
+  display: flex;
+  padding: 15px 26px;
+  flex-direction: column;
+}
 
-  .grafico-grafico{
-    display: flex;
-    position: relative;
-    height: var(--chartSize);
-    width: var(--chartSize);
-    border-radius: 100%;
-    background-image: conic-gradient(
-      #D86666 25%,
-      #EADD6E 25% 75%,
-      #8DD88B 75% 100%
-    );
-  }
+.grafico-grafico {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  height: var(--chartSize);
+  width: var(--chartSize);
+  border-radius: 100%;
+  background-image: conic-gradient(
+    #d86666 25%,
+    #eadd6e 25% 75%,
+    #8dd88b 75% 100%
+  );
+}
 
   .vazio{
     width: 30%;
