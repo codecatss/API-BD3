@@ -79,9 +79,8 @@ const obterTodosCr = async () => {
 
 
 const matricula = localStorage.getItem("matricula")
-console.log(matricula)
 const matriculaa = Number(matricula)
-console.log(matriculaa)
+console.warn("Matricula: ", matriculaa)
 
 
 async function getCrListByUserId(userId) {

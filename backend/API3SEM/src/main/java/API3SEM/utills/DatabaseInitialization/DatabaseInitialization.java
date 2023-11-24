@@ -293,7 +293,6 @@ public class DatabaseInitialization implements CommandLineRunner {
                 return;
             } 
         }
-        
     }
 
     private static List<Client> seedCliet(ClientRepository clientRepository){
