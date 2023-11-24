@@ -30,12 +30,12 @@ async function verificaLogin() {
     console.log("token existe")
     if (token) {
         if (data == "admin") {
-            window.location.href = "../frontend/pages/ADM.Dashboard.html"
+            window.location.href = "../frontend/pages/ADM.Dash.html"
             console.log("admin")
         } else if (data == "gestor") {
-            window.location.href = "../frontend/pages/GESTOR.Dashs.html"
+            window.location.href = "../frontend/pages/GESTOR.Dash.html"
         } else if (data.funcao == "colaborador") {
-            window.location.href = "../frontend/pages/COLABORADOR.Dashs.html"
+            window.location.href = "../frontend/pages/COLABORADOR.Dash.html"
         }
     }
 }
@@ -43,12 +43,12 @@ async function verificaLogin() {
 
 async function direcionar(data) {
     if (data.funcao == "admin") {
-        window.location.href = "../frontend/pages/ADM.Dashboard.html"
+        window.location.href = "../frontend/pages/ADM.Dash.html"
 
     } else if (data.funcao == "gestor") {
-        window.location.href = "../frontend/pages/GESTOR.Dashs.html"
+        window.location.href = "../frontend/pages/GESTOR.Dash.html"
     } else if (data.funcao == "colaborador") {
-        window.location.href = "../frontend/pages/COLABORADOR.Dashs.html"
+        window.location.href = "../frontend/pages/COLABORADOR.Dash.html"
     }
 }
 
