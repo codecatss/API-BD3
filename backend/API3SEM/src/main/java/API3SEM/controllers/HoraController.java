@@ -204,7 +204,9 @@ public class HoraController {
 
 
 
-            if(!hora.getStatus_aprovacao().equals(AprovacaoEnum.APROVADO_ADMIN.name()) && !hora.getStatus_aprovacao().equals(AprovacaoEnum.NEGADO_ADMIN.name())){
+            if(!hora.getStatus_aprovacao().equals(AprovacaoEnum.APROVADO_ADMIN.name()) &&
+                    !hora.getStatus_aprovacao().equals(AprovacaoEnum.NEGADO_ADMIN.name())
+            ){
                 System.out.println(hora.getId());
                 if(hora.getTipo().equals(TipoEnum.SOBREAVISO.name())){
                     Hora hour = new Hora(hora);
@@ -246,7 +248,10 @@ public class HoraController {
 
 
 
-            if(hora.getStatus_aprovacao().equals(AprovacaoEnum.APROVADO_GESTOR.name())){
+            if(hora.getStatus_aprovacao().equals(AprovacaoEnum.APROVADO_GESTOR.name()) ||
+                    hora.getStatus_aprovacao().equals(AprovacaoEnum.APROVADO_ADMIN.name()) ||
+                    hora.getStatus_aprovacao().equals(AprovacaoEnum.NEGADO_ADMIN.name())
+            ){
                 System.out.println(hora.getId());
                 if(hora.getTipo().equals(TipoEnum.SOBREAVISO.name())){
                     Hora hour = new Hora(hora);
