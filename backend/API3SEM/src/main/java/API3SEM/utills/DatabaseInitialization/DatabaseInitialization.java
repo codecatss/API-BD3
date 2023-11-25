@@ -280,9 +280,9 @@ public class DatabaseInitialization implements CommandLineRunner {
                 AprovacaoEnum[] statusAprovacao = AprovacaoEnum.values();
                 AprovacaoEnum status = statusAprovacao[random.nextInt(statusAprovacao.length)];
                 hora.setStatus_aprovacao(status.toString());
+                hora.setMatricula_gestor(gestores.get(random.nextInt(gestores.size())).getMatricula());
                 if(status.equals(AprovacaoEnum.NEGADO_ADMIN) || status.equals(AprovacaoEnum.NEGADO_GESTOR)){
                     hora.setJustificativa_negacao(Justificativas.getJusNeg());
-                    hora.setMatricula_gestor(gestores.get(random.nextInt(gestores.size())).getMatricula());
                     if (status.equals(AprovacaoEnum.NEGADO_ADMIN)) {
                         hora.setMatricula_admin(administradores.get(random.nextInt(administradores.size())).getMatricula());
                     }
