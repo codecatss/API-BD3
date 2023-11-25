@@ -547,4 +547,76 @@ select {
   position: relative;
   width: 801px;
   height: 541px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+.datas{
+  display: flex;
+  flex-direction: row;
+  gap: 60px;
+;
+}
+
+
+.dataInicioRelatorio, .dataFimRelatorio{
+  height: 10vh;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+
+}
+
+.dataRelatorio{
+  color: white;
+  font-size: 20px;
+}
+
+#data-inicioRelatorio, #data-fimRelatorio{
+  width: 18vw;
+
+  background-color: var(--background-search-bar);
+  border-radius: 7px;
+  padding: 0rem 0rem 1rem 0rem;
+  color: white;
+  border: none;
+  text-align: center;
+  padding: 20px 5px;
+}
+
+
+#selecionarCrRelatorio,
+#selecionarUsuarioRelatorio ,
+#selecionarTipoHoraRelatorio,#selecionarClienteRelatorio, 
+#selecionarTipoRelatorio, #selecionarStatusRelatorio{
+  width: 100%;
+  background-color: var(--background-search-bar);
+  border-radius: 7px;
+  padding: 0rem 0rem 1rem 0rem;
+  color: white;
+  border: none;
+  text-align: center;
+  padding: 20px 5px;
+}
+
+
+#exportarRelatorio{
+  background-color: #f11075;
+  border: none;
+  color: white;
+  padding: 15px;
+  border-radius: 10px;
+  margin-top: 20px;
+  margin-left: 20px;
+  margin-left: 0  auto ;
+}
+.modal-content > h1{  
+  display: flex;
+  justify-content:flex-start
+  align-items:right
 }

@@ -183,8 +183,22 @@
         <div class="modal-content">
             <h1>Exportar Relatório CSV</h1>
             <p>Selecione quais informações gostaria de extrair:</p>
-            <input id="data-inicioRelatorio" type="date" required>
-            <input id="data-fimRelatorio" type="date" required>
+
+            
+            <div class="datas">
+                <div class="dataInicioRelatorio">
+                    <p class="dataRelatorio">Data Inicio</p>
+                    <input id="data-inicioRelatorio" type="date" required>
+
+                </div>
+                <div class="dataFimRelatorio">
+                    <p class="dataRelatorio">Data Fim</p>
+                    <input id="data-fimRelatorio" type="date" required>
+                </div>
+            </div>
+
+
+
 
             <select name="usuario" id="selecionarUsuarioRelatorio">
                 <option value="todosOsUsuarios" selected>Todos Usuarios</option>
@@ -217,6 +231,7 @@
 
 
             </select>
+
 
             <button id="exportarRelatorio">Exportar</button>
 
