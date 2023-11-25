@@ -9,6 +9,7 @@
     --mini-pad: calc(var(--default-pad) / 6);
     --larger-pad: calc(var(--default-pad) * 2);
     --chartSize: 260px;
+    --defaultBorderRadius: 23px;
   }
   
   html,
@@ -527,7 +528,7 @@
 
   .filtro-cr{
     width: 50%;
-    border-radius: 23px;
+    border-radius: var(--defaultBorderRadius);
     background-color: #24242d;
     display: flex;
     padding: 15px 26px;
@@ -537,7 +538,7 @@
   
   .filtro-cliente{
     width: 50%;
-    border-radius: 23px;
+    border-radius: var(--defaultBorderRadius);
     background-color: #24242d;
     display:flex;
     padding: 15px 26px;
@@ -559,7 +560,7 @@
 
   .horas-aprovadas{
     width: 31%;
-    border-radius: 23px;
+    border-radius: var(--defaultBorderRadius);
     background-color: #24242d;
     display: flex;
     padding: 15px 26px;
@@ -590,7 +591,7 @@
 
   .horas-reprovadas{
     width: 31%;
-    border-radius: 23px;
+    border-radius: var(--defaultBorderRadius);
     background-color: #24242d;
     display: flex;
     padding: 15px 26px;
@@ -600,7 +601,7 @@
 
   .horas-pendentes{
     width: 31%;
-    border-radius: 23px;
+    border-radius: var(--defaultBorderRadius);
     background-color: #24242d;
     display: flex;
     padding: 15px 26px;
@@ -610,7 +611,7 @@
 
   .minhas-horas{
     height: 56%;
-    /* border-radius: 23px; */
+    border-radius: var(--defaultBorderRadius);
     background-color: #24242d;
     display: flex;
     padding: 15px 26px;
@@ -619,7 +620,7 @@
   .titulo-status{
     width: 50%;
     height: 90%;
-    border-radius: 23px;
+    border-radius: var(--defaultBorderRadius);
     background-color: #24242d;
     display: flex;
     padding: 15px 26px;
@@ -680,8 +681,9 @@
   border-radius: var(--defaultBorderRadius);
   background-color: #24242d;
   display: flex;
-  padding: 15px 26px;
+  /* padding: 15px 26px; */
   flex-direction: column;
+  justify-content: center;
 }
 
 .grafico-grafico {
@@ -701,7 +703,7 @@
   .vazio{
     width: 30%;
     height: 90%;
-    border-radius: 23px;
+    border-radius: var(--defaultBorderRadius);
     background-color: #24242d;
     display: flex;
     padding: 15px 26px;
