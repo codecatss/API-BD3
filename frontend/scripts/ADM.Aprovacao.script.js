@@ -105,13 +105,6 @@ async function carregarHorasNaLista(horas) {
         const centroResultado = todosCr.find(item => hora.codcr === item.codigoCr)?.nome || null;
         const usuario = todosUsuarios.find(item => hora.lancador === item.matricula)?.nome || null;
 
-
-
-
-
-
-
-
         const li = document.createElement("li");
         const tipoHora = document.createElement("p");
         const statusHora = document.createElement("p");
@@ -128,14 +121,15 @@ async function carregarHorasNaLista(horas) {
 
         tipoHora.textContent = hora.tipo;
         statusHora.textContent = hora.status_aprovacao;
-        if (hora.status_aprovacao == "PENDENTE") {
-            statusHora.classList.add("hora-pendente");
-        } else if (hora.status_aprovacao == "NEGADO_GESTOR") {
-            statusHora.textContent = "NEGADO";
+        if (hora.status_aprovacao == "APROVADO_ADMIN") {
+            statusHora.textContent = "APROVADO Admin";
+            statusHora.classList.add("hora-aprovada");
+        } else if (hora.status_aprovacao == "NEGADO_ADMIN") {
+            statusHora.textContent = "NEGADO Admin";
             statusHora.classList.add("hora-negada");
         } else if (hora.status_aprovacao == "APROVADO_GESTOR") {
             statusHora.textContent = "APROVADO Gestor";
-            statusHora.classList.add("hora-aprovada");
+            statusHora.classList.add("hora-pendente");
         }
 
         const dataHoraInicio = new Date(hora.data_hora_inicio);
@@ -385,14 +379,13 @@ filterSelected.addEventListener("change", async function () {
         await carregarHorasNaLista(horasCadastradas);
 
     }
-    if (filterSelected.value === "APROVADO_GESTOR") {
+    else {
         const horasCadastradas = await listarHoras();
-        const horasPendentes = horasCadastradas.filter(function (hora) {
-            return hora.status_aprovacao === "NEGADO_GESTOR";
-        });
-
+        const filtro = filterSelected.value;
+        console.log(filtro);
+        const horasPendentes = horasCadastradas.filter(hora => hora.status_aprovacao == filterSelected.value);
+        
         await carregarHorasNaLista(horasPendentes);
     }
-
 
 });
