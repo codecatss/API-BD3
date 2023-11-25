@@ -381,8 +381,6 @@ filterSelected.addEventListener("change", async function () {
     }
     else {
         const horasCadastradas = await listarHoras();
-        const filtro = filterSelected.value;
-        console.log(filtro);
         const horasPendentes = horasCadastradas.filter(hora => hora.status_aprovacao == filterSelected.value);
         
         await carregarHorasNaLista(horasPendentes);
