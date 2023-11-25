@@ -420,7 +420,7 @@ public class HoraController {
         } else if(hora.tipo().contains("sob")){
             hour.setTipo(TipoEnum.SOBREAVISO.name());
         }
-        else {
+        else if(hora.tipo().contains("aci")) {
             hour.setTipo(TipoEnum.ACIONAMENTO.name());
         }
         hour.setJustificativa(hora.justificativa());
