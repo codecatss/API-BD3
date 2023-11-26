@@ -319,6 +319,8 @@ inputSearch.addEventListener("input", function () {
         const statusHora = hora.querySelector("p:nth-child(2)").textContent.toLowerCase();
         const nomeUsuario = hora.querySelector("p:nth-child(3)").textContent.toLowerCase();
         const tipoHora = hora.querySelector("p:nth-child(4)").textContent.toLowerCase();
+        const inicioHora = hora.querySelector("p:nth-child(5)").textContent.toLowerCase();
+        const fimHora = hora.querySelector("p:nth-child(6)").textContent.toLowerCase();
         const crHora = hora.querySelector("p:nth-child(7)").textContent.toLowerCase();
         const cliente = hora.querySelector("p:nth-child(8)").textContent.toLowerCase();
 
@@ -327,6 +329,8 @@ inputSearch.addEventListener("input", function () {
             statusHora.includes(searchText) ||
             nomeUsuario.includes(searchText) ||
             tipoHora.includes(searchText) ||
+            inicioHora.includes(searchText) ||
+            fimHora.includes(searchText) ||
             crHora.includes(searchText) ||
             cliente.includes(searchText)
         ) {
