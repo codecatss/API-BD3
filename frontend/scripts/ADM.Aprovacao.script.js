@@ -115,6 +115,7 @@ async function carregarHorasNaLista(horas) {
         const ver = document.createElement("button");
 
         checkbox.type = "checkbox";
+        checkbox.classList.add("checkbox");
 
         tipoHora.textContent = hora.tipo;
         
