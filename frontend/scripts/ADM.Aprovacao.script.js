@@ -409,7 +409,7 @@ btnAprovar.addEventListener("click", async function () {
             console.log(idHora);
             await atualizarHora(idHora, {
                 status_aprovacao: "APROVADO_ADMIN",
-                matricula_admin: 6987,
+                matricula_admin: localStorage.getItem("matricula"),
                 data_modificacao_admin: new Date(),
             });
         });
