@@ -10,6 +10,7 @@ import API3SEM.repositories.MemberRepository;
 import API3SEM.repositories.EmployeeRepository;
 import API3SEM.repositories.IntegranteRepository;
 import API3SEM.entities.CenterResult;
+import API3SEM.DTOS.EmployeeDTOs;
 import API3SEM.DTOS.IntegranteDTO;
 import API3SEM.DTOS.MemberDTOs;
 import API3SEM.repositories.CenterResultRepository;

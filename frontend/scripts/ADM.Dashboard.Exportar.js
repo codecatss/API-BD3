@@ -3,13 +3,32 @@ let horas = []
 
 let listaVerbas = []
 
-function popularOption(lista, valor, nome, paiHTML) {
-    const select = document.getElementById(paiHTML);
+function popularOption(lista, paiHTML) {
+    const idDoElemento = paiHTML.id;
+    const nomes = ["nome", "razao_social"];
+    let nome = "";
+    if (idDoElemento !== "selecionarClienteRelatorio") {
+        nome = nomes[0];
+    } else {
+        nome = nomes[1];
+    }
+    const valores = ["matricula", "codigoCr", "cnpj"];
+    let valor = "";
+    if (idDoElemento === "selecionarUsuarioRelatorio") {
+        console.log("ID do elemento:", idDoElemento);
+        valor = valores[0];
+    } else if (idDoElemento === "selecionarCrRelatorio") {
+        console.log("ID do elemento:", idDoElemento);
+        valor = valores[1];
+    } else if (idDoElemento === "selecionarClienteRelatorio") {
+        console.log("ID do elemento:", idDoElemento);
+        valor = valores[2];
+    }
     lista.forEach((item) => {
         const option = document.createElement("option");
         option.value = item[valor];
         option.textContent = item[nome];
-        select.appendChild(option);
+        paiHTML.appendChild(option);
     });
 }
 
@@ -47,12 +66,26 @@ const obterTodosCr = async () => {
 };
 
 
-
-
-
 const obterTodosUsuarios = async () => {
     try {
         const response = await fetch('http://localhost:8080/employee');
+
+        if (!response.ok) {
+            throw new Error(`Erro na requisição: ${response.status}`);
+        }
+
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Erro na requisição:', error);
+        throw error;
+    }
+};
+
+
+const obterTodosUsuariosDoCr = async (crId) => {
+    try {
+        const response = await fetch(`http://localhost:8080/cr/${crId}/employees`);
 
         if (!response.ok) {
             throw new Error(`Erro na requisição: ${response.status}`);
@@ -108,16 +141,45 @@ async function fetchVerbas(listaDeObjetos) {
     }
 }
 
+const selecionarClienteRelatorio = document.getElementById("selecionarClienteRelatorio")
+const selecionarCrRelatorio = document.getElementById("selecionarCrRelatorio")
+const selecionarUsuarioRelatorio = document.getElementById("selecionarUsuarioRelatorio")
+const elementos = [selecionarClienteRelatorio, selecionarCrRelatorio, selecionarUsuarioRelatorio]
 
 const todosClientes = await obterTodosClientes()
 const todosCr = await obterTodosCr()
 const todosUsuarios = await obterTodosUsuarios()
+const listas = [todosClientes, todosCr, todosUsuarios]
+
 const todasHoras = await todasAsHoras();
 console.log(todosCr[1])
 
-popularOption(todosUsuarios, "matricula", "nome", "selecionarUsuarioRelatorio")
-popularOption(todosCr, "codigoCr", "nome", "selecionarCrRelatorio")
-popularOption(todosClientes, "cnpj", "razao_social", "selecionarClienteRelatorio")
+elementos.forEach(elemento => {
+    popularOption(listas[elementos.indexOf(elemento)], elemento)
+})
+
+selecionarClienteRelatorio.addEventListener("change", () => {
+    console.log(selecionarClienteRelatorio.value);
+});
+
+selecionarCrRelatorio.addEventListener("change", async () => {
+    console.log(selecionarCrRelatorio.value);
+    while (selecionarUsuarioRelatorio.options.length > 1) {
+        selecionarUsuarioRelatorio.remove(1);
+    }
+    let membros = [];
+    if (selecionarCrRelatorio.value === "todosOsCr") {
+        membros = await obterTodosUsuarios();
+    } else {
+        membros = await obterTodosUsuariosDoCr(selecionarCrRelatorio.value);
+    }
+    popularOption(membros, selecionarUsuarioRelatorio);
+    console.log(selecionarUsuarioRelatorio.value);
+});
+
+selecionarUsuarioRelatorio.addEventListener("change", () => {
+    console.log(selecionarUsuarioRelatorio.value);
+});
 
 
 const modalSobreAviso = document.getElementById("modalExportar");
