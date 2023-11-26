@@ -1019,14 +1019,28 @@ table {
 .lista-acionamentos {
   border: 1px solid purple;
   border-radius: 5px;
+  gap: 10px;
 }
 
 .lista-acionamentos h2 {
   color: white;
+  font-size: 20px;
 }
 
-.lista-acionamentos p{
-  color: white;
+.lista-acionamentos ul {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow: auto;
+}
+
+.lista-acionamentos li {
+  list-style: none;
+  background-color: #f9f4ed;
+  color: #000;
+  padding: 10px;
+  border-radius: 7px;
+  gap: 5px;
 }
 
 .infos-hora {

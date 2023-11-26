@@ -213,7 +213,6 @@ async function carregarHorasNaLista(horas) {
             const justificativaNegacao = document.querySelector(".motivo-justificativa-gestor");
 
             const listaHoras = document.querySelector(".acionamentos");
-            const btnFechar = document.querySelector("button");
 
             status.textContent = hora.status_aprovacao
 
@@ -248,7 +247,17 @@ async function carregarHorasNaLista(horas) {
                     hora.lista_de_acionamentos.forEach((acionamento) => {
                         const lista = document.querySelector(".acionamentos");
                         const li = document.createElement("li");
-                        li.textContent = acionamento;
+
+                        const dataInicio = new Date(acionamento.data_hora_inicio);
+                        const dataInicioFormatada = dataInicio.toLocaleDateString('pt-BR', { timeZone: 'UTC' });
+                        const horaInicioFormatada = dataInicio.toLocaleTimeString('pt-BR', { timeZone: 'UTC' });
+
+                        const dataFim = new Date(acionamento.data_hora_fim);
+                        const dataFimFormatada = dataFim.toLocaleDateString('pt-BR', { timeZone: 'UTC' });
+                        const horaFimFormatada = dataFim.toLocaleTimeString('pt-BR', { timeZone: 'UTC' });
+
+                        const acionamentos = `Data Inicio ${dataInicioFormatada} | ${horaInicioFormatada} Data Fim ${dataFimFormatada} | ${horaFimFormatada}`;
+                        li.textContent = acionamentos;
                         lista.appendChild(li);
                     }
                     )
@@ -283,16 +292,12 @@ async function carregarHorasNaLista(horas) {
 
             dataFormatada(dataModificacaoAdmin, hora.data_modificacao_admin);
 
-
-
-
-
-
-
         });
 
         window.addEventListener('click', function (event) {
             if (event.target === modalSobreAviso) {
+                const lista = document.querySelector(".acionamentos");
+                lista.textContent = "";
                 modalSobreAviso.style.display = 'none';
             }
         });
