@@ -67,6 +67,8 @@ p {
   grid-template-columns: 1fr 2fr;
   align-items: center;
   padding: 1rem 0rem 1rem 0rem;
+  transition: 0.9s;
+  margin: 0 3px 0 3px;
 }
 
 .menu li img {
@@ -78,11 +80,12 @@ p {
 .menu-item {
   background: transparent;
   border-radius: var(--defaultBorderRadius);
-  transition: 0.9s;
   margin-bottom: 0.1rem;
+  width: 100%;
 }
 
-.menu-item:hover {
+.menu li:hover {
+  border-radius: 6px;
   background: #6158d2;
 }
 

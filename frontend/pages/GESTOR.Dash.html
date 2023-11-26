@@ -13,205 +13,207 @@
 
 <body>
 
-    <div class="menu">
-        <div class="logo">
-            <img src="../assets/transparent-icons/2rp.svg" alt="" srcset="">
-        </div>
-
-        <ul class="main-menu">
-            <li class="menu-item active-page"><img src="../assets/transparent-icons/dashboard.svg"
-                    alt="Ícone Dashboard">
-                <a href="../pages/GESTOR.Dash.html">Dashboard</a>
-            </li>
-
-            <li class="menu-item"><a href="#"><img src="../assets/iconeLancamento.svg" alt="Ícone Lançamento"><a
-                        href="../pages/GESTOR.LancaHora.html">Lançamentos</a></li>
-
-            <li class="menu-item">
-                <img src="../assets/iconeApontamento.svg" alt="" srcset="">
-                <a href="./GESTOR.AprovaHora.html">Apontamento</a>
-            </li>
-        </ul>
-
-    </div>
-
-    <nav class="content">
-
-        <header class="topnav">
-            <div>
-                <h1>Dashboard</h1>
+    <div class="container">
+        
+        <div class="menu">
+            <div class="logo">
+                <img class="logo2rp" src="../assets/transparent-icons/2rp.svg" alt="" srcset="">
             </div>
-            <section class="account">
-                <ul>
-                    <li class="perfil-user"><a href="#" class="usuarioLogado">Jonh Doe <span
-                                class="seta-dropdown">▼</span></a>
-                        <ul class="dropdown">
-                            <!-- <li><a href="#">Alterar Senha</a></li> -->
-                            <li><a href="#" id="loggout">Logout</a></li>
-                        </ul>
+            
+            <ul class="main-menu">
+                <li class="menu-item active-page"><img src="../assets/transparent-icons/dashboard.svg"
+                    alt="Ícone Dashboard">
+                    <a href="../pages/GESTOR.Dash.html">Dashboard</a>
+                </li>
+                
+                <li class="menu-item"><a href="#"><img src="../assets/iconeLancamento.svg" alt="Ícone Lançamento"><a
+                    href="../pages/GESTOR.LancaHora.html">Lançamentos</a></li>
+                    
+                    <li class="menu-item">
+                        <img src="../assets/iconeApontamento.svg" alt="" srcset="">
+                        <a href="./GESTOR.AprovaHora.html">Apontamento</a>
                     </li>
                 </ul>
-            </section>
-        </header>
-
-        <main class="dataMain">
-
-            <div class="tabOption">
-                <button id="minhas-horas" class="ativo">Minhas horas</button>
-                <div></div>
-                <button id="minhas-equipes">Minhas equipes</button>
-            </div>
-
-            <div id="tabArea" class="tabArea">
-
-                <div class="filtros-cr-cliente">
-
-                    <div class="filtro-cr">
-
-                        <label for="cr" class="custom-label-filtro">Centro de Resultado</label>
-                        <select id="selecionarCr" name="q" class="input-bar" required></select>
-
-
-                    </div>
-
-                    <div class="filtro-cliente">
-                        <label for="cliente" class="custom-label-filtro">Cliente</label>
-                        <select id="selecionarEmpresa" name="q" class="input-bar" required></select>
-
-                    </div>
-
+                
+        </div>
+            
+        <nav class="content">
+            <header class="topnav">
+                <div>
+                    <h1>Dashboard</h1>
                 </div>
-
-
-
-                <div id="meuDash" class="tabContent ativo">
-
-                    <div class="filtros-horas-status">
-
-                        <div class="horas-aprovadas">
-                            <label for="aprovadas" class="custom-label-painel-status">Minhas horas aprovadas</label>
-                            <label for="apro" id="label-aprovadas" class="custom-label-painel-status-value"></label>
-                        </div>
-
-                        <div class="horas-reprovadas">
-                            <label for="reprovadas" class="custom-label-painel-status">Minhas horas reprovadas</label>
-                            <label for="repo" id="label-reprovadas" class="custom-label-painel-status-value"></label>
-                        </div>
-
-                        <div class="horas-pendentes">
-                            <label for="pendentes" class="custom-label-painel-status">Minhas horas pendentes</label>
-                            <label for="pend" id="label-pendentes" class="custom-label-painel-status-value"></label>
-                        </div>
-
-                    </div>
-
-                    <div class="minhas-horas">
-                        <div class="titulo-status">
-
-                            <div class="titulo-titulo"><label for="horas">Minhas horas</label></div>
-
-                            <div class="status">
-
-                                <div class="status-aprovadas">
-                                    <div class="status-label">
-                                        <img src="../assets/green-ball.svg">
-                                        <a>Aprovadas</a>
-                                    </div>
-                                </div>
-
-                                <div class="status-reprovadas">
-                                    <div class="status-label">
-                                        <img src="../assets/red-ball.svg">
-                                        <a>Reprovadas</a>
-                                    </div>
-                                </div>
-
-                                <div class="status-pendentes">
-                                    <div class="status-label">
-                                        <img src="../assets/yellow-ball.svg">
-                                        <a>Pendentes</a>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="grafico">
-                            <div class="grafico-grafico">
-                            </div>
-                        </div>
-
-                    </div>
-
+                <section class="account">
+                    <ul>
+                        <li class="perfil-user"><a href="#" class="usuarioLogado">Jonh Doe <span
+                            class="seta-dropdown">▼</span></a>
+                            <ul class="dropdown">
+                                <!-- <li><a href="#">Alterar Senha</a></li> -->
+                                <li><a href="#" id="loggout">Logout</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </section>
+            </header>
+                
+            <main class="dataMain">
+                
+                <div class="tabOption">
+                    <button id="minhas-horas" class="ativo">Minhas horas</button>
+                    <div></div>
+                    <button id="minhas-equipes">Minhas equipes</button>
                 </div>
-
-                <div id="minhasEquipes" class="tabContent">
-
-                    <div class="filtros-horas-status">
-
-                        <div class="horas-aprovadas">
-                            <label for="aprovadas" class="custom-label-painel-status">Horas aprovadas</label>
-                            <label for="apro" id="label-aprovadasCr" class="custom-label-painel-status-value"></label>
+                
+                <div id="tabArea" class="tabArea">
+                    
+                    <div class="filtros-cr-cliente">
+                        
+                        <div class="filtro-cr">
+                            
+                            <label for="cr" class="custom-label-filtro">Centro de Resultado</label>
+                            <select id="selecionarCr" name="q" class="input-bar" required></select>
+                            
+                            
                         </div>
-
-                        <div class="horas-reprovadas">
-                            <label for="reprovadas" class="custom-label-painel-status">Horas reprovadas</label>
-                            <label for="repo" id="label-reprovadasCr" class="custom-label-painel-status-value"></label>
+                        
+                        <div class="filtro-cliente">
+                            <label for="cliente" class="custom-label-filtro">Cliente</label>
+                            <select id="selecionarEmpresa" name="q" class="input-bar" required></select>
+                            
                         </div>
-
-                        <div class="horas-pendentes">
-                            <label for="pendentes" class="custom-label-painel-status">Horas pendentes</label>
-                            <label for="pend" id="label-pendentesCr" class="custom-label-painel-status-value"></label>
+                        
+                    </div>
+                    
+                    
+                    
+                    <div id="meuDash" class="tabContent ativo">
+                        
+                        <div class="filtros-horas-status">
+                            
+                            <div class="horas-aprovadas">
+                                <label for="aprovadas" class="custom-label-painel-status">Minhas horas aprovadas</label>
+                                <label for="apro" id="label-aprovadas" class="custom-label-painel-status-value"></label>
+                            </div>
+                            
+                            <div class="horas-reprovadas">
+                                <label for="reprovadas" class="custom-label-painel-status">Minhas horas reprovadas</label>
+                                <label for="repo" id="label-reprovadas" class="custom-label-painel-status-value"></label>
+                            </div>
+                            
+                            <div class="horas-pendentes">
+                                <label for="pendentes" class="custom-label-painel-status">Minhas horas pendentes</label>
+                                <label for="pend" id="label-pendentes" class="custom-label-painel-status-value"></label>
+                            </div>
+                            
                         </div>
-
+                        
+                        <div class="minhas-horas">
+                            <div class="titulo-status">
+                                
+                                <div class="titulo-titulo"><label for="horas">Minhas horas</label></div>
+                                
+                                <div class="status">
+                                    
+                                    <div class="status-aprovadas">
+                                        <div class="status-label">
+                                            <img src="../assets/green-ball.svg">
+                                            <a>Aprovadas</a>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="status-reprovadas">
+                                        <div class="status-label">
+                                            <img src="../assets/red-ball.svg">
+                                            <a>Reprovadas</a>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="status-pendentes">
+                                        <div class="status-label">
+                                            <img src="../assets/yellow-ball.svg">
+                                            <a>Pendentes</a>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            
+                            <div class="grafico">
+                                <div class="grafico-grafico">
+                                </div>
+                            </div>
+                            
+                        </div>
+                        
                     </div>
 
-                    <div class="minhas-horas">
-                        <div class="titulo-status">
-
-                            <div class="titulo-titulo"><label for="horas">Horas</label></div>
-
-                            <div class="status">
-
-                                <div class="status-aprovadas">
-                                    <div class="status-label">
-                                        <img src="../assets/green-ball.svg">
-                                        <a>Aprovadas</a>
-                                    </div>
-                                </div>
-
-                                <div class="status-reprovadas">
-                                    <div class="status-label">
-                                        <img src="../assets/red-ball.svg">
-                                        <a>Reprovadas</a>
-                                    </div>
-                                </div>
-
-                                <div class="status-pendentes">
-                                    <div class="status-label">
-                                        <img src="../assets/yellow-ball.svg">
-                                        <a>Pendentes</a>
-                                    </div>
-                                </div>
-
+                    <div id="minhasEquipes" class="tabContent">
+                        
+                        <div class="filtros-horas-status">
+                            
+                            <div class="horas-aprovadas">
+                                <label for="aprovadas" class="custom-label-painel-status">Horas aprovadas</label>
+                                <label for="apro" id="label-aprovadasCr" class="custom-label-painel-status-value"></label>
                             </div>
-                        </div>
-
-                        <div class="grafico">
-                            <div id="graficoCr" class="grafico-grafico">
+                            
+                            <div class="horas-reprovadas">
+                                <label for="reprovadas" class="custom-label-painel-status">Horas reprovadas</label>
+                                <label for="repo" id="label-reprovadasCr" class="custom-label-painel-status-value"></label>
                             </div>
+                            
+                            <div class="horas-pendentes">
+                                <label for="pendentes" class="custom-label-painel-status">Horas pendentes</label>
+                                <label for="pend" id="label-pendentesCr" class="custom-label-painel-status-value"></label>
+                            </div>
+                            
                         </div>
+                        
+                        <div class="minhas-horas">
+                            <div class="titulo-status">
+                                
+                                <div class="titulo-titulo"><label for="horas">Horas</label></div>
+                                
+                                <div class="status">
+                                    
+                                    <div class="status-aprovadas">
+                                        <div class="status-label">
+                                            <img src="../assets/green-ball.svg">
+                                            <a>Aprovadas</a>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="status-reprovadas">
+                                        <div class="status-label">
+                                            <img src="../assets/red-ball.svg">
+                                            <a>Reprovadas</a>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="status-pendentes">
+                                        <div class="status-label">
+                                            <img src="../assets/yellow-ball.svg">
+                                            <a>Pendentes</a>
+                                        </div>
+                                    </div>
 
+                                </div>
+                            </div>
+                            
+                            <div class="grafico">
+                                <div id="graficoCr" class="grafico-grafico">
+                                </div>
+                            </div>
+
+                        </div>
+                        
                     </div>
-
+                    
+                    
                 </div>
-
-
-            </div>
-
-        </main>
-    </nav>
-
+                
+            </main>
+        </nav>
+    </div>
+    
     <script type="module" src="../scripts/GESTOR.Dashs.script.js"></script>
 </body>
 
