@@ -295,14 +295,12 @@ label {
 }
 
 select {
-  padding-left: 7px;
   font-size: 15px;
-  background-color: #24242d;
-  color: white;
-  width: 100%;
-  margin-bottom: var(--small-pad);
+  margin-bottom: var(--defaultGap);
   margin-left: 20px;
-  margin-bottom: 5%;
+  font-size: 15px;
+  color: white;
+  background-color: #24242d;
 }
 
 .content {
@@ -517,6 +515,7 @@ select {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  box-shadow: 0 0 5px 5px rgba(97, 88, 210, 0.5);
 }
 
 
@@ -525,6 +524,7 @@ select {
   display: flex;
   flex-direction: row;
   gap: var(--defaultGap);
+  margin-bottom: var(--defaultGap);
 }
 
 
@@ -560,7 +560,6 @@ select {
   width: 100%;
   background-color: var(--background-search-bar);
   border-radius: 7px;
-  padding: 0rem 0rem 1rem 0rem;
   color: white;
   border: none;
   text-align: center;
@@ -574,10 +573,8 @@ select {
   color: white;
   padding: 15px;
   border-radius: 10px;
-  margin-top: 20px;
-  margin-left: 20px;
-  margin-left: 0  auto ;
 }
+
 .modal-content > h1{  
   display: flex;
   justify-content:flex-start;
