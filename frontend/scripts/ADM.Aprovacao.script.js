@@ -134,7 +134,7 @@ async function carregarHorasNaLista(horas) {
 
         if (hora.status_aprovacao === "APROVADO_GESTOR") {
             statusHora.textContent = "APROVADO GESTOR";
-            statusHora.classList.add("hora-aprovada");
+            statusHora.classList.add("hora-pendente");
         } 
         
         else if (hora.status_aprovacao === "APROVADO_ADMIN") {
