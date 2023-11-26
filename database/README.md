@@ -82,6 +82,15 @@ Armazena as horas lançadas no sistema, assim como quem está lançando, seu cen
 | justificativa_lancamento   | VARCHAR(500)       | NOT NULL      | Justificativa para o lançamento da hora |
 | projeto                    | VARCHAR(100)       | NOT NULL      | Projeto associado à hora |
 | solicitante_lancamento     | VARCHAR(80)        | NOT NULL      | Solicitante do lançamento da hora |
+| status_aprovacao           | VARCHAR(30)        | NOT NULL, DEFAULT 'pendente' | Status de aprovação do registro de hora |
+| justificativa_negacao      | VARCHAR(500)       |               | Justificativa em caso de negação |
+| matricula_gestor           | VARCHAR(20)        |               | Matrícula do gestor associado ao registro de hora |
+| data_lancamento            | TIMESTAMP          | NOT NULL      | Data e hora de lançamento do registro |
+| data_modificacao_gestor    | TIMESTAMP          | NOT NULL      | Data e hora da última modificação pelo gestor |
+| matricula_admin            | VARCHAR(20)        |               | Matrícula do administrador associado ao registro de hora |
+| data_modificacao_admin     | TIMESTAMP          | NOT NULL      | Data e hora da última modificação pelo administrador |
 | FOREIGN KEY                | (cnpj_cliente) REFERENCES public.cliente (cnpj) | Chave estrangeira para a tabela cliente |
 | FOREIGN KEY                | (codigo_cr) REFERENCES public.centro_resultado (codigo_cr) | Chave estrangeira para a tabela centro_resultado |
 | FOREIGN KEY                | (matricula_lancador) REFERENCES public.usuario (matricula) | Chave estrangeira para a tabela usuario |
+| FOREIGN KEY                | (matricula_gestor) REFERENCES public.usuario (matricula) | Chave estrangeira para a tabela usuario |
+| FOREIGN KEY                | (matricula_gestor) REFERENCES public.usuario (matricula) | Chave estrangeira para a tabela usuario |

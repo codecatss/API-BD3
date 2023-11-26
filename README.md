@@ -166,6 +166,8 @@
 |:-------------:|:-----------------------:|:-------------------------:|:-------------------------:|
 |  01  | 04/09 a 24/09 | Sistema de cadastro e sistema de lançamento de horas | <a href="https://github.com/codecatss/API-BD3/wiki/Sprint-1">Sprint 1</a> |
 |  02  | 25/09 a 15/10 | Sistema de apontamento de horas do gestor, sistema de aprovação do administrador e sistema de gerenciamento de verbas | <a href="https://github.com/codecatss/API-BD3/wiki/Sprint-2">Sprint 2</a>
+|  03  | 16/10 a 05/19 | Sistema dashboards e visualizações gerais das horas | <a href="https://github.com/codecatss/API-BD3/wiki/Sprint-1">Sprint 1</a> |
+|  04  | 06/11 a 26/11 | Sistema de extração de relatórios em CSV | <a href="https://github.com/codecatss/API-BD3/wiki/Sprint-2">Sprint 2</a>
 
 <span id="prototipo">
 
