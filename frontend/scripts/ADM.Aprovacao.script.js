@@ -215,6 +215,18 @@ async function carregarHorasNaLista(horas) {
             const btnFechar = document.querySelector("button");
 
             status.textContent = hora.status_aprovacao
+
+            if (hora.status_aprovacao == "APROVADO_ADMIN") {
+                status.textContent = "APROVADO ADMIN"
+                status.style.backgroundColor = '#2e7a48';
+            } else if(hora.status_aprovacao == "APROVADO_GESTOR"){
+                status.textContent = "APROVADO GESTOR"
+                status.style.backgroundColor = '#efb435';
+            } else if(hora.status_aprovacao == "NEGADO_ADMIN"){
+                status.textContent = "NEGADO ADMIN"
+                status.style.backgroundColor = '#af2424';
+            }
+
             tipo.textContent = hora.tipo
 
             usuario.textContent = usuariollancador
