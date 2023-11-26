@@ -192,7 +192,17 @@ async function carregarHorasNaLista(horas) {
             const dataModificacaoGestor = document.querySelector(".aprovacao-data");
             const listaHoras = document.querySelector(".acionamentos");
 
-            status.textContent = hora.status_aprovacao
+            if (hora.status_aprovacao == "PENDENTE") {
+                status.textContent = "PENDENTE"
+                status.style.backgroundColor = '#efb435';
+            } else if(hora.status_aprovacao == "APROVADO_GESTOR"){
+                status.textContent = "APROVADO GESTOR"
+                status.style.backgroundColor = '#2e7a48';
+            } else if(hora.status_aprovacao == "NEGADO_GESTOR"){
+                status.textContent = "NEGADO GESTOR"
+                status.style.backgroundColor = '#af2424';
+            }
+
             tipo.textContent = hora.tipo
 
             usuario.textContent = usuariollancador
@@ -257,12 +267,9 @@ async function carregarHorasNaLista(horas) {
 
         window.addEventListener('click', function (event) {
             if (event.target === modalSobreAviso) {
+                const lista = document.querySelector(".acionamentos");
+                lista.textContent = "";
                 modalSobreAviso.style.display = 'none';
-                window.location.reload();
-
-
-
-
             }
         });
 
