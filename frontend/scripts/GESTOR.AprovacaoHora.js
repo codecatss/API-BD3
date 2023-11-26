@@ -191,7 +191,6 @@ async function carregarHorasNaLista(horas) {
             const matriculaGestor = document.querySelector(".nome-aprovador");
             const dataModificacaoGestor = document.querySelector(".aprovacao-data");
             const listaHoras = document.querySelector(".acionamentos");
-            const btnFechar = document.querySelector("button");
 
             status.textContent = hora.status_aprovacao
             tipo.textContent = hora.tipo
@@ -251,19 +250,15 @@ async function carregarHorasNaLista(horas) {
 
             dataFormatada(dataModificacaoGestor, hora.data_modificacao_gestor);
 
-            btnFechar.textContent = "FECHAR";
-
-
-
-
-
 
         });
+
+
 
         window.addEventListener('click', function (event) {
             if (event.target === modalSobreAviso) {
                 modalSobreAviso.style.display = 'none';
-                windowindow.location.reload();
+                window.location.reload();
 
 
 
