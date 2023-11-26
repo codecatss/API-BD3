@@ -121,16 +121,47 @@ async function carregarHorasNaLista(horas) {
 
         tipoHora.textContent = hora.tipo;
         statusHora.textContent = hora.status_aprovacao;
-        if (hora.status_aprovacao == "APROVADO_ADMIN") {
-            statusHora.textContent = "APROVADO Admin";
+        tipoHora.textContent = hora.tipo;
+        
+        if (hora.tipo == "SOBREAVISO") {
+            li.classList.add("horaSobreaviso");
+        } 
+        
+        else if (hora.tipo == "EXTRA") {
+            li.classList.add("horaExtra");
+        } 
+        
+        else if (hora.tipo == "ACIONAMENTO") {
+            li.classList.add("horaExtra");
+            tipoHora.textContent = "EXTRA";
+        }
+
+
+        if (hora.status_aprovacao === "APROVADO_GESTOR") {
+            statusHora.textContent = "APROVADO GESTOR";
             statusHora.classList.add("hora-aprovada");
-        } else if (hora.status_aprovacao == "NEGADO_ADMIN") {
-            statusHora.textContent = "NEGADO Admin";
+        } 
+        
+        else if (hora.status_aprovacao === "APROVADO_ADMIN") {
+            statusHora.textContent = "APROVADO ADMIN";
+            statusHora.classList.add("hora-aprovada");
+        } 
+        
+        else if (hora.status_aprovacao === "NEGADO_GESTOR") {
+            statusHora.textContent = "NEGADO GESTOR";
             statusHora.classList.add("hora-negada");
-        } else if (hora.status_aprovacao == "APROVADO_GESTOR") {
-            statusHora.textContent = "APROVADO Gestor";
+        } 
+        
+        else if (hora.status_aprovacao === "NEGADO_ADMIN") {
+            statusHora.textContent = "NEGADO ADMIN";
+            statusHora.classList.add("hora-negada");
+        } 
+        
+        else if (hora.status_aprovacao === "PENDENTE") {
+            statusHora.textContent = "PENDENTE";
             statusHora.classList.add("hora-pendente");
         }
+
 
         const dataHoraInicio = new Date(hora.data_hora_inicio);
         const dataInicioFormatada = dataHoraInicio.toLocaleDateString('pt-BR', { timeZone: 'UTC' });

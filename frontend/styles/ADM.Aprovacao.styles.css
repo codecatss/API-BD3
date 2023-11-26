@@ -919,3 +919,11 @@ table {
 .cancelarReprovacao {
   background-color: #d86666;
 }
+
+.horaSobreaviso {
+  background-color: bisque;
+}
+
+.horaExtra{
+  background-color: #cecef5;
+}
