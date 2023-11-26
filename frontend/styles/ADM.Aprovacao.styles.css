@@ -822,6 +822,8 @@ table {
 
 .modal-content {
   background-color: #24242d;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
 }
 
 .hora-pendente {
@@ -926,4 +928,200 @@ table {
 
 .horaExtra{
   background-color: #f1f1fe;
+}
+
+.column-one,
+.column-two {
+  height: 100%;
+  width: 100%;
+  background-color: rgb(214, 214, 214);
+}
+
+.column-one {
+  display: grid;
+  grid-template-rows: 2fr 1fr;
+  padding: 10px;
+}
+
+.column-two {
+  padding: 10px;
+}
+
+.about-hora,
+.lista-acionamentos,
+.usuario,
+.cliente,
+.solicitante,
+.cr,
+.justificativa,
+.projeto {
+  background-color: #24242d;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+  border-radius: 5px 10px !important;
+}
+
+.about-hora {
+  padding: 10px;
+  margin-right: 15px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  font-family: "Inter", sans-serif;
+  font-weight: bold;
+}
+
+.status-hora,
+.tipo-hora,
+.inicio-hora,
+.fim-hora {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.status-hora,
+.tipo-hora {
+  gap: 5px;
+}
+
+.status-hora p {
+  padding: 6px;
+  background-color: #2e7a48;
+  color: white;
+  border-radius: 4px;
+}
+
+.tipo-hora p {
+  padding: 6px;
+  background-color: #efb435;
+  color: white;
+  border-radius: 4px;
+}
+
+.inicio-hora p,
+.fim-hora p {
+  color: white;
+}
+
+.nome-usuario {
+  color: white;
+}
+
+.about-hora h2 {
+  font-size: 20px;
+}
+
+.lista-acionamentos {
+  border: 1px solid purple;
+  border-radius: 5px;
+}
+
+.lista-acionamentos h2 {
+  color: white;
+}
+
+.lista-acionamentos p{
+  color: white;
+}
+
+.infos-hora {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.infos-hora > div {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+
+  border-radius: 5px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.cliente {
+  color: white;
+}
+
+.cr p{
+  color: white;
+}
+
+.nome-usuario,
+.nome-cliente,
+.motivo-justificativa,
+.nome-solicitante,
+.nome-cr,
+.nome-projeto {
+  font-size: 14px;
+  color: white;
+}
+
+.sobre-aprovador {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  margin-top: 40px;
+  gap: 10px;
+}
+
+.sobre-aprovador > div {
+  display: grid;  
+  grid-template-columns: 1fr 1fr;
+  border-radius: 5px;
+  gap: 10px;
+}
+
+.sobre-gestor > div,
+.sobre-admin > div {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  border-radius: 5px;
+  background-color: #24242d;
+  gap: 10px;
+  color: white;
+}
+
+.matricula-colaborador p{
+  color: white;
+}
+
+.status-tipo {
+  display: flex;
+}
+
+.sobre-gestor > div > h2,
+.sobre-admin > div > h2 {
+  font-size: 16px;
+  margin-bottom: 4px;
+}
+
+.sobre-aprovador > div > p {
+  font-size: 14px;
+  color: white;
+}
+
+.justificativa-gestor{
+  background-color: #24242d;
+  margin-top: 20px;
+  padding: 20px;
+  height: 6vh;
+}
+
+.justificativa-gestor h2{
+  font-size: 20px;
+  color: white;
+}
+
+.justificativa-gestor p{
+  font-size: 16px;
+  color: white;
 }
