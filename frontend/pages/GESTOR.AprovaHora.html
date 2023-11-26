@@ -54,27 +54,25 @@
                     </section>
                 </div>
             </div>
-            <div class="search-bar">
-                <div class="content">
-                    <div class="search-content">
-                        <input class="input-search" type="text" name="" id="" placeholder="Pesquisar">
+            <nav class="tabela">
+                <div class="search-bar">
+                    <div class="content">
+                        <div class="search-content">
+                            <input class="input-search" type="text" name="" id="" placeholder="Pesquisar">
+                        </div>
+                        <select name="statusAprovacao" id="filterSelected">
+                            <option value="todas" selected>Todas Horas</option>
+                            <option value="APROVADO_GESTOR">Aprovadas</option>
+                            <option value="PENDENTE">Pendentes</option>
+                            <option value="NEGADO_GESTOR">Negadas</option>
+            
+                        </select>
                     </div>
                     <div class="buttons">
                         <button class="hora-aprova">Aprovar</button>
                         <button class="hora-reprova">Reprovar</button>
                     </div>
-
-
                 </div>
-            </div>
-            <select name="statusAprovacao" id="filterSelected">
-                <option value="todas" selected>Todas Horas</option>
-                <option value="APROVADO_GESTOR">Aprovadas</option>
-                <option value="PENDENTE">Pendentes</option>
-                <option value="NEGADO_GESTOR">Negadas</option>
-
-            </select>
-            <nav class="tabela">
                 <div id="tabelaLancamento">
                     <p></p>
                     <p>Status</p>
@@ -85,9 +83,7 @@
                     <p>CR</p>
                     <p>Cliente</p>
                 </div>
-                <ul id="listaHoras">
-
-                </ul>
+                <ul id="listaHoras"></ul>
             </nav>
 
 

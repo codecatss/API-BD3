@@ -275,16 +275,19 @@ public class DatabaseInitialization implements CommandLineRunner {
             //aprova automaticamente a hora pelo adm se o lancador for gestor
             if(employee.getFuncao().equals(FuncaoUsuarioEnum.gestor)){
                 hora.setStatus_aprovacao(AprovacaoEnum.APROVADO_ADMIN.toString());
-            }
-            else{
+                hora.setMatricula_gestor(hora.getLancador());
+                hora.setMatricula_admin(administradores.get(random.nextInt(administradores.size())).getMatricula());
+            } else{
                 AprovacaoEnum[] statusAprovacao = AprovacaoEnum.values();
                 AprovacaoEnum status = statusAprovacao[random.nextInt(statusAprovacao.length)];
                 hora.setStatus_aprovacao(status.toString());
-                hora.setMatricula_gestor(gestores.get(random.nextInt(gestores.size())).getMatricula());
-                if(status.equals(AprovacaoEnum.NEGADO_ADMIN) || status.equals(AprovacaoEnum.NEGADO_GESTOR)){
-                    hora.setJustificativa_negacao(Justificativas.getJusNeg());
-                    if (status.equals(AprovacaoEnum.NEGADO_ADMIN)) {
+                if(!status.equals(AprovacaoEnum.PENDENTE)){
+                    hora.setMatricula_gestor(gestores.get(random.nextInt(gestores.size())).getMatricula());
+                    if (status.equals(AprovacaoEnum.NEGADO_ADMIN)||status.equals(AprovacaoEnum.APROVADO_ADMIN)) {
                         hora.setMatricula_admin(administradores.get(random.nextInt(administradores.size())).getMatricula());
+                    }
+                    if(status.equals(AprovacaoEnum.NEGADO_ADMIN) || status.equals(AprovacaoEnum.NEGADO_GESTOR)){
+                        hora.setJustificativa_negacao(Justificativas.getJusNeg());
                     }
                 }
             }

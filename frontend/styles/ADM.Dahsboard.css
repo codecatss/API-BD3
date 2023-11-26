@@ -284,11 +284,25 @@ label {
   padding-top: 30px;
 }
 
+.label-filtro{
+  font-family: "Arial";
+  font-size: 150%;
+  font-weight: 700;
+  line-height: 100%;
+  letter-spacing: 0em;
+  text-align: left;
+  height: 36%;
+}
+
 select {
+  padding-left: 7px;
+  font-size: 15px;
+  background-color: #24242d;
+  color: white;
   width: 100%;
   margin-bottom: var(--small-pad);
   margin-left: 20px;
-  margin-top: 10px;
+  margin-bottom: 5%;
 }
 
 .content {

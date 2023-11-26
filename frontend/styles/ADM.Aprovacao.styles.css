@@ -181,21 +181,43 @@ p {
 }
 
 .main-content .search-bar {
-  margin-bottom: 5px;
-  width: 60vw;
-  background-color: var(--background-search-bar);
-  border-radius: 7px;
-  padding: 0rem 3rem 0rem 0rem;
-}
-
-.main-content .search-bar .content {
-  margin-left: 10px;
   display: flex;
   flex-wrap: nowrap;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 0.5rem 3rem 0.5rem 0rem;
+  margin-bottom: 5px;
+  width: auto;
+  background-color: var(--background-search-bar);
+  border-radius: 7px;
+  padding: 1.5% 1.5% 1.5% 0;
+}
+
+.main-content select {
+  padding: 10px 0;
+  border-radius: 7px;
+  background: var(--background-input-search);
+}
+
+.main-content .search-bar .buttons {
+  width: 100%;
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: 3%;
+}
+
+.main-content .search-bar .content {
+  margin-left: 10px;
+  width: 100%;
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 10px;
+  
 }
 
 .main-content .search-bar .content a {
@@ -384,13 +406,6 @@ p {
   gap: 20px;
 }
 
-.content {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  width: 100%;
-}
-
 .button {
   display: flex;
 
@@ -483,12 +498,6 @@ table {
 .justificativa {
   display: flex;
   justify-content: space-between;
-}
-
-.content {
-  display: flex;
-  gap: 10px;
-  justify-content: center;
 }
 
 .datainicio {
