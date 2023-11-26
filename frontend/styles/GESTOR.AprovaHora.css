@@ -941,7 +941,6 @@ table {
 }
 
 .about-hora,
-.lista-acionamentos,
 .usuario,
 .cliente,
 .solicitante,
@@ -1068,6 +1067,25 @@ table {
   background-color: #f9f4ed;
 }
 
-.horaExtra{
+.horaExtra {
   background-color: #f1f1fe;
+}
+
+.lista-acionamentos {
+  background-color: #24242d;
+  margin-top: 10px;
+  padding: 10px;
+}
+
+.lista-acionamentos li {
+  list-style: none;
+  background-color: #f9f4ed;
+  color: #000;
+  padding: 10px;
+  border-radius: 7px;
+}
+
+.lista-acionamentos h2 {
+  font-size: 26px;
+  margin-bottom: 10px;
 }
