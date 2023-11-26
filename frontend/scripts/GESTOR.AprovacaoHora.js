@@ -203,7 +203,7 @@ async function carregarHorasNaLista(horas) {
             justificativa.textContent = hora.justificativa
             solicitante.textContent = hora.solicitante
             projeto.textContent = hora.projeto
-            justificativaNegacao.textContent = hora.statusHora == "NEGADO_GESTOR" ? hora.justificativa_negacao : "Hora não foi negada.";
+            justificativaNegacao.textContent = (hora.status_aprovacao == "NEGADO_GESTOR" || hora.status_aprovacao == "NEGADO_ADMIN") ? hora.justificativa_negacao : "Hora não foi negada.";
 
             console.log(hora.lista_de_acionamentos)
             if (hora.tipo == "SOBREAVISO") {
@@ -241,7 +241,7 @@ async function carregarHorasNaLista(horas) {
                 let horaFormatada = data.getUTCHours().toString().padStart(2, '0');
                 let minuto = data.getUTCMinutes().toString().padStart(2, '0');
                 let segundo = data.getUTCSeconds().toString().padStart(2, '0');
-            
+
                 pElement.textContent = `${dia}/${mes}/${ano} ${horaFormatada}:${minuto}:${segundo}`;
             }
 
@@ -263,6 +263,7 @@ async function carregarHorasNaLista(horas) {
         window.addEventListener('click', function (event) {
             if (event.target === modalSobreAviso) {
                 modalSobreAviso.style.display = 'none';
+                windowindow.location.reload();
 
 
 
