@@ -316,17 +316,18 @@ inputSearch.addEventListener("input", function () {
     const horas = document.querySelectorAll(".horaLancada");
 
     horas.forEach(function (hora) {
-        const nomeUsuario = hora.querySelector("p:nth-child(2)").textContent.toLowerCase();
+        const statusHora = hora.querySelector("p:nth-child(2)").textContent.toLowerCase();
+        const nomeUsuario = hora.querySelector("p:nth-child(3)").textContent.toLowerCase();
+        const tipoHora = hora.querySelector("p:nth-child(4)").textContent.toLowerCase();
         const crHora = hora.querySelector("p:nth-child(7)").textContent.toLowerCase();
-        const statusHora = hora.querySelector("p:nth-child(4)").textContent.toLowerCase();
         const cliente = hora.querySelector("p:nth-child(8)").textContent.toLowerCase();
-
 
         if (
             searchText === "" ||
-            nomeUsuario.includes(searchText) ||
-            crHora.includes(searchText) ||
             statusHora.includes(searchText) ||
+            nomeUsuario.includes(searchText) ||
+            tipoHora.includes(searchText) ||
+            crHora.includes(searchText) ||
             cliente.includes(searchText)
         ) {
             hora.style.display = "grid";
