@@ -104,13 +104,6 @@ async function carregarHorasNaLista(horas) {
         const centroResultado = todosCr.find(item => hora.codcr === item.codigoCr)?.nome || null;
         const usuario = todosUsuarios.find(item => hora.lancador === item.matricula)?.nome || null;
 
-
-
-
-
-
-
-
         const li = document.createElement("li");
         const tipoHora = document.createElement("p");
         const statusHora = document.createElement("p");
@@ -183,9 +176,6 @@ async function carregarHorasNaLista(horas) {
             const usuariollancador = todosUsuarios.find(item => hora.lancador === item.matricula)?.nome || null;
             const cienteLancado = todosClientes.find(item => hora.cnpj === item.cnpj)?.razao_social || null;
             const crLancado = todosCr.find(item => hora.codcr === item.codigoCr)?.nome || null;
-            // console.log(usuariollancador);
-            // console.log(cienteLancado);
-            // console.log(crLancado);
 
             const usuario = document.querySelector(".nome-usuario");
             const tipo = document.querySelector(".tipo-hora p");
@@ -203,17 +193,13 @@ async function carregarHorasNaLista(horas) {
             const listaHoras = document.querySelector(".acionamentos");
             const btnFechar = document.querySelector("button");
 
-            console.log(hora.tipo)
             status.textContent = hora.status_aprovacao
             tipo.textContent = hora.tipo
-
-            console.log(hora.data_hora_inicio)
-            inicio.textContent = hora.data_hora_inicio
-            fim.textContent = hora.data_hora_fim
 
             usuario.textContent = usuariollancador
             cr.textContent = crLancado
             cliente.textContent = cienteLancado
+            matriculaGestor.textContent = hora.matricula_gestor
             justificativa.textContent = hora.justificativa
             solicitante.textContent = hora.solicitante
             projeto.textContent = hora.projeto
@@ -240,16 +226,15 @@ async function carregarHorasNaLista(horas) {
 
 
 
-            matriculaGestor.textContent = hora.matricula_gestor
             function dataFormatada(pElement, dataString) {
                 let data = new Date(dataString);
-                let dia = data.getDate().toString().padStart(2, '0');
-                let mes = (data.getMonth() + 1).toString().padStart(2, '0');
-                let ano = data.getFullYear();
-                let horaFormatada = data.getHours().toString().padStart(2, '0');
-                let minuto = data.getMinutes().toString().padStart(2, '0');
-                let segundo = data.getSeconds().toString().padStart(2, '0');
-
+                let dia = data.getUTCDate().toString().padStart(2, '0');
+                let mes = (data.getUTCMonth() + 1).toString().padStart(2, '0');
+                let ano = data.getUTCFullYear();
+                let horaFormatada = data.getUTCHours().toString().padStart(2, '0');
+                let minuto = data.getUTCMinutes().toString().padStart(2, '0');
+                let segundo = data.getUTCSeconds().toString().padStart(2, '0');
+            
                 pElement.textContent = `${dia}/${mes}/${ano} ${horaFormatada}:${minuto}:${segundo}`;
             }
 
