@@ -183,13 +183,13 @@ async function carregarHorasNaLista(horas) {
             const usuariollancador = todosUsuarios.find(item => hora.lancador === item.matricula)?.nome || null;
             const cienteLancado = todosClientes.find(item => hora.cnpj === item.cnpj)?.razao_social || null;
             const crLancado = todosCr.find(item => hora.codcr === item.codigoCr)?.nome || null;
-            console.log(usuariollancador);
-            console.log(cienteLancado);
-            console.log(crLancado);
+            // console.log(usuariollancador);
+            // console.log(cienteLancado);
+            // console.log(crLancado);
 
             const usuario = document.querySelector(".nome-usuario");
-            const tipo = document.querySelector("p");
-            const status = document.querySelector("p");
+            const tipo = document.querySelector(".tipo-hora p");
+            const status = document.querySelector(".status-hora p");
             const inicio = document.querySelector(".hora-inicio");
             const fim = document.querySelector(".hora-fim");
             const cr = document.querySelector(".nome-cr");
@@ -203,6 +203,7 @@ async function carregarHorasNaLista(horas) {
             const listaHoras = document.querySelector(".acionamentos");
             const btnFechar = document.querySelector("button");
 
+            console.log(hora.tipo)
             status.textContent = hora.status_aprovacao
             tipo.textContent = hora.tipo
 
