@@ -126,6 +126,20 @@ async function carregarHorasNaLista(horas) {
         checkbox.type = "checkbox";
 
         tipoHora.textContent = hora.tipo;
+
+        if (hora.tipo == "SOBREAVISO") {
+            li.classList.add("horaSobreaviso");
+        } 
+        
+        else if (hora.tipo == "EXTRA") {
+            li.classList.add("horaExtra");
+        } 
+        
+        else if (hora.tipo == "ACIONAMENTO") {
+            li.classList.add("horaExtra");
+            li.textContent = "EXTRA";
+        }
+
         statusHora.textContent = hora.status_aprovacao;
         if (hora.status_aprovacao == "PENDENTE") {
             statusHora.classList.add("hora-pendente");

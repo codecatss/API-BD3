@@ -1063,3 +1063,11 @@ table {
   font-size: 16px;
   margin-bottom: 4px;
 }
+
+.horaSobreaviso {
+  background-color: #f9f4ed;
+}
+
+.horaExtra{
+  background-color: #f1f1fe;
+}
