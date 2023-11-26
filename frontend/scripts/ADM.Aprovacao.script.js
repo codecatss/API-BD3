@@ -282,7 +282,6 @@ async function carregarHorasNaLista(horas) {
 
             dataFormatada(dataModificacaoAdmin, hora.data_modificacao_admin);
 
-            btnFechar.textContent = "FECHAR";
 
 
 
