@@ -122,12 +122,12 @@ async function carregarHorasNaLista(horas) {
 
         if (hora.tipo == "SOBREAVISO") {
             li.classList.add("horaSobreaviso");
-        } 
-        
+        }
+
         else if (hora.tipo == "EXTRA") {
             li.classList.add("horaExtra");
-        } 
-        
+        }
+
         else if (hora.tipo == "ACIONAMENTO") {
             li.classList.add("horaExtra");
             li.textContent = "EXTRA";
@@ -211,7 +211,14 @@ async function carregarHorasNaLista(horas) {
                     hora.lista_de_acionamentos.forEach((acionamento) => {
                         const lista = document.querySelector(".acionamentos");
                         const li = document.createElement("li");
-                        li.textContent = acionamento;
+                        const dataInicio = new Date(acionamento.data_hora_inicio);
+                        const dataInicioFormatada = dataInicio.toLocaleDateString('pt-BR', { timeZone: 'UTC' });
+                        const horaInicioFormatada = dataInicio.toLocaleTimeString('pt-BR', { timeZone: 'UTC' });
+                        const dataFim = new Date(acionamento.data_hora_fim);
+                        const dataFimFormatada = dataFim.toLocaleDateString('pt-BR', { timeZone: 'UTC' });
+                        const horaFimFormatada = dataFim.toLocaleTimeString('pt-BR', { timeZone: 'UTC' });
+                        const acionamentos = `Data Inicio ${dataInicioFormatada} | ${horaInicioFormatada} Data Fim ${dataFimFormatada} | ${horaFimFormatada}`;
+                        li.textContent = acionamentos;
                         lista.appendChild(li);
                     }
                     )
@@ -427,7 +434,7 @@ btnReprovar.addEventListener("click", async function () {
 
             await atualizarHora(horasSelecionadas[0], {
                 status_aprovacao: "NEGADO_GESTOR",
-                matricula_gestor: 4533,
+                matricula_gestor: localStorage.getItem("matricula"),
                 data_modificacao_gestor: new Date(),
                 justificativa_negacao: justificativa,
             });
