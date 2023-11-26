@@ -1,7 +1,4 @@
 
-
-
-
 const filterSelected = document.getElementById("filterSelected");
 const usuarioLogado = localStorage.getItem("nome");
 const perfilUser = document.querySelector(".usuarioLogado");
@@ -120,8 +117,6 @@ async function carregarHorasNaLista(horas) {
         checkbox.type = "checkbox";
 
         tipoHora.textContent = hora.tipo;
-        statusHora.textContent = hora.status_aprovacao;
-        tipoHora.textContent = hora.tipo;
         
         if (hora.tipo == "SOBREAVISO") {
             li.classList.add("horaSobreaviso");
@@ -191,14 +186,95 @@ async function carregarHorasNaLista(horas) {
             const modal = document.getElementById("modalSobreAviso");
             modal.style.display = "block";
             console.log(hora.id)
+            console.log(hora)
+            const usuariollancador = todosUsuarios.find(item => hora.lancador === item.matricula)?.nome || null;
+            const cienteLancado = todosClientes.find(item => hora.cnpj === item.cnpj)?.razao_social || null;
+            const crLancado = todosCr.find(item => hora.codcr === item.codigoCr)?.nome || null;
+
+            const tipo = document.querySelector(".tipo-hora p");
+            const status = document.querySelector(".status-hora p");
+            const inicio = document.querySelector(".hora-inicio");
+            const fim = document.querySelector(".hora-fim");
+
+            const usuario = document.querySelector(".nome-usuario");
+            const cr = document.querySelector(".nome-cr");
+            const cliente = document.querySelector(".nome-cliente");
+
+            const justificativa = document.querySelector(".motivo-justificativa");
+            const solicitante = document.querySelector(".nome-solicitante");
+            const projeto = document.querySelector(".nome-projeto");
+
+            const matriculaGestor = document.getElementById("matricula-gestor");
+            const dataModificacaoGestor = document.getElementById("acao-gestor");
+            const matriculaAdmin = document.getElementById("matricula-admin");
+            const dataModificacaoAdmin = document.getElementById("acao-admin");
+
+            const justificativaNegacao = document.querySelector(".motivo-justificativa-gestor");
+
+            const listaHoras = document.querySelector(".acionamentos");
+            const btnFechar = document.querySelector("button");
+
+            status.textContent = hora.status_aprovacao
+            tipo.textContent = hora.tipo
+
+            usuario.textContent = usuariollancador
+            cr.textContent = crLancado
+            cliente.textContent = cienteLancado
+            justificativa.textContent = hora.justificativa
+            solicitante.textContent = hora.solicitante
+            projeto.textContent = hora.projeto
+
+            matriculaGestor.textContent = hora.matricula_gestor
+            matriculaAdmin.textContent = hora.matricula_admin
+
+            justificativaNegacao.textContent = (hora.status_aprovacao == "NEGADO_GESTOR" || hora.status_aprovacao == "NEGADO_ADMIN") ? hora.justificativa_negacao : "Hora não foi negada.";
+
+            console.log(hora.lista_de_acionamentos)
+            if (hora.tipo == "SOBREAVISO") {
+                if (hora.lista_de_acionamentos.length > 0) {
+                    hora.lista_de_acionamentos.forEach((acionamento) => {
+                        const lista = document.querySelector(".acionamentos");
+                        const li = document.createElement("li");
+                        li.textContent = acionamento;
+                        lista.appendChild(li);
+                    }
+                    )
+                } else if (hora.lista_de_acionamentos.length == 0) {
+                    listaHoras.textContent = "Não houve acionamento.";
+
+                }
+            } else {
+                listaHoras.textContent = "Hora-extra não possui acionamento";
+            }
 
 
-            const div = document.querySelector(".modal-content")
-            const p = document.createElement("p");
 
-            p.textContent = hora.tipo;
 
-            div.appendChild(p);
+            function dataFormatada(pElement, dataString) {
+                let data = new Date(dataString);
+                let dia = data.getUTCDate().toString().padStart(2, '0');
+                let mes = (data.getUTCMonth() + 1).toString().padStart(2, '0');
+                let ano = data.getUTCFullYear();
+                let horaFormatada = data.getUTCHours().toString().padStart(2, '0');
+                let minuto = data.getUTCMinutes().toString().padStart(2, '0');
+                let segundo = data.getUTCSeconds().toString().padStart(2, '0');
+            
+                pElement.textContent = `${dia}/${mes}/${ano} ${horaFormatada}:${minuto}:${segundo}`;
+            }
+
+            dataFormatada(inicio, hora.data_hora_inicio);
+
+            dataFormatada(fim, hora.data_hora_fim);
+
+            dataFormatada(dataModificacaoGestor, hora.data_modificacao_gestor);
+
+            dataFormatada(dataModificacaoAdmin, hora.data_modificacao_admin);
+
+            btnFechar.textContent = "FECHAR";
+
+
+
+
 
 
         });
