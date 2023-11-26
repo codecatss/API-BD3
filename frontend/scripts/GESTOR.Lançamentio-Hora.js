@@ -499,7 +499,7 @@ botaoConfirmarSobreaviso.addEventListener("click", async function (event) {
         cnpj: sobreaviso.cnpj,
         data_hora_inicio: `${dataInicio}T${horaInicio}:00Z`,
         data_hora_fim: `${dataFim}T${horaFim}:00Z`,
-        tipo: "ACIONAMENTO",
+        tipo: "Acionamento",
         justificativa: sobreaviso.justificativa,
         projeto: sobreaviso.projeto,
         solicitante: sobreaviso.solicitante
