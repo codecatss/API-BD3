@@ -610,7 +610,7 @@
   }
 
   .minhas-horas{
-    height: 56%;
+    height: 50%;
     border-radius: var(--defaultBorderRadius);
     background-color: #24242d;
     display: flex;
@@ -634,7 +634,8 @@
     font-weight: 700;
     line-height: 100%;
     text-align: left;
-    height: 38%;
+    height: auto;
+    padding-top: 5%;
   }
 
   .titulo-titulo{
@@ -702,7 +703,8 @@
 
   .vazio{
     width: 30%;
-    height: 90%;
+    height: auto;
+    min-height: 50px;
     border-radius: var(--defaultBorderRadius);
     background-color: #24242d;
     display: flex;
