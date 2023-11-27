@@ -15,13 +15,10 @@ function popularOption(lista, paiHTML) {
     const valores = ["matricula", "codigoCr", "cnpj"];
     let valor = "";
     if (idDoElemento === "selecionarUsuarioRelatorio") {
-        console.log("ID do elemento:", idDoElemento);
         valor = valores[0];
     } else if (idDoElemento === "selecionarCrRelatorio") {
-        console.log("ID do elemento:", idDoElemento);
         valor = valores[1];
     } else if (idDoElemento === "selecionarClienteRelatorio") {
-        console.log("ID do elemento:", idDoElemento);
         valor = valores[2];
     }
     lista.forEach((item) => {
@@ -69,6 +66,23 @@ const obterTodosCr = async () => {
 const obterTodosUsuarios = async () => {
     try {
         const response = await fetch('http://localhost:8080/employee');
+
+        if (!response.ok) {
+            throw new Error(`Erro na requisição: ${response.status}`);
+        }
+
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Erro na requisição:', error);
+        throw error;
+    }
+};
+
+
+async function obterCrLstByUsuario(userId) {
+    try {
+        const response = await fetch(`http://localhost:8080/employee/${userId}/crlist`);
 
         if (!response.ok) {
             throw new Error(`Erro na requisição: ${response.status}`);
@@ -162,8 +176,8 @@ selecionarClienteRelatorio.addEventListener("change", () => {
     console.log(selecionarClienteRelatorio.value);
 });
 
+//reatividade do select de cr
 selecionarCrRelatorio.addEventListener("change", async () => {
-    console.log(selecionarCrRelatorio.value);
     while (selecionarUsuarioRelatorio.options.length > 1) {
         selecionarUsuarioRelatorio.remove(1);
     }
@@ -174,11 +188,26 @@ selecionarCrRelatorio.addEventListener("change", async () => {
         membros = await obterTodosUsuariosDoCr(selecionarCrRelatorio.value);
     }
     popularOption(membros, selecionarUsuarioRelatorio);
-    console.log(selecionarUsuarioRelatorio.value);
 });
 
-selecionarUsuarioRelatorio.addEventListener("change", () => {
-    console.log(selecionarUsuarioRelatorio.value);
+//reatividade do select de usuario
+selecionarUsuarioRelatorio.addEventListener("change", async () => {
+    let membros = [];
+    if (selecionarUsuarioRelatorio.value === "todosOsUsuarios") {
+        membros = await obterTodosCr();
+    } else {
+        try {
+            membros = await obterCrLstByUsuario(selecionarUsuarioRelatorio.value);
+            while (selecionarCrRelatorio.options.length > 1) {
+                selecionarCrRelatorio.remove(1);
+            }
+        } catch (error) {
+            console.error("Erro: ", error);
+            console.error("Select user: ", selecionarUsuarioRelatorio.value);
+            throw error;
+        }
+    }
+    popularOption(membros, selecionarCrRelatorio);
 });
 
 
@@ -325,11 +354,4 @@ buttonExport.addEventListener("click", async () => {
 
 
     });
-
-
-
-
 });
-
-
-
