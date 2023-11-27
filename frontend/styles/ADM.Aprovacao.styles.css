@@ -217,7 +217,6 @@ p {
   justify-content: flex-start;
   align-items: flex-start;
   gap: 10px;
-  
 }
 
 .main-content .search-bar .content a {
@@ -287,7 +286,6 @@ p {
   font-weight: 400;
   line-height: 27.5px;
   transition: background-color 0.9s;
-  
 }
 
 .main-content .user ul {
@@ -926,7 +924,7 @@ table {
   background-color: #f9f4ed;
 }
 
-.horaExtra{
+.horaExtra {
   background-color: #f1f1fe;
 }
 
@@ -1031,7 +1029,7 @@ table {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  overflow: auto;
+  overflow-y: auto;
 }
 
 .lista-acionamentos li {
@@ -1065,7 +1063,7 @@ table {
   color: white;
 }
 
-.cr p{
+.cr p {
   color: white;
 }
 
@@ -1087,7 +1085,7 @@ table {
 }
 
 .sobre-aprovador > div {
-  display: grid;  
+  display: grid;
   grid-template-columns: 1fr 1fr;
   border-radius: 5px;
   gap: 10px;
@@ -1104,7 +1102,7 @@ table {
   color: white;
 }
 
-.matricula-colaborador p{
+.matricula-colaborador p {
   color: white;
 }
 
@@ -1123,24 +1121,24 @@ table {
   color: white;
 }
 
-.justificativa-gestor{
+.justificativa-gestor {
   background-color: #24242d;
   margin-top: 20px;
   padding: 20px;
   height: 6vh;
 }
 
-.justificativa-gestor h2{
+.justificativa-gestor h2 {
   font-size: 20px;
   color: white;
 }
 
-.justificativa-gestor p{
+.justificativa-gestor p {
   font-size: 16px;
   color: white;
 }
 
-.checkbox{
+.checkbox {
   width: 20px;
   height: 30px;
 }
