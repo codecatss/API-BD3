@@ -54,7 +54,7 @@ const todosClientes = await obterTodosClientes()
 const loggout = document.getElementById("loggout");
 loggout.addEventListener("click", function () {
     localStorage.clear();
-    window.location.href = "http://localhost:5500/index.html"
+    window.location.href = "../../index.html"
 });
 
 
@@ -79,9 +79,8 @@ const obterTodosCr = async () => {
 
 
 const matricula = localStorage.getItem("matricula")
-console.log(matricula)
 const matriculaa = Number(matricula)
-console.log(matriculaa)
+console.warn("Matricula: ", matriculaa)
 
 
 async function getCrListByUserId(userId) {
@@ -276,7 +275,7 @@ async function carregarHorasNaLista(horas) {
         const clienteHora = document.createElement("p");
         const projetoHora = document.createElement("p");
         const justificativaHora = document.createElement("p");
-        
+
         tipoHora.textContent = hora.tipo;
 
         if (hora.tipo === "SOBREAVISO") {
@@ -500,7 +499,7 @@ botaoConfirmarSobreaviso.addEventListener("click", async function (event) {
         cnpj: sobreaviso.cnpj,
         data_hora_inicio: `${dataInicio}T${horaInicio}:00Z`,
         data_hora_fim: `${dataFim}T${horaFim}:00Z`,
-        tipo: "acionamento",
+        tipo: "Acionamento",
         justificativa: sobreaviso.justificativa,
         projeto: sobreaviso.projeto,
         solicitante: sobreaviso.solicitante

@@ -1,6 +1,6 @@
 
 
-
+const filterSelected = document.getElementById("filterSelected");
 const usuarioLogado = localStorage.getItem("nome");
 const perfilUser = document.querySelector(".usuarioLogado");
 perfilUser.textContent = usuarioLogado;
@@ -8,7 +8,7 @@ console.log(usuarioLogado)
 const loggout = document.getElementById("loggout");
 loggout.addEventListener("click", function () {
     localStorage.clear();
-    window.location.href = "http://localhost:5500/index.html"
+    window.location.href = "../../index.html"
 
 });
 
@@ -87,7 +87,7 @@ const obterTodosUsuarios = async () => {
 };
 
 const todosUsuarios = await obterTodosUsuarios()
-console.log(todosUsuarios)
+
 
 
 
@@ -103,13 +103,6 @@ async function carregarHorasNaLista(horas) {
         const razaoSocial = todosClientes.find(item => hora.cnpj === item.cnpj)?.razao_social || null;
         const centroResultado = todosCr.find(item => hora.codcr === item.codigoCr)?.nome || null;
         const usuario = todosUsuarios.find(item => hora.lancador === item.matricula)?.nome || null;
-        console.log(usuario)
-
-
-
-
-
-
 
         const li = document.createElement("li");
         const tipoHora = document.createElement("p");
@@ -126,6 +119,20 @@ async function carregarHorasNaLista(horas) {
         checkbox.type = "checkbox";
 
         tipoHora.textContent = hora.tipo;
+
+        if (hora.tipo == "SOBREAVISO") {
+            li.classList.add("horaSobreaviso");
+        }
+
+        else if (hora.tipo == "EXTRA") {
+            li.classList.add("horaExtra");
+        }
+
+        else if (hora.tipo == "ACIONAMENTO") {
+            li.classList.add("horaExtra");
+            li.textContent = "EXTRA";
+        }
+
         statusHora.textContent = hora.status_aprovacao;
         if (hora.status_aprovacao == "PENDENTE") {
             statusHora.classList.add("hora-pendente");
@@ -168,11 +175,11 @@ async function carregarHorasNaLista(horas) {
             console.log(hora)
             const usuariollancador = todosUsuarios.find(item => hora.lancador === item.matricula)?.nome || null;
             const cienteLancado = todosClientes.find(item => hora.cnpj === item.cnpj)?.razao_social || null;
-            console.log(usuariollancador)
+            const crLancado = todosCr.find(item => hora.codcr === item.codigoCr)?.nome || null;
 
             const usuario = document.querySelector(".nome-usuario");
-            const tipo = document.querySelector("p");
-            const status = document.querySelector("p");
+            const tipo = document.querySelector(".tipo-hora p");
+            const status = document.querySelector(".status-hora p");
             const inicio = document.querySelector(".hora-inicio");
             const fim = document.querySelector(".hora-fim");
             const cr = document.querySelector(".nome-cr");
@@ -184,20 +191,28 @@ async function carregarHorasNaLista(horas) {
             const matriculaGestor = document.querySelector(".nome-aprovador");
             const dataModificacaoGestor = document.querySelector(".aprovacao-data");
             const listaHoras = document.querySelector(".acionamentos");
-            const btnFechar = document.querySelector("button");
+
+            if (hora.status_aprovacao == "PENDENTE") {
+                status.textContent = "PENDENTE"
+                status.style.backgroundColor = '#efb435';
+            } else if(hora.status_aprovacao == "APROVADO_GESTOR"){
+                status.textContent = "APROVADO GESTOR"
+                status.style.backgroundColor = '#2e7a48';
+            } else if(hora.status_aprovacao == "NEGADO_GESTOR"){
+                status.textContent = "NEGADO GESTOR"
+                status.style.backgroundColor = '#af2424';
+            }
+
+            tipo.textContent = hora.tipo
 
             usuario.textContent = usuariollancador
-            tipo.textContent = hora.tipo
-            status.textContent = hora.status_aprovacao
-            console.log(hora.data_hora_inicio)
-            inicio.textContent = hora.data_hora_inicio
-            fim.textContent = hora.data_hora_fim
-            cr.textContent = hora.codcr
+            cr.textContent = crLancado
             cliente.textContent = cienteLancado
+            matriculaGestor.textContent = hora.matricula_gestor
             justificativa.textContent = hora.justificativa
             solicitante.textContent = hora.solicitante
             projeto.textContent = hora.projeto
-            justificativaNegacao.textContent = hora.statusHora == "NEGADO_GESTOR" ? hora.justificativa_negacao : "Hora não foi negada.";
+            justificativaNegacao.textContent = (hora.status_aprovacao == "NEGADO_GESTOR" || hora.status_aprovacao == "NEGADO_ADMIN") ? hora.justificativa_negacao : "Hora não foi negada.";
 
             console.log(hora.lista_de_acionamentos)
             if (hora.tipo == "SOBREAVISO") {
@@ -205,7 +220,14 @@ async function carregarHorasNaLista(horas) {
                     hora.lista_de_acionamentos.forEach((acionamento) => {
                         const lista = document.querySelector(".acionamentos");
                         const li = document.createElement("li");
-                        li.textContent = acionamento;
+                        const dataInicio = new Date(acionamento.data_hora_inicio);
+                        const dataInicioFormatada = dataInicio.toLocaleDateString('pt-BR', { timeZone: 'UTC' });
+                        const horaInicioFormatada = dataInicio.toLocaleTimeString('pt-BR', { timeZone: 'UTC' });
+                        const dataFim = new Date(acionamento.data_hora_fim);
+                        const dataFimFormatada = dataFim.toLocaleDateString('pt-BR', { timeZone: 'UTC' });
+                        const horaFimFormatada = dataFim.toLocaleTimeString('pt-BR', { timeZone: 'UTC' });
+                        const acionamentos = `Data Inicio ${dataInicioFormatada} | ${horaInicioFormatada} Data Fim ${dataFimFormatada} | ${horaFimFormatada}`;
+                        li.textContent = acionamentos;
                         lista.appendChild(li);
                     }
                     )
@@ -220,15 +242,14 @@ async function carregarHorasNaLista(horas) {
 
 
 
-            matriculaGestor.textContent = hora.matricula_gestor
             function dataFormatada(pElement, dataString) {
                 let data = new Date(dataString);
-                let dia = data.getDate().toString().padStart(2, '0');
-                let mes = (data.getMonth() + 1).toString().padStart(2, '0');
-                let ano = data.getFullYear();
-                let horaFormatada = data.getHours().toString().padStart(2, '0');
-                let minuto = data.getMinutes().toString().padStart(2, '0');
-                let segundo = data.getSeconds().toString().padStart(2, '0');
+                let dia = data.getUTCDate().toString().padStart(2, '0');
+                let mes = (data.getUTCMonth() + 1).toString().padStart(2, '0');
+                let ano = data.getUTCFullYear();
+                let horaFormatada = data.getUTCHours().toString().padStart(2, '0');
+                let minuto = data.getUTCMinutes().toString().padStart(2, '0');
+                let segundo = data.getUTCSeconds().toString().padStart(2, '0');
 
                 pElement.textContent = `${dia}/${mes}/${ano} ${horaFormatada}:${minuto}:${segundo}`;
             }
@@ -236,25 +257,19 @@ async function carregarHorasNaLista(horas) {
             dataFormatada(inicio, hora.data_hora_inicio);
 
             dataFormatada(fim, hora.data_hora_fim);
-            
+
             dataFormatada(dataModificacaoGestor, hora.data_modificacao_gestor);
-            
-            btnFechar.textContent = "FECHAR";
 
 
+        });
 
 
-
-
-            });
 
         window.addEventListener('click', function (event) {
             if (event.target === modalSobreAviso) {
+                const lista = document.querySelector(".acionamentos");
+                lista.textContent = "";
                 modalSobreAviso.style.display = 'none';
-
-
-
-
             }
         });
 
@@ -311,17 +326,22 @@ inputSearch.addEventListener("input", function () {
     const horas = document.querySelectorAll(".horaLancada");
 
     horas.forEach(function (hora) {
-        const nomeUsuario = hora.querySelector("p:nth-child(2)").textContent.toLowerCase();
+        const statusHora = hora.querySelector("p:nth-child(2)").textContent.toLowerCase();
+        const nomeUsuario = hora.querySelector("p:nth-child(3)").textContent.toLowerCase();
+        const tipoHora = hora.querySelector("p:nth-child(4)").textContent.toLowerCase();
+        const inicioHora = hora.querySelector("p:nth-child(5)").textContent.toLowerCase();
+        const fimHora = hora.querySelector("p:nth-child(6)").textContent.toLowerCase();
         const crHora = hora.querySelector("p:nth-child(7)").textContent.toLowerCase();
-        const statusHora = hora.querySelector("p:nth-child(4)").textContent.toLowerCase();
         const cliente = hora.querySelector("p:nth-child(8)").textContent.toLowerCase();
-
 
         if (
             searchText === "" ||
-            nomeUsuario.includes(searchText) ||
-            crHora.includes(searchText) ||
             statusHora.includes(searchText) ||
+            nomeUsuario.includes(searchText) ||
+            tipoHora.includes(searchText) ||
+            inicioHora.includes(searchText) ||
+            fimHora.includes(searchText) ||
+            crHora.includes(searchText) ||
             cliente.includes(searchText)
         ) {
             hora.style.display = "grid";
@@ -417,7 +437,7 @@ btnReprovar.addEventListener("click", async function () {
 
             await atualizarHora(horasSelecionadas[0], {
                 status_aprovacao: "NEGADO_GESTOR",
-                matricula_gestor: 4533,
+                matricula_gestor: localStorage.getItem("matricula"),
                 data_modificacao_gestor: new Date(),
                 justificativa_negacao: justificativa,
             });
@@ -448,5 +468,21 @@ btnReprovar.addEventListener("click", async function () {
         alert("Precisa selecionar apenas uma hora para reprovar.");
     }
 
+
+});
+
+
+
+filterSelected.addEventListener("change", async function () {
+    if (filterSelected.value == "todas") {
+        const horasCadastradas = await listarHoras();
+        await carregarHorasNaLista(horasCadastradas);
+    }
+    else {
+        const horasCadastradas = await listarHoras();
+        const horasFiltradas = horasCadastradas.filter((hora) => hora.status_aprovacao == filterSelected.value);
+        await carregarHorasNaLista(horasFiltradas);
+
+    }
 
 });

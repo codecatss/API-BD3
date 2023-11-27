@@ -9,7 +9,7 @@ const horaFimInput = document.getElementById("horaFim");
 const solicitanteHoraInput = document.getElementById("solicitanteHora");
 const selecionarCRInput = document.getElementById("selecionarCr")
 const botaoConfirmar = document.getElementById("adicionarBotao");
-
+const filterSelected = document.getElementById("filterSelected");
 const usuarioLogado = localStorage.getItem("nome");
 const perfilUser = document.querySelector(".usuarioLogado");
 perfilUser.textContent = usuarioLogado;
@@ -17,7 +17,8 @@ console.log(usuarioLogado)
 const loggout = document.getElementById("loggout");
 loggout.addEventListener("click", function () {
     localStorage.clear();
-    window.location.href = "http://localhost:5500/index.html"
+    window.location.href = "../../index.html"
+
 
 });
 
@@ -95,7 +96,7 @@ async function getCrListByUserId(userId) {
     }
 
     const crList = await response.json();
-    console.log(crList);
+
     return crList;
 }
 
@@ -281,7 +282,45 @@ async function carregarHorasNaLista(horas) {
         const justificativaHora = document.createElement("p");
 
         tipoHora.textContent = hora.tipo;
-        statusHora.textContent = hora.status_aprovacao;
+        
+        if (hora.tipo == "SOBREAVISO") {
+            li.classList.add("horaSobreaviso");
+        } 
+        
+        else if (hora.tipo == "EXTRA") {
+            li.classList.add("horaExtra");
+        } 
+        
+        else if (hora.tipo == "ACIONAMENTO") {
+            li.classList.add("horaExtra");
+            tipoHora.textContent = "EXTRA";
+        }
+
+
+        if (hora.status_aprovacao === "APROVADO_GESTOR") {
+            statusHora.textContent = "APROVADO GESTOR";
+            statusHora.classList.add("hora-aprovada");
+        } 
+        
+        else if (hora.status_aprovacao === "APROVADO_ADMIN") {
+            statusHora.textContent = "APROVADO ADMIN";
+            statusHora.classList.add("hora-aprovada");
+        } 
+        
+        else if (hora.status_aprovacao === "NEGADO_GESTOR") {
+            statusHora.textContent = "NEGADO GESTOR";
+            statusHora.classList.add("hora-negada");
+        } 
+        
+        else if (hora.status_aprovacao === "NEGADO_ADMIN") {
+            statusHora.textContent = "NEGADO ADMIN";
+            statusHora.classList.add("hora-negada");
+        } 
+        
+        else if (hora.status_aprovacao === "PENDENTE") {
+            statusHora.textContent = "PENDENTE";
+            statusHora.classList.add("hora-pendente");
+        }
 
 
         const dataHoraInicio = new Date(hora.data_hora_inicio);
@@ -475,9 +514,9 @@ botaoConfirmarSobreaviso.addEventListener("click", async function (event) {
         codcr: sobreaviso.codcr,
         lancador: localStorage.getItem("matricula"),
         cnpj: sobreaviso.cnpj,
-        data_hora_inicio: `${dataInicio}T${horaInicio}:00Z`,    
+        data_hora_inicio: `${dataInicio}T${horaInicio}:00Z`,
         data_hora_fim: `${dataFim}T${horaFim}:00Z`,
-        tipo: "ACIONAMENTO",
+        tipo: "Acionamento",
         justificativa: sobreaviso.justificativa,
         projeto: sobreaviso.projeto,
         solicitante: sobreaviso.solicitante

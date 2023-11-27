@@ -250,38 +250,46 @@ public class DatabaseInitialization implements CommandLineRunner {
 
             hora.setData_lancamento(Timestamp.valueOf(LocalDateTime.now()));
 
-            // hora.setMatricula_gestor(gestores.get(random.nextInt(gestores.size())).getMatricula());
-
+            
             hora.setData_modificacao_gestor(Timestamp.valueOf(LocalDateTime.now()));
-
-            hora.setMatricula_admin(administradores.get(random.nextInt(administradores.size())).getMatricula());
-
+                        
             hora.setData_modificacao_admin(Timestamp.valueOf(LocalDateTime.now()));
-
+            
             hora.setLancador(employee.getMatricula());
-
+            
             List<String> codCr = new ArrayList<String>();
 
             for (ResultCenterDTOs cr : userCr.getCrListByUsarId(employee.getMatricula())) {
                 codCr.add(cr.codigoCr());
             }
-
+            
             hora.setCodcr(codCr.get(random.nextInt(codCr.size())));
-
-            hora.setJustificativa(faker.rickAndMorty().location());
-
+            
+            //set Justificativa lancamento
+            hora.setJustificativa(Justificativas.getJusLan());
+            
             hora.setProjeto(faker.rickAndMorty().character());
-
+            
             hora.setSolicitante(faker.name().firstName());
-
+            
             //aprova automaticamente a hora pelo adm se o lancador for gestor
             if(employee.getFuncao().equals(FuncaoUsuarioEnum.gestor)){
                 hora.setStatus_aprovacao(AprovacaoEnum.APROVADO_ADMIN.toString());
-            }
-            else{
+                hora.setMatricula_gestor(hora.getLancador());
+                hora.setMatricula_admin(administradores.get(random.nextInt(administradores.size())).getMatricula());
+            } else{
                 AprovacaoEnum[] statusAprovacao = AprovacaoEnum.values();
                 AprovacaoEnum status = statusAprovacao[random.nextInt(statusAprovacao.length)];
                 hora.setStatus_aprovacao(status.toString());
+                if(!status.equals(AprovacaoEnum.PENDENTE)){
+                    hora.setMatricula_gestor(gestores.get(random.nextInt(gestores.size())).getMatricula());
+                    if (status.equals(AprovacaoEnum.NEGADO_ADMIN)||status.equals(AprovacaoEnum.APROVADO_ADMIN)) {
+                        hora.setMatricula_admin(administradores.get(random.nextInt(administradores.size())).getMatricula());
+                    }
+                    if(status.equals(AprovacaoEnum.NEGADO_ADMIN) || status.equals(AprovacaoEnum.NEGADO_GESTOR)){
+                        hora.setJustificativa_negacao(Justificativas.getJusNeg());
+                    }
+                }
             }
             
             horaRepository.save(hora);  
@@ -293,7 +301,6 @@ public class DatabaseInitialization implements CommandLineRunner {
                 return;
             } 
         }
-        
     }
 
     private static List<Client> seedCliet(ClientRepository clientRepository){

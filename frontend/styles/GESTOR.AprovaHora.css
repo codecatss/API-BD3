@@ -177,21 +177,41 @@ html {
 }
 
 .main-content .search-bar {
-  margin-bottom: 5px;
-  width: 60vw;
-  background-color: var(--background-search-bar);
-  border-radius: 7px;
-  padding: 0rem 3rem 0rem 0rem;
-}
-
-.main-content .search-bar .content {
-  margin-left: 10px;
   display: flex;
   flex-wrap: nowrap;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 0.5rem 3rem 0.5rem 0rem;
+  margin-bottom: 5px;
+  width: auto;
+  background-color: var(--background-search-bar);
+  border-radius: 7px;
+  padding: 1.5% 1.5% 1.5% 0;
+}
+
+.main-content select {
+  padding: 10px 0;
+  border-radius: 7px;
+  background: var(--background-input-search);
+}
+
+.main-content .search-bar .content {
+  margin-left: 10px;
+  width: 100%;
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.main-content .search-bar .buttons {
+  width: 100%;
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: 3%;
 }
 
 .main-content .search-bar .content a {
@@ -905,12 +925,6 @@ table {
   padding: 20px;
 }
 
-/* Content Styling */
-.content {
-  margin-right: 220px;
-  padding: 20px;
-}
-
 .column-one,
 .column-two {
   height: 100%;
@@ -927,7 +941,6 @@ table {
 }
 
 .about-hora,
-.lista-acionamentos,
 .usuario,
 .cliente,
 .solicitante,
@@ -1048,4 +1061,31 @@ table {
 .sobre-aprovador > div > h2 {
   font-size: 16px;
   margin-bottom: 4px;
+}
+
+.horaSobreaviso {
+  background-color: #f9f4ed;
+}
+
+.horaExtra {
+  background-color: #f1f1fe;
+}
+
+.lista-acionamentos {
+  background-color: #24242d;
+  margin-top: 10px;
+  padding: 10px;
+}
+
+.lista-acionamentos li {
+  list-style: none;
+  background-color: #f9f4ed;
+  color: #000;
+  padding: 10px;
+  border-radius: 7px;
+}
+
+.lista-acionamentos h2 {
+  font-size: 26px;
+  margin-bottom: 10px;
 }
