@@ -276,7 +276,9 @@ buttonExport.addEventListener("click", async () => {
         }
 
         if (horasFiltradasData.length === 0) {
-            console.console.warn("Não voram gerados dados para o relatório");
+            console.warn("Não foram gerados dados para o relatório");
+            alert("Não foram gerados dados para o relatório");
+            return;
         } else {
             console.log(horasFiltradasData.size, " dados foram gerados para o relatório");
         }
