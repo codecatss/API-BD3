@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.Optional;
 
 public record ResultCenterDTOs(String codigoCr, String nome, String sigla, StatusEnum statusCr) {
 
@@ -16,6 +17,11 @@ public record ResultCenterDTOs(String codigoCr, String nome, String sigla, Statu
     }
 
     public static record CenterResultRequestDTO(String codigoCr, String nome, String sigla, StatusEnum statusCr) {
+
+        public CenterResultRequestDTO(CenterResult centerResult) {
+            this(centerResult.getCodigoCr(), centerResult.getNome(), centerResult.getSigla(), centerResult.getStatusCr());
+        }
+
     }
 
     @Getter
