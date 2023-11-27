@@ -5,6 +5,7 @@
     <a href="#sobre">Projeto</a>  |
     <a href="#backlogs">Backlog do produto</a>  |
     <a href="#entrega">Entrega das Sprints</a>  |
+    <a href="#manual">Manual do Usuário</a> |
     <a href="#prototipo">Protótipo</a>   |
     <a href="#tecnologias">Tecnologias utilizadas</a>  |
     <a href="#linguagens">Linguagens utilizadas</a>  |
@@ -162,12 +163,18 @@
 
 ## :white_check_mark: Entrega das Sprints
 
-| **SPRINT** | **PERÍODO**| **O QUE SERÁ ENTREGUE** | **BACKLOG DAS SPRINTS** |
-|:-------------:|:-----------------------:|:-------------------------:|:-------------------------:|
-|  01  | 04/09 a 24/09 | Sistema de cadastro e sistema de lançamento de horas | <a href="https://github.com/codecatss/API-BD3/wiki/Sprint-1">Sprint 1</a> |
-|  02  | 25/09 a 15/10 | Sistema de apontamento de horas do gestor, sistema de aprovação do administrador e sistema de gerenciamento de verbas | <a href="https://github.com/codecatss/API-BD3/wiki/Sprint-2">Sprint 2</a>
-|  03  | 16/10 a 05/19 | Sistema dashboards e visualizações gerais das horas | <a href="https://github.com/codecatss/API-BD3/wiki/Sprint-1">Sprint 1</a> |
-|  04  | 06/11 a 26/11 | Sistema de extração de relatórios em CSV | <a href="https://github.com/codecatss/API-BD3/wiki/Sprint-2">Sprint 2</a>
+| **SPRINT** | **PERÍODO**| **O QUE SERÁ ENTREGUE** |
+|:-------------:|:-----------------------:|:-------------------------:|
+|  01  | 04/09 a 24/09 | Sistema de cadastro e sistema de lançamento de horas |
+|  02  | 25/09 a 15/10 | Sistema de apontamento de horas do gestor, sistema de aprovação do administrador e sistema de gerenciamento de verbas |
+|  03  | 16/10 a 05/19 | Sistema dashboards e visualizações gerais das horas |
+|  04  | 06/11 a 26/11 | Sistema de extração de relatórios em CSV |
+
+<span id="manual">
+
+## 👣 Manual do Usuário
+
+- <a href="https://github.com/codecatss/API-BD3/wiki/Manual-do-Usu%C3%A1rio">Manual do Usuário</a>
 
 <span id="prototipo">
 
