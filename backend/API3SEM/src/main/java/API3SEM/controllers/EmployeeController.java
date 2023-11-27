@@ -17,7 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("/employee")
 public class EmployeeController {
@@ -31,7 +31,7 @@ public class EmployeeController {
     @Autowired
     private CenterResultRepository crRepository;
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    
     @PostMapping
     public Employee saveEmployee(@RequestBody EmployeeDTOs.EmployeeRequestDTO data) {
         try {
@@ -45,14 +45,14 @@ public class EmployeeController {
         }
     }
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    
     @GetMapping
     public List<EmployeeDTOs> getAll(){
         List<EmployeeDTOs> employeesList = repository.findAll().stream().map(EmployeeDTOs::new ).toList();
         return employeesList;
     }
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    
     @GetMapping("/{matricula}")
     public ResponseEntity<Employee> getOne(@PathVariable String matricula) {
         Optional<Employee> optionalEmployee = repository.findById(matricula);
@@ -65,7 +65,7 @@ public class EmployeeController {
         }
     }
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    
     @GetMapping("/{employeeId}/crlist")
     public ResponseEntity<?> getCrByUserId(@PathVariable String employeeId) {
         Optional<Employee> optionalEmployee = repository.findById(employeeId);
@@ -83,7 +83,7 @@ public class EmployeeController {
         }
     }
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    
     @PatchMapping("/{matricula}")
     public Employee updateEmployee(@PathVariable String matricula, @RequestBody EmployeeDTOs.EmployeeRequestDTO partialData) {
         Employee employee = repository.findById(matricula).orElseThrow(() -> new RuntimeException("Funcionário não encontrado com a matrícula: " + matricula));
@@ -109,7 +109,7 @@ public class EmployeeController {
         return employee;
     }
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    
     @PatchMapping("/enable/{matricula}")
     public Employee enableEmployee(@PathVariable String matricula) {
         Employee employee = repository.findById(matricula).orElseThrow(() -> new RuntimeException("Funcionário não encontrado com a matrícula: " + matricula));
@@ -124,7 +124,7 @@ public class EmployeeController {
         return employee;
     }
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    
     @DeleteMapping("/{matricula}")
     public Employee softDeleteEmployee(@PathVariable String matricula) {
         Employee employee = repository.findById(matricula).orElseThrow(() -> new RuntimeException("Funcionário não encontrado com a matrícula: " + matricula));

@@ -178,21 +178,24 @@ selecionarClienteRelatorio.addEventListener("change", () => {
 
 //reatividade do select de cr
 selecionarCrRelatorio.addEventListener("change", async () => {
+    let membros = [];
+    const auxValue = selecionarUsuarioRelatorio.value;
     while (selecionarUsuarioRelatorio.options.length > 1) {
         selecionarUsuarioRelatorio.remove(1);
     }
-    let membros = [];
     if (selecionarCrRelatorio.value === "todosOsCr") {
         membros = await obterTodosUsuarios();
     } else {
         membros = await obterTodosUsuariosDoCr(selecionarCrRelatorio.value);
     }
     popularOption(membros, selecionarUsuarioRelatorio);
+    selecionarUsuarioRelatorio.value = auxValue;
 });
 
 //reatividade do select de usuario
 selecionarUsuarioRelatorio.addEventListener("change", async () => {
     let membros = [];
+    const auxValue = selecionarCrRelatorio.value;
     if (selecionarUsuarioRelatorio.value === "todosOsUsuarios") {
         membros = await obterTodosCr();
     } else {
@@ -208,6 +211,7 @@ selecionarUsuarioRelatorio.addEventListener("change", async () => {
         }
     }
     popularOption(membros, selecionarCrRelatorio);
+    selecionarCrRelatorio.value = auxValue;
 });
 
 
@@ -245,6 +249,11 @@ buttonExport.addEventListener("click", async () => {
 
     buttonExportarRelatorio.addEventListener("click", async () => {
 
+        if (dataInicial.value === "" || dataFinal.value === "") {
+            alert("Preencha os campos de data");
+            return;
+        }
+
 
         let horasFiltradasData = todasHoras.filter(hora => hora.data_hora_inicio >= dataInicial.value && hora.data_hora_fim <= dataFinal.value);
         console.log(horasFiltradasData)
@@ -266,7 +275,13 @@ buttonExport.addEventListener("click", async () => {
             horasFiltradasData = horasFiltradasData.filter(hora => hora.status_aprovacao === selectStatus.value);
         }
 
-        console.log("essa é a lista de horas filtradas", horasFiltradasData)
+        if (horasFiltradasData.length === 0) {
+            console.warn("Não foram gerados dados para o relatório");
+            alert("Não foram gerados dados para o relatório");
+            return;
+        } else {
+            console.log(horasFiltradasData.size, " dados foram gerados para o relatório");
+        }
 
         horasFiltradasData.forEach(hora => {
 
